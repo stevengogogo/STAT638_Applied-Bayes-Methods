@@ -14,4 +14,10 @@ date: today
 
 - Deadline: Sep. 8 by 12:01pm
 
-## 
+## Problem 2.1
+
+> Marginal and conditional probability: The social mobility data from Section 2.5 gives a joint probability distribution on $(Y_1, Y_2)=$ (fathers's occupation, son's occupation)
+
+### (a)
+
+> The margineal probability distribution of a father's occupation
