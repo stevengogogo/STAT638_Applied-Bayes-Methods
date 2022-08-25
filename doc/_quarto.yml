@@ -2,12 +2,13 @@ project:
   type: book
 
 book:
-  title: "Template for Quarto Book"
+  title: "STAT638: Applied Bayesian Methods"
   author: "Jane Doe"
   date: "8/25/2022"
   chapters:
     - index.qmd
     - intro.qmd
+    - hw1.md
     - summary.qmd
     - references.qmd
 
