@@ -7,9 +7,11 @@ book:
   date: "8/25/2022"
   chapters:
     - index.qmd
-    - intro.qmd
+    - ch1.qmd
+    - ch2.qmd
     - hw1.md
     - summary.qmd
+    - analy/analy.ipynb
     - references.qmd
 
 bibliography: references.bib

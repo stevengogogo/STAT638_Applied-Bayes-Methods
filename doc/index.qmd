@@ -1,5 +1,46 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
+This is the lecture notes for STAT638 Applied Bayesian Methods by Dr. Matthias Katzfuss.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+
+## Course details
+
+- Course Number: STAT 638
+- Course Title: Introduction to Applied Bayesian Methods
+- Time: TuTh 2:20 - 3:35 (Central time)
+- Location:  Blocker 411
+- Textbook: Hoff,  (Links to an external site.)A First Course in Bayesian Statistical Methods (Links to an external site.) (electronic version available through TAMU library)
+- Prerequisite: STAT 630 or STAT 650. (Also, familiarity with R or other statistical software, training in vector/matrix algebra, and some exposure to linear regression will be very helpful.)
+
+
+
+## Schedule
+
+1. Introduction (Week 1)
+1. Conditional distributions and Bayes rule (Weeks 1-2)
+1. One-parameter models (Weeks 3-4)
+1. Monte Carlo approximation (Weeks 5-6)
+1. The normal model (Weeks 6-8)
+1. Gibbs sampling (Weeks 8-9)
+1. The multivariate normal model (Weeks 9-11)
+1. Group comparisons and hierarchical modeling (Weeks 11-12)
+1. Linear regression (Weeks 12-13)
+1. Markov chain Monte Carlo (Weeks 13-14)
+1. Mixed effects models (Week 14)
+
+
+## Programming
+
+1. Majorly use R
+2. Homework will be R
+3. Using Python is acceptable
+
+
+## Exam
+
+1. Exam 1: October 18th
+2. Exam 2: December 1st
+
+## Homework
+
+- *No late homework is acceptable*

@@ -1,0 +1,70 @@
+---
+title: 'Chapter 2: Conditional distributions and Bayes rule'
+---
+
+## Events and partition
+
+- Sample space $S$
+- Partition
+    - a collection of sets $A_1,\dots, A_m$
+    - $A_{i} \cap A_j = \emptyset$
+- Conditional probability 
+    - Let $B$ be an event, and $A_i,\dots,A_m$ be a partition of $S$
+    - $P(B|A_i) = \frac{P(B\cap A_i)}{P(A_i)}$
+- Bayes rule
+    - $P(A_j |B) = \frac{P(B|A_j)P(A_j)}{P(B)} = \frac{P(B|A_j)P(A_j)}{\sum^{m}_{i=1}P(B|A_i)P(Ai)}$
+ 
+
+::: {.callout-tip}
+## Example: COVID test
+
+> A college with a Covid-19 prevalencde of 10% is using a test that is positive with probability 90% if an individual is infected, and positive with probability of 5% if the individual is not.
+
+> - For a randomly selected student at the college, what is the probability that the test will be positive?
+
+$$\begin{align}
+P(+) &= P(+|C)P(C) + P(+|H)P(H)\\
+     &= 0.9*0.1 + 0.05*0.9\\
+     &= 0.135
+\end{align}$$
+
+> - Give that a student has tested positive, what is the probability the student is actually infected?
+
+$$\begin{align}
+P(C|+) &= \frac{P(+|C)P(C)}{P(+)}\\
+       &= \frac{0.9*0.1}{0.135}\\ 
+       &= 0.67
+\end{align}$$
+
+:::
+
+
+## Random variables and univariate distributions
+
+|RV|Discrete|Continuous|
+|---|---|---|
+|Outcome $y$|countable|uncountable|
+|prop. of pdf|$0\leq p(y) \leq1$|$0\leq p(y)$|
+||$\sum_{y\in Y}p(y)=1$|$\int_{Y}p(y)dy = 1$|
+|cdf $F(a)$|$F(a) = \sum_{y\leq a}p(y)$|$F(a)=\int^{a}_{-\infty}p(y)dy$|
+|mean|$E(Y)=\sum_{y\in Y}p(y)$|$E(Y)=\int_{Y}y p(y)dy$| 
+: Random variable is an unknown quantity characterized by a probability distribution
+
+- CDF: $F(a) = P(Y\leq a)$
+- Variance: $Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2$
+
+## Joint distribution
+
+|Discrete|Continuous|
+|---|---|
+|$P_{y1}(y_1)=\sum_{y_2\in Y_2}p_{Y_1, Y_2}(y_1, y_2)$|$p_{Y_1}(y_1) = \int_{y_2}p_{Y_1,Y_2}(y_1,y_2)dy_2$|
+: Marginal
+
+- Conditional: $p_{Y_2|Y_1}(y_2|y_1) = \frac{p_{Y_1,Y_2}(y_1,y_2)}{p_{Y_1}(y_1)}$
+
+## Proportionality
+
+- A function $f(x)$ is proportional to $g(x)$, denoted by $f(x) \propto g(x)$
+    - $$f(x) = cg(x)$$
+
+    

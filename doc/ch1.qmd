@@ -1,0 +1,26 @@
+---
+title: Chapter 1 Introduction and examples
+author: Shao-Ting Chiu (UIN:433002162)
+date: today
+---
+
+- [Slides]()
+
+## What is Beseyian methods?
+
+- Bayes's rule provides a rational method for updating beliefs in light of new information.
+
+
+## What can Bayesian methods provide?
+
+1. Parameter estimates with good statistical properties
+2. Parsimonious descriptions of observed data
+
+
+## Contrast between Frequentist and Bayesian Statistics
+
+- Frequentist statistics
+    - Uncertainty about the parameter estimates
+- Bayesian statistics
+    - Unvertainty is quantified by the oberservation of data.
+
