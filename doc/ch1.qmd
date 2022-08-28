@@ -2,9 +2,13 @@
 title: Chapter 1 Introduction and examples
 author: Shao-Ting Chiu (UIN:433002162)
 date: today
+bibliography: ref.bib
 ---
 
-- [Slides]()
+
+
+- [Slides](https://tamucs-my.sharepoint.com/:b:/r/personal/stchiu_tamu_edu/Documents/2022Fall/STAT638_BayesMethod/chap01.pdf?csf=1&web=1&e=lX1sgw)
+- @hoff2009first [Ch 1]
 
 ## What is Beseyian methods?
 
@@ -23,4 +27,57 @@ date: today
     - Uncertainty about the parameter estimates
 - Bayesian statistics
     - Unvertainty is quantified by the oberservation of data.
+
+## Bayesian learning
+
+- Parameter --- $\theta$
+    - numerical values of population characteristics
+- Dataset --- $y$
+    - After a dataset $y$ is obtained, the information it contains can be used to **decrease our uncertainty** about the population characteristics.
+- Bayesian inference
+    - Quantifying this change in uncertainty is the purpose of Bayesian inference
+- Sample space --- $\mathcal{Y}$
+    - The set of all possible datasets.
+    - Single dataset $y$
+- Parameter space --- $\Theta$
+    - possbile parameter values
+    - we hope to identify the value that best represents the true population characteristics.
+- Bayesian learning begins with joint beliefs about $y$ and $\theta$, in terms of distribution over $\mathcal{Y}$ and $\Theta$
+    - *Prior distribution* --- $p(\theta)$
+        - Our belief that $\theta$ represents that true population characteristics.
+    - *Sampling model* --- $p(\mathcal{y}|\theta)$
+        - describes our belief that $\mathcal{y}$ would be the outcome of our study if we knew $\theta$ to be true.
+    - *Posterior distribution* --- $p(\theta|\mathcal{y})$
+        - Our belief that $\theta$ is the true value, having observed dataset $\mathcal{y}$
+    - *Bayesian Update* (@eq-bayes-update)
+        $$p(\theta|y) = \frac{\overbrace{p(y|\theta)}^{\text{Sampling model}}\overbrace{p(\theta)}^{\text{Prior distribution}}}{\int_{\Theta}p(y|\tilde{\theta})p(\tilde{\theta})d\tilde{\theta}}$$ {#eq-bayes-update}
+        - Bayes's rule tells us how to change our belief after seeing new information.
+
+## Example 
+
+
+::: {.callout-tip}
+## Beta distribution[^wiki-beta]
+- Notation: $Beta(\alpha, \beta)$
+- Parameters: 
+    - $\alpha > 0$
+    - $\beta > 0$
+- Support:
+    - $x\in [0,1]$
+- PDF
+    $$p(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)}$$
+    where 
+    - $B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$
+    - $\Gamma(\alpha)$ is a gamma function
+        - $\Gamma(\alpha) = (\alpha-1)!$, $\alpha$ is a positive interger[^wiki-gamma]
+
+- Mean: $E[X] = \frac{\alpha}{\alpha + \beta}$
+- Variancd: $var[X] = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$
+- Bayesian inference
+    - The use of Beta distribution in Bayesian inference provide a family of conjugate prior probability disbritions for binomial and geometric dictritutions.
+
+[^wiki-beta]: Beta Distribution. [[Wiki](https://en.wikipedia.org/wiki/Beta_distribution)]
+[^wiki-gamma]: Gamma function. [[Wiki](https://en.wikipedia.org/wiki/Gamma_function)]
+
+:::
 

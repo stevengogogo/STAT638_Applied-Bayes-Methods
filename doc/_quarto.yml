@@ -12,9 +12,9 @@ book:
     - hw1.md
     - summary.qmd
     - analy/analy.ipynb
-    - references.qmd
+    - ref.qmd
 
-bibliography: references.bib
+bibliography: ref.bib
 
 format:
   html:
