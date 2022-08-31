@@ -1,0 +1,253 @@
+---
+title: Homework 1
+author: Shao-Ting Chiu (UIN:433002162)
+date: today
+bibliography: ref.bib
+    
+---
+
+## Homework Description
+
+> Read Chapters 1 and 2 in the Hoff book.
+> Then, do the following exercises in Hoff (p. 225-226): 2.1, 2.2, 2.3, 2.5
+> You must turn in your solutions as a pdf file here on Canvas. Use the Submit Assignment button on the top right.
+> If your solutions are on paper, please scan them to pdf using a scanner or a scanner app on your phone. Please do not take a regular photo, as this can result in very large file sizes. Make sure that everything is legible.
+> Please note that late homework will not be accepted and will result in a score of zero. To avoid late submissions due to technical issues, we recommend turning in your homework the night before the due date.
+
+- Deadline: Sep. 8 by 12:01pm
+
+## Problem 2.1
+
+Marginal and conditional probability: The social mobility data from Section 2.5 gives a joint probability distribution on $(Y_1, Y_2)=$ (fathers's occupation, son's occupation)
+
+||||son's occupation|||
+|---|---|---|---|---|---|
+|**father's occupation**|farm|operatives|craftsmen|sales|professional|
+|farm|0.018|0.035|0.031|0.008|0.018|
+|operatives|0.002|0.112|0.064|0.032|0.069|
+|craftsman|0.001|0.066|0.094|0.032|0.084|
+|sales|0.001|0.018|0.019|0.010|0.051|
+|professional|0.001|0.029|0.032|0.043|0.130|
+: The social mobility data [@hoff2009first, pp. 24] {#tbl-social}
+
+ 
+##### (a) The marginal probability distribution of a father's occupation
+
+According to @tbl-social, let $\mathbb{Y_1}$ and $\mathbb{Y_2}$ be sets of father's and son's occupations:
+
+$$\mathbb{Y_1} = \mathbb{Y_2} = \{\text{farm},\text{operatives},\text{craftsmen},\text{sales},\text{professional}\}$$
+
+$$
+\begin{aligned}
+    Pr(Y_1 = \text{farm}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{farm} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{farm} \cap Y_2=\text{farm}) + Pr(Y_1= \text{farm} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{farm} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{farm} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{farm} \cap Y_2=\text{professional})\\
+    &= 0.018 + 0.035 + 0.031 + 0.008 + 0.018\\ 
+    &= 0.11
+\end{aligned}
+$$
+
+
+$$
+\begin{aligned}
+    Pr(Y_1 = \text{operatives}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{operatives} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{operatives} \cap Y_2=\text{farm}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{operatives} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{operatives} \cap Y_2=\text{professional})\\
+    &= 0.002 + 0.112 + 0.064 + 0.032 + 0.069\\ 
+    &= 0.279
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_1 = \text{craftsman}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{craftsman} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{craftsman} \cap Y_2=\text{farm}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{craftsman} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{craftsman} \cap Y_2=\text{professional})\\
+    &= 0.001+0.066+0.094+0.032+0.084\\ 
+    &= 0.277
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_1 = \text{sales}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{sales} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{sales} \cap Y_2=\text{farm}) + Pr(Y_1= \text{sales} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{sales} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{sales} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{sales} \cap Y_2=\text{professional})\\
+    &= 0.001 + 0.018 + 0.019 + 0.010 + 0.051\\ 
+    &= 0.099
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_1 = \text{professional}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{professional} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{professional} \cap Y_2=\text{farm}) + Pr(Y_1= \text{professional} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{professional} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{professional} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{professional} \cap Y_2=\text{professional})\\
+    &= 0.001 + 0.029 + 0.032 + 0.043 + 0.130\\ 
+    &= 0.235
+\end{aligned}
+$$
+
+|marginal probability|value|
+|---|---|
+|$p(Y_1=\text{farm})$|0.11|
+|$p(Y_1=\text{operatives})$|0.279|
+|$p(Y_1=\text{craftsmen})$|0.277|
+|$p(Y_1=\text{sales})$|0.099|
+|$p(Y_1=\text{professional})$|0.235|
+|*SUM*|1.0|
+: Marginal probability of father's occupation {#tbl-father}
+
+@tbl-father shows that the sum of marginal probability is $1$.
+
+##### (b) The marginal probability distribution of a son's occupation
+
+
+$$
+\begin{aligned}
+    Pr(Y_2 = \text{farm}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{farm} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{farm} \cap Y_1=\text{farm}) + Pr(Y_2= \text{farm} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{farm} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{farm} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{farm} \cap Y_1=\text{professional})\\
+    &= 0.018 + 0.002 + 0.001 + 0.001 + 0.001\\ 
+    &= 0.023
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_2 = \text{operatives}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{operatives} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{operatives} \cap Y_1=\text{farm}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{operatives} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{operatives} \cap Y_1=\text{professional})\\
+    &= 0.035 + 0.112 + 0.066 + 0.018 + 0.029\\ 
+    &= 0.26
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_2 = \text{craftsmen}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{craftsmen} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{craftsmen} \cap Y_1=\text{farm}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{professional})\\
+    &= 0.031 + 0.064 + 0.094 + 0.019 + 0.032\\ 
+    &= 0.24
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_2 = \text{sales}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{sales} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{sales} \cap Y_1=\text{farm}) + Pr(Y_2= \text{sales} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{sales} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{sales} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{sales} \cap Y_1=\text{professional})\\
+    &= 0.008+0.032+0.032+0.010+0.043\\ 
+    &= 0.125
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+    Pr(Y_2 = \text{professional}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{professional} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{professional} \cap Y_1=\text{farm}) + Pr(Y_2= \text{professional} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{professional} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{professional} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{professional} \cap Y_1=\text{professional})\\
+    &= 0.018+ 0.069+0.084+0.051+0.130\\ 
+    &= 0.352
+\end{aligned}
+$$
+
+|marginal probability|value|
+|---|---|
+|$p(Y_2=\text{farm})$|0.023|
+|$p(Y_2=\text{operatives})$|0.26|
+|$p(Y_2=\text{craftsmen})$|0.24|
+|$p(Y_2=\text{sales})$|0.125|
+|$p(Y_2=\text{professional})$|0.352|
+|*SUM*|1.0|
+: Marginal probability of son's occupation {#tbl-son}
+
+@tbl-son shows that the sum of marginal probability is $1$.
+
+###### (c) The conditional distribution of a son's occupation, given that the father is a farmer;
+
+The conditional distribution of a son's occupation can be expressed as $p(y_2 | y_1 = \text{farmer})$. 
+
+$$p(y_2= * | y_1 = \text{farmer}) = \frac{p(y_1=\text{farm} \cap y_2 = *)}{p(y_1 = \text{farm})}$$
+
+where $* \in \mathbb{Y_2}$. As described in @tbl-father, $p(y_1=\text{farm})= 0.11$. Use @tbl-social to calculate the distribution:
+
+$$
+\begin{aligned}
+    p(y_2 = \text{farm} | y_1 = \text{farm}) &= \frac{0.018}{0.11} \approx 0.16\\
+    p(y_2 = \text{operatives} | y_1 = \text{farm}) &= \frac{0.035}{0.11} \approx 0.32\\
+    p(y_2 = \text{craftsman} | y_1 = \text{farm}) &= \frac{0.031}{0.11} \approx 0.28\\
+    p(y_2 = \text{sales} | y_1 = \text{farm}) &= \frac{0.008}{0.11} \approx 0.072\\
+    p(y_2 = \text{professional} | y_1 = \text{farm}) &= \frac{0.018}{0.11} \approx 0.16 \\
+\end{aligned}
+$$
+
+##### (d) The conditional distribution of a father's occupation, given that the son is a farmer.
+
+$$p(y_1= * | y_2 = \text{farm}) = \frac{p(y_1=\text{*} \cap y_2 = \text{farm})}{p(y_2 = \text{farm})}$$
+
+According to @tbl-son, $p(y_2 = \text{farm}) = 0.023$. Use @tbl-social to calculate the distribution:
+
+$$
+\begin{aligned}
+    p(y_1 = \text{farm} | y_2 = \text{farm}) &= \frac{0.018}{0.023} \approx 0.78\\
+    p(y_1 = \text{operatives} | y_2 = \text{farm}) &=\frac{0.002}{0.023} \approx 0.09\\
+    p(y_1 = \text{craftsman} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{sales} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{professional} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+\end{aligned}
+$$
+
+## Problem 2.2
+
+> Expectations and variances: Let $Y_1$ and $Y_2$ be two independent random variables, such that $E[Y_i]=\mu_i$ and $Var[Y_i] = \sigma_{i}^2$. Using the definition of expectation and variance, computing the following quantities, where $a_1$ and $a_2$ are given constants.
+
+##### (a) $E[a_1 Y_1 +a_2 Y_2]$, $Var[a_1 Y_1 + a_2 Y_2]$
+
+
+
+
+##### (b) $E[a_1 Y_1 - a_2 Y_2]$, $Var[a_1 Y_1 - a_2 Y_2]$
+
+
+## Problem 2.3 
+
+> Full conditionals: Let $X$, $Y$, $Z$ be random variables with joint density (discrete or continuous) $p(x,y,z) \propto f(x,z)g(y,z)h(z)$. Show that
+
+##### (a) $p(x|y,z) \propto f(x,z)$ i.e. $p(x|y,z)$ is a function of $x$ and $z$;
+
+
+##### (b) $p(x|y,z) \propto g(x,z)$ i.e. $p(y|x,z)$ is a function of $x$ and $z$;
+
+##### (c) $X$ and $Y$ are conditionally independent given $Z$.
+
+## Problem 2.5
+
+> Urns: Suppose urn $H$ is filled with $40\%$ green balls and $60\%$ red balls, and urn $T$ is filled with $60\%$ green balls and $40\%$ red balls. Someone will flip a coin and then select a ball from urn $H$ or urn $T$ depending on whether the coin lands heads or tails, respectively. Let $X$ be 1 or 0 if the coin lands heads or tails, and let $Y$ be $1$ or $0$ if the ball is green or red.
+
+
+##### (a) Write out the joint distribution of $X$ and $Y$ in a table.
+
+##### (b) Find $E[Y]$. What is the probability that the ball is green?
+
+##### (c) Find $Var[Y|X=0]$, $Var[Y|X=1]$ and $Var[Y]$. Thinking of variance as measuring uncertainty, explain intuitively why one of these variances is larger than others.
+
+
+##### (d) Suppose you see that the ball is green. What is the probability that the coin turned up tails?
+
+
+
+## References {.unnumbered}
+::: {#refs}
+:::

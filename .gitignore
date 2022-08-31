@@ -2,3 +2,5 @@
 doc/_book/
 doc/.quarto/
 .ipynb_checkpoints
+_extensions/
+*_files/

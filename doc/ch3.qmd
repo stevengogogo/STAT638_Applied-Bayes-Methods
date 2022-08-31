@@ -1,0 +1,5 @@
+---
+title: 'Chapter 3: One-parameter models'
+author: 'Shao-Ting Chiu'
+---
+

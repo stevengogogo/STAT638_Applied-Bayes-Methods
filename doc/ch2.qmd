@@ -1,6 +1,16 @@
 ---
 title: 'Chapter 2: Conditional distributions and Bayes rule'
+date: '20220830'
+author: 'Shao-Ting Chiu'
 ---
+
+## Axioms of probability
+
+Let $F$, $G$ and $H$ be three possibly overlapping statements.
+
+1. 0 = Pr(not H|H) $\leq$ Pr(F|H) $\leq$ Pr(H|H) = 1
+2. Pr(F$\cup$G|H) = Pr(F|H) + Pr(G|H) if $F\cap G=\emptyset$
+3. $Pr(F\cap G|H)=Pr(G|H)Pr(F|G\cap H)$
 
 ## Events and partition
 
@@ -14,6 +24,7 @@ title: 'Chapter 2: Conditional distributions and Bayes rule'
 - Bayes rule
     - $P(A_j |B) = \frac{P(B|A_j)P(A_j)}{P(B)} = \frac{P(B|A_j)P(A_j)}{\sum^{m}_{i=1}P(B|A_i)P(Ai)}$
  
+
 
 ::: {.callout-tip}
 ## Example: COVID test
@@ -53,6 +64,38 @@ P(C|+) &= \frac{P(+|C)P(C)}{P(+)}\\
 - CDF: $F(a) = P(Y\leq a)$
 - Variance: $Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2$
 
+
+::: {.callout-note}
+### Binomial distribution
+
+$$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y} \theta^y (1-\theta)^{n-y}$$
+:::
+
+::: {.callout-note}
+### Poisson distribution
+
+Let $\mathcal{Y} = \{0,1,2,\dots\}$. The uncertain quantity $Y\in \mathcal{Y}$ has a *poisson distribution with mean $\theta$* if
+
+$$p(Y=y|\theta) = dpois(y,\theta) = \theta^{y}\frac{e^{-\theta}}{y!}$$
+:::
+
+## Description of distributions
+
+- Expection
+    - $E[Y] = \sum_{y\in\mathcal{Y}yp(y)}$ if $Y$ is discrete.
+    - $E[Y] = \int_{y\in\mathcal{Y}yp(y)}$ if $Y$ is discrete.
+- Mode
+    - The most probable value of $Y$
+- Median
+    - The value of $Y$ in the middle of the distribution
+ - Variance
+    $$\begin{align}
+        Var[Y] &= E[(Y-E[Y])^2]\\
+               &= E[Y^2-2YE[Y] + E[Y]^2]\\
+               &= E[Y^2] - 2E[Y]^2 + E[Y]^2\\ 
+               &= E[Y^2] - E[Y]^2
+    \end{align}$$   
+
 ## Joint distribution
 
 |Discrete|Continuous|
@@ -62,9 +105,68 @@ P(C|+) &= \frac{P(+|C)P(C)}{P(+)}\\
 
 - Conditional: $p_{Y_2|Y_1}(y_2|y_1) = \frac{p_{Y_1,Y_2}(y_1,y_2)}{p_{Y_1}(y_1)}$
 
+
+
+
 ## Proportionality
 
 - A function $f(x)$ is proportional to $g(x)$, denoted by $f(x) \propto g(x)$
     - $$f(x) = cg(x)$$
 
     
+## A Bayesian model
+
+- Random vector of data --- $Y$
+- Probability distribution of $Y$ --- $p(y|\theta)$
+
+::: {.callout-tip}
+### Bayes theorem applied to statistical model
+
+$$p(\theta|y) = \frac{p(y,\theta)}{m(y)} = \frac{p(y|\theta)p(\theta)}{\int_{\Theta}p(y|\theta)p(\theta)d\theta}$$
+
+- $p(\theta)$: the prior distribution
+- $\Theta$: parameter space
+- $p(y|\theta)$: the likelihood function. 
+- $p(\theta|y)$: the posterior distribution
+- $m$: marginal distribution of $Y$
+
+The **posterior distribution** expresses the experimenter's updated beliefs about $\theta$ in light of the observed data $y$.
+
+:::
+
+- $m(y)$: doesn't depend on $\theta$. 
+
+## Conditional independence and  Exhangeability
+
+::: {.callout-important}
+
+### Conditional independence
+
+$$P(A\cap B|C) = P(A|C)P(B|C)$$
+
+- Two events $A$ and $B$ are conditionally independent given event $C$
+    - $A\perp B|C$ 
+
+> Knowing $C$ and $B$ gives no more information about $A$ thatn does $C$ by itself.
+
+- $$P(A|C\perp B) = P(A|C)$$
+:::
+
+- Conditional independence
+    - Let $Y_1,\dots,Y_n$ are conditionally indep. given $\theta$. for every collection $A_1,\dots,A_n$ of sets:
+    - $$P(Y_1\in A_1,\dots, Y_n\in A_n |\theta) = \amalg^{n}_{i=1} P(Y_i\in A_i |\theta)$$
+
+### Exchangeability
+
+$$p(y_1,\dots,y_n) = p(y_{\pi_1},\dots,y_{\pi_n})$$
+
+for all permutations $\pi$ of $\{1,\dots,n\}$
+
+> If we think of $Y_1,\dots,Y_n$ as data, exchangeability says that the *ordering* of the data conveys no extra information than that in the observations themselves.
+
+- For example: time-series of weather is not exhangeable
+
+- i.i.d. data is exchangeable.
+- exchangeable does *not* imply **unconditional independence**
+
+
