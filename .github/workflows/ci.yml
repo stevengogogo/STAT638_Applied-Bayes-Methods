@@ -11,14 +11,14 @@ jobs:
     - run: |
         quarto --version
         quarto install tool tinytex
-    - name: Render Quarto Project
+    - name: Render STAT638 Website
       uses: quarto-dev/quarto-actions/render@v2
       with:
         to: html # If set, it will be equivalent to `quarto render --to html`
         path: # By default, the current working dir is used i.e `quarto render .`
     - name: Render Homework 1
       uses: quarto-dev/quarto-actions/render@v2
-      with:
+      with: 
         to: pdf # If set, it will be equivalent to `quarto render --to html`
         path: hw1 # By default, the current working dir is used i.e `quarto render 
     - name: Release
@@ -26,7 +26,6 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
-        automatic_release_tag: 'latest-${{ steps.date.outputs.date }}'
         prerelease: true
         title: 'Latest Build ${{ steps.date.outputs.date }}'
         files: |
