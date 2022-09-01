@@ -20,7 +20,7 @@ jobs:
       uses: quarto-dev/quarto-actions/render@v2
       with: 
         to: pdf # If set, it will be equivalent to `quarto render --to html`
-        path: hw/*.pdf # By default, the current working dir is used i.e `quarto render 
+        path: hw/*.qmd # By default, the current working dir is used i.e `quarto render 
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
