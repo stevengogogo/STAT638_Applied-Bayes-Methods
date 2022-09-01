@@ -31,6 +31,6 @@ jobs:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
         automatic_release_tag: 'latest-${{ steps.date.outputs.date }}'
         prerelease: true
-        title: 'Latest Build'
+        title: 'Latest Build ${{ steps.date.outputs.date }}'
         files: |
           **.pdf
