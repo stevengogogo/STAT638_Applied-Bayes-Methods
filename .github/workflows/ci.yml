@@ -20,17 +20,13 @@ jobs:
       uses: quarto-dev/quarto-actions/render@v2
       with: 
         to: pdf # If set, it will be equivalent to `quarto render --to html`
-        path: hw1 # By default, the current working dir is used i.e `quarto render 
+        path: hw/*.pdf # By default, the current working dir is used i.e `quarto render 
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
-    - name: Release
-      uses: 'marvinpinto/action-automatic-releases@v1.2.1'
-      if: github.ref == 'refs/heads/main'
+    - name: Deploy at gh-pages 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
-        repo_token: '${{ secrets.GITHUB_TOKEN }}'
-        automatic_release_tag: 'latest-${{ steps.date.outputs.date }}'
-        prerelease: true
-        title: 'Latest Build ${{ steps.date.outputs.date }}'
-        files: |
-          **.pdf
+        branch: gh-pages # The branch the action should deploy to.
+        folder: _build # The folder the action should deploy.
+        clean: false
