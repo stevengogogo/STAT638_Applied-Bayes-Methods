@@ -3,7 +3,7 @@ project:
 
 book:
   title: "STAT638: Applied Bayesian Methods"
-  author: "Jane Doe"
+  author: "Shao-Ting Chiu"
   date: "8/25/2022"
   chapters:
     - index.qmd
