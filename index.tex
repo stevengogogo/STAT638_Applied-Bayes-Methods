@@ -229,7 +229,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, enhanced, interior hidden, frame hidden, boxrule=0pt, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable, sharp corners]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -500,8 +500,8 @@ Statistics}\label{contrast-between-frequentist-and-bayesian-statistics}}
 \hypertarget{example}{%
 \section{Example}\label{example}}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Beta distribution\footnote{Beta Distribution.
-  {[}\href{https://en.wikipedia.org/wiki/Beta_distribution}{Wiki}{]}}}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-tip-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Beta distribution\footnote{Beta Distribution.
+  {[}\href{https://en.wikipedia.org/wiki/Beta_distribution}{Wiki}{]}}}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
 
 \begin{itemize}
 \item
@@ -628,7 +628,7 @@ Let \(F\), \(G\) and \(H\) be three possibly overlapping statements.
   \end{itemize}
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Example: COVID test}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-tip-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Example: COVID test}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
 
 \begin{quote}
 A college with a Covid-19 prevalencde of 10\% is using a test that is
@@ -661,6 +661,7 @@ P(+) &= P(+|C)P(C) + P(+|H)P(H)\\
 \end{quote}
 
 \$\$\begin{align}
+
 
 
 P(C|+) &= \frac{P(+|C)P(C)}{P(+)}\\
@@ -702,11 +703,11 @@ mean & \(E(Y)=\sum_{y\in Y}p(y)\) & \(E(Y)=\int_{Y}y p(y)dy\) \\
   Variance: \(Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2\)
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-note-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Binomial distribution}, colback=white, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-note-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Binomial distribution}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-note-color!10!white, leftrule=.75mm]
 \[p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y} \theta^y (1-\theta)^{n-y}\]
 \end{tcolorbox}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-note-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Poisson distribution}, colback=white, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-note-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Poisson distribution}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-note-color!10!white, leftrule=.75mm]
 Let \(\mathcal{Y} = \{0,1,2,\dots\}\). The uncertain quantity
 \(Y\in \mathcal{Y}\) has a \emph{poisson distribution with mean
 \(\theta\)} if
@@ -817,7 +818,7 @@ Continuous
   Probability distribution of \(Y\) --- \(p(y|\theta)\)
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Bayes theorem applied to statistical model}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-tip-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Bayes theorem applied to statistical model}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
 \[p(\theta|y) = \frac{p(y,\theta)}{m(y)} = \frac{p(y|\theta)p(\theta)}{\int_{\Theta}p(y|\theta)p(\theta)d\theta}\]
 
 \begin{itemize}
@@ -848,7 +849,7 @@ beliefs about \(\theta\) in light of the observed data \(y\).
 \section{Conditional independence and
 Exhangeability}\label{conditional-independence-and-exhangeability}}
 
-\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Conditional independence}, colback=white, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, left=2mm, colframe=quarto-callout-important-color-frame, opacityback=0, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Conditional independence}, bottomtitle=1mm, toptitle=1mm, titlerule=0mm, arc=.35mm, rightrule=.15mm, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm]
 
 \[P(A\cap B|C) = P(A|C)P(B|C)\]
 
@@ -1513,6 +1514,20 @@ Hoff, Peter D. 2009. \emph{A First Course in Bayesian Statistical
 Methods}. Vol. 580. Springer.
 
 \end{CSLReferences}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{homework-2}{%
+\chapter{Homework 2}\label{homework-2}}
+
+Shao-Ting Chiu (UIN:433002162)\\
+today
+
+\hfill\break
+
+\begin{quote}
+Pending
+\end{quote}
 
 \bookmarksetup{startatroot}
 
