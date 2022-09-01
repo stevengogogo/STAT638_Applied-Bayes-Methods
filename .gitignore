@@ -11,3 +11,6 @@ hw/*.html
 *.html
 *.log
 hw/.gitignore
+index.tex
+*.tex 
+*.aug
