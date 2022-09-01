@@ -14,3 +14,4 @@ hw/.gitignore
 index.tex
 *.tex 
 *.aug
+_site/

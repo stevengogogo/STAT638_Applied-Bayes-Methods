@@ -9,3 +9,11 @@ bibliography: ../ref.bib
 ## Homework Description
 
 > Pending
+
+
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::
