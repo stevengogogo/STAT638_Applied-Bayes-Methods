@@ -7,5 +7,7 @@ _extensions/
 _book/
 hw/*.pdf
 hw/*.html
+*/.quarto/
 *.html
 *.log
+hw/.gitignore
