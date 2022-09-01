@@ -215,7 +215,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={STAT638: Applied Bayesian Methods},
-  pdfauthor={Jane Doe},
+  pdfauthor={Shao-Ting Chiu},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -224,12 +224,12 @@
   pdfcreator={LaTeX via pandoc}}
 
 \title{STAT638: Applied Bayesian Methods}
-\author{Jane Doe}
+\author{Shao-Ting Chiu}
 \date{8/25/2022}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, enhanced, interior hidden, frame hidden, boxrule=0pt, sharp corners]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -500,8 +500,8 @@ Statistics}\label{contrast-between-frequentist-and-bayesian-statistics}}
 \hypertarget{example}{%
 \section{Example}\label{example}}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Beta distribution\footnote{Beta Distribution.
-  {[}\href{https://en.wikipedia.org/wiki/Beta_distribution}{Wiki}{]}}}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Beta distribution\footnote{Beta Distribution.
+  {[}\href{https://en.wikipedia.org/wiki/Beta_distribution}{Wiki}{]}}}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 
 \begin{itemize}
 \item
@@ -628,7 +628,7 @@ Let \(F\), \(G\) and \(H\) be three possibly overlapping statements.
   \end{itemize}
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Example: COVID test}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Example: COVID test}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 
 \begin{quote}
 A college with a Covid-19 prevalencde of 10\% is using a test that is
@@ -702,11 +702,11 @@ mean & \(E(Y)=\sum_{y\in Y}p(y)\) & \(E(Y)=\int_{Y}y p(y)dy\) \\
   Variance: \(Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2\)
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Binomial distribution}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-note-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Binomial distribution}, colback=white, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 \[p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y} \theta^y (1-\theta)^{n-y}\]
 \end{tcolorbox}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Poisson distribution}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-note-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Poisson distribution}, colback=white, colbacktitle=quarto-callout-note-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 Let \(\mathcal{Y} = \{0,1,2,\dots\}\). The uncertain quantity
 \(Y\in \mathcal{Y}\) has a \emph{poisson distribution with mean
 \(\theta\)} if
@@ -817,7 +817,7 @@ Continuous
   Probability distribution of \(Y\) --- \(p(y|\theta)\)
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Bayes theorem applied to statistical model}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-tip-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Bayes theorem applied to statistical model}, colback=white, colbacktitle=quarto-callout-tip-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 \[p(\theta|y) = \frac{p(y,\theta)}{m(y)} = \frac{p(y|\theta)p(\theta)}{\int_{\Theta}p(y|\theta)p(\theta)d\theta}\]
 
 \begin{itemize}
@@ -848,7 +848,7 @@ beliefs about \(\theta\) in light of the observed data \(y\).
 \section{Conditional independence and
 Exhangeability}\label{conditional-independence-and-exhangeability}}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, titlerule=0mm, opacitybacktitle=0.6, breakable, colframe=quarto-callout-important-color-frame, bottomtitle=1mm, colback=white, left=2mm, coltitle=black, arc=.35mm, leftrule=.75mm, toptitle=1mm, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Conditional independence}, rightrule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, breakable, colframe=quarto-callout-important-color-frame, rightrule=.15mm, arc=.35mm, opacityback=0, coltitle=black, bottomtitle=1mm, opacitybacktitle=0.6, toptitle=1mm, titlerule=0mm, left=2mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Conditional independence}, colback=white, colbacktitle=quarto-callout-important-color!10!white, toprule=.15mm, bottomrule=.15mm, leftrule=.75mm]
 
 \[P(A\cap B|C) = P(A|C)P(B|C)\]
 
@@ -947,14 +947,14 @@ before the due date.
 \hypertarget{problem-2.1}{%
 \section{Problem 2.1}\label{problem-2.1}}
 
-\begin{quote}
 Marginal and conditional probability: The social mobility data from
 Section 2.5 gives a joint probability distribution on \((Y_1, Y_2)=\)
 (fathers's occupation, son's occupation)
-\end{quote}
 
+\hypertarget{tbl-social}{}
 \begin{longtable}[]{@{}llllll@{}}
-\caption{The social mobility data (Hoff 2009, 580:24)}\tabularnewline
+\caption{\label{tbl-social}The social mobility data (Hoff 2009,
+580:24)}\tabularnewline
 \toprule()
 & & & son's occupation & & \\
 \midrule()
@@ -973,35 +973,219 @@ professional & 0.001 & 0.029 & 0.032 & 0.043 & 0.130 \\
 \bottomrule()
 \end{longtable}
 
-\hypertarget{a}{%
-\subsection{(a)}\label{a}}
+\hypertarget{a-the-marginal-probability-distribution-of-a-fathers-occupation}{%
+\subsection{(a) The marginal probability distribution of a father's
+occupation}\label{a-the-marginal-probability-distribution-of-a-fathers-occupation}}
 
-\begin{quote}
-The marginal probability distribution of a father's occupation
-\end{quote}
+According to Table~\ref{tbl-social}, let \(\mathbb{Y_1}\) and
+\(\mathbb{Y_2}\) be sets of father's and son's occupations:
 
-\hypertarget{b}{%
-\subsection{(b)}\label{b}}
+\[\mathbb{Y_1} = \mathbb{Y_2} = \{\text{farm},\text{operatives},\text{craftsmen},\text{sales},\text{professional}\}\]
 
-\begin{quote}
-The marginal probability distribution of a son's occupation
-\end{quote}
+\[
+\begin{aligned}
+    Pr(Y_1 = \text{farm}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{farm} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{farm} \cap Y_2=\text{farm}) + Pr(Y_1= \text{farm} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{farm} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{farm} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{farm} \cap Y_2=\text{professional})\\
+    &= 0.018 + 0.035 + 0.031 + 0.008 + 0.018\\ 
+    &= 0.11
+\end{aligned}
+\]
 
-\hypertarget{c}{%
-\subsection{(c)}\label{c}}
+\[
+\begin{aligned}
+    Pr(Y_1 = \text{operatives}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{operatives} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{operatives} \cap Y_2=\text{farm}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{operatives} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{operatives} \cap Y_2=\text{professional})\\
+    &= 0.002 + 0.112 + 0.064 + 0.032 + 0.069\\ 
+    &= 0.279
+\end{aligned}
+\]
 
-\begin{quote}
-The conditional distribution of a son's occupation, given that the
-father is a farmer;
-\end{quote}
+\[
+\begin{aligned}
+    Pr(Y_1 = \text{craftsman}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{craftsman} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{craftsman} \cap Y_2=\text{farm}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{craftsman} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{craftsman} \cap Y_2=\text{professional})\\
+    &= 0.001+0.066+0.094+0.032+0.084\\ 
+    &= 0.277
+\end{aligned}
+\]
 
-\hypertarget{d}{%
-\subsection{(d)}\label{d}}
+\[
+\begin{aligned}
+    Pr(Y_1 = \text{sales}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{sales} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{sales} \cap Y_2=\text{farm}) + Pr(Y_1= \text{sales} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{sales} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{sales} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{sales} \cap Y_2=\text{professional})\\
+    &= 0.001 + 0.018 + 0.019 + 0.010 + 0.051\\ 
+    &= 0.099
+\end{aligned}
+\]
 
-\begin{quote}
-the conditional distribution of a father's occupation, given that the
-son is a farmer.
-\end{quote}
+\[
+\begin{aligned}
+    Pr(Y_1 = \text{professional}) &= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{professional} \cap Y_2=y_2)\\
+    &= Pr(Y_1= \text{professional} \cap Y_2=\text{farm}) + Pr(Y_1= \text{professional} \cap Y_2=\text{operatives}) \\
+    & +Pr(Y_1= \text{professional} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{professional} \cap Y_2=\text{sales}) \\ 
+    & +Pr(Y_1= \text{professional} \cap Y_2=\text{professional})\\
+    &= 0.001 + 0.029 + 0.032 + 0.043 + 0.130\\ 
+    &= 0.235
+\end{aligned}
+\]
+
+\hypertarget{tbl-father}{}
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tbl-father}Marginal probability of father's
+occupation}\tabularnewline
+\toprule()
+marginal probability & value \\
+\midrule()
+\endfirsthead
+\toprule()
+marginal probability & value \\
+\midrule()
+\endhead
+\(p(Y_1=\text{farm})\) & 0.11 \\
+\(p(Y_1=\text{operatives})\) & 0.279 \\
+\(p(Y_1=\text{craftsmen})\) & 0.277 \\
+\(p(Y_1=\text{sales})\) & 0.099 \\
+\(p(Y_1=\text{professional})\) & 0.235 \\
+\emph{SUM} & 1.0 \\
+\bottomrule()
+\end{longtable}
+
+Table~\ref{tbl-father} shows that the sum of marginal probability is
+\(1\).
+
+\hypertarget{b-the-marginal-probability-distribution-of-a-sons-occupation}{%
+\paragraph{(b) The marginal probability distribution of a son's
+occupation}\label{b-the-marginal-probability-distribution-of-a-sons-occupation}}
+
+\[
+\begin{aligned}
+    Pr(Y_2 = \text{farm}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{farm} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{farm} \cap Y_1=\text{farm}) + Pr(Y_2= \text{farm} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{farm} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{farm} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{farm} \cap Y_1=\text{professional})\\
+    &= 0.018 + 0.002 + 0.001 + 0.001 + 0.001\\ 
+    &= 0.023
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Pr(Y_2 = \text{operatives}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{operatives} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{operatives} \cap Y_1=\text{farm}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{operatives} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{operatives} \cap Y_1=\text{professional})\\
+    &= 0.035 + 0.112 + 0.066 + 0.018 + 0.029\\ 
+    &= 0.26
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Pr(Y_2 = \text{craftsmen}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{craftsmen} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{craftsmen} \cap Y_1=\text{farm}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{professional})\\
+    &= 0.031 + 0.064 + 0.094 + 0.019 + 0.032\\ 
+    &= 0.24
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Pr(Y_2 = \text{sales}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{sales} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{sales} \cap Y_1=\text{farm}) + Pr(Y_2= \text{sales} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{sales} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{sales} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{sales} \cap Y_1=\text{professional})\\
+    &= 0.008+0.032+0.032+0.010+0.043\\ 
+    &= 0.125
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Pr(Y_2 = \text{professional}) &= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{professional} \cap Y_1=y_1)\\
+    &= Pr(Y_2= \text{professional} \cap Y_1=\text{farm}) + Pr(Y_2= \text{professional} \cap Y_1=\text{operatives}) \\
+    & +Pr(Y_2= \text{professional} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{professional} \cap Y_1=\text{sales}) \\ 
+    & +Pr(Y_2= \text{professional} \cap Y_1=\text{professional})\\
+    &= 0.018+ 0.069+0.084+0.051+0.130\\ 
+    &= 0.352
+\end{aligned}
+\]
+
+\hypertarget{tbl-son}{}
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tbl-son}Marginal probability of son's
+occupation}\tabularnewline
+\toprule()
+marginal probability & value \\
+\midrule()
+\endfirsthead
+\toprule()
+marginal probability & value \\
+\midrule()
+\endhead
+\(p(Y_2=\text{farm})\) & 0.023 \\
+\(p(Y_2=\text{operatives})\) & 0.26 \\
+\(p(Y_2=\text{craftsmen})\) & 0.24 \\
+\(p(Y_2=\text{sales})\) & 0.125 \\
+\(p(Y_2=\text{professional})\) & 0.352 \\
+\emph{SUM} & 1.0 \\
+\bottomrule()
+\end{longtable}
+
+Table~\ref{tbl-son} shows that the sum of marginal probability is \(1\).
+
+\hypertarget{c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer}{%
+\subsection{(c) The conditional distribution of a son's occupation,
+given that the father is a
+farmer;}\label{c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer}}
+
+The conditional distribution of a son's occupation can be expressed as
+\(p(y_2 | y_1 = \text{farmer})\).
+
+\[p(y_2= * | y_1 = \text{farmer}) = \frac{p(y_1=\text{farm} \cap y_2 = *)}{p(y_1 = \text{farm})}\]
+
+where \(* \in \mathbb{Y_2}\). As described in Table~\ref{tbl-father},
+\(p(y_1=\text{farm})= 0.11\). Use Table~\ref{tbl-social} to calculate
+the distribution:
+
+\[
+\begin{aligned}
+    p(y_2 = \text{farm} | y_1 = \text{farm}) &= \frac{0.018}{0.11} \approx 0.16\\
+    p(y_2 = \text{operatives} | y_1 = \text{farm}) &= \frac{0.035}{0.11} \approx 0.32\\
+    p(y_2 = \text{craftsman} | y_1 = \text{farm}) &= \frac{0.031}{0.11} \approx 0.28\\
+    p(y_2 = \text{sales} | y_1 = \text{farm}) &= \frac{0.008}{0.11} \approx 0.072\\
+    p(y_2 = \text{professional} | y_1 = \text{farm}) &= \frac{0.018}{0.11} \approx 0.16 \\
+\end{aligned}
+\]
+
+\hypertarget{d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer.}{%
+\subsection{(d) The conditional distribution of a father's occupation,
+given that the son is a
+farmer.}\label{d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer.}}
+
+\[p(y_1= * | y_2 = \text{farm}) = \frac{p(y_1=\text{*} \cap y_2 = \text{farm})}{p(y_2 = \text{farm})}\]
+
+According to Table~\ref{tbl-son}, \(p(y_2 = \text{farm}) = 0.023\). Use
+Table~\ref{tbl-social} to calculate the distribution:
+
+\[
+\begin{aligned}
+    p(y_1 = \text{farm} | y_2 = \text{farm}) &= \frac{0.018}{0.023} \approx 0.78\\
+    p(y_1 = \text{operatives} | y_2 = \text{farm}) &=\frac{0.002}{0.023} \approx 0.09\\
+    p(y_1 = \text{craftsman} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{sales} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{professional} | y_2 = \text{farm}) &= \frac{0.001}{0.023} \approx 0.04\\
+\end{aligned}
+\]
 
 \hypertarget{problem-2.2}{%
 \section{Problem 2.2}\label{problem-2.2}}
@@ -1014,19 +1198,59 @@ variance, computing the following quantities, where \(a_1\) and \(a_2\)
 are given constants.
 \end{quote}
 
-\hypertarget{a-1}{%
-\subsection{(a)}\label{a-1}}
+\hypertarget{a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2}{%
+\subsection{\texorpdfstring{(a) \(E[a_1 Y_1 +a_2 Y_2]\),
+\(Var[a_1 Y_1 + a_2 Y_2]\)}{(a) E{[}a\_1 Y\_1 +a\_2 Y\_2{]}, Var{[}a\_1 Y\_1 + a\_2 Y\_2{]}}}\label{a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2}}
 
-\begin{quote}
-\(E[a_1 Y_1 +a_2 Y_2]\), \(Var[a_1 Y_1 + a_2 Y_2]\)
-\end{quote}
+Because \(Y_1\) and \(Y_2\) are independent:
 
-\hypertarget{b-1}{%
-\subsection{(b)}\label{b-1}}
+\[
+E[Y_1 Y_2] = E[Y_1] E[Y_2]
+\]
 
-\begin{quote}
-\(E[a_1 Y_1 - a_2 Y_2]\), \(Var[a_1 Y_1 - a_2 Y_2]\)
-\end{quote}
+Thus
+
+\[
+\begin{aligned}
+  E[a_1 Y_1 + a_2 Y_2] &= E[a_1 Y_1] + E[a_2 Y_2]\\
+                       &= a_1 E[Y_1] + a_2 E[Y_2]\\
+                       &= \underline{a_1 \mu_1 + a_2 \mu_{2}}\\
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Var[a_1 Y_1 + a_2 Y_2] &= E[ [(a_1 Y_1 + a_2 Y_2) - E[a_1 Y_1 + a_2 Y_2]]^{2}]\\
+    &= E[(a_1 Y_1 + a_2 Y_2)^2] - E[a_1 Y_1 + a_2 Y_2]^2\\
+    &= E[a_{1}^{2}Y_{1}^{2} + 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 + a_2 \mu_2)^2\\
+    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 + a_2 \mu_2)^2\\
+    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
+    &= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2})}
+\end{aligned}
+\]
+
+\hypertarget{b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2}{%
+\subsection{\texorpdfstring{(b) \(E[a_1 Y_1 - a_2 Y_2]\),
+\(Var[a_1 Y_1 - a_2 Y_2]\)}{(b) E{[}a\_1 Y\_1 - a\_2 Y\_2{]}, Var{[}a\_1 Y\_1 - a\_2 Y\_2{]}}}\label{b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2}}
+
+\[
+\begin{aligned}
+  E[a_1 Y_1 - a_2 Y_2] &= E[a_1 Y_1] - E[a_2 Y_2]\\
+                       &= a_1 E[Y_1] - a_2 E[Y_2]\\
+                       &= \underline{a_1 \mu_1 - a_2 \mu_{2}}\\
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    Var[a_1 Y_1 - a_2 Y_2] &= E[ [(a_1 Y_1 - a_2 Y_2) - E[a_1 Y_1 - a_2 Y_2]]^{2}]\\
+    &= E[(a_1 Y_1 - a_2 Y_2)^2] - E[a_1 Y_1 - a_2 Y_2]^2\\
+    &= E[a_{1}^{2}Y_{1}^{2} - 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 - a_2 \mu_2)^2\\
+    &= a^{2}_{1}\sigma^{2}_{1} - 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 - a_2 \mu_2)^2\\
+    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} - 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
+    &= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2}) + 4a_1 a_2 \mu_1 \mu_2}
+\end{aligned}
+\]
 
 \hypertarget{problem-2.3}{%
 \section{Problem 2.3}\label{problem-2.3}}
@@ -1037,28 +1261,93 @@ joint density (discrete or continuous)
 \(p(x,y,z) \propto f(x,z)g(y,z)h(z)\). Show that
 \end{quote}
 
-\hypertarget{a-2}{%
-\subsection{(a)}\label{a-2}}
+\hypertarget{a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z}{%
+\subsection{\texorpdfstring{(a) \(p(x|y,z) \propto f(x,z)\)
+i.e.~\(p(x|y,z)\) is a function of \(x\) and
+\(z\);}{(a) p(x\textbar y,z) \textbackslash propto f(x,z) i.e.~p(x\textbar y,z) is a function of x and z;}}\label{a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z}}
 
-\begin{quote}
-\(p(x|y,z) \propto f(x,z)\) i.e.~\(p(x|y,z)\) is a function of \(x\) and
-\(z\);
-\end{quote}
+Let \(c, d\in \mathbb{R}\) constants
 
-\hypertarget{b-2}{%
-\subsection{(b)}\label{b-2}}
+\[
+\begin{aligned}
+    p(x|y,z) &= \frac{p(x,y,z)}{p(y,z)}\\
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{p(y,z)}
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}} p(x,y,z)dx}\\ 
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot \int_{x\in \mathbb{X}} f(x,z)g(y,z)h(z) dx}\\ 
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot g(y,z)h(z)\int_{x\in \mathbb{X}} f(x,z) dx}\\ 
+             &= \frac{c\cdot f(x,z)}{d\cdot\int_{x\in \mathbb{X}} f(x,z) dx}\\
+             &\propto \underline{\frac{f(x,z)}{\int_{x\in \mathbb{X}} f(x,z) dx}}
+\end{aligned}
+\]
 
-\begin{quote}
-\(p(x|y,z) \propto g(x,z)\) i.e.~\(p(y|x,z)\) is a function of \(x\) and
-\(z\);
-\end{quote}
+Thus, \(p(x|y,z)\) is a function of \(f(x,z)\).
 
-\hypertarget{c-1}{%
-\subsection{(c)}\label{c-1}}
+\hypertarget{b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z}{%
+\subsection{\texorpdfstring{(b) \(p(y|x,z) \propto g(y,z)\)
+i.e.~\(p(y|x,z)\) is a function of \(y\) and
+\(z\);}{(b) p(y\textbar x,z) \textbackslash propto g(y,z) i.e.~p(y\textbar x,z) is a function of y and z;}}\label{b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z}}
 
-\begin{quote}
-\(X\) and \(Y\) are conditionally independent given \(Z\).
-\end{quote}
+Let \(c, d\in \mathbb{R}\) constants
+
+\[
+\begin{aligned}
+    p(y|x,z) &= \frac{p(x,y,z)}{p(x,z)}\\
+             &= \frac{p(x,y,z)}{\int_{y\in \mathbb{Y}}p(x,y,z)dy}\\ 
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot \int_{y\in\mathbb{Y}} f(x,z)g(y,z)h(z)dy}\\ 
+             &= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot f(x,z)h(z)\int_{y\in\mathbb{Y}} g(y,z)dy}\\ 
+             &\propto \frac{f(y,z)}{\int_{y\in\mathbb{Y}}g(y,z)dy}\\
+\end{aligned}
+\]
+
+\hypertarget{c-x-and-y-are-conditionally-independent-given-z.}{%
+\subsection{\texorpdfstring{(c) \(X\) and \(Y\) are conditionally
+independent given
+\(Z\).}{(c) X and Y are conditionally independent given Z.}}\label{c-x-and-y-are-conditionally-independent-given-z.}}
+
+Let \(a_1, a_2 \in \mathbb{R}\) constant,
+
+\[
+\begin{aligned}
+p(x|z) &= \frac{p(x,z)}{p(z)}\\
+       &= \frac{\int_{y\in\mathbb{Y}}p(x,y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\ 
+       &= \frac{\int_{y\in\mathbb{Y}}f(x,z)g(y,z)h(z) dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\ 
+       &= \frac{f(x,z)h(z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\ 
+       &= \frac{f(x,z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    p(y|z) &= \frac{p(y,z)}{p(z)}\\
+           &=  \frac{\int_{x\in\mathbb{X}}p(x,y,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+           &= \frac{\int_{x\in \mathbb{X}} f(x,z)g(y,z)h(z) dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\ 
+           &= \frac{g(y,z)h(z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+           &= \frac{g(y,z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+p(x|z)p(y|z) &= \frac{f(x,z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx} \cdot \frac{g(y,z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+            &= \frac{f(x,z)g(y,z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    p(x,y|z) &= \frac{p(x,y,z)}{p(z)}\\
+             &= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dy dx}\\ 
+             &= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z)h(z) dy dx}\\
+             &= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}f(x,z)h(z)\left[\int_{y\in\mathbb{Y}} g(y,z) dy\right] dx}\\ 
+             &= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}f(x,z)h(z)dx \cdot \int_{y\in\mathbb{Y}} g(y,z) dy}\\ 
+             &=  \frac{f(x,z)}{\int_{x\in\mathbb{X}}f(x,z)dx}\frac{g(y,z)}{\int_{y\in\mathbb{Y}} g(y,z) dy}\\
+             &= \frac{f(x,z)g(y,z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+             &= \underline{p(x|z)p(y|z)}\\
+\end{aligned}
+\]
+
+Thus, \(p(x,y|z) = p(x|z)p(y|z)\) that means \(p(x,y|z)\) is
+conditionally independent given \(z\).
 
 \hypertarget{problem-2.5}{%
 \section{Problem 2.5}\label{problem-2.5}}
@@ -1072,36 +1361,146 @@ tails, respectively. Let \(X\) be 1 or 0 if the coin lands heads or
 tails, and let \(Y\) be \(1\) or \(0\) if the ball is green or red.
 \end{quote}
 
-\hypertarget{a-3}{%
-\subsection{(a)}\label{a-3}}
+\hypertarget{tbl-balls}{}
+\begin{longtable}[]{@{}lll@{}}
+\caption{\label{tbl-balls}Probability of choosing a certain ball in a
+given urn.}\tabularnewline
+\toprule()
+& Green & Red \\
+\midrule()
+\endfirsthead
+\toprule()
+& Green & Red \\
+\midrule()
+\endhead
+\(H\) (chosen if head{[}1{]}) & 0.4 & 0.6 \\
+\(T\) (chosen if tail{[}0{]}) & 0.6 & 0.4 \\
+\bottomrule()
+\end{longtable}
 
-\begin{quote}
-Write out the joint distribution of \(X\) and \(Y\) in a table.
-\end{quote}
+\begin{longtable}[]{@{}lll@{}}
+\caption{Event coding}\tabularnewline
+\toprule()
+& 1 & 0 \\
+\midrule()
+\endfirsthead
+\toprule()
+& 1 & 0 \\
+\midrule()
+\endhead
+\(X\) & Head & Tail \\
+\(Y\) & Green & Red \\
+\bottomrule()
+\end{longtable}
 
-\hypertarget{b-3}{%
-\subsection{(b)}\label{b-3}}
+\hypertarget{a-write-out-the-joint-distribution-of-x-and-y-in-a-table.}{%
+\subsection{\texorpdfstring{(a) Write out the joint distribution of
+\(X\) and \(Y\) in a
+table.}{(a) Write out the joint distribution of X and Y in a table.}}\label{a-write-out-the-joint-distribution-of-x-and-y-in-a-table.}}
 
-\begin{quote}
-Find \(E[Y]\). What is the probability that the ball is green?
-\end{quote}
+Suppose the coin is fair,
 
-\hypertarget{c-2}{%
-\subsection{(c)}\label{c-2}}
+\[
+\begin{aligned}
+    p(X=0 \cap Y=0) &= p(X=0) p(Y=0|X=0)= 0.5\cdot 0.4 = 0.2\\
+    p(X=0 \cap Y=1) &= p(X=0) p(Y=1|X=0)= 0.5\cdot 0.6 = 0.3\\
+    p(X=1 \cap Y=0) &= p(X=1) p(Y=0|X=1)= 0.5\cdot 0.6 = 0.3\\
+    p(X=1 \cap Y=1) &= p(X=1) p(Y=1|X=1)= 0.5\cdot 0.4 = 0.2\\
+\end{aligned}
+\]
 
-\begin{quote}
-Find \(Var[Y|X=0]\), \(Var[Y|X=1]\) and \(Var[Y]\). Thinking of variance
-as measuring uncertainty, explain intuitively why one of these variances
-is larger than others.
-\end{quote}
+\hypertarget{b-find-ey.-what-is-the-probability-that-the-ball-is-green}{%
+\subsection{\texorpdfstring{(b) Find \(E[Y]\). What is the probability
+that the ball is
+green?}{(b) Find E{[}Y{]}. What is the probability that the ball is green?}}\label{b-find-ey.-what-is-the-probability-that-the-ball-is-green}}
 
-\hypertarget{d-1}{%
-\subsection{(d)}\label{d-1}}
+\[
+\begin{aligned}
+    E[Y] &= \sum_{y\in \{0,1\}} p(Y=y)y\\
+         &= p(Y=1)\cdot 1\\ 
+         &= \sum_{x\in\{0,1\}} p(Y=1 | X=x)p(X=x)\\
+         &= p(Y=1|X=0)p(X=0) + p(Y=1|X=1)p(X=1)\\ 
+         &= 0.6\cdot 0.5 + 0.4 \cdot 0.5 \\ 
+         &= 0.3 + 0.2 \\ 
+         &= 0.5
+\end{aligned}
+\]
 
-\begin{quote}
-Suppose you see that the ball is green. What is the probability that the
-coin turned up tails?
-\end{quote}
+\hypertarget{c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others.}{%
+\subsection{\texorpdfstring{(c) Find \(Var[Y|X=0]\), \(Var[Y|X=1]\) and
+\(Var[Y]\). Thinking of variance as measuring uncertainty, explain
+intuitively why one of these variances is larger than
+others.}{(c) Find Var{[}Y\textbar X=0{]}, Var{[}Y\textbar X=1{]} and Var{[}Y{]}. Thinking of variance as measuring uncertainty, explain intuitively why one of these variances is larger than others.}}\label{c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others.}}
+
+\[
+\begin{aligned}
+    E[Y|X=0] &= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=0)y\\
+             &= P_{Y|X=0}(Y=1|X=0)\cdot 1 \\ 
+             &= 0.6
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    E[(Y|X=0)^2] &= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=0)y^2\\
+             &= P_{Y|X=0}(Y=1|X=0)\cdot 1 \\ 
+             &= 0.6
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    E[Y|X=1] &= \sum_{y \in\{0,1\}} P_{Y|X=1}(Y=y|X=1)y\\
+             &= P_{Y|X=1}(Y=1|X=1)\cdot 1 \\ 
+             &= 0.4
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    E[(Y|X=1)^2] &= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=1)y^2\\
+             &= P_{Y|X=1}(Y=1|X=1)\cdot 1 \\ 
+             &= 0.4
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+    E[Y^2] &= \sum_{y\in\{0,1\}} P(Y=y)y^2\\ 
+           &= P(Y=1)\cdot 1^2\\ 
+           &= P(Y=1 \cap X=1) + P(Y=1 \cap X=0)\\ 
+           &= 0.2 + 0.3 = 0.5\\
+\end{aligned}
+\]
+
+Thus,
+
+\[Var[Y|X=0] = E[(Y|X=0)^2] - E[Y|X=0]^2 = 0.6 - 0.6^2 = \underline{0.24}\]
+
+\[Var[Y|X=1] = E[(Y|X=1)^2] - E[Y|X=1]^2 = 0.4 - 0.4^2 = \underline{0.24}\]
+
+\[Var[Y] = E[Y^2] - E[Y]^2 = 0.5 - 0.5^2 = \underline{0.25}\]
+
+\textbf{Explaination}
+
+\(Var[Y]\) is larger than \(Var[Y|X=0]\) and \(Var[Y|X=1]\) because
+\(Y\) can be more determined by the information of \(X\). With known
+\(X\), the distribution of \(Y\) is set, and less uncertain with single
+confirmed distribution.
+
+\hypertarget{d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails}{%
+\subsection{(d) Suppose you see that the ball is green. What is the
+probability that the coin turned up
+tails?}\label{d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails}}
+
+\[\begin{aligned}
+    p(X=0 | Y=1) &= \frac{p(X=0 \cap Y=1)}{p(Y=1)}\\
+                 &= \frac{p(X=0 \cap Y=1)}{p(Y=1 | X=0)p(X=0) + p(Y=1|X=1)p(X=1)}\\
+                 &= \frac{0.5 \cdot 0.6}{0.6\cdot 0.5 + 0.4\cdot 0.5}\\ 
+                 &= \frac{0.3}{0.3+0.2}\\ 
+                 &= \frac{0.3}{0.5}\\ 
+                 &= \underline{0.6}\\
+\end{aligned}\]
 
 \hypertarget{references}{%
 \section*{References}\label{references}}

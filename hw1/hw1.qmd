@@ -2,7 +2,7 @@
 title: Homework 1
 author: Shao-Ting Chiu (UIN:433002162)
 date: today
-bibliography: ref.bib
+bibliography: ../ref.bib
     
 ---
 
