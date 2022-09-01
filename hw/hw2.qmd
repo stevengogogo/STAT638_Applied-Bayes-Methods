@@ -8,9 +8,10 @@ bibliography: ../ref.bib
 
 ## Homework Description
 
+
 > Pending
 
-
+- [PDF version](https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods/blob/hw/hw2.pdf)
 
 ::: {.content-hidden when-format="html"}
 
