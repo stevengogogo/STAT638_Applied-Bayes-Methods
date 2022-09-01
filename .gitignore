@@ -5,3 +5,7 @@ doc/.quarto/
 _extensions/
 *_files/
 _book/
+hw/*.pdf
+hw/*.html
+*.html
+*.log
