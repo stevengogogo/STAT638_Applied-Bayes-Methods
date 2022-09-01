@@ -19,7 +19,7 @@ jobs:
     - name: Render Homework
       run: |
         mkdir _hw_pdf
-        quarto render hw/*.qmd 
+        quarto render hw/*.qmd --to pdf
         mv hw/*.pdf _hw_pdf
 
       
