@@ -9,7 +9,8 @@ book:
     - index.qmd
     - ch1.qmd
     - ch2.qmd
-    - hw1/hw1.qmd
+    - hw/hw1.qmd
+    - hw/hw2.qmd
     - summary.qmd
     - analy/analy.ipynb
     - ref.qmd
