@@ -16,14 +16,16 @@ jobs:
       with:
         to: html # If set, it will be equivalent to `quarto render --to html`
         path: # By default, the current working dir is used i.e `quarto render .`
-    - name: Render Homework 1
-      uses: quarto-dev/quarto-actions/render@v2
-      with: 
-        to: pdf # If set, it will be equivalent to `quarto render --to html`
-        path: hw/*.qmd # By default, the current working dir is used i.e `quarto render 
+    - name: Render Homework
+      run: |
+        mkdir _hw_pdf
+        quarto render hw/*.qmd 
+        mv hw/*.pdf _hw_pdf
+
+      
     - name: Deploy at gh-pages 🚀
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
         branch: hw # The branch the action should deploy to.
-        folder: hw/ # The folder the action should deploy.
-        clean: false
+        folder: _hw_pdf # The folder the action should deploy.
+        clean: true
