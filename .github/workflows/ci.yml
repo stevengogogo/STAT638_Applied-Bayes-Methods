@@ -26,6 +26,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
+        automatic_release_tag: 'latest-${{ steps.date.outputs.date }}'
         prerelease: true
         title: 'Latest Build ${{ steps.date.outputs.date }}'
         files: |
