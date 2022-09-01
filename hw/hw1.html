@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu (UIN:433002162)">
+<meta name="dcterms.date" content="2022-09-01">
+
+<title>STAT638: Applied Bayesian Methods - 3&nbsp; Homework 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hw/hw2.html" rel="next">
+<link href="../ch2.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Homework 1</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">STAT638: Applied Bayesian Methods</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../analy/analy.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis example</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#homework-description" id="toc-homework-description" class="nav-link active" data-scroll-target="#homework-description"> <span class="header-section-number">3.1</span> Homework Description</a></li>
+  <li><a href="#problem-2.1" id="toc-problem-2.1" class="nav-link" data-scroll-target="#problem-2.1"> <span class="header-section-number">3.2</span> Problem 2.1</a>
+  <ul class="collapse">
+  <li><a href="#a-the-marginal-probability-distribution-of-a-fathers-occupation" id="toc-a-the-marginal-probability-distribution-of-a-fathers-occupation" class="nav-link" data-scroll-target="#a-the-marginal-probability-distribution-of-a-fathers-occupation"> <span class="header-section-number">3.2.1</span> (a) The marginal probability distribution of a father’s occupation</a></li>
+  <li><a href="#c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer" id="toc-c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer" class="nav-link" data-scroll-target="#c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer"> <span class="header-section-number">3.2.2</span> (c) The conditional distribution of a son’s occupation, given that the father is a farmer;</a></li>
+  <li><a href="#d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer." id="toc-d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer." class="nav-link" data-scroll-target="#d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer."> <span class="header-section-number">3.2.3</span> (d) The conditional distribution of a father’s occupation, given that the son is a farmer.</a></li>
+  </ul></li>
+  <li><a href="#problem-2.2" id="toc-problem-2.2" class="nav-link" data-scroll-target="#problem-2.2"> <span class="header-section-number">3.3</span> Problem 2.2</a>
+  <ul class="collapse">
+  <li><a href="#a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2" id="toc-a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2" class="nav-link" data-scroll-target="#a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2"> <span class="header-section-number">3.3.1</span> (a) <span class="math inline">\(E[a_1 Y_1 +a_2 Y_2]\)</span>, <span class="math inline">\(Var[a_1 Y_1 + a_2 Y_2]\)</span></a></li>
+  <li><a href="#b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2" id="toc-b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2" class="nav-link" data-scroll-target="#b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2"> <span class="header-section-number">3.3.2</span> (b) <span class="math inline">\(E[a_1 Y_1 - a_2 Y_2]\)</span>, <span class="math inline">\(Var[a_1 Y_1 - a_2 Y_2]\)</span></a></li>
+  </ul></li>
+  <li><a href="#problem-2.3" id="toc-problem-2.3" class="nav-link" data-scroll-target="#problem-2.3"> <span class="header-section-number">3.4</span> Problem 2.3</a>
+  <ul class="collapse">
+  <li><a href="#a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z" id="toc-a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z" class="nav-link" data-scroll-target="#a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z"> <span class="header-section-number">3.4.1</span> (a) <span class="math inline">\(p(x|y,z) \propto f(x,z)\)</span> i.e.&nbsp;<span class="math inline">\(p(x|y,z)\)</span> is a function of <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>;</a></li>
+  <li><a href="#b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z" id="toc-b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z" class="nav-link" data-scroll-target="#b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z"> <span class="header-section-number">3.4.2</span> (b) <span class="math inline">\(p(y|x,z) \propto g(y,z)\)</span> i.e.&nbsp;<span class="math inline">\(p(y|x,z)\)</span> is a function of <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>;</a></li>
+  <li><a href="#c-x-and-y-are-conditionally-independent-given-z." id="toc-c-x-and-y-are-conditionally-independent-given-z." class="nav-link" data-scroll-target="#c-x-and-y-are-conditionally-independent-given-z."> <span class="header-section-number">3.4.3</span> (c) <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(Z\)</span>.</a></li>
+  </ul></li>
+  <li><a href="#problem-2.5" id="toc-problem-2.5" class="nav-link" data-scroll-target="#problem-2.5"> <span class="header-section-number">3.5</span> Problem 2.5</a>
+  <ul class="collapse">
+  <li><a href="#a-write-out-the-joint-distribution-of-x-and-y-in-a-table." id="toc-a-write-out-the-joint-distribution-of-x-and-y-in-a-table." class="nav-link" data-scroll-target="#a-write-out-the-joint-distribution-of-x-and-y-in-a-table."> <span class="header-section-number">3.5.1</span> (a) Write out the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> in a table.</a></li>
+  <li><a href="#b-find-ey.-what-is-the-probability-that-the-ball-is-green" id="toc-b-find-ey.-what-is-the-probability-that-the-ball-is-green" class="nav-link" data-scroll-target="#b-find-ey.-what-is-the-probability-that-the-ball-is-green"> <span class="header-section-number">3.5.2</span> (b) Find <span class="math inline">\(E[Y]\)</span>. What is the probability that the ball is green?</a></li>
+  <li><a href="#c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others." id="toc-c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others." class="nav-link" data-scroll-target="#c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others."> <span class="header-section-number">3.5.3</span> (c) Find <span class="math inline">\(Var[Y|X=0]\)</span>, <span class="math inline">\(Var[Y|X=1]\)</span> and <span class="math inline">\(Var[Y]\)</span>. Thinking of variance as measuring uncertainty, explain intuitively why one of these variances is larger than others.</a></li>
+  <li><a href="#d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails" id="toc-d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails" class="nav-link" data-scroll-target="#d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails"> <span class="header-section-number">3.5.4</span> (d) Suppose you see that the ball is green. What is the probability that the coin turned up tails?</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">3.6</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Homework 1</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Shao-Ting Chiu (UIN:433002162) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 1, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="homework-description" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="homework-description"><span class="header-section-number">3.1</span> Homework Description</h2>
+<blockquote class="blockquote">
+<p>Read Chapters 1 and 2 in the Hoff book. Then, do the following exercises in Hoff (p.&nbsp;225-226): 2.1, 2.2, 2.3, 2.5 You must turn in your solutions as a pdf file here on Canvas. Use the Submit Assignment button on the top right. If your solutions are on paper, please scan them to pdf using a scanner or a scanner app on your phone. Please do not take a regular photo, as this can result in very large file sizes. Make sure that everything is legible. Please note that late homework will not be accepted and will result in a score of zero. To avoid late submissions due to technical issues, we recommend turning in your homework the night before the due date.</p>
+</blockquote>
+<ul>
+<li>Deadline: Sep.&nbsp;8 by 12:01pm</li>
+</ul>
+</section>
+<section id="problem-2.1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="problem-2.1"><span class="header-section-number">3.2</span> Problem 2.1</h2>
+<p>Marginal and conditional probability: The social mobility data from Section 2.5 gives a joint probability distribution on <span class="math inline">\((Y_1, Y_2)=\)</span> (fathers’s occupation, son’s occupation)</p>
+<div id="tbl-social" class="anchored">
+<table class="table">
+<caption>Table 3.1: The social mobility data <span class="citation" data-cites="hoff2009first">(<a href="../ref.html#ref-hoff2009first" role="doc-biblioref">Hoff 2009, 580:24</a>)</span></caption>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th></th>
+<th>son’s occupation</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>father’s occupation</strong></td>
+<td>farm</td>
+<td>operatives</td>
+<td>craftsmen</td>
+<td>sales</td>
+<td>professional</td>
+</tr>
+<tr class="even">
+<td>farm</td>
+<td>0.018</td>
+<td>0.035</td>
+<td>0.031</td>
+<td>0.008</td>
+<td>0.018</td>
+</tr>
+<tr class="odd">
+<td>operatives</td>
+<td>0.002</td>
+<td>0.112</td>
+<td>0.064</td>
+<td>0.032</td>
+<td>0.069</td>
+</tr>
+<tr class="even">
+<td>craftsman</td>
+<td>0.001</td>
+<td>0.066</td>
+<td>0.094</td>
+<td>0.032</td>
+<td>0.084</td>
+</tr>
+<tr class="odd">
+<td>sales</td>
+<td>0.001</td>
+<td>0.018</td>
+<td>0.019</td>
+<td>0.010</td>
+<td>0.051</td>
+</tr>
+<tr class="even">
+<td>professional</td>
+<td>0.001</td>
+<td>0.029</td>
+<td>0.032</td>
+<td>0.043</td>
+<td>0.130</td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="a-the-marginal-probability-distribution-of-a-fathers-occupation" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="a-the-marginal-probability-distribution-of-a-fathers-occupation"><span class="header-section-number">3.2.1</span> (a) The marginal probability distribution of a father’s occupation</h3>
+<p>According to <a href="#tbl-social">Table&nbsp;<span>3.1</span></a>, let <span class="math inline">\(\mathbb{Y_1}\)</span> and <span class="math inline">\(\mathbb{Y_2}\)</span> be sets of father’s and son’s occupations:</p>
+<p><span class="math display">\[\mathbb{Y_1} = \mathbb{Y_2} = \{\text{farm},\text{operatives},\text{craftsmen},\text{sales},\text{professional}\}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_1 = \text{farm}) &amp;= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{farm} \cap Y_2=y_2)\\
+    &amp;= Pr(Y_1= \text{farm} \cap Y_2=\text{farm}) + Pr(Y_1= \text{farm} \cap Y_2=\text{operatives}) \\
+    &amp; +Pr(Y_1= \text{farm} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{farm} \cap Y_2=\text{sales}) \\
+    &amp; +Pr(Y_1= \text{farm} \cap Y_2=\text{professional})\\
+    &amp;= 0.018 + 0.035 + 0.031 + 0.008 + 0.018\\
+    &amp;= 0.11
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_1 = \text{operatives}) &amp;= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{operatives} \cap Y_2=y_2)\\
+    &amp;= Pr(Y_1= \text{operatives} \cap Y_2=\text{farm}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{operatives}) \\
+    &amp; +Pr(Y_1= \text{operatives} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{operatives} \cap Y_2=\text{sales}) \\
+    &amp; +Pr(Y_1= \text{operatives} \cap Y_2=\text{professional})\\
+    &amp;= 0.002 + 0.112 + 0.064 + 0.032 + 0.069\\
+    &amp;= 0.279
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_1 = \text{craftsman}) &amp;= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{craftsman} \cap Y_2=y_2)\\
+    &amp;= Pr(Y_1= \text{craftsman} \cap Y_2=\text{farm}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{operatives}) \\
+    &amp; +Pr(Y_1= \text{craftsman} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{craftsman} \cap Y_2=\text{sales}) \\
+    &amp; +Pr(Y_1= \text{craftsman} \cap Y_2=\text{professional})\\
+    &amp;= 0.001+0.066+0.094+0.032+0.084\\
+    &amp;= 0.277
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_1 = \text{sales}) &amp;= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{sales} \cap Y_2=y_2)\\
+    &amp;= Pr(Y_1= \text{sales} \cap Y_2=\text{farm}) + Pr(Y_1= \text{sales} \cap Y_2=\text{operatives}) \\
+    &amp; +Pr(Y_1= \text{sales} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{sales} \cap Y_2=\text{sales}) \\
+    &amp; +Pr(Y_1= \text{sales} \cap Y_2=\text{professional})\\
+    &amp;= 0.001 + 0.018 + 0.019 + 0.010 + 0.051\\
+    &amp;= 0.099
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_1 = \text{professional}) &amp;= \sum_{y_2\in\mathbb{Y_2}}Pr(Y_1= \text{professional} \cap Y_2=y_2)\\
+    &amp;= Pr(Y_1= \text{professional} \cap Y_2=\text{farm}) + Pr(Y_1= \text{professional} \cap Y_2=\text{operatives}) \\
+    &amp; +Pr(Y_1= \text{professional} \cap Y_2=\text{craftsmen}) + Pr(Y_1= \text{professional} \cap Y_2=\text{sales}) \\
+    &amp; +Pr(Y_1= \text{professional} \cap Y_2=\text{professional})\\
+    &amp;= 0.001 + 0.029 + 0.032 + 0.043 + 0.130\\
+    &amp;= 0.235
+\end{aligned}
+\]</span></p>
+<div id="tbl-father" class="anchored">
+<table class="table">
+<caption>Table 3.2: Marginal probability of father’s occupation</caption>
+<thead>
+<tr class="header">
+<th>marginal probability</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_1=\text{farm})\)</span></td>
+<td>0.11</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p(Y_1=\text{operatives})\)</span></td>
+<td>0.279</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_1=\text{craftsmen})\)</span></td>
+<td>0.277</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p(Y_1=\text{sales})\)</span></td>
+<td>0.099</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_1=\text{professional})\)</span></td>
+<td>0.235</td>
+</tr>
+<tr class="even">
+<td><em>SUM</em></td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="#tbl-father">Table&nbsp;<span>3.2</span></a> shows that the sum of marginal probability is <span class="math inline">\(1\)</span>.</p>
+<section id="b-the-marginal-probability-distribution-of-a-sons-occupation" class="level5" data-number="3.2.1.0.1">
+<h5 data-number="3.2.1.0.1" class="anchored" data-anchor-id="b-the-marginal-probability-distribution-of-a-sons-occupation"><span class="header-section-number">3.2.1.0.1</span> (b) The marginal probability distribution of a son’s occupation</h5>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_2 = \text{farm}) &amp;= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{farm} \cap Y_1=y_1)\\
+    &amp;= Pr(Y_2= \text{farm} \cap Y_1=\text{farm}) + Pr(Y_2= \text{farm} \cap Y_1=\text{operatives}) \\
+    &amp; +Pr(Y_2= \text{farm} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{farm} \cap Y_1=\text{sales}) \\
+    &amp; +Pr(Y_2= \text{farm} \cap Y_1=\text{professional})\\
+    &amp;= 0.018 + 0.002 + 0.001 + 0.001 + 0.001\\
+    &amp;= 0.023
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_2 = \text{operatives}) &amp;= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{operatives} \cap Y_1=y_1)\\
+    &amp;= Pr(Y_2= \text{operatives} \cap Y_1=\text{farm}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{operatives}) \\
+    &amp; +Pr(Y_2= \text{operatives} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{operatives} \cap Y_1=\text{sales}) \\
+    &amp; +Pr(Y_2= \text{operatives} \cap Y_1=\text{professional})\\
+    &amp;= 0.035 + 0.112 + 0.066 + 0.018 + 0.029\\
+    &amp;= 0.26
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_2 = \text{craftsmen}) &amp;= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{craftsmen} \cap Y_1=y_1)\\
+    &amp;= Pr(Y_2= \text{craftsmen} \cap Y_1=\text{farm}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{operatives}) \\
+    &amp; +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{craftsmen} \cap Y_1=\text{sales}) \\
+    &amp; +Pr(Y_2= \text{craftsmen} \cap Y_1=\text{professional})\\
+    &amp;= 0.031 + 0.064 + 0.094 + 0.019 + 0.032\\
+    &amp;= 0.24
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_2 = \text{sales}) &amp;= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{sales} \cap Y_1=y_1)\\
+    &amp;= Pr(Y_2= \text{sales} \cap Y_1=\text{farm}) + Pr(Y_2= \text{sales} \cap Y_1=\text{operatives}) \\
+    &amp; +Pr(Y_2= \text{sales} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{sales} \cap Y_1=\text{sales}) \\
+    &amp; +Pr(Y_2= \text{sales} \cap Y_1=\text{professional})\\
+    &amp;= 0.008+0.032+0.032+0.010+0.043\\
+    &amp;= 0.125
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Pr(Y_2 = \text{professional}) &amp;= \sum_{y_1\in\mathbb{Y_1}}Pr(Y_2= \text{professional} \cap Y_1=y_1)\\
+    &amp;= Pr(Y_2= \text{professional} \cap Y_1=\text{farm}) + Pr(Y_2= \text{professional} \cap Y_1=\text{operatives}) \\
+    &amp; +Pr(Y_2= \text{professional} \cap Y_1=\text{craftsmen}) + Pr(Y_2= \text{professional} \cap Y_1=\text{sales}) \\
+    &amp; +Pr(Y_2= \text{professional} \cap Y_1=\text{professional})\\
+    &amp;= 0.018+ 0.069+0.084+0.051+0.130\\
+    &amp;= 0.352
+\end{aligned}
+\]</span></p>
+<div id="tbl-son" class="anchored">
+<table class="table">
+<caption>Table 3.3: Marginal probability of son’s occupation</caption>
+<thead>
+<tr class="header">
+<th>marginal probability</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_2=\text{farm})\)</span></td>
+<td>0.023</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p(Y_2=\text{operatives})\)</span></td>
+<td>0.26</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_2=\text{craftsmen})\)</span></td>
+<td>0.24</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p(Y_2=\text{sales})\)</span></td>
+<td>0.125</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p(Y_2=\text{professional})\)</span></td>
+<td>0.352</td>
+</tr>
+<tr class="even">
+<td><em>SUM</em></td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="#tbl-son">Table&nbsp;<span>3.3</span></a> shows that the sum of marginal probability is <span class="math inline">\(1\)</span>.</p>
+</section>
+</section>
+<section id="c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="c-the-conditional-distribution-of-a-sons-occupation-given-that-the-father-is-a-farmer"><span class="header-section-number">3.2.2</span> (c) The conditional distribution of a son’s occupation, given that the father is a farmer;</h3>
+<p>The conditional distribution of a son’s occupation can be expressed as <span class="math inline">\(p(y_2 | y_1 = \text{farmer})\)</span>.</p>
+<p><span class="math display">\[p(y_2= * | y_1 = \text{farmer}) = \frac{p(y_1=\text{farm} \cap y_2 = *)}{p(y_1 = \text{farm})}\]</span></p>
+<p>where <span class="math inline">\(* \in \mathbb{Y_2}\)</span>. As described in <a href="#tbl-father">Table&nbsp;<span>3.2</span></a>, <span class="math inline">\(p(y_1=\text{farm})= 0.11\)</span>. Use <a href="#tbl-social">Table&nbsp;<span>3.1</span></a> to calculate the distribution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(y_2 = \text{farm} | y_1 = \text{farm}) &amp;= \frac{0.018}{0.11} \approx 0.16\\
+    p(y_2 = \text{operatives} | y_1 = \text{farm}) &amp;= \frac{0.035}{0.11} \approx 0.32\\
+    p(y_2 = \text{craftsman} | y_1 = \text{farm}) &amp;= \frac{0.031}{0.11} \approx 0.28\\
+    p(y_2 = \text{sales} | y_1 = \text{farm}) &amp;= \frac{0.008}{0.11} \approx 0.072\\
+    p(y_2 = \text{professional} | y_1 = \text{farm}) &amp;= \frac{0.018}{0.11} \approx 0.16 \\
+\end{aligned}
+\]</span></p>
+</section>
+<section id="d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer." class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="d-the-conditional-distribution-of-a-fathers-occupation-given-that-the-son-is-a-farmer."><span class="header-section-number">3.2.3</span> (d) The conditional distribution of a father’s occupation, given that the son is a farmer.</h3>
+<p><span class="math display">\[p(y_1= * | y_2 = \text{farm}) = \frac{p(y_1=\text{*} \cap y_2 = \text{farm})}{p(y_2 = \text{farm})}\]</span></p>
+<p>According to <a href="#tbl-son">Table&nbsp;<span>3.3</span></a>, <span class="math inline">\(p(y_2 = \text{farm}) = 0.023\)</span>. Use <a href="#tbl-social">Table&nbsp;<span>3.1</span></a> to calculate the distribution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(y_1 = \text{farm} | y_2 = \text{farm}) &amp;= \frac{0.018}{0.023} \approx 0.78\\
+    p(y_1 = \text{operatives} | y_2 = \text{farm}) &amp;=\frac{0.002}{0.023} \approx 0.09\\
+    p(y_1 = \text{craftsman} | y_2 = \text{farm}) &amp;= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{sales} | y_2 = \text{farm}) &amp;= \frac{0.001}{0.023} \approx 0.04\\
+    p(y_1 = \text{professional} | y_2 = \text{farm}) &amp;= \frac{0.001}{0.023} \approx 0.04\\
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="problem-2.2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="problem-2.2"><span class="header-section-number">3.3</span> Problem 2.2</h2>
+<blockquote class="blockquote">
+<p>Expectations and variances: Let <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> be two independent random variables, such that <span class="math inline">\(E[Y_i]=\mu_i\)</span> and <span class="math inline">\(Var[Y_i] = \sigma_{i}^2\)</span>. Using the definition of expectation and variance, computing the following quantities, where <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span> are given constants.</p>
+</blockquote>
+<section id="a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="a-ea_1-y_1-a_2-y_2-vara_1-y_1-a_2-y_2"><span class="header-section-number">3.3.1</span> (a) <span class="math inline">\(E[a_1 Y_1 +a_2 Y_2]\)</span>, <span class="math inline">\(Var[a_1 Y_1 + a_2 Y_2]\)</span></h3>
+<p>Because <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are independent:</p>
+<p><span class="math display">\[
+E[Y_1 Y_2] = E[Y_1] E[Y_2]
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+  E[a_1 Y_1 + a_2 Y_2] &amp;= E[a_1 Y_1] + E[a_2 Y_2]\\
+                       &amp;= a_1 E[Y_1] + a_2 E[Y_2]\\
+                       &amp;= \underline{a_1 \mu_1 + a_2 \mu_{2}}\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Var[a_1 Y_1 + a_2 Y_2] &amp;= E[ [(a_1 Y_1 + a_2 Y_2) - E[a_1 Y_1 + a_2 Y_2]]^{2}]\\
+    &amp;= E[(a_1 Y_1 + a_2 Y_2)^2] - E[a_1 Y_1 + a_2 Y_2]^2\\
+    &amp;= E[a_{1}^{2}Y_{1}^{2} + 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 + a_2 \mu_2)^2\\
+    &amp;= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 + a_2 \mu_2)^2\\
+    &amp;= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
+    &amp;= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2})}
+\end{aligned}
+\]</span></p>
+</section>
+<section id="b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="b-ea_1-y_1---a_2-y_2-vara_1-y_1---a_2-y_2"><span class="header-section-number">3.3.2</span> (b) <span class="math inline">\(E[a_1 Y_1 - a_2 Y_2]\)</span>, <span class="math inline">\(Var[a_1 Y_1 - a_2 Y_2]\)</span></h3>
+<p><span class="math display">\[
+\begin{aligned}
+  E[a_1 Y_1 - a_2 Y_2] &amp;= E[a_1 Y_1] - E[a_2 Y_2]\\
+                       &amp;= a_1 E[Y_1] - a_2 E[Y_2]\\
+                       &amp;= \underline{a_1 \mu_1 - a_2 \mu_{2}}\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    Var[a_1 Y_1 - a_2 Y_2] &amp;= E[ [(a_1 Y_1 - a_2 Y_2) - E[a_1 Y_1 - a_2 Y_2]]^{2}]\\
+    &amp;= E[(a_1 Y_1 - a_2 Y_2)^2] - E[a_1 Y_1 - a_2 Y_2]^2\\
+    &amp;= E[a_{1}^{2}Y_{1}^{2} - 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 - a_2 \mu_2)^2\\
+    &amp;= a^{2}_{1}\sigma^{2}_{1} - 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 - a_2 \mu_2)^2\\
+    &amp;= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} - 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
+    &amp;= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2}) + 4a_1 a_2 \mu_1 \mu_2}
+\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="problem-2.3" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="problem-2.3"><span class="header-section-number">3.4</span> Problem 2.3</h2>
+<blockquote class="blockquote">
+<p>Full conditionals: Let <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span> be random variables with joint density (discrete or continuous) <span class="math inline">\(p(x,y,z) \propto f(x,z)g(y,z)h(z)\)</span>. Show that</p>
+</blockquote>
+<section id="a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="a-pxyz-propto-fxz-i.e.-pxyz-is-a-function-of-x-and-z"><span class="header-section-number">3.4.1</span> (a) <span class="math inline">\(p(x|y,z) \propto f(x,z)\)</span> i.e.&nbsp;<span class="math inline">\(p(x|y,z)\)</span> is a function of <span class="math inline">\(x\)</span> and <span class="math inline">\(z\)</span>;</h3>
+<p>Let <span class="math inline">\(c, d\in \mathbb{R}\)</span> constants</p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(x|y,z) &amp;= \frac{p(x,y,z)}{p(y,z)}\\
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{p(y,z)}
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}} p(x,y,z)dx}\\
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot \int_{x\in \mathbb{X}} f(x,z)g(y,z)h(z) dx}\\
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot g(y,z)h(z)\int_{x\in \mathbb{X}} f(x,z) dx}\\
+             &amp;= \frac{c\cdot f(x,z)}{d\cdot\int_{x\in \mathbb{X}} f(x,z) dx}\\
+             &amp;\propto \underline{\frac{f(x,z)}{\int_{x\in \mathbb{X}} f(x,z) dx}}
+\end{aligned}
+\]</span></p>
+<p>Thus, <span class="math inline">\(p(x|y,z)\)</span> is a function of <span class="math inline">\(f(x,z)\)</span>.</p>
+</section>
+<section id="b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="b-pyxz-propto-gyz-i.e.-pyxz-is-a-function-of-y-and-z"><span class="header-section-number">3.4.2</span> (b) <span class="math inline">\(p(y|x,z) \propto g(y,z)\)</span> i.e.&nbsp;<span class="math inline">\(p(y|x,z)\)</span> is a function of <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>;</h3>
+<p>Let <span class="math inline">\(c, d\in \mathbb{R}\)</span> constants</p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(y|x,z) &amp;= \frac{p(x,y,z)}{p(x,z)}\\
+             &amp;= \frac{p(x,y,z)}{\int_{y\in \mathbb{Y}}p(x,y,z)dy}\\
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot \int_{y\in\mathbb{Y}} f(x,z)g(y,z)h(z)dy}\\
+             &amp;= \frac{c\cdot f(x,z)g(y,z)h(z)}{d\cdot f(x,z)h(z)\int_{y\in\mathbb{Y}} g(y,z)dy}\\
+             &amp;\propto \frac{f(y,z)}{\int_{y\in\mathbb{Y}}g(y,z)dy}\\
+\end{aligned}
+\]</span></p>
+</section>
+<section id="c-x-and-y-are-conditionally-independent-given-z." class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="c-x-and-y-are-conditionally-independent-given-z."><span class="header-section-number">3.4.3</span> (c) <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(Z\)</span>.</h3>
+<p>Let <span class="math inline">\(a_1, a_2 \in \mathbb{R}\)</span> constant,</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x|z) &amp;= \frac{p(x,z)}{p(z)}\\
+       &amp;= \frac{\int_{y\in\mathbb{Y}}p(x,y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+       &amp;= \frac{\int_{y\in\mathbb{Y}}f(x,z)g(y,z)h(z) dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+       &amp;= \frac{f(x,z)h(z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+       &amp;= \frac{f(x,z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(y|z) &amp;= \frac{p(y,z)}{p(z)}\\
+           &amp;=  \frac{\int_{x\in\mathbb{X}}p(x,y,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+           &amp;= \frac{\int_{x\in \mathbb{X}} f(x,z)g(y,z)h(z) dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+           &amp;= \frac{g(y,z)h(z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dydx}\\
+           &amp;= \frac{g(y,z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+p(x|z)p(y|z) &amp;= \frac{f(x,z)\int_{y\in\mathbb{Y}}g(y,z)dy}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx} \cdot \frac{g(y,z)\int_{x\in \mathbb{X}} f(x,z)dx}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+            &amp;= \frac{f(x,z)g(y,z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(x,y|z) &amp;= \frac{p(x,y,z)}{p(z)}\\
+             &amp;= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} p(x,y,z) dy dx}\\
+             &amp;= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z)h(z) dy dx}\\
+             &amp;= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}f(x,z)h(z)\left[\int_{y\in\mathbb{Y}} g(y,z) dy\right] dx}\\
+             &amp;= \frac{f(x,z)g(y,z)h(z)}{\int_{x\in\mathbb{X}}f(x,z)h(z)dx \cdot \int_{y\in\mathbb{Y}} g(y,z) dy}\\
+             &amp;=  \frac{f(x,z)}{\int_{x\in\mathbb{X}}f(x,z)dx}\frac{g(y,z)}{\int_{y\in\mathbb{Y}} g(y,z) dy}\\
+             &amp;= \frac{f(x,z)g(y,z)}{\int_{x\in\mathbb{X}}\int_{y\in\mathbb{Y}} f(x,z)g(y,z) dydx}\\
+             &amp;= \underline{p(x|z)p(y|z)}\\
+\end{aligned}
+\]</span></p>
+<p>Thus, <span class="math inline">\(p(x,y|z) = p(x|z)p(y|z)\)</span> that means <span class="math inline">\(p(x,y|z)\)</span> is conditionally independent given <span class="math inline">\(z\)</span>.</p>
+</section>
+</section>
+<section id="problem-2.5" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="problem-2.5"><span class="header-section-number">3.5</span> Problem 2.5</h2>
+<blockquote class="blockquote">
+<p>Urns: Suppose urn <span class="math inline">\(H\)</span> is filled with <span class="math inline">\(40\%\)</span> green balls and <span class="math inline">\(60\%\)</span> red balls, and urn <span class="math inline">\(T\)</span> is filled with <span class="math inline">\(60\%\)</span> green balls and <span class="math inline">\(40\%\)</span> red balls. Someone will flip a coin and then select a ball from urn <span class="math inline">\(H\)</span> or urn <span class="math inline">\(T\)</span> depending on whether the coin lands heads or tails, respectively. Let <span class="math inline">\(X\)</span> be 1 or 0 if the coin lands heads or tails, and let <span class="math inline">\(Y\)</span> be <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span> if the ball is green or red.</p>
+</blockquote>
+<div id="tbl-balls" class="anchored">
+<table class="table">
+<caption>Table 3.4: Probability of choosing a certain ball in a given urn.</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th>Green</th>
+<th>Red</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(H\)</span> (chosen if head[1])</td>
+<td>0.4</td>
+<td>0.6</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(T\)</span> (chosen if tail[0])</td>
+<td>0.6</td>
+<td>0.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<table class="table">
+<caption>Event coding</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(X\)</span></td>
+<td>Head</td>
+<td>Tail</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y\)</span></td>
+<td>Green</td>
+<td>Red</td>
+</tr>
+</tbody>
+</table>
+<section id="a-write-out-the-joint-distribution-of-x-and-y-in-a-table." class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="a-write-out-the-joint-distribution-of-x-and-y-in-a-table."><span class="header-section-number">3.5.1</span> (a) Write out the joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> in a table.</h3>
+<p>Suppose the coin is fair,</p>
+<p><span class="math display">\[
+\begin{aligned}
+    p(X=0 \cap Y=0) &amp;= p(X=0) p(Y=0|X=0)= 0.5\cdot 0.4 = 0.2\\
+    p(X=0 \cap Y=1) &amp;= p(X=0) p(Y=1|X=0)= 0.5\cdot 0.6 = 0.3\\
+    p(X=1 \cap Y=0) &amp;= p(X=1) p(Y=0|X=1)= 0.5\cdot 0.6 = 0.3\\
+    p(X=1 \cap Y=1) &amp;= p(X=1) p(Y=1|X=1)= 0.5\cdot 0.4 = 0.2\\
+\end{aligned}
+\]</span></p>
+</section>
+<section id="b-find-ey.-what-is-the-probability-that-the-ball-is-green" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="b-find-ey.-what-is-the-probability-that-the-ball-is-green"><span class="header-section-number">3.5.2</span> (b) Find <span class="math inline">\(E[Y]\)</span>. What is the probability that the ball is green?</h3>
+<p><span class="math display">\[
+\begin{aligned}
+    E[Y] &amp;= \sum_{y\in \{0,1\}} p(Y=y)y\\
+         &amp;= p(Y=1)\cdot 1\\
+         &amp;= \sum_{x\in\{0,1\}} p(Y=1 | X=x)p(X=x)\\
+         &amp;= p(Y=1|X=0)p(X=0) + p(Y=1|X=1)p(X=1)\\
+         &amp;= 0.6\cdot 0.5 + 0.4 \cdot 0.5 \\
+         &amp;= 0.3 + 0.2 \\
+         &amp;= 0.5
+\end{aligned}
+\]</span></p>
+</section>
+<section id="c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others." class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="c-find-varyx0-varyx1-and-vary.-thinking-of-variance-as-measuring-uncertainty-explain-intuitively-why-one-of-these-variances-is-larger-than-others."><span class="header-section-number">3.5.3</span> (c) Find <span class="math inline">\(Var[Y|X=0]\)</span>, <span class="math inline">\(Var[Y|X=1]\)</span> and <span class="math inline">\(Var[Y]\)</span>. Thinking of variance as measuring uncertainty, explain intuitively why one of these variances is larger than others.</h3>
+<p><span class="math display">\[
+\begin{aligned}
+    E[Y|X=0] &amp;= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=0)y\\
+             &amp;= P_{Y|X=0}(Y=1|X=0)\cdot 1 \\
+             &amp;= 0.6
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    E[(Y|X=0)^2] &amp;= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=0)y^2\\
+             &amp;= P_{Y|X=0}(Y=1|X=0)\cdot 1 \\
+             &amp;= 0.6
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    E[Y|X=1] &amp;= \sum_{y \in\{0,1\}} P_{Y|X=1}(Y=y|X=1)y\\
+             &amp;= P_{Y|X=1}(Y=1|X=1)\cdot 1 \\
+             &amp;= 0.4
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    E[(Y|X=1)^2] &amp;= \sum_{y \in\{0,1\}} P_{Y|X=0}(Y=y|X=1)y^2\\
+             &amp;= P_{Y|X=1}(Y=1|X=1)\cdot 1 \\
+             &amp;= 0.4
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    E[Y^2] &amp;= \sum_{y\in\{0,1\}} P(Y=y)y^2\\
+           &amp;= P(Y=1)\cdot 1^2\\
+           &amp;= P(Y=1 \cap X=1) + P(Y=1 \cap X=0)\\
+           &amp;= 0.2 + 0.3 = 0.5\\
+\end{aligned}
+\]</span></p>
+<p>Thus,</p>
+<p><span class="math display">\[Var[Y|X=0] = E[(Y|X=0)^2] - E[Y|X=0]^2 = 0.6 - 0.6^2 = \underline{0.24}\]</span></p>
+<p><span class="math display">\[Var[Y|X=1] = E[(Y|X=1)^2] - E[Y|X=1]^2 = 0.4 - 0.4^2 = \underline{0.24}\]</span></p>
+<p><span class="math display">\[Var[Y] = E[Y^2] - E[Y]^2 = 0.5 - 0.5^2 = \underline{0.25}\]</span></p>
+<p><strong>Explaination</strong></p>
+<p><span class="math inline">\(Var[Y]\)</span> is larger than <span class="math inline">\(Var[Y|X=0]\)</span> and <span class="math inline">\(Var[Y|X=1]\)</span> because <span class="math inline">\(Y\)</span> can be more determined by the information of <span class="math inline">\(X\)</span>. With known <span class="math inline">\(X\)</span>, the distribution of <span class="math inline">\(Y\)</span> is set, and less uncertain with single confirmed distribution.</p>
+</section>
+<section id="d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="d-suppose-you-see-that-the-ball-is-green.-what-is-the-probability-that-the-coin-turned-up-tails"><span class="header-section-number">3.5.4</span> (d) Suppose you see that the ball is green. What is the probability that the coin turned up tails?</h3>
+<p><span class="math display">\[\begin{aligned}
+    p(X=0 | Y=1) &amp;= \frac{p(X=0 \cap Y=1)}{p(Y=1)}\\
+                 &amp;= \frac{p(X=0 \cap Y=1)}{p(Y=1 | X=0)p(X=0) + p(Y=1|X=1)p(X=1)}\\
+                 &amp;= \frac{0.5 \cdot 0.6}{0.6\cdot 0.5 + 0.4\cdot 0.5}\\
+                 &amp;= \frac{0.3}{0.3+0.2}\\
+                 &amp;= \frac{0.3}{0.5}\\
+                 &amp;= \underline{0.6}\\
+\end{aligned}\]</span></p>
+</section>
+</section>
+<section id="references" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="references"><span class="header-section-number">3.6</span> References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-hoff2009first" class="csl-entry" role="doc-biblioentry">
+Hoff, Peter D. 2009. <em>A First Course in Bayesian Statistical Methods</em>. Vol. 580. Springer.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../ch2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../hw/hw2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Homework 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu">
+<meta name="dcterms.date" content="2022-08-30">
+
+<title>STAT638: Applied Bayesian Methods - 2&nbsp; Chapter 2: Conditional distributions and Bayes rule</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./hw/hw1.html" rel="next">
+<link href="./ch1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">STAT638: Applied Bayesian Methods</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analy/analy.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Analysis example</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#axioms-of-probability" id="toc-axioms-of-probability" class="nav-link active" data-scroll-target="#axioms-of-probability"> <span class="header-section-number">2.1</span> Axioms of probability</a></li>
+  <li><a href="#events-and-partition" id="toc-events-and-partition" class="nav-link" data-scroll-target="#events-and-partition"> <span class="header-section-number">2.2</span> Events and partition</a></li>
+  <li><a href="#random-variables-and-univariate-distributions" id="toc-random-variables-and-univariate-distributions" class="nav-link" data-scroll-target="#random-variables-and-univariate-distributions"> <span class="header-section-number">2.3</span> Random variables and univariate distributions</a></li>
+  <li><a href="#description-of-distributions" id="toc-description-of-distributions" class="nav-link" data-scroll-target="#description-of-distributions"> <span class="header-section-number">2.4</span> Description of distributions</a></li>
+  <li><a href="#joint-distribution" id="toc-joint-distribution" class="nav-link" data-scroll-target="#joint-distribution"> <span class="header-section-number">2.5</span> Joint distribution</a></li>
+  <li><a href="#proportionality" id="toc-proportionality" class="nav-link" data-scroll-target="#proportionality"> <span class="header-section-number">2.6</span> Proportionality</a></li>
+  <li><a href="#a-bayesian-model" id="toc-a-bayesian-model" class="nav-link" data-scroll-target="#a-bayesian-model"> <span class="header-section-number">2.7</span> A Bayesian model</a></li>
+  <li><a href="#conditional-independence-and-exhangeability" id="toc-conditional-independence-and-exhangeability" class="nav-link" data-scroll-target="#conditional-independence-and-exhangeability"> <span class="header-section-number">2.8</span> Conditional independence and Exhangeability</a>
+  <ul class="collapse">
+  <li><a href="#exchangeability" id="toc-exchangeability" class="nav-link" data-scroll-target="#exchangeability"> <span class="header-section-number">2.8.1</span> Exchangeability</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Shao-Ting Chiu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 30, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="axioms-of-probability" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="axioms-of-probability"><span class="header-section-number">2.1</span> Axioms of probability</h2>
+<p>Let <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span> and <span class="math inline">\(H\)</span> be three possibly overlapping statements.</p>
+<ol type="1">
+<li>0 = Pr(not H|H) <span class="math inline">\(\leq\)</span> Pr(F|H) <span class="math inline">\(\leq\)</span> Pr(H|H) = 1</li>
+<li>Pr(F<span class="math inline">\(\cup\)</span>G|H) = Pr(F|H) + Pr(G|H) if <span class="math inline">\(F\cap G=\emptyset\)</span></li>
+<li><span class="math inline">\(Pr(F\cap G|H)=Pr(G|H)Pr(F|G\cap H)\)</span></li>
+</ol>
+</section>
+<section id="events-and-partition" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="events-and-partition"><span class="header-section-number">2.2</span> Events and partition</h2>
+<ul>
+<li>Sample space <span class="math inline">\(S\)</span></li>
+<li>Partition
+<ul>
+<li>a collection of sets <span class="math inline">\(A_1,\dots, A_m\)</span></li>
+<li><span class="math inline">\(A_{i} \cap A_j = \emptyset\)</span></li>
+</ul></li>
+<li>Conditional probability
+<ul>
+<li>Let <span class="math inline">\(B\)</span> be an event, and <span class="math inline">\(A_i,\dots,A_m\)</span> be a partition of <span class="math inline">\(S\)</span></li>
+<li><span class="math inline">\(P(B|A_i) = \frac{P(B\cap A_i)}{P(A_i)}\)</span></li>
+</ul></li>
+<li>Bayes rule
+<ul>
+<li><span class="math inline">\(P(A_j |B) = \frac{P(B|A_j)P(A_j)}{P(B)} = \frac{P(B|A_j)P(A_j)}{\sum^{m}_{i=1}P(B|A_i)P(Ai)}\)</span></li>
+</ul></li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Example: COVID test
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<blockquote class="blockquote">
+<p>A college with a Covid-19 prevalencde of 10% is using a test that is positive with probability 90% if an individual is infected, and positive with probability of 5% if the individual is not.</p>
+</blockquote>
+<blockquote class="blockquote">
+<ul>
+<li>For a randomly selected student at the college, what is the probability that the test will be positive?</li>
+</ul>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+P(+) &amp;= P(+|C)P(C) + P(+|H)P(H)\\
+     &amp;= 0.9*0.1 + 0.05*0.9\\
+     &amp;= 0.135
+\end{align}\]</span></p>
+<blockquote class="blockquote">
+<ul>
+<li>Give that a student has tested positive, what is the probability the student is actually infected?</li>
+</ul>
+</blockquote>
+<p>$$<span class="math display">\[\begin{align}
+
+
+P(C|+) &amp;= \frac{P(+|C)P(C)}{P(+)}\\
+       &amp;= \frac{0.9*0.1}{0.135}\\
+       &amp;= 0.67
+\end{align}\]</span>$$</p>
+</div>
+</div>
+</section>
+<section id="random-variables-and-univariate-distributions" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="random-variables-and-univariate-distributions"><span class="header-section-number">2.3</span> Random variables and univariate distributions</h2>
+<table class="table">
+<caption>Random variable is an unknown quantity characterized by a probability distribution</caption>
+<thead>
+<tr class="header">
+<th>RV</th>
+<th>Discrete</th>
+<th>Continuous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Outcome <span class="math inline">\(y\)</span></td>
+<td>countable</td>
+<td>uncountable</td>
+</tr>
+<tr class="even">
+<td>prop. of pdf</td>
+<td><span class="math inline">\(0\leq p(y) \leq1\)</span></td>
+<td><span class="math inline">\(0\leq p(y)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\sum_{y\in Y}p(y)=1\)</span></td>
+<td><span class="math inline">\(\int_{Y}p(y)dy = 1\)</span></td>
+</tr>
+<tr class="even">
+<td>cdf <span class="math inline">\(F(a)\)</span></td>
+<td><span class="math inline">\(F(a) = \sum_{y\leq a}p(y)\)</span></td>
+<td><span class="math inline">\(F(a)=\int^{a}_{-\infty}p(y)dy\)</span></td>
+</tr>
+<tr class="odd">
+<td>mean</td>
+<td><span class="math inline">\(E(Y)=\sum_{y\in Y}p(y)\)</span></td>
+<td><span class="math inline">\(E(Y)=\int_{Y}y p(y)dy\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>CDF: <span class="math inline">\(F(a) = P(Y\leq a)\)</span></li>
+<li>Variance: <span class="math inline">\(Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2\)</span></li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Binomial distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y} \theta^y (1-\theta)^{n-y}\]</span></p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Poisson distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\mathcal{Y} = \{0,1,2,\dots\}\)</span>. The uncertain quantity <span class="math inline">\(Y\in \mathcal{Y}\)</span> has a <em>poisson distribution with mean <span class="math inline">\(\theta\)</span></em> if</p>
+<p><span class="math display">\[p(Y=y|\theta) = dpois(y,\theta) = \theta^{y}\frac{e^{-\theta}}{y!}\]</span></p>
+</div>
+</div>
+</section>
+<section id="description-of-distributions" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="description-of-distributions"><span class="header-section-number">2.4</span> Description of distributions</h2>
+<ul>
+<li>Expection
+<ul>
+<li><span class="math inline">\(E[Y] = \sum_{y\in\mathcal{Y}yp(y)}\)</span> if <span class="math inline">\(Y\)</span> is discrete.</li>
+<li><span class="math inline">\(E[Y] = \int_{y\in\mathcal{Y}yp(y)}\)</span> if <span class="math inline">\(Y\)</span> is discrete.</li>
+</ul></li>
+<li>Mode
+<ul>
+<li>The most probable value of <span class="math inline">\(Y\)</span></li>
+</ul></li>
+<li>Median
+<ul>
+<li>The value of <span class="math inline">\(Y\)</span> in the middle of the distribution</li>
+</ul></li>
+<li>Variance <span class="math display">\[\begin{align}
+     Var[Y] &amp;= E[(Y-E[Y])^2]\\
+            &amp;= E[Y^2-2YE[Y] + E[Y]^2]\\
+            &amp;= E[Y^2] - 2E[Y]^2 + E[Y]^2\\
+            &amp;= E[Y^2] - E[Y]^2
+\end{align}\]</span></li>
+</ul>
+</section>
+<section id="joint-distribution" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="joint-distribution"><span class="header-section-number">2.5</span> Joint distribution</h2>
+<table class="table">
+<caption>Marginal</caption>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Discrete</th>
+<th>Continuous</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(P_{y1}(y_1)=\sum_{y_2\in Y_2}p_{Y_1, Y_2}(y_1, y_2)\)</span></td>
+<td><span class="math inline">\(p_{Y_1}(y_1) = \int_{y_2}p_{Y_1,Y_2}(y_1,y_2)dy_2\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Conditional: <span class="math inline">\(p_{Y_2|Y_1}(y_2|y_1) = \frac{p_{Y_1,Y_2}(y_1,y_2)}{p_{Y_1}(y_1)}\)</span></li>
+</ul>
+</section>
+<section id="proportionality" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="proportionality"><span class="header-section-number">2.6</span> Proportionality</h2>
+<ul>
+<li>A function <span class="math inline">\(f(x)\)</span> is proportional to <span class="math inline">\(g(x)\)</span>, denoted by <span class="math inline">\(f(x) \propto g(x)\)</span>
+<ul>
+<li><span class="math display">\[f(x) = cg(x)\]</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="a-bayesian-model" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="a-bayesian-model"><span class="header-section-number">2.7</span> A Bayesian model</h2>
+<ul>
+<li>Random vector of data — <span class="math inline">\(Y\)</span></li>
+<li>Probability distribution of <span class="math inline">\(Y\)</span> — <span class="math inline">\(p(y|\theta)\)</span></li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Bayes theorem applied to statistical model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[p(\theta|y) = \frac{p(y,\theta)}{m(y)} = \frac{p(y|\theta)p(\theta)}{\int_{\Theta}p(y|\theta)p(\theta)d\theta}\]</span></p>
+<ul>
+<li><span class="math inline">\(p(\theta)\)</span>: the prior distribution</li>
+<li><span class="math inline">\(\Theta\)</span>: parameter space</li>
+<li><span class="math inline">\(p(y|\theta)\)</span>: the likelihood function.</li>
+<li><span class="math inline">\(p(\theta|y)\)</span>: the posterior distribution</li>
+<li><span class="math inline">\(m\)</span>: marginal distribution of <span class="math inline">\(Y\)</span></li>
+</ul>
+<p>The <strong>posterior distribution</strong> expresses the experimenter’s updated beliefs about <span class="math inline">\(\theta\)</span> in light of the observed data <span class="math inline">\(y\)</span>.</p>
+</div>
+</div>
+<ul>
+<li><span class="math inline">\(m(y)\)</span>: doesn’t depend on <span class="math inline">\(\theta\)</span>.</li>
+</ul>
+</section>
+<section id="conditional-independence-and-exhangeability" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="conditional-independence-and-exhangeability"><span class="header-section-number">2.8</span> Conditional independence and Exhangeability</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Conditional independence
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[P(A\cap B|C) = P(A|C)P(B|C)\]</span></p>
+<ul>
+<li>Two events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are conditionally independent given event <span class="math inline">\(C\)</span>
+<ul>
+<li><span class="math inline">\(A\perp B|C\)</span></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>Knowing <span class="math inline">\(C\)</span> and <span class="math inline">\(B\)</span> gives no more information about <span class="math inline">\(A\)</span> thatn does <span class="math inline">\(C\)</span> by itself.</p>
+</blockquote>
+<ul>
+<li><span class="math display">\[P(A|C\perp B) = P(A|C)\]</span></li>
+</ul>
+</div>
+</div>
+<ul>
+<li>Conditional independence
+<ul>
+<li>Let <span class="math inline">\(Y_1,\dots,Y_n\)</span> are conditionally indep. given <span class="math inline">\(\theta\)</span>. for every collection <span class="math inline">\(A_1,\dots,A_n\)</span> of sets:</li>
+<li><span class="math display">\[P(Y_1\in A_1,\dots, Y_n\in A_n |\theta) = \amalg^{n}_{i=1} P(Y_i\in A_i |\theta)\]</span></li>
+</ul></li>
+</ul>
+<section id="exchangeability" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="exchangeability"><span class="header-section-number">2.8.1</span> Exchangeability</h3>
+<p><span class="math display">\[p(y_1,\dots,y_n) = p(y_{\pi_1},\dots,y_{\pi_n})\]</span></p>
+<p>for all permutations <span class="math inline">\(\pi\)</span> of <span class="math inline">\(\{1,\dots,n\}\)</span></p>
+<blockquote class="blockquote">
+<p>If we think of <span class="math inline">\(Y_1,\dots,Y_n\)</span> as data, exchangeability says that the <em>ordering</em> of the data conveys no extra information than that in the observations themselves.</p>
+</blockquote>
+<ul>
+<li><p>For example: time-series of weather is not exhangeable</p></li>
+<li><p>i.i.d. data is exchangeable.</p></li>
+<li><p>exchangeable does <em>not</em> imply <strong>unconditional independence</strong></p></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch1.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./hw/hw1.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Homework 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

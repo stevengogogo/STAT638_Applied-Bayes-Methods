@@ -1,0 +1,177 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STAT638: Applied Bayesian Methods",
+    "section": "",
+    "text": "This is the lecture notes for STAT638 Applied Bayesian Methods by Dr. Matthias Katzfuss.\n\n\n\nCourse Number: STAT 638\nCourse Title: Introduction to Applied Bayesian Methods\nTime: TuTh 2:20 - 3:35 (Central time)\nLocation: Blocker 411\nTextbook: Hoff, (Links to an external site.)A First Course in Bayesian Statistical Methods (Links to an external site.) (electronic version available through TAMU library)\nPrerequisite: STAT 630 or STAT 650. (Also, familiarity with R or other statistical software, training in vector/matrix algebra, and some exposure to linear regression will be very helpful.)\n\n\n\n\n\nIntroduction (Week 1)\nConditional distributions and Bayes rule (Weeks 1-2)\nOne-parameter models (Weeks 3-4)\nMonte Carlo approximation (Weeks 5-6)\nThe normal model (Weeks 6-8)\nGibbs sampling (Weeks 8-9)\nThe multivariate normal model (Weeks 9-11)\nGroup comparisons and hierarchical modeling (Weeks 11-12)\nLinear regression (Weeks 12-13)\nMarkov chain Monte Carlo (Weeks 13-14)\nMixed effects models (Week 14)\n\n\n\n\n\nMajorly use R\nHomework will be R\nUsing Python is acceptable\n\n\n\n\n\nExam 1: October 18th\nExam 2: December 1st\n\n\n\n\n\nNo late homework is acceptable"
+  },
+  {
+    "objectID": "ch1.html",
+    "href": "ch1.html",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "",
+    "text": "Slides\nHoff (2009, Ch 1)"
+  },
+  {
+    "objectID": "ch1.html#what-is-beseyian-methods",
+    "href": "ch1.html#what-is-beseyian-methods",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "1.1 What is Beseyian methods?",
+    "text": "1.1 What is Beseyian methods?\n\nBayes’s rule provides a rational method for updating beliefs in light of new information."
+  },
+  {
+    "objectID": "ch1.html#what-can-bayesian-methods-provide",
+    "href": "ch1.html#what-can-bayesian-methods-provide",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "1.2 What can Bayesian methods provide?",
+    "text": "1.2 What can Bayesian methods provide?\n\nParameter estimates with good statistical properties\nParsimonious descriptions of observed data"
+  },
+  {
+    "objectID": "ch1.html#contrast-between-frequentist-and-bayesian-statistics",
+    "href": "ch1.html#contrast-between-frequentist-and-bayesian-statistics",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "1.3 Contrast between Frequentist and Bayesian Statistics",
+    "text": "1.3 Contrast between Frequentist and Bayesian Statistics\n\nFrequentist statistics\n\nUncertainty about the parameter estimates\n\nBayesian statistics\n\nUnvertainty is quantified by the oberservation of data."
+  },
+  {
+    "objectID": "ch1.html#bayesian-learning",
+    "href": "ch1.html#bayesian-learning",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "1.4 Bayesian learning",
+    "text": "1.4 Bayesian learning\n\nParameter — \\(\\theta\\)\n\nnumerical values of population characteristics\n\nDataset — \\(y\\)\n\nAfter a dataset \\(y\\) is obtained, the information it contains can be used to decrease our uncertainty about the population characteristics.\n\nBayesian inference\n\nQuantifying this change in uncertainty is the purpose of Bayesian inference\n\nSample space — \\(\\mathcal{Y}\\)\n\nThe set of all possible datasets.\nSingle dataset \\(y\\)\n\nParameter space — \\(\\Theta\\)\n\npossbile parameter values\nwe hope to identify the value that best represents the true population characteristics.\n\nBayesian learning begins with joint beliefs about \\(y\\) and \\(\\theta\\), in terms of distribution over \\(\\mathcal{Y}\\) and \\(\\Theta\\)\n\nPrior distribution — \\(p(\\theta)\\)\n\nOur belief that \\(\\theta\\) represents that true population characteristics.\n\nSampling model — \\(p(\\mathcal{y}|\\theta)\\)\n\ndescribes our belief that \\(\\mathcal{y}\\) would be the outcome of our study if we knew \\(\\theta\\) to be true.\n\nPosterior distribution — \\(p(\\theta|\\mathcal{y})\\)\n\nOur belief that \\(\\theta\\) is the true value, having observed dataset \\(\\mathcal{y}\\)\n\nBayesian Update (Equation 1.1) \\[p(\\theta|y) = \\frac{\\overbrace{p(y|\\theta)}^{\\text{Sampling model}}\\overbrace{p(\\theta)}^{\\text{Prior distribution}}}{\\int_{\\Theta}p(y|\\tilde{\\theta})p(\\tilde{\\theta})d\\tilde{\\theta}} \\tag{1.1}\\]\n\nBayes’s rule tells us how to change our belief after seeing new information."
+  },
+  {
+    "objectID": "ch1.html#example",
+    "href": "ch1.html#example",
+    "title": "1  Chapter 1 Introduction and examples",
+    "section": "1.5 Example",
+    "text": "1.5 Example\n\n\n\n\n\n\nBeta distribution1\n\n\n\n\nNotation: \\(Beta(\\alpha, \\beta)\\)\nParameters:\n\n\\(\\alpha > 0\\)\n\\(\\beta > 0\\)\n\nSupport:\n\n\\(x\\in [0,1]\\)\n\nPDF\n\\[p(x) = \\frac{x^{\\alpha-1}(1-x)^{\\beta-1}}{B(\\alpha,\\beta)}\\]\nwhere\n\n\\(B(\\alpha, \\beta) = \\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha + \\beta)}\\)\n\\(\\Gamma(\\alpha)\\) is a gamma function\n\n\\(\\Gamma(\\alpha) = (\\alpha-1)!\\), \\(\\alpha\\) is a positive interger2\n\n\nMean: \\(E[X] = \\frac{\\alpha}{\\alpha + \\beta}\\)\nVariancd: \\(var[X] = \\frac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}\\)\nBayesian inference\n\nThe use of Beta distribution in Bayesian inference provide a family of conjugate prior probability disbritions for binomial and geometric dictritutions.\n\n\n\n\n\n\n\n\nHoff, Peter D. 2009. A First Course in Bayesian Statistical Methods. Vol. 580. Springer."
+  },
+  {
+    "objectID": "ch2.html",
+    "href": "ch2.html",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "",
+    "text": "Let \\(F\\), \\(G\\) and \\(H\\) be three possibly overlapping statements.\n\n0 = Pr(not H|H) \\(\\leq\\) Pr(F|H) \\(\\leq\\) Pr(H|H) = 1\nPr(F\\(\\cup\\)G|H) = Pr(F|H) + Pr(G|H) if \\(F\\cap G=\\emptyset\\)\n\\(Pr(F\\cap G|H)=Pr(G|H)Pr(F|G\\cap H)\\)"
+  },
+  {
+    "objectID": "ch2.html#events-and-partition",
+    "href": "ch2.html#events-and-partition",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.2 Events and partition",
+    "text": "2.2 Events and partition\n\nSample space \\(S\\)\nPartition\n\na collection of sets \\(A_1,\\dots, A_m\\)\n\\(A_{i} \\cap A_j = \\emptyset\\)\n\nConditional probability\n\nLet \\(B\\) be an event, and \\(A_i,\\dots,A_m\\) be a partition of \\(S\\)\n\\(P(B|A_i) = \\frac{P(B\\cap A_i)}{P(A_i)}\\)\n\nBayes rule\n\n\\(P(A_j |B) = \\frac{P(B|A_j)P(A_j)}{P(B)} = \\frac{P(B|A_j)P(A_j)}{\\sum^{m}_{i=1}P(B|A_i)P(Ai)}\\)\n\n\n\n\n\n\n\n\nExample: COVID test\n\n\n\n\nA college with a Covid-19 prevalencde of 10% is using a test that is positive with probability 90% if an individual is infected, and positive with probability of 5% if the individual is not.\n\n\n\nFor a randomly selected student at the college, what is the probability that the test will be positive?\n\n\n\\[\\begin{align}\nP(+) &= P(+|C)P(C) + P(+|H)P(H)\\\\\n     &= 0.9*0.1 + 0.05*0.9\\\\\n     &= 0.135\n\\end{align}\\]\n\n\nGive that a student has tested positive, what is the probability the student is actually infected?\n\n\n$$\\[\\begin{align}\n\n\nP(C|+) &= \\frac{P(+|C)P(C)}{P(+)}\\\\\n       &= \\frac{0.9*0.1}{0.135}\\\\\n       &= 0.67\n\\end{align}\\]$$"
+  },
+  {
+    "objectID": "ch2.html#random-variables-and-univariate-distributions",
+    "href": "ch2.html#random-variables-and-univariate-distributions",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.3 Random variables and univariate distributions",
+    "text": "2.3 Random variables and univariate distributions\n\nRandom variable is an unknown quantity characterized by a probability distribution\n\n\nRV\nDiscrete\nContinuous\n\n\n\n\nOutcome \\(y\\)\ncountable\nuncountable\n\n\nprop. of pdf\n\\(0\\leq p(y) \\leq1\\)\n\\(0\\leq p(y)\\)\n\n\n\n\\(\\sum_{y\\in Y}p(y)=1\\)\n\\(\\int_{Y}p(y)dy = 1\\)\n\n\ncdf \\(F(a)\\)\n\\(F(a) = \\sum_{y\\leq a}p(y)\\)\n\\(F(a)=\\int^{a}_{-\\infty}p(y)dy\\)\n\n\nmean\n\\(E(Y)=\\sum_{y\\in Y}p(y)\\)\n\\(E(Y)=\\int_{Y}y p(y)dy\\)\n\n\n\n\nCDF: \\(F(a) = P(Y\\leq a)\\)\nVariance: \\(Var(Y) = E(Y-E(Y))^2 = E(Y^2) - (E(Y))^2\\)\n\n\n\n\n\n\n\nBinomial distribution\n\n\n\n\\[p(Y=y|\\theta) = dbinom(y,n,\\theta) = {n\\choose y} \\theta^y (1-\\theta)^{n-y}\\]\n\n\n\n\n\n\n\n\nPoisson distribution\n\n\n\nLet \\(\\mathcal{Y} = \\{0,1,2,\\dots\\}\\). The uncertain quantity \\(Y\\in \\mathcal{Y}\\) has a poisson distribution with mean \\(\\theta\\) if\n\\[p(Y=y|\\theta) = dpois(y,\\theta) = \\theta^{y}\\frac{e^{-\\theta}}{y!}\\]"
+  },
+  {
+    "objectID": "ch2.html#description-of-distributions",
+    "href": "ch2.html#description-of-distributions",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.4 Description of distributions",
+    "text": "2.4 Description of distributions\n\nExpection\n\n\\(E[Y] = \\sum_{y\\in\\mathcal{Y}yp(y)}\\) if \\(Y\\) is discrete.\n\\(E[Y] = \\int_{y\\in\\mathcal{Y}yp(y)}\\) if \\(Y\\) is discrete.\n\nMode\n\nThe most probable value of \\(Y\\)\n\nMedian\n\nThe value of \\(Y\\) in the middle of the distribution\n\nVariance \\[\\begin{align}\n     Var[Y] &= E[(Y-E[Y])^2]\\\\\n            &= E[Y^2-2YE[Y] + E[Y]^2]\\\\\n            &= E[Y^2] - 2E[Y]^2 + E[Y]^2\\\\\n            &= E[Y^2] - E[Y]^2\n\\end{align}\\]"
+  },
+  {
+    "objectID": "ch2.html#joint-distribution",
+    "href": "ch2.html#joint-distribution",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.5 Joint distribution",
+    "text": "2.5 Joint distribution\n\nMarginal\n\n\n\n\n\n\nDiscrete\nContinuous\n\n\n\n\n\\(P_{y1}(y_1)=\\sum_{y_2\\in Y_2}p_{Y_1, Y_2}(y_1, y_2)\\)\n\\(p_{Y_1}(y_1) = \\int_{y_2}p_{Y_1,Y_2}(y_1,y_2)dy_2\\)\n\n\n\n\nConditional: \\(p_{Y_2|Y_1}(y_2|y_1) = \\frac{p_{Y_1,Y_2}(y_1,y_2)}{p_{Y_1}(y_1)}\\)"
+  },
+  {
+    "objectID": "ch2.html#proportionality",
+    "href": "ch2.html#proportionality",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.6 Proportionality",
+    "text": "2.6 Proportionality\n\nA function \\(f(x)\\) is proportional to \\(g(x)\\), denoted by \\(f(x) \\propto g(x)\\)\n\n\\[f(x) = cg(x)\\]"
+  },
+  {
+    "objectID": "ch2.html#a-bayesian-model",
+    "href": "ch2.html#a-bayesian-model",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.7 A Bayesian model",
+    "text": "2.7 A Bayesian model\n\nRandom vector of data — \\(Y\\)\nProbability distribution of \\(Y\\) — \\(p(y|\\theta)\\)\n\n\n\n\n\n\n\nBayes theorem applied to statistical model\n\n\n\n\\[p(\\theta|y) = \\frac{p(y,\\theta)}{m(y)} = \\frac{p(y|\\theta)p(\\theta)}{\\int_{\\Theta}p(y|\\theta)p(\\theta)d\\theta}\\]\n\n\\(p(\\theta)\\): the prior distribution\n\\(\\Theta\\): parameter space\n\\(p(y|\\theta)\\): the likelihood function.\n\\(p(\\theta|y)\\): the posterior distribution\n\\(m\\): marginal distribution of \\(Y\\)\n\nThe posterior distribution expresses the experimenter’s updated beliefs about \\(\\theta\\) in light of the observed data \\(y\\).\n\n\n\n\\(m(y)\\): doesn’t depend on \\(\\theta\\)."
+  },
+  {
+    "objectID": "ch2.html#conditional-independence-and-exhangeability",
+    "href": "ch2.html#conditional-independence-and-exhangeability",
+    "title": "2  Chapter 2: Conditional distributions and Bayes rule",
+    "section": "2.8 Conditional independence and Exhangeability",
+    "text": "2.8 Conditional independence and Exhangeability\n\n\n\n\n\n\nConditional independence\n\n\n\n\\[P(A\\cap B|C) = P(A|C)P(B|C)\\]\n\nTwo events \\(A\\) and \\(B\\) are conditionally independent given event \\(C\\)\n\n\\(A\\perp B|C\\)\n\n\n\nKnowing \\(C\\) and \\(B\\) gives no more information about \\(A\\) thatn does \\(C\\) by itself.\n\n\n\\[P(A|C\\perp B) = P(A|C)\\]\n\n\n\n\nConditional independence\n\nLet \\(Y_1,\\dots,Y_n\\) are conditionally indep. given \\(\\theta\\). for every collection \\(A_1,\\dots,A_n\\) of sets:\n\\[P(Y_1\\in A_1,\\dots, Y_n\\in A_n |\\theta) = \\amalg^{n}_{i=1} P(Y_i\\in A_i |\\theta)\\]\n\n\n\n2.8.1 Exchangeability\n\\[p(y_1,\\dots,y_n) = p(y_{\\pi_1},\\dots,y_{\\pi_n})\\]\nfor all permutations \\(\\pi\\) of \\(\\{1,\\dots,n\\}\\)\n\nIf we think of \\(Y_1,\\dots,Y_n\\) as data, exchangeability says that the ordering of the data conveys no extra information than that in the observations themselves.\n\n\nFor example: time-series of weather is not exhangeable\ni.i.d. data is exchangeable.\nexchangeable does not imply unconditional independence"
+  },
+  {
+    "objectID": "hw/hw1.html",
+    "href": "hw/hw1.html",
+    "title": "3  Homework 1",
+    "section": "",
+    "text": "Read Chapters 1 and 2 in the Hoff book. Then, do the following exercises in Hoff (p. 225-226): 2.1, 2.2, 2.3, 2.5 You must turn in your solutions as a pdf file here on Canvas. Use the Submit Assignment button on the top right. If your solutions are on paper, please scan them to pdf using a scanner or a scanner app on your phone. Please do not take a regular photo, as this can result in very large file sizes. Make sure that everything is legible. Please note that late homework will not be accepted and will result in a score of zero. To avoid late submissions due to technical issues, we recommend turning in your homework the night before the due date.\n\n\nDeadline: Sep. 8 by 12:01pm"
+  },
+  {
+    "objectID": "hw/hw1.html#problem-2.1",
+    "href": "hw/hw1.html#problem-2.1",
+    "title": "3  Homework 1",
+    "section": "3.2 Problem 2.1",
+    "text": "3.2 Problem 2.1\nMarginal and conditional probability: The social mobility data from Section 2.5 gives a joint probability distribution on \\((Y_1, Y_2)=\\) (fathers’s occupation, son’s occupation)\n\n\nTable 3.1: The social mobility data (Hoff 2009, 580:24)\n\n\n\n\n\nson’s occupation\n\n\n\n\n\n\nfather’s occupation\nfarm\noperatives\ncraftsmen\nsales\nprofessional\n\n\nfarm\n0.018\n0.035\n0.031\n0.008\n0.018\n\n\noperatives\n0.002\n0.112\n0.064\n0.032\n0.069\n\n\ncraftsman\n0.001\n0.066\n0.094\n0.032\n0.084\n\n\nsales\n0.001\n0.018\n0.019\n0.010\n0.051\n\n\nprofessional\n0.001\n0.029\n0.032\n0.043\n0.130\n\n\n\n\n\n3.2.1 (a) The marginal probability distribution of a father’s occupation\nAccording to Table 3.1, let \\(\\mathbb{Y_1}\\) and \\(\\mathbb{Y_2}\\) be sets of father’s and son’s occupations:\n\\[\\mathbb{Y_1} = \\mathbb{Y_2} = \\{\\text{farm},\\text{operatives},\\text{craftsmen},\\text{sales},\\text{professional}\\}\\]\n\\[\n\\begin{aligned}\n    Pr(Y_1 = \\text{farm}) &= \\sum_{y_2\\in\\mathbb{Y_2}}Pr(Y_1= \\text{farm} \\cap Y_2=y_2)\\\\\n    &= Pr(Y_1= \\text{farm} \\cap Y_2=\\text{farm}) + Pr(Y_1= \\text{farm} \\cap Y_2=\\text{operatives}) \\\\\n    & +Pr(Y_1= \\text{farm} \\cap Y_2=\\text{craftsmen}) + Pr(Y_1= \\text{farm} \\cap Y_2=\\text{sales}) \\\\\n    & +Pr(Y_1= \\text{farm} \\cap Y_2=\\text{professional})\\\\\n    &= 0.018 + 0.035 + 0.031 + 0.008 + 0.018\\\\\n    &= 0.11\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_1 = \\text{operatives}) &= \\sum_{y_2\\in\\mathbb{Y_2}}Pr(Y_1= \\text{operatives} \\cap Y_2=y_2)\\\\\n    &= Pr(Y_1= \\text{operatives} \\cap Y_2=\\text{farm}) + Pr(Y_1= \\text{operatives} \\cap Y_2=\\text{operatives}) \\\\\n    & +Pr(Y_1= \\text{operatives} \\cap Y_2=\\text{craftsmen}) + Pr(Y_1= \\text{operatives} \\cap Y_2=\\text{sales}) \\\\\n    & +Pr(Y_1= \\text{operatives} \\cap Y_2=\\text{professional})\\\\\n    &= 0.002 + 0.112 + 0.064 + 0.032 + 0.069\\\\\n    &= 0.279\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_1 = \\text{craftsman}) &= \\sum_{y_2\\in\\mathbb{Y_2}}Pr(Y_1= \\text{craftsman} \\cap Y_2=y_2)\\\\\n    &= Pr(Y_1= \\text{craftsman} \\cap Y_2=\\text{farm}) + Pr(Y_1= \\text{craftsman} \\cap Y_2=\\text{operatives}) \\\\\n    & +Pr(Y_1= \\text{craftsman} \\cap Y_2=\\text{craftsmen}) + Pr(Y_1= \\text{craftsman} \\cap Y_2=\\text{sales}) \\\\\n    & +Pr(Y_1= \\text{craftsman} \\cap Y_2=\\text{professional})\\\\\n    &= 0.001+0.066+0.094+0.032+0.084\\\\\n    &= 0.277\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_1 = \\text{sales}) &= \\sum_{y_2\\in\\mathbb{Y_2}}Pr(Y_1= \\text{sales} \\cap Y_2=y_2)\\\\\n    &= Pr(Y_1= \\text{sales} \\cap Y_2=\\text{farm}) + Pr(Y_1= \\text{sales} \\cap Y_2=\\text{operatives}) \\\\\n    & +Pr(Y_1= \\text{sales} \\cap Y_2=\\text{craftsmen}) + Pr(Y_1= \\text{sales} \\cap Y_2=\\text{sales}) \\\\\n    & +Pr(Y_1= \\text{sales} \\cap Y_2=\\text{professional})\\\\\n    &= 0.001 + 0.018 + 0.019 + 0.010 + 0.051\\\\\n    &= 0.099\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_1 = \\text{professional}) &= \\sum_{y_2\\in\\mathbb{Y_2}}Pr(Y_1= \\text{professional} \\cap Y_2=y_2)\\\\\n    &= Pr(Y_1= \\text{professional} \\cap Y_2=\\text{farm}) + Pr(Y_1= \\text{professional} \\cap Y_2=\\text{operatives}) \\\\\n    & +Pr(Y_1= \\text{professional} \\cap Y_2=\\text{craftsmen}) + Pr(Y_1= \\text{professional} \\cap Y_2=\\text{sales}) \\\\\n    & +Pr(Y_1= \\text{professional} \\cap Y_2=\\text{professional})\\\\\n    &= 0.001 + 0.029 + 0.032 + 0.043 + 0.130\\\\\n    &= 0.235\n\\end{aligned}\n\\]\n\n\nTable 3.2: Marginal probability of father’s occupation\n\n\nmarginal probability\nvalue\n\n\n\n\n\\(p(Y_1=\\text{farm})\\)\n0.11\n\n\n\\(p(Y_1=\\text{operatives})\\)\n0.279\n\n\n\\(p(Y_1=\\text{craftsmen})\\)\n0.277\n\n\n\\(p(Y_1=\\text{sales})\\)\n0.099\n\n\n\\(p(Y_1=\\text{professional})\\)\n0.235\n\n\nSUM\n1.0\n\n\n\n\nTable 3.2 shows that the sum of marginal probability is \\(1\\).\n\n3.2.1.0.1 (b) The marginal probability distribution of a son’s occupation\n\\[\n\\begin{aligned}\n    Pr(Y_2 = \\text{farm}) &= \\sum_{y_1\\in\\mathbb{Y_1}}Pr(Y_2= \\text{farm} \\cap Y_1=y_1)\\\\\n    &= Pr(Y_2= \\text{farm} \\cap Y_1=\\text{farm}) + Pr(Y_2= \\text{farm} \\cap Y_1=\\text{operatives}) \\\\\n    & +Pr(Y_2= \\text{farm} \\cap Y_1=\\text{craftsmen}) + Pr(Y_2= \\text{farm} \\cap Y_1=\\text{sales}) \\\\\n    & +Pr(Y_2= \\text{farm} \\cap Y_1=\\text{professional})\\\\\n    &= 0.018 + 0.002 + 0.001 + 0.001 + 0.001\\\\\n    &= 0.023\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_2 = \\text{operatives}) &= \\sum_{y_1\\in\\mathbb{Y_1}}Pr(Y_2= \\text{operatives} \\cap Y_1=y_1)\\\\\n    &= Pr(Y_2= \\text{operatives} \\cap Y_1=\\text{farm}) + Pr(Y_2= \\text{operatives} \\cap Y_1=\\text{operatives}) \\\\\n    & +Pr(Y_2= \\text{operatives} \\cap Y_1=\\text{craftsmen}) + Pr(Y_2= \\text{operatives} \\cap Y_1=\\text{sales}) \\\\\n    & +Pr(Y_2= \\text{operatives} \\cap Y_1=\\text{professional})\\\\\n    &= 0.035 + 0.112 + 0.066 + 0.018 + 0.029\\\\\n    &= 0.26\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_2 = \\text{craftsmen}) &= \\sum_{y_1\\in\\mathbb{Y_1}}Pr(Y_2= \\text{craftsmen} \\cap Y_1=y_1)\\\\\n    &= Pr(Y_2= \\text{craftsmen} \\cap Y_1=\\text{farm}) + Pr(Y_2= \\text{craftsmen} \\cap Y_1=\\text{operatives}) \\\\\n    & +Pr(Y_2= \\text{craftsmen} \\cap Y_1=\\text{craftsmen}) + Pr(Y_2= \\text{craftsmen} \\cap Y_1=\\text{sales}) \\\\\n    & +Pr(Y_2= \\text{craftsmen} \\cap Y_1=\\text{professional})\\\\\n    &= 0.031 + 0.064 + 0.094 + 0.019 + 0.032\\\\\n    &= 0.24\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_2 = \\text{sales}) &= \\sum_{y_1\\in\\mathbb{Y_1}}Pr(Y_2= \\text{sales} \\cap Y_1=y_1)\\\\\n    &= Pr(Y_2= \\text{sales} \\cap Y_1=\\text{farm}) + Pr(Y_2= \\text{sales} \\cap Y_1=\\text{operatives}) \\\\\n    & +Pr(Y_2= \\text{sales} \\cap Y_1=\\text{craftsmen}) + Pr(Y_2= \\text{sales} \\cap Y_1=\\text{sales}) \\\\\n    & +Pr(Y_2= \\text{sales} \\cap Y_1=\\text{professional})\\\\\n    &= 0.008+0.032+0.032+0.010+0.043\\\\\n    &= 0.125\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Pr(Y_2 = \\text{professional}) &= \\sum_{y_1\\in\\mathbb{Y_1}}Pr(Y_2= \\text{professional} \\cap Y_1=y_1)\\\\\n    &= Pr(Y_2= \\text{professional} \\cap Y_1=\\text{farm}) + Pr(Y_2= \\text{professional} \\cap Y_1=\\text{operatives}) \\\\\n    & +Pr(Y_2= \\text{professional} \\cap Y_1=\\text{craftsmen}) + Pr(Y_2= \\text{professional} \\cap Y_1=\\text{sales}) \\\\\n    & +Pr(Y_2= \\text{professional} \\cap Y_1=\\text{professional})\\\\\n    &= 0.018+ 0.069+0.084+0.051+0.130\\\\\n    &= 0.352\n\\end{aligned}\n\\]\n\n\nTable 3.3: Marginal probability of son’s occupation\n\n\nmarginal probability\nvalue\n\n\n\n\n\\(p(Y_2=\\text{farm})\\)\n0.023\n\n\n\\(p(Y_2=\\text{operatives})\\)\n0.26\n\n\n\\(p(Y_2=\\text{craftsmen})\\)\n0.24\n\n\n\\(p(Y_2=\\text{sales})\\)\n0.125\n\n\n\\(p(Y_2=\\text{professional})\\)\n0.352\n\n\nSUM\n1.0\n\n\n\n\nTable 3.3 shows that the sum of marginal probability is \\(1\\).\n\n\n\n3.2.2 (c) The conditional distribution of a son’s occupation, given that the father is a farmer;\nThe conditional distribution of a son’s occupation can be expressed as \\(p(y_2 | y_1 = \\text{farmer})\\).\n\\[p(y_2= * | y_1 = \\text{farmer}) = \\frac{p(y_1=\\text{farm} \\cap y_2 = *)}{p(y_1 = \\text{farm})}\\]\nwhere \\(* \\in \\mathbb{Y_2}\\). As described in Table 3.2, \\(p(y_1=\\text{farm})= 0.11\\). Use Table 3.1 to calculate the distribution:\n\\[\n\\begin{aligned}\n    p(y_2 = \\text{farm} | y_1 = \\text{farm}) &= \\frac{0.018}{0.11} \\approx 0.16\\\\\n    p(y_2 = \\text{operatives} | y_1 = \\text{farm}) &= \\frac{0.035}{0.11} \\approx 0.32\\\\\n    p(y_2 = \\text{craftsman} | y_1 = \\text{farm}) &= \\frac{0.031}{0.11} \\approx 0.28\\\\\n    p(y_2 = \\text{sales} | y_1 = \\text{farm}) &= \\frac{0.008}{0.11} \\approx 0.072\\\\\n    p(y_2 = \\text{professional} | y_1 = \\text{farm}) &= \\frac{0.018}{0.11} \\approx 0.16 \\\\\n\\end{aligned}\n\\]\n\n\n3.2.3 (d) The conditional distribution of a father’s occupation, given that the son is a farmer.\n\\[p(y_1= * | y_2 = \\text{farm}) = \\frac{p(y_1=\\text{*} \\cap y_2 = \\text{farm})}{p(y_2 = \\text{farm})}\\]\nAccording to Table 3.3, \\(p(y_2 = \\text{farm}) = 0.023\\). Use Table 3.1 to calculate the distribution:\n\\[\n\\begin{aligned}\n    p(y_1 = \\text{farm} | y_2 = \\text{farm}) &= \\frac{0.018}{0.023} \\approx 0.78\\\\\n    p(y_1 = \\text{operatives} | y_2 = \\text{farm}) &=\\frac{0.002}{0.023} \\approx 0.09\\\\\n    p(y_1 = \\text{craftsman} | y_2 = \\text{farm}) &= \\frac{0.001}{0.023} \\approx 0.04\\\\\n    p(y_1 = \\text{sales} | y_2 = \\text{farm}) &= \\frac{0.001}{0.023} \\approx 0.04\\\\\n    p(y_1 = \\text{professional} | y_2 = \\text{farm}) &= \\frac{0.001}{0.023} \\approx 0.04\\\\\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "hw/hw1.html#problem-2.2",
+    "href": "hw/hw1.html#problem-2.2",
+    "title": "3  Homework 1",
+    "section": "3.3 Problem 2.2",
+    "text": "3.3 Problem 2.2\n\nExpectations and variances: Let \\(Y_1\\) and \\(Y_2\\) be two independent random variables, such that \\(E[Y_i]=\\mu_i\\) and \\(Var[Y_i] = \\sigma_{i}^2\\). Using the definition of expectation and variance, computing the following quantities, where \\(a_1\\) and \\(a_2\\) are given constants.\n\n\n3.3.1 (a) \\(E[a_1 Y_1 +a_2 Y_2]\\), \\(Var[a_1 Y_1 + a_2 Y_2]\\)\nBecause \\(Y_1\\) and \\(Y_2\\) are independent:\n\\[\nE[Y_1 Y_2] = E[Y_1] E[Y_2]\n\\]\nThus\n\\[\n\\begin{aligned}\n  E[a_1 Y_1 + a_2 Y_2] &= E[a_1 Y_1] + E[a_2 Y_2]\\\\\n                       &= a_1 E[Y_1] + a_2 E[Y_2]\\\\\n                       &= \\underline{a_1 \\mu_1 + a_2 \\mu_{2}}\\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Var[a_1 Y_1 + a_2 Y_2] &= E[ [(a_1 Y_1 + a_2 Y_2) - E[a_1 Y_1 + a_2 Y_2]]^{2}]\\\\\n    &= E[(a_1 Y_1 + a_2 Y_2)^2] - E[a_1 Y_1 + a_2 Y_2]^2\\\\\n    &= E[a_{1}^{2}Y_{1}^{2} + 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \\mu_1 + a_2 \\mu_2)^2\\\\\n    &= a^{2}_{1}\\sigma^{2}_{1} + 2a_1 a_2 \\underbrace{\\mu_1 \\mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\\sigma^{2}_{2} - (a_1 \\mu_1 + a_2 \\mu_2)^2\\\\\n    &= a^{2}_{1}\\sigma^{2}_{1} + 2a_1 a_2 \\mu_1 \\mu_2 + a_{2}^{2}\\sigma^{2}_{2} - (a_{1}^{2}\\mu_{1}^{2} + 2a_1 a_2 \\mu_1 \\mu_2 + a_{2}^{2}\\mu_{2}^{2} )\\\\\n    &= \\underline{a_{1}^{2}(\\sigma^{2}_{1} - \\mu^{2}_{1}) + a_{2}^{2}(\\sigma^{2}_{2} - \\mu^{2}_{2})}\n\\end{aligned}\n\\]\n\n\n3.3.2 (b) \\(E[a_1 Y_1 - a_2 Y_2]\\), \\(Var[a_1 Y_1 - a_2 Y_2]\\)\n\\[\n\\begin{aligned}\n  E[a_1 Y_1 - a_2 Y_2] &= E[a_1 Y_1] - E[a_2 Y_2]\\\\\n                       &= a_1 E[Y_1] - a_2 E[Y_2]\\\\\n                       &= \\underline{a_1 \\mu_1 - a_2 \\mu_{2}}\\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    Var[a_1 Y_1 - a_2 Y_2] &= E[ [(a_1 Y_1 - a_2 Y_2) - E[a_1 Y_1 - a_2 Y_2]]^{2}]\\\\\n    &= E[(a_1 Y_1 - a_2 Y_2)^2] - E[a_1 Y_1 - a_2 Y_2]^2\\\\\n    &= E[a_{1}^{2}Y_{1}^{2} - 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \\mu_1 - a_2 \\mu_2)^2\\\\\n    &= a^{2}_{1}\\sigma^{2}_{1} - 2a_1 a_2 \\underbrace{\\mu_1 \\mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\\sigma^{2}_{2} - (a_1 \\mu_1 - a_2 \\mu_2)^2\\\\\n    &= a^{2}_{1}\\sigma^{2}_{1} + 2a_1 a_2 \\mu_1 \\mu_2 + a_{2}^{2}\\sigma^{2}_{2} - (a_{1}^{2}\\mu_{1}^{2} - 2a_1 a_2 \\mu_1 \\mu_2 + a_{2}^{2}\\mu_{2}^{2} )\\\\\n    &= \\underline{a_{1}^{2}(\\sigma^{2}_{1} - \\mu^{2}_{1}) + a_{2}^{2}(\\sigma^{2}_{2} - \\mu^{2}_{2}) + 4a_1 a_2 \\mu_1 \\mu_2}\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "hw/hw1.html#problem-2.3",
+    "href": "hw/hw1.html#problem-2.3",
+    "title": "3  Homework 1",
+    "section": "3.4 Problem 2.3",
+    "text": "3.4 Problem 2.3\n\nFull conditionals: Let \\(X\\), \\(Y\\), \\(Z\\) be random variables with joint density (discrete or continuous) \\(p(x,y,z) \\propto f(x,z)g(y,z)h(z)\\). Show that\n\n\n3.4.1 (a) \\(p(x|y,z) \\propto f(x,z)\\) i.e. \\(p(x|y,z)\\) is a function of \\(x\\) and \\(z\\);\nLet \\(c, d\\in \\mathbb{R}\\) constants\n\\[\n\\begin{aligned}\n    p(x|y,z) &= \\frac{p(x,y,z)}{p(y,z)}\\\\\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{p(y,z)}\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{\\int_{x\\in\\mathbb{X}} p(x,y,z)dx}\\\\\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{d\\cdot \\int_{x\\in \\mathbb{X}} f(x,z)g(y,z)h(z) dx}\\\\\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{d\\cdot g(y,z)h(z)\\int_{x\\in \\mathbb{X}} f(x,z) dx}\\\\\n             &= \\frac{c\\cdot f(x,z)}{d\\cdot\\int_{x\\in \\mathbb{X}} f(x,z) dx}\\\\\n             &\\propto \\underline{\\frac{f(x,z)}{\\int_{x\\in \\mathbb{X}} f(x,z) dx}}\n\\end{aligned}\n\\]\nThus, \\(p(x|y,z)\\) is a function of \\(f(x,z)\\).\n\n\n3.4.2 (b) \\(p(y|x,z) \\propto g(y,z)\\) i.e. \\(p(y|x,z)\\) is a function of \\(y\\) and \\(z\\);\nLet \\(c, d\\in \\mathbb{R}\\) constants\n\\[\n\\begin{aligned}\n    p(y|x,z) &= \\frac{p(x,y,z)}{p(x,z)}\\\\\n             &= \\frac{p(x,y,z)}{\\int_{y\\in \\mathbb{Y}}p(x,y,z)dy}\\\\\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{d\\cdot \\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z)h(z)dy}\\\\\n             &= \\frac{c\\cdot f(x,z)g(y,z)h(z)}{d\\cdot f(x,z)h(z)\\int_{y\\in\\mathbb{Y}} g(y,z)dy}\\\\\n             &\\propto \\frac{f(y,z)}{\\int_{y\\in\\mathbb{Y}}g(y,z)dy}\\\\\n\\end{aligned}\n\\]\n\n\n3.4.3 (c) \\(X\\) and \\(Y\\) are conditionally independent given \\(Z\\).\nLet \\(a_1, a_2 \\in \\mathbb{R}\\) constant,\n\\[\n\\begin{aligned}\np(x|z) &= \\frac{p(x,z)}{p(z)}\\\\\n       &= \\frac{\\int_{y\\in\\mathbb{Y}}p(x,y,z)dy}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n       &= \\frac{\\int_{y\\in\\mathbb{Y}}f(x,z)g(y,z)h(z) dy}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n       &= \\frac{f(x,z)h(z)\\int_{y\\in\\mathbb{Y}}g(y,z)dy}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n       &= \\frac{f(x,z)\\int_{y\\in\\mathbb{Y}}g(y,z)dy}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx}\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    p(y|z) &= \\frac{p(y,z)}{p(z)}\\\\\n           &=  \\frac{\\int_{x\\in\\mathbb{X}}p(x,y,z)dx}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n           &= \\frac{\\int_{x\\in \\mathbb{X}} f(x,z)g(y,z)h(z) dx}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n           &= \\frac{g(y,z)h(z)\\int_{x\\in \\mathbb{X}} f(x,z)dx}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dydx}\\\\\n           &= \\frac{g(y,z)\\int_{x\\in \\mathbb{X}} f(x,z)dx}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx}\\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\np(x|z)p(y|z) &= \\frac{f(x,z)\\int_{y\\in\\mathbb{Y}}g(y,z)dy}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx} \\cdot \\frac{g(y,z)\\int_{x\\in \\mathbb{X}} f(x,z)dx}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx}\\\\\n            &= \\frac{f(x,z)g(y,z)}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx}\\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    p(x,y|z) &= \\frac{p(x,y,z)}{p(z)}\\\\\n             &= \\frac{f(x,z)g(y,z)h(z)}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} p(x,y,z) dy dx}\\\\\n             &= \\frac{f(x,z)g(y,z)h(z)}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z)h(z) dy dx}\\\\\n             &= \\frac{f(x,z)g(y,z)h(z)}{\\int_{x\\in\\mathbb{X}}f(x,z)h(z)\\left[\\int_{y\\in\\mathbb{Y}} g(y,z) dy\\right] dx}\\\\\n             &= \\frac{f(x,z)g(y,z)h(z)}{\\int_{x\\in\\mathbb{X}}f(x,z)h(z)dx \\cdot \\int_{y\\in\\mathbb{Y}} g(y,z) dy}\\\\\n             &=  \\frac{f(x,z)}{\\int_{x\\in\\mathbb{X}}f(x,z)dx}\\frac{g(y,z)}{\\int_{y\\in\\mathbb{Y}} g(y,z) dy}\\\\\n             &= \\frac{f(x,z)g(y,z)}{\\int_{x\\in\\mathbb{X}}\\int_{y\\in\\mathbb{Y}} f(x,z)g(y,z) dydx}\\\\\n             &= \\underline{p(x|z)p(y|z)}\\\\\n\\end{aligned}\n\\]\nThus, \\(p(x,y|z) = p(x|z)p(y|z)\\) that means \\(p(x,y|z)\\) is conditionally independent given \\(z\\)."
+  },
+  {
+    "objectID": "hw/hw1.html#problem-2.5",
+    "href": "hw/hw1.html#problem-2.5",
+    "title": "3  Homework 1",
+    "section": "3.5 Problem 2.5",
+    "text": "3.5 Problem 2.5\n\nUrns: Suppose urn \\(H\\) is filled with \\(40\\%\\) green balls and \\(60\\%\\) red balls, and urn \\(T\\) is filled with \\(60\\%\\) green balls and \\(40\\%\\) red balls. Someone will flip a coin and then select a ball from urn \\(H\\) or urn \\(T\\) depending on whether the coin lands heads or tails, respectively. Let \\(X\\) be 1 or 0 if the coin lands heads or tails, and let \\(Y\\) be \\(1\\) or \\(0\\) if the ball is green or red.\n\n\n\nTable 3.4: Probability of choosing a certain ball in a given urn.\n\n\n\nGreen\nRed\n\n\n\n\n\\(H\\) (chosen if head[1])\n0.4\n0.6\n\n\n\\(T\\) (chosen if tail[0])\n0.6\n0.4\n\n\n\n\n\nEvent coding\n\n\n\n1\n0\n\n\n\n\n\\(X\\)\nHead\nTail\n\n\n\\(Y\\)\nGreen\nRed\n\n\n\n\n3.5.1 (a) Write out the joint distribution of \\(X\\) and \\(Y\\) in a table.\nSuppose the coin is fair,\n\\[\n\\begin{aligned}\n    p(X=0 \\cap Y=0) &= p(X=0) p(Y=0|X=0)= 0.5\\cdot 0.4 = 0.2\\\\\n    p(X=0 \\cap Y=1) &= p(X=0) p(Y=1|X=0)= 0.5\\cdot 0.6 = 0.3\\\\\n    p(X=1 \\cap Y=0) &= p(X=1) p(Y=0|X=1)= 0.5\\cdot 0.6 = 0.3\\\\\n    p(X=1 \\cap Y=1) &= p(X=1) p(Y=1|X=1)= 0.5\\cdot 0.4 = 0.2\\\\\n\\end{aligned}\n\\]\n\n\n3.5.2 (b) Find \\(E[Y]\\). What is the probability that the ball is green?\n\\[\n\\begin{aligned}\n    E[Y] &= \\sum_{y\\in \\{0,1\\}} p(Y=y)y\\\\\n         &= p(Y=1)\\cdot 1\\\\\n         &= \\sum_{x\\in\\{0,1\\}} p(Y=1 | X=x)p(X=x)\\\\\n         &= p(Y=1|X=0)p(X=0) + p(Y=1|X=1)p(X=1)\\\\\n         &= 0.6\\cdot 0.5 + 0.4 \\cdot 0.5 \\\\\n         &= 0.3 + 0.2 \\\\\n         &= 0.5\n\\end{aligned}\n\\]\n\n\n3.5.3 (c) Find \\(Var[Y|X=0]\\), \\(Var[Y|X=1]\\) and \\(Var[Y]\\). Thinking of variance as measuring uncertainty, explain intuitively why one of these variances is larger than others.\n\\[\n\\begin{aligned}\n    E[Y|X=0] &= \\sum_{y \\in\\{0,1\\}} P_{Y|X=0}(Y=y|X=0)y\\\\\n             &= P_{Y|X=0}(Y=1|X=0)\\cdot 1 \\\\\n             &= 0.6\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    E[(Y|X=0)^2] &= \\sum_{y \\in\\{0,1\\}} P_{Y|X=0}(Y=y|X=0)y^2\\\\\n             &= P_{Y|X=0}(Y=1|X=0)\\cdot 1 \\\\\n             &= 0.6\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    E[Y|X=1] &= \\sum_{y \\in\\{0,1\\}} P_{Y|X=1}(Y=y|X=1)y\\\\\n             &= P_{Y|X=1}(Y=1|X=1)\\cdot 1 \\\\\n             &= 0.4\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    E[(Y|X=1)^2] &= \\sum_{y \\in\\{0,1\\}} P_{Y|X=0}(Y=y|X=1)y^2\\\\\n             &= P_{Y|X=1}(Y=1|X=1)\\cdot 1 \\\\\n             &= 0.4\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n    E[Y^2] &= \\sum_{y\\in\\{0,1\\}} P(Y=y)y^2\\\\\n           &= P(Y=1)\\cdot 1^2\\\\\n           &= P(Y=1 \\cap X=1) + P(Y=1 \\cap X=0)\\\\\n           &= 0.2 + 0.3 = 0.5\\\\\n\\end{aligned}\n\\]\nThus,\n\\[Var[Y|X=0] = E[(Y|X=0)^2] - E[Y|X=0]^2 = 0.6 - 0.6^2 = \\underline{0.24}\\]\n\\[Var[Y|X=1] = E[(Y|X=1)^2] - E[Y|X=1]^2 = 0.4 - 0.4^2 = \\underline{0.24}\\]\n\\[Var[Y] = E[Y^2] - E[Y]^2 = 0.5 - 0.5^2 = \\underline{0.25}\\]\nExplaination\n\\(Var[Y]\\) is larger than \\(Var[Y|X=0]\\) and \\(Var[Y|X=1]\\) because \\(Y\\) can be more determined by the information of \\(X\\). With known \\(X\\), the distribution of \\(Y\\) is set, and less uncertain with single confirmed distribution.\n\n\n3.5.4 (d) Suppose you see that the ball is green. What is the probability that the coin turned up tails?\n\\[\\begin{aligned}\n    p(X=0 | Y=1) &= \\frac{p(X=0 \\cap Y=1)}{p(Y=1)}\\\\\n                 &= \\frac{p(X=0 \\cap Y=1)}{p(Y=1 | X=0)p(X=0) + p(Y=1|X=1)p(X=1)}\\\\\n                 &= \\frac{0.5 \\cdot 0.6}{0.6\\cdot 0.5 + 0.4\\cdot 0.5}\\\\\n                 &= \\frac{0.3}{0.3+0.2}\\\\\n                 &= \\frac{0.3}{0.5}\\\\\n                 &= \\underline{0.6}\\\\\n\\end{aligned}\\]"
+  },
+  {
+    "objectID": "hw/hw1.html#references",
+    "href": "hw/hw1.html#references",
+    "title": "3  Homework 1",
+    "section": "3.6 References",
+    "text": "3.6 References\n\n\n\n\nHoff, Peter D. 2009. A First Course in Bayesian Statistical Methods. Vol. 580. Springer."
+  },
+  {
+    "objectID": "hw/hw2.html",
+    "href": "hw/hw2.html",
+    "title": "4  Homework 2",
+    "section": "",
+    "text": "Pending"
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "5  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever."
+  },
+  {
+    "objectID": "analy/analy.html",
+    "href": "analy/analy.html",
+    "title": "6  Analysis example",
+    "section": "",
+    "text": "print(\"Hello world\")\n\nHello world"
+  },
+  {
+    "objectID": "ref.html",
+    "href": "ref.html",
+    "title": "References",
+    "section": "",
+    "text": "Hoff, Peter D. 2009. A First Course in Bayesian Statistical\nMethods. Vol. 580. Springer."
+  }
+]
