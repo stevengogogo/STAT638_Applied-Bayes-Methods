@@ -1,5 +1,18 @@
 ---
 title: 'Chapter 3: One-parameter models'
 author: 'Shao-Ting Chiu'
+date: '20220901'
 ---
 
+
+## Key messages
+
+- One-parameter models
+    - Binomial model
+    - Poisson model
+- Bayesian data analysis
+    - Conjugate prior distribution
+    - Predictive distribution
+    - Confidence regions
+
+##
