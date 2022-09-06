@@ -2,6 +2,7 @@
 title: 'Chapter 3: One-parameter models'
 author: 'Shao-Ting Chiu'
 date: '20220901'
+jupyter: 'r'
 ---
 
 
@@ -15,4 +16,42 @@ date: '20220901'
     - Predictive distribution
     - Confidence regions
 
-##
+## Some one-parameter models
+
+
+## Bayesian prediction
+
+### The marginal
+$$\begin{aligned}
+  p(y) &= \int p(y,\theta)d\theta\\
+       &= \int_{\Theta} p(y|\theta)p(\theta)d\theta\\
+\end{aligned}$$
+
+### Posterior predictive distribution
+
+Let $\bar{Y}$ be a data point that is yet to be observed.
+
+$$
+\begin{aligned}
+  p(\bar{y}|y) &= \int_{\Theta} p(\bar{y}, \theta|y)d\theta\\
+               &= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta\\
+\end{aligned}
+$$
+
+fe
+
+```{r}
+a<-1; b<-1
+n1<-111; sy1<-217
+n2<-44; sy2<-66
+qgamma(c(.025,.975), a+sy1, b+n1)
+```
+
+```{r}
+plot(c(1,2,3,4,5),c(1,4,9,16,25))
+```
+
+
+
+## Installation
+R installation: https://www.drdataking.com/post/how-to-add-existing-r-to-jupyter-notebook/
