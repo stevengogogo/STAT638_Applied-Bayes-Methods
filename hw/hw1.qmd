@@ -213,6 +213,10 @@ $$
 
 > Expectations and variances: Let $Y_1$ and $Y_2$ be two independent random variables, such that $E[Y_i]=\mu_i$ and $Var[Y_i] = \sigma_{i}^2$. Using the definition of expectation and variance, computing the following quantities, where $a_1$ and $a_2$ are given constants.
 
+Because $Y_1$ and $Y_2$ are independent,
+
+
+
 ### (a) $E[a_1 Y_1 +a_2 Y_2]$, $Var[a_1 Y_1 + a_2 Y_2]$
 
 Because $Y_1$ and $Y_2$ are independent: 
@@ -235,9 +239,10 @@ $$
     Var[a_1 Y_1 + a_2 Y_2] &= E[ [(a_1 Y_1 + a_2 Y_2) - E[a_1 Y_1 + a_2 Y_2]]^{2}]\\
     &= E[(a_1 Y_1 + a_2 Y_2)^2] - E[a_1 Y_1 + a_2 Y_2]^2\\
     &= E[a_{1}^{2}Y_{1}^{2} + 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 + a_2 \mu_2)^2\\
-    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 + a_2 \mu_2)^2\\
-    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
-    &= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2})}
+    &= a^{2}_{1}E[Y_1^2] + 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]\quad \because \text{Indep.}} + a_{2}^{2}E[Y_{2}^{2}] - (a_1 \mu_1 + a_2 \mu_2)^2\\
+    &= a^{2}_{1}E[Y_1^2] + 2a_1 a_2\mu_1 \mu_2 + a_{2}^{2}E[Y_{2}^{2}] - (a_{1}^{2} \mu_{1}^{2}+ 2a_{1}a_{2}\mu_{1}\mu_{2} + a_{2}^{2} \mu_{2}^{2})\\
+    &= a_{1}^{2}(\underbrace{E[Y_{1}^2] - \mu_{1}^{2}}_{\sigma_{1}^{2}}) + a_{2}^{2}(\underbrace{E[Y^{2}_{2}] - \mu_{2}^{2}}_{\sigma_{2}^{2}})\\
+    &= \underline{a_{1}^{2}\sigma_{1}^{2} + a_{2}^{2}\sigma_{2}^{2}}\\
 \end{aligned}
 $$
 
@@ -260,9 +265,10 @@ $$
     Var[a_1 Y_1 - a_2 Y_2] &= E[ [(a_1 Y_1 - a_2 Y_2) - E[a_1 Y_1 - a_2 Y_2]]^{2}]\\
     &= E[(a_1 Y_1 - a_2 Y_2)^2] - E[a_1 Y_1 - a_2 Y_2]^2\\
     &= E[a_{1}^{2}Y_{1}^{2} - 2a_1 a_2 Y_1 Y_2 + a_{2}^{2}Y_{2}^{2}] - (a_1 \mu_1 - a_2 \mu_2)^2\\
-    &= a^{2}_{1}\sigma^{2}_{1} - 2a_1 a_2 \underbrace{\mu_1 \mu_2}_{E[Y_1 Y_2]=E[Y_1]E[Y_2]} + a_{2}^{2}\sigma^{2}_{2} - (a_1 \mu_1 - a_2 \mu_2)^2\\
-    &= a^{2}_{1}\sigma^{2}_{1} + 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\sigma^{2}_{2} - (a_{1}^{2}\mu_{1}^{2} - 2a_1 a_2 \mu_1 \mu_2 + a_{2}^{2}\mu_{2}^{2} )\\
-    &= \underline{a_{1}^{2}(\sigma^{2}_{1} - \mu^{2}_{1}) + a_{2}^{2}(\sigma^{2}_{2} - \mu^{2}_{2}) + 4a_1 a_2 \mu_1 \mu_2}
+    &= a_{1}^{2}E[Y^{2}_{1}] + a_{2}^{2}E[Y^{2}_{2}] - 2a_1 2_2 \underbrace{E[Y_1Y_2]}_{=E[Y_1]E[Y_2]\quad\because \text{Indep.}} - (a_1 \mu_1 - a_2 \mu_2)^2\\ 
+    &= a_{1}^{2}E[Y^{2}_{1}] + a_{2}^{2}E[Y^{2}_{2}] - 2a_1 2_2 \mu_1\mu_2 - (a_{1}^2 \mu_{1}^2 - 2 a_{1}a_{2}\mu_1 \mu_2 + a_{2}^{2} \mu_{2}^{2})\\ 
+    &= a_{1}^{2}(\underbrace{E[Y_{1}^2] - \mu_{1}^{2}}_{\sigma_{1}^{2}}) + a_{2}^{2}(\underbrace{E[Y^{2}_{2}] - \mu_{2}^{2}}_{\sigma_{2}^{2}})\\
+    &= \underbrace{a_{1}^{2}\sigma_{1}^{2} + a_{2}^{2}\sigma^{2}_{2}}
 \end{aligned}
 $$
 
