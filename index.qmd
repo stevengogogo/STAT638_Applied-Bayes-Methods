@@ -41,6 +41,11 @@ This is the lecture notes for STAT638 Applied Bayesian Methods by Dr. Matthias K
 1. Exam 1: October 18th
 2. Exam 2: December 1st
 
+
 ## Homework
 
 - *No late homework is acceptable*
+
+## Solution manual
+
+- [https://github.com/jayelm/hoff-bayesian-statistics](https://github.com/jayelm/hoff-bayesian-statistics)
