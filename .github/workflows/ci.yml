@@ -11,11 +11,11 @@ jobs:
     - run: |
         quarto --version
         quarto install tool tinytex
-    - name: Render STAT638 Website
-      uses: quarto-dev/quarto-actions/render@v2
-      with:
-        to: html # If set, it will be equivalent to `quarto render --to html`
-        path: # By default, the current working dir is used i.e `quarto render .`
+    #- name: Render STAT638 Website
+      #uses: quarto-dev/quarto-actions/render@v2
+      #with:
+        #to: html # If set, it will be equivalent to `quarto render #--to html`
+        #path: # By default, the current working dir is used i.e `quarto render .`
     - name: Render Homework
       run: |
         mkdir _hw_pdf
