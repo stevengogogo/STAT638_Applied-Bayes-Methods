@@ -31,14 +31,45 @@ $$\begin{aligned}
 
 Let $\bar{Y}$ be a data point that is yet to be observed.
 
-$$
-\begin{aligned}
+$$\begin{aligned}
   p(\bar{y}|y) &= \int_{\Theta} p(\bar{y}, \theta|y)d\theta\\
                &= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta\\
-\end{aligned}
-$$
+\end{aligned}$$
 
-fe
+
+## Jeffreys prior
+
+- [Notes 12. The Jeffreys Prior](https://www2.stat.duke.edu/courses/Fall11/sta114/jeffreys.pdf)
+
+
+## Gamma Distribution
+
+> Conjuagate prior of Poisson data
+
+$$p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1} e^{-b\theta}I_{0,\infty}(\theta)$$
+
+- posterior of poisson data
+$$E(\theta|y) = \frac{a+n\bar{y}}{b+n} = \frac{b}{b+n}\frac{a}{b} + \frac{n}{b+n}\frac{n\bar{y}}{n} = (1-\omega_n)E(\theta) + \omega_n \bar{y}$$
+
+```{r}
+a=1; b=1
+curve(dgamma(x,a,b),0, 10)
+```
+
+```{r}
+a=4; b=4
+curve(dgamma(x,a,b),0, 10)
+```
+
+```{r}
+a=16; b=4
+curve(dgamma(x,a,b),0, 10)
+```
+
+
+---
+
+## Testing
 
 ```{r}
 a<-1; b<-1
