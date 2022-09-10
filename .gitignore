@@ -15,3 +15,4 @@ index.tex
 *.tex 
 *.aug
 _site/
+*_freeze/

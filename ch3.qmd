@@ -3,6 +3,8 @@ title: 'Chapter 3: One-parameter models'
 author: 'Shao-Ting Chiu'
 date: '20220901'
 jupyter: 'r'
+execute: 
+  freeze: auto
 ---
 
 
@@ -15,6 +17,50 @@ jupyter: 'r'
     - Conjugate prior distribution
     - Predictive distribution
     - Confidence regions
+
+## The binomial model
+
+$$p(\theta|y) \propto p(y|\theta)$$
+
+::: {.callout-tip}
+## Calculus
+$$\int^{1}_{0}\theta^{a-1}(1-\theta)^{b-1}d\theta = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}$$
+
+where $\Gamma(n) = (n-1)!$.
+:::
+
+## The beta distribution
+
+$$p(\theta) = dbeta(\theta, a, b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\theta^{a-1}(1-\theta)^{b-1}\quad \text{for}~0\leq \theta\leq 1$$
+
+- $E[\theta]=\frac{a}{a+b}$
+- $Var[\theta] = \frac{ab}{(a+b+1)(a+b)^2} = \frac{E[\theta]E[1-\theta]}{a+b+}$
+
+## Inference for exchangeable binary data
+
+If $Y_{1},\dots,Y_n|\theta$ are i.i.d. binary ($\theta$):
+
+$$p(\theta|y_1,\dots,y_n) = \frac{\theta^{\sum y_i}(1-\theta)^{n-\sum y_{i}} \times p(\theta)}{p(y_1,\dots,y_n)}$$ {#eq-exh}
+
+## Sufficient statistics
+
+If compare the relative probabilities of any two $\theta$-values, $\theta_a$ and $\theta_b$ (from @eq-exh):
+
+$$\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = (\frac{\theta_{a}}{\theta_b})^{\sum y_i}(\frac{1-\theta_{a}}{1-\theta_b})^{n - \sum y_i}\frac{p(\theta_a)}{p(\theta_b)}$$ {#eq-relative}
+
+@eq-relative shows that 
+
+$$p(\theta\in A|Y_1=y_1,\dots,Y_n = y_n) = p(\theta \in A|\sum^{n}_{i=1} Y_i=\sum^{n}_{i=1}y_i)$$
+
+$\sum^{n}_{i=1} Y_i$ is a *sufficient statistic* for $\theta$ and $p(y_1,\dots,y_n|\theta)$. It is sufficient to know $\sum Y_i$ to make inference about $\theta$.
+
+In this case where $Y_1, \dots, Y_n|\theta$ are i.i.d. binary ($\theta$) random variables, the sufficient statistics $Y=\sum^{n}_{i=1} Y_i$ has a *binomial distribution* with parameters $(n,\theta)$.
+
+## Binomial distribution
+
+$$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\quad y\in\{0,1,\dots, n\}$$
+
+
 
 ## Some one-parameter models
 

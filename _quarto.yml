@@ -25,6 +25,8 @@ format:
     theme: 
       light: flatly
       dark: darkly
+    code-tools:
+            source: true
 
 
 
