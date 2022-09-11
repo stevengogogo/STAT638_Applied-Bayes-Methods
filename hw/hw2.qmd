@@ -5,7 +5,7 @@ date: today
 bibliography: ../ref.bib
 jupyter: python3  
 execute: 
-    echo: false
+    echo: true
     freeze: auto
 ---
 
@@ -16,8 +16,8 @@ execute:
 >
 > Then, do the following exercises in Hoff: 3.1, 3.3, 3.4, 3.7, 3.12.
 >
-> For problems that require a computer, please do and derive as much as possible "on paper." Then, for the parts that do require the use of a computer (e.g., creating plots), you are free to use any software (R, Python, ...) of your choosing. No need to include your code in your write-up. Just make sure you create a single pdf file for submission here on Canvas.
->
+> For problems that require a computer, please do and derive as much as possible "on paper," and include these derivations in your submission file. Then, for the parts that do require the use of a computer (e.g., creating plots), you are free to use any software (R, Python, ...) of your choosing; no need to include your code in your write-up. Please make sure you create a single file for submission here on Canvas.
+> 
 > For computations involving gamma functions (e.g., 3.7), it is often helpful to work with log-gamma functions instead, to avoid numbers that are too large to be represented by a computer. In R, the functions lbeta() and lgamma() compute the (natural) log of the beta and gamma functions, respectively. See more here: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Special.html
 
 - [PDF version](https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods/blob/hw/hw2.pdf)
@@ -30,29 +30,110 @@ execute:
 > Sample survey: Suppose we are going to sample 100 individuals from a county (of size much larger than 100) and ask each sampled person whether they support policy $Z$ or not. Let $Y_i = 1$ if person $i$ in the sample supports the policy, and $Y_i = 0$ otherwise.
 
 
-### (a) Assume $Y_1,\dots, Y_{100}$ are, conditional on $\theta$, i.i.d. binary random variables with expectation $\theta$. Write down the joint distribution of $Pr(Y_1 =y1,\dots, Y_{100} = y100|\theta)$ in a compact form. Also write down the form of $Pr(\sum Y_i = y|\theta)$.
+### (a) 
+
+> Assume $Y_1,\dots, Y_{100}$ are, conditional on $\theta$, i.i.d. binary random variables with expectation $\theta$. Write down the joint distribution of $Pr(Y_1 =y1,\dots, Y_{100} = y100|\theta)$ in a compact form. Also write down the form of $Pr(\sum Y_i = y|\theta)$.
 
 
-### (b) For the moment, suppose you believed that $\theta\in\{0.0,0.1,\dots,0.9,1.0\}$. Given that the results of the survey were $\sum^{100}_{i=1} Y_i = 57$, compute $Pr(\sum Y_{i} = 57|\theta)$ for each of these 11 values of $\theta$ and plot these probabilities as a function of $\theta$
+### (b) 
+
+> For the moment, suppose you believed that $\theta\in\{0.0,0.1,\dots,0.9,1.0\}$. Given that the results of the survey were $\sum^{100}_{i=1} Y_i = 57$, compute $Pr(\sum Y_{i} = 57|\theta)$ for each of these 11 values of $\theta$ and plot these probabilities as a function of $\theta$
 
 
 ### (c) 
 
+> Now suppose you originally had no prior information to believe one of these $\theta$-values over another, and so $Pr(\theta=0.0)=Pr(\theta=0.1)=\dots=Pr(\theta=0.9)=Pr(\theta=1.0)$. Use Bayes' rule to compute $p(\theta|\sum^{n}_{i=1} Y_i = 57)$ for each $\theta$-value. Make a plot of this posterior distribtution as a function of $\theta$.
 
-### (d)
+
+### (d) 
+
+> Now suppose you allow $\theta$ to be any value in the interval $[0,1]$. Using the uniform prior density for $\theta$, so that $p(\theta) = 1$, plot the posterior density $p(\theta) \times Pr(\sum^{n}_{i=1} Y_i = 57 |\theta)$ as a function of $\theta$.
 
 
-### (e)
+### (e) 
+
+> As discussed in this chapter, the posterior distribution of $\theta$ is $beta(1+57, 1+100-57)$. Plot the posterior density as a function of $\theta$. Discuss the relationships among all of the plots you have made for this exercise.
 
 
 ## Problem 3.3
 
+> Tumor counts: A cancer laboratory is estimating the rate of tumorigenesis in two strains of mice, A and B. They have tumor count data for 10 mice in strain A and 13 mice in strain B. Type A mice have been well studied, and information from other laboratories suggests that type A mice have tumor counts that are approximately Poisson-distributed with a mean of 12. Tumor count rates for type B mice are unknown, but type B mice are related to type A mice. The observed tumor counts for the two populations are
+> $$\mathcal{y}_{A} = (12, 9, 12, 14, 13, 13, 15, 8, 15, 6);$$
+> $$\mathcal{y}_{B} = (11, 11, 10, 9, 9, 8, 7, 10, 6, 8, 8, 9, 7).$$
 
+### (a) 
+
+> Find the posterior distributions, means, variances and $95\%$ quantile-based confidence intervals for $\theta_A$ and $\theta_B$, assuming a Poisson sampling distribution for each group and the following prior distribution:
+> $\theta_A \sim gamma(120,10), \theta_B \sim gamma(12,1), p(\theta_A, \theta_B) = p(\theta_A) \times p(\theta_B)$
+
+### (b)
+
+> Computing and plot the posterior expectation of $\theta_B$ under the prior distribution $\theta_B \sim gamma(12\times n_0, n_0)$ for each value of $n_0\in \{1,2,\dots, 50\}$.
+> Descirbe what sort of prior beliefs about $\theta_B$ to be close to that of $\theta_A$.
+
+### (c)
+
+> Should knowledge about population $A$ tell us anything about population $B$? Discuss whether or not it makes sense to have $p(\theta_A,\theta_B)=p(\theta_A)\times p(\theta_B)$.
+ 
 ## Problem 3.4
 
+> Mixtures of beta priors: Estimate the probability $\theta$ of teen recidivism based on a study in which there were $n=43$ individuals released from incarceration and $y=15$ re-offenders within $36$.
+
+
+### (a) {#sec-3-4-a}
+> Using a $beta(2,8)$ prior for $\theta$, plot $p(\theta)$, $p(y|\theta)$ and $p(\theta|y)$ as functions of $\theta$. Find the posterior mean, mode, and standard deviation of $\theta$.
+> Find a $95\%$ quantile-based condifence interval.
+
+
+### (b) {#sec-3-4-b}
+
+> Repeat [(a)](#sec-3-4-a), but using a $beta(8,2)$ prior for $\theta$.
+
+### (c) {#sec-3-4-c}
+> Consider the following prior distribution for $\theta$: 
+> $$p(\theta) = \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}[3\theta(1-\theta)^7+\theta^7(1-\theta)]$$
+> which is a $75-25\%$ mixture of a $beta(2,8)$ and a $beta(8,2)$ prior distribution. Plot this prior distribution and compare it to the priors in [(a)](#sec-3-4-a) and [(b)](#sec-3-4-b). Describe what sort of prior opinion this may represent.
+
+### (d) {#sec-3-4-d}
+
+> For the prior in [(c)](#sec-3-4-c):
+>
+> 1. Write out mathematically $p(\theta)\times p(y|\theta)$ and simplify as much as possible.
+>
+> 2. The posterior distribution is a mixture of two distributions you know. Identify these distributions.
+>
+> 3. On a computer, calculate and plot $p(\theta) \times p(y|\theta)$ for a variety of $\theta$ values. Also find (approximately) the posterior mode, and discuss its relation to the modes in [(a)](#sec-3-4-a) and [(b)](#sec-3-4-b).
+
+
+### (e)
+> Find a general formula for the weights of the mixture distribution in [(d) 2.](#sec-3-4-d), and provide an interpretation for their values.
 
 ## Problem 3.7
 
+> Posterior prediction: Consider a pilot study in which $n_1 = 15$ children enrolled in special education classes were randomly selected and tested for a certain type of learning disability. In the pilot study, $y_1 = 2$ children tested positive for the disability.
+
+### (a)
+> Using a uniform prior distribution, find the posterior distribution of $\theta$, the fraction of students in special education classes who have the disability. Find the posterior mean, mode and standard deviation of $\theta$, and plot the posterior density.
+
+
+
+
+> Researchers would like to recruit students with the disability to participate in a long-term study, but first they need to make sure they can recruit enough students. Let $n_2 = 278$ be the number of children in special education classes in this particular school district, and let $Y_2$ be the number of students with the disability.
+### (b) 
+> Find $Pr(Y_2=y_2|Y_1 =2), the posterior predictive distribution of $Y_2$, as follows:
+> 1. Discuss what assumptions are needed about the joint distribution of $(Y_1, Y_2)$ such that the fololowing is true:
+> $$Pr(Y_2=y_2 |Y_1=2) = \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta$$
+> 
+> 2. Now plug in the forms of $Pr(Y_2=y_2|\theta)$ and $p(\theta|Y_1 =2)$ in the above integral.
+>
+> 3. Figure out what the above integral must be by using the calculus result discussed in Section 3.1.
+
+### (c) {#sec-3-7-c}
+> Plot the function $Pr(Y_2 = y_2 | Y_1 =2)$ as a function of $y_2$. Obtain the mean and standard deviation of $Y_2$, given $Y_1 = 2$.
+
+
+### (d)
+> The posterior mode and the MLE (maximum likelihood estimate) of $\theta$, based on data from the pilot study, are both $\hat{\theta} = \frac{2}{15}$. Plot the distribution $Pr(Y_2 = y_2|\theta=\hat{\theta})$, and find the mean and standard deviation of $Y_2$ given $\theta=\hat{\theta}$. Compare these results to the plots and calculation in [(c)](#sec-3-7-c) and discuss any differences. Which distribution for $Y_2$ would you used to make predictions, and why?
 
 ``` {python}
 #| label: fig-polar
@@ -76,6 +157,22 @@ plt.show()
 
 ## Problem 3.12
 
+> Jeffrey's prior: Jeffreys (1961) suggested a default rule for gnerating a prior distribution of a parameter $\theta$ in a sampling model $p(y|\theta)$. Jeffreys' prior is given by $p_{J}\propto \sqrt{I(\theta)}$, where $I(\theta) = - E[\frac{\partial^{2} \log p(Y|\theta)}{\partial\theta^2} | \theta]$ is the *Fisher information*.
+
+### (a) {#sec-3-12-a}
+> Let $Y\sim binomial(n,\theta)$. Obtain Jeffreys' prior  distribution $p_J(\theta)$ for this model.
+
+
+### (b) {#sec-3-12-b}
+
+> Reparameterize the binomial sampling model with $\psi = \log \theta / (1-\theta)$, so that $p(y|\psi) = {n\choose y} e^{\psi y} (1+e^{\psi})^{-n}$. Obtain Jefferys' prior distribution $p_J (\psi)$ for this model.
+
+
+### (c) 
+
+> Take the prior distribution from [(a)](#sec-3-12-a) and apply the change of variables formula from Exercise 3.10 to obtain the induced prior density on $psi$. 
+> 
+> This density should be the same as the one derived in part [(b)](#sec-3-12-b) of this exercise. This consistency under reparameterization is the defining characteristic of Jeffrey's' prior.
 
 ::: {.content-hidden when-format="html"}
 
