@@ -56,9 +56,73 @@ $\sum^{n}_{i=1} Y_i$ is a *sufficient statistic* for $\theta$ and $p(y_1,\dots,y
 
 In this case where $Y_1, \dots, Y_n|\theta$ are i.i.d. binary ($\theta$) random variables, the sufficient statistics $Y=\sum^{n}_{i=1} Y_i$ has a *binomial distribution* with parameters $(n,\theta)$.
 
+## Conjugacy
+
+- **Beta prior** and **binomial sampling** leads to **beta posterior**
+  - *beta prior* is **conjugate** for the *binomial sampling*.
+
+::: {.callout-important}
+### Definition: Conjugate
+
+A class $\mathcal{P}$ of prior distribution for $\theta$ is called conjugate for a sampling model $p(y|\theta)$ if 
+
+$$p(\theta) \in \mathcal{P} \Rightarrow p(\theta|y) \in \mathcal{P}$$
+
+:::
+
+- Conjugate priors make posterior calculations easy.
+
+## Combining information
+
+If $\theta|Y=y \sim beta(a+y, b+n-y)$, then
+
+$$\begin{aligned}
+E[\theta|y] &=\frac{a+y}{a+b+n}\\
+            &= \frac{a+b}{a+b+n}\underbrace{\frac{a}{a+b}}_{\text{prior expectation}} + \frac{n}{a+b+n}\underbrace{\frac{y}{n}}_{\text{data average}}\\
+\end{aligned}$$ {#eq-post}
+
+From @eq-post, the *posterior expectation* is a **weighted average** of the *prior expectation* and the *sample average*. This leads to interpretation of $a$ and $b$ as "prior data":
+
+- $a$: prior number of 1's
+- $b$: prior number of 0's
+- $a+b$: prior sample size
+
+## Predictive distribution
+
+The predictive distribution of $\tilde{Y}$ is the conditional distribution of $\tilde{Y}$ given $\{Y_1=y_1,\dots,Y_n=y_n\}$
+
+$$Pr(\tilde{Y}=1|y_1,\dots,y_n) = E[\theta|y_1,\dots,y_n] = \frac{a+\sum^{n}_{i=1}y_i}{a+b+n}$$
+
+1. Predictive distribution does not depend on any unknown quantities.
+2. Predictive distribution depends on our observed data.
+
+
+## Confidence regions
+
+::: {.callout-important}
+### Bayesian coverage
+
+An interval $[l(y), u(y)]$, based on the observed data $Y=y$, has $95\%$ Bayesian coverage for $\theta$ if 
+$$Pr(l(y)<\theta<u(y)|Y=y) = .95$$ {#eq-bayes-cov}
+
+- @eq-bayes-cov describes the information about the true value of $\theta$ after observing $Y=y$.
+- **post-experimental coverage**
+:::
+
+::: {.callout-important}
+### Frequentist coverage
+A random interval $[l(Y), u(Y)]$ has $95\%$ frequentist coverage for $\theta$ if, before the data are gathered,
+$$Pr(l(Y) < \theta < u(Y)|\theta) = .95$$ {#eq-freq-cov}
+
+- @eq-freq-cov describes the probability that the interval will cover the true value before the data are observed
+- **pre-experimental coverage**
+
+:::
+
 ## Binomial distribution
 
 $$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\quad y\in\{0,1,\dots, n\}$$
+
 
 
 
