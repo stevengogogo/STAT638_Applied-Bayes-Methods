@@ -193,6 +193,9 @@ plot(c(1,2,3,4,5),c(1,4,9,16,25))
 ```
 
 
+## Mixture distribution
+
+> http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf
 
 ## Installation
 R installation: https://www.drdataking.com/post/how-to-add-existing-r-to-jupyter-notebook/
