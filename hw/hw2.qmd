@@ -1,6 +1,9 @@
 ---
 title: Homework 2
-author: Shao-Ting Chiu (UIN:433002162)
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
 date: today
 bibliography: ../ref.bib
 jupyter: python3  
@@ -25,6 +28,35 @@ execute:
 
 ---
 
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {python}
+%matplotlib inline
+import sys # system information
+import matplotlib # plotting
+import scipy # scientific computing
+import pandas as pd # data managing
+from scipy.special import comb
+from scipy import stats as st
+import numpy as np
+import matplotlib.pyplot as plt
+# Matplotlib setting
+plt.rcParams['text.usetex'] = True
+matplotlib.rcParams['figure.dpi']= 300
+```
+
+### Version
+``` {python}
+print(sys.version)
+print(matplotlib.__version__)
+print(scipy.__version__)
+print(np.__version__)
+print(pd.__version__)
+```
+
+---
+
 ## Problem 3.1
 
 > Sample survey: Suppose we are going to sample 100 individuals from a county (of size much larger than 100) and ask each sampled person whether they support policy $Z$ or not. Let $Y_i = 1$ if person $i$ in the sample supports the policy, and $Y_i = 0$ otherwise.
@@ -32,27 +64,147 @@ execute:
 
 ### (a) 
 
-> Assume $Y_1,\dots, Y_{100}$ are, conditional on $\theta$, i.i.d. binary random variables with expectation $\theta$. Write down the joint distribution of $Pr(Y_1 =y1,\dots, Y_{100} = y100|\theta)$ in a compact form. Also write down the form of $Pr(\sum Y_i = y|\theta)$.
+> Assume $Y_1,\dots, Y_{100}$ are, conditional on $\theta$, i.i.d. binary random variables with expectation $\theta$. Write down the joint distribution of $Pr(Y_1 =y1,\dots, Y_{100} = y_{100}|\theta)$ in a compact form. Also write down the form of $Pr(\sum Y_i = y|\theta)$.
 
+$$Pr(Y_1 = y_1,\dots, Y_{100}=y_{100}|\theta) = \underline{\theta^{\sum_{u=1}^{100}}(1-\theta)^{100-\sum_{u=1}^{100}}}$$
+
+$$Pr(\sum_{i=1}^{100} Y_i = y |\theta)= \underline{{100 \choose y}\theta^{y}(1-\theta)^{100-y}}$$ {#eq-sum-prob}
 
 ### (b) 
 
 > For the moment, suppose you believed that $\theta\in\{0.0,0.1,\dots,0.9,1.0\}$. Given that the results of the survey were $\sum^{100}_{i=1} Y_i = 57$, compute $Pr(\sum Y_{i} = 57|\theta)$ for each of these 11 values of $\theta$ and plot these probabilities as a function of $\theta$
 
+From @eq-sum-prob, the sum of supports ($y$) is on the power term. Thus, directly computation is problematic with limited range of floating number. Converting probability to log scale is a way to bypass this problem.Another way is to use `scipy.stats.binom` function[^binom]
 
-### (c) 
+The distribution of $Pr(\sum_{i=1}^{100} Y_i = y |\theta)$ along with $\theta\in\{0.0,0.1,\dots,0.9,1.0\}$ is shown in @tbl-binom. The plot of distribution is shown in @fig-binom.
+
+
+``` {python}
+#| label: tbl-binom
+#| tbl-cap: "Probabilities along with priors"
+
+
+thetas = np.linspace(0.0,1.0,11)
+tot = 100
+probs = np.zeros(len(thetas))
+count = 57
+
+for (i, theta) in enumerate(thetas):
+  probs[i] = st.binom.pmf(count, tot, theta)
+
+# list of probabilities
+pd.DataFrame({"Theta": thetas, "posteriori": probs})
+```
+
+
+
+``` {python}
+#| label: fig-binom
+#| fig-cap: "Probabilities along with priors"
+
+plt.plot(thetas, probs, 'ko');
+plt.xlabel(r"$\theta$");
+plt.ylabel(r"$Pr(\sum Y_i = 57 |\theta)$");
+```
+
+[^binom]: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html
+
+### (c) {#sec-3-1-c}
 
 > Now suppose you originally had no prior information to believe one of these $\theta$-values over another, and so $Pr(\theta=0.0)=Pr(\theta=0.1)=\dots=Pr(\theta=0.9)=Pr(\theta=1.0)$. Use Bayes' rule to compute $p(\theta|\sum^{n}_{i=1} Y_i = 57)$ for each $\theta$-value. Make a plot of this posterior distribtution as a function of $\theta$.
 
+\begin{align}
+  p(\theta_i |\sum^{n}_{i=1} Y_i = 57) &= \frac{p(\sum^{n}_{i=1} Y_i = 57|\theta)p(\theta_i)}{p(\sum^{n}_{i=1} Y_i = 57)}\\
+  &= \frac{p(\sum^{n}_{i=1} Y_i = 57|\theta)p(\theta_i)}{\sum_{\theta\in\Theta}p(\sum^{n}_{i=1} Y_i = 57 | \theta)p(\theta)}
+\end{align}
+
+The following is the calculation of the posterior distribution (shown in @tbl-post-binom), and the result is shown in @fig-post-binom.
+
+``` {python}
+#| label: tbl-post-binom
+#| tbl-cap: "Posterior distribution depends on discrete uniform distribution of theta."
+
+p_theta = 1.0/len(thetas)
+
+p_y = np.sum( probs*p_theta)
+post_theta = np.zeros(len(thetas))
+
+for (i, theta) in enumerate(thetas):
+  post_theta[i] = probs[i]*p_theta/p_y
+
+# list of probabilities
+pd.DataFrame({"Theta": thetas, "posteriori":post_theta})
+```
+
+
+``` {python}
+#| label: fig-post-binom
+#| fig-cap: "Posterior distribution as a function of theta."
+
+plt.plot(thetas, post_theta, 'ko');
+plt.xlabel(r"$\theta$");
+plt.ylabel(r"$p(\theta_i |\sum^{n}_{i=1} Y_i = 57)$");
+```
 
 ### (d) 
 
 > Now suppose you allow $\theta$ to be any value in the interval $[0,1]$. Using the uniform prior density for $\theta$, so that $p(\theta) = 1$, plot the posterior density $p(\theta) \times Pr(\sum^{n}_{i=1} Y_i = 57 |\theta)$ as a function of $\theta$.
 
+As shown in @fig-post-binom-cont.
+
+``` {python}
+#| label: fig-post-binom-cont
+#| fig-cap: "Posterior distribution with continouous uniform prior."
+
+thetas = np.linspace(0,1, 1000)
+p_theta = 1.0/len(thetas)
+probs = np.zeros(len(thetas))
+post_theta = np.zeros(len(thetas))
+count = 57
+for (i, theta) in enumerate(thetas):
+  probs[i] = st.binom.pmf(count, tot, theta)
+  post_theta[i] = probs[i]
+
+# Plotting  
+plt.plot(thetas, post_theta, 'k-');
+plt.xlabel(r"$\theta$");
+plt.ylabel(r"$p(\theta_i |\sum^{n}_{i=1} Y_i = 57)$");
+```
+
 
 ### (e) 
 
 > As discussed in this chapter, the posterior distribution of $\theta$ is $beta(1+57, 1+100-57)$. Plot the posterior density as a function of $\theta$. Discuss the relationships among all of the plots you have made for this exercise.
+
+
+The $\theta$ with beta distribution is plotted in @fig-post-beta-cont.
+
+@fig-post-binom is the normalized probability via Bayes' rule (@sec-3-1-c). On the other hand, @fig-binom is not normalized.
+
+@fig-post-binom-cont and @fig-post-beta-cont has similar distribution, which means the prior $\theta$ has little influcence on the posterior distribution. This is because the sample number is large ($n=57$), and decrease the importance of the prior.
+
+
+``` {python}
+#| label: fig-post-beta-cont
+#| fig-cap: "Posterior distribution with continouous beta prior."
+
+grid = np.linspace(0,1, 3000)
+thetas_rv = st.beta(1+57, 1+100-57)
+thetas = [thetas_rv.pdf(x) for x in grid]
+
+p_theta = 1.0/len(thetas)
+probs = np.zeros(len(thetas))
+post_theta = np.zeros(len(thetas))
+count = 57
+for (i, theta) in enumerate(thetas):
+  probs[i] = st.binom.pmf(count, tot, theta)
+  post_theta[i] = probs[i]
+
+# Plotting  
+plt.plot(thetas, post_theta, 'k-');
+plt.xlabel(r"$\theta\sim beta$");
+plt.ylabel(r"$p(\theta_i |\sum^{n}_{i=1} Y_i = 57)$");
+```
 
 
 ## Problem 3.3
@@ -66,10 +218,101 @@ execute:
 > Find the posterior distributions, means, variances and $95\%$ quantile-based confidence intervals for $\theta_A$ and $\theta_B$, assuming a Poisson sampling distribution for each group and the following prior distribution:
 > $\theta_A \sim gamma(120,10), \theta_B \sim gamma(12,1), p(\theta_A, \theta_B) = p(\theta_A) \times p(\theta_B)$
 
+According to @hoff2009first [pp. 46-47],
+
+
+$$E[\theta_{*} | y_1,\dots, y_{n_{*}}] = \frac{a_* + \sum_{i=1}^{n_*} y_{i}}{b_* + n_*}$$
+
+where $*\in \{A, B\}$. Given
+
+
+$\begin{cases}
+    \theta_{*} &\sim gamma(a_*,b_*)\\
+    Y_1,\dots, Y_{n_*}|\theta_{*} &\sim Poisson(\theta_{*})
+\end{cases}$
+
+
+$$\Rightarrow\{\theta_{i}|Y_1,\dots,Y_{n_*}\}\sim gamma(a + \sum^{n_*}_{i=1} Y_i, b_* + n_*)$$ {#eq-gamma-conj}
+
+The properties of Gamma distribution [@hoff2009first pp. 45-46],
+
+$$p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta}, \quad \theta,a,b > 0$$ 
+
+
+$$E[\theta] = \frac{a}{b}$$ {#eq-gamma-mean}
+$$Var[\theta] = \frac{a}{b^2}$$ {#eq-gamma-var}
+
+
+**Type A Mice**
+
+|Parameter|Value|
+|---|---|
+|$a_A$|120|
+|$b_A$|10|
+|$n_A$|10|
+|$\sum_{i=1}^{n_{A}y_{i}}$|$12+9+12+14+13+13+15+8+15+6=117$|
+: Parameters of type A mice {#tbl-type-a-mice}
+
+The posterior distribution of mice A:
+
+$$\{\theta_A|Y_1,\dots,Y_{n_A} \sim gamma(120 + 117, 10+10)= gamma(237,20)\} $$
+
+- $E[\theta_{A}|\sum_{i=1}^{n_{A}} Y_{i}] = \frac{237}{20}= \underline{11.85}$
+- $Var[\theta_{A}|\sum_{i=1}^{n_{A}} Y_{i}] = \frac{237}{20^2}\approx \underline{0.59}$
+
+- $95\%$ quantile-based confidence intervals is shown in @tbl-33a
+
+``` {python}
+#| label: tbl-33a
+#| tbl-cap: "95% quantile-based confidence intervals of mice A."
+
+def interval_gamma_95(a,b):
+  rvA = st.gamma(a, scale=1/b)
+  ints = rvA.interval(0.95)
+  return pd.DataFrame({"Left bound":[ints[0]], "Right bound":[ints[1]]})
+
+aA = 237
+bA = 20
+interval_gamma_95(aA,bA)
+```
+
+
+**Type B Mice**
+
+similarly,
+
+|Parameter|Value|
+|---|---|
+|$a_B$|12|
+|$b_B$|1|
+|$n_B$|13|
+|$\sum_{i=1}^{n_{B}y_{i}}$|$11+11+10+9+9+8+7+10+6+8+8+9+7=113$|
+: Parameters of type B mice {#tbl-type-b-mice}
+
+The posterior distribution of mice B:
+
+$$\{\theta_B|Y_1,\dots,Y_{n_B} \sim gamma(12+113, 1+13)= gamma(125, 14)\} $$
+
+- $E[\theta_{B}|\sum_{i=1}^{n_{B}} Y_{i}] = \frac{125}{14} \approx \underline{8.93}$
+- $Var[\theta_{B}|\sum_{i=1}^{n_{B}} Y_{i}] = \frac{125}{14^2}\approx \underline{0.64}$
+- $95\%$ quantile-based confidence intervals is shown in @tbl-33b
+
+``` {python}
+#| label: tbl-33b
+#| tbl-cap: "95% quantile-based confidence intervals of mice B."
+
+aB = 125
+bB = 14
+interval_gamma_95(aB,bB)
+```
+
+
 ### (b)
 
 > Computing and plot the posterior expectation of $\theta_B$ under the prior distribution $\theta_B \sim gamma(12\times n_0, n_0)$ for each value of $n_0\in \{1,2,\dots, 50\}$.
 > Descirbe what sort of prior beliefs about $\theta_B$ to be close to that of $\theta_A$.
+
+
 
 ### (c)
 
@@ -139,9 +382,6 @@ execute:
 #| label: fig-polar
 #| fig-cap: "A line plot on a polar axis"
 
-%matplotlib inline
-import numpy as np
-import matplotlib.pyplot as plt
 
 r = np.arange(0, 2, 0.01)
 theta = 2 * np.pi * r

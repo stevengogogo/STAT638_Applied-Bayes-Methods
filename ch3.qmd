@@ -124,6 +124,28 @@ $$Pr(l(Y) < \theta < u(Y)|\theta) = .95$$ {#eq-freq-cov}
 $$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\quad y\in\{0,1,\dots, n\}$$
 
 
+## The Poisson model
+
+::: {.callout-note}
+### Poisson distribution
+
+$$Pr(Y=y|\theta) = \theta^{y}\frac{e^{-\theta}}{y!}\quad \text{for} y\in \{0,1,2,\dots\}$$
+
+- $E[Y|\theta] = \theta$
+- $Var[Y|\theta] = \theta$
+:::
+
+### Posterior inference
+
+Let $Y_1,\dots,Y_n$ as i.i.d. Poisson with mean $\theta$, then the joint pdf is
+
+
+
+\begin{aligned}
+Pr(Y_1 =y_1,\dots, Y_n = y_n |\theta) &= \prod^{n}_{i=1} p(y_i|\theta)\\
+                                     &= \prod^{n}_{i=1} \frac{1}{y_{i}!} \theta^{y_i}e^{-\theta}\\ 
+                                     &= c(y_1, \dots, y_n)\theta^{\sum y_i}e^{-n\theta}
+\end{aligned} {#eq-pois-son}
 
 
 ## Some one-parameter models
@@ -132,20 +154,53 @@ $$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\q
 ## Bayesian prediction
 
 ### The marginal
-$$\begin{aligned}
+
+
+\begin{aligned}
   p(y) &= \int p(y,\theta)d\theta\\
-       &= \int_{\Theta} p(y|\theta)p(\theta)d\theta\\
-\end{aligned}$$
+       &= \int_{\Theta}p(y|\theta)p(\theta)d\theta
+\end{aligned} 
+
 
 ### Posterior predictive distribution
 
+
+
 Let $\bar{Y}$ be a data point that is yet to be observed.
 
-$$\begin{aligned}
-  p(\bar{y}|y) &= \int_{\Theta} p(\bar{y}, \theta|y)d\theta\\
-               &= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta\\
-\end{aligned}$$
 
+\begin{aligned}
+  p(\bar{y}|y) &= \int_{\Theta} p(\bar{y}, \theta|y)d\theta\\
+               &= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta
+\end{aligned} 
+
+### Sufficient statistics
+
+Comparing two values of $\theta$ a poseteriori,
+
+$$\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = \frac{e^{-n\theta_a}}{-n\theta_b}\frac{\theta_{a}^{\sum y_i}}{\theta_{b}^{\sum y_i}}\frac{p(\theta_a)}{p(\theta_b)}$$
+
+### Conjugate prior
+
+$$p(\theta|y_1,\dots,y_n) \propto p(\theta) \times \underbrace{p(y_1,\dots,y_n|\theta)}_{\theta^{\sum y_i} e^{-n\theta}}$$
+
+- $\theta^{c_1}e^{-c_2 \theta}$: Gamma distribution
+
+::: {.callout-note}
+### Gamma distribution
+
+$$p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta} \quad \text{for } \theta, a, b > 0$$
+
+- $E[\theta] = \frac{a}{b}$
+- $Var[\theta] = \frac{a}{b^2}$
+:::
+
+
+::: {.callout-tip}
+### Gamma pdf integration
+
+$$\int^{\infty}_{0} \theta^{a-1}e^{-b\theta}d\theta = \frac{\Gamma(a)}{b^a}$$
+:::
 
 ## Jeffreys prior
 
