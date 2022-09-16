@@ -644,7 +644,8 @@ plt.ylabel("$Pr(\\theta|Y)$");
 
 ### (b) 
 
-> Find $Pr(Y_2=y_2|Y_1 =2), the posterior predictive distribution of $Y_2$, as follows:
+> Find $Pr(Y_2=y_2|Y_1 =2)$, the posterior predictive distribution of $Y_2$, as follows:
+>
 > 1. Discuss what assumptions are needed about the joint distribution of $(Y_1, Y_2)$ such that the fololowing is true:
 > $$Pr(Y_2=y_2 |Y_1=2) = \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta$$
 > 
@@ -652,7 +653,13 @@ plt.ylabel("$Pr(\\theta|Y)$");
 >
 > 3. Figure out what the above integral must be by using the calculus result discussed in Section 3.1.
 
+**Part 1**
 
+
+**Part 2**
+
+
+**Part 3**
 
 ### (c) {#sec-3-7-c}
 > Plot the function $Pr(Y_2 = y_2 | Y_1 =2)$ as a function of $y_2$. Obtain the mean and standard deviation of $Y_2$, given $Y_1 = 2$.
@@ -671,17 +678,90 @@ plt.ylabel("$Pr(\\theta|Y)$");
 ### (a) {#sec-3-12-a}
 > Let $Y\sim binomial(n,\theta)$. Obtain Jeffreys' prior  distribution $p_J(\theta)$ for this model.
 
+$\because$ $Y\sim binomial(n,\theta)$ $\therefore$ $E[Y]=n\theta$
+
+\begin{align}
+p(y|\theta) &= {n\choose y}\theta^{y}(1-\theta)^{n-y}\\ 
+\log(p(y|\theta)) &= \log {n\choose y} + y\log \theta + (n-y)\log (1-\theta)\\
+\frac{\partial \log(p(y|\theta))}{\partial \theta} &= \frac{y}{\theta} - \frac{n-y}{1-\theta}\\
+\frac{\partial^2 \log(p(y|\theta))}{\partial^2 \theta} &= \frac{-y}{\theta^2} - \frac{n-y}{(1-\theta)^2}\\
+E[\frac{\partial^2 \log(p(y|\theta))}{\partial^2 \theta} |\theta] &= -\frac{n\theta}{\theta^2} - \frac{n-n\theta}{(1-\theta)^2}\\
+E[\frac{\partial^2 \log(p(y|\theta))}{\partial^2 \theta} |\theta] &= \frac{-n}{\theta} - \frac{n}{1-\theta}\\
+- E[\frac{\partial^2 \log(p(y|\theta))}{\partial^2 \theta} |\theta] &= \frac{n}{\theta} + \frac{n}{1-\theta}\\
+I(\theta) &= \frac{n}{\theta} + \frac{n}{1-\theta}\\
+          &= \frac{n}{\theta(1-\theta)}\\
+\end{align}
+
+$\because$ $p_J \propto \sqrt{I(\theta)}$
+
+\begin{align}
+  p_J(\theta) \propto &\sqrt{I(\theta)}\\
+                      &= \sqrt{\frac{n}{\theta(1-\theta)}}\\
+\end{align}
+
+
+Let $c$ be the scalar. By the fact that $\frac{d}{dx}(\sin^{-1}x)=\frac{1}{\sqrt{1-x^2}}$,
+
+$$P_J (\theta) = c \times \sqrt{\frac{n}{\theta(1-\theta)}}$$ 
+
+\begin{align}
+1 &= c \int^{1}_{0} \sqrt{\frac{n}{\theta(1-\theta)}} d\theta\\
+1 &= nc \int^{1}_{0} \sqrt{\frac{1}{\theta(1-\theta)}} d\theta\\
+1 &= nc \left[  -2 \sin^{-1}(\sqrt{1-x})   \right]^{1}_{0} \\
+1 &= -2\times nc (\underbrace{\sin^{-1}(0)}_{=0} - \underbrace{\sin^{-1}(1)}_{=\frac{\pi}{2}})\\ 
+1 &= \pi n c \\ 
+c &= \frac{1}{\pi n}\\
+\end{align}
+
+Thus,
+
+$$p_J(\theta) = \frac{1}{\pi n} \sqrt{\frac{n}{\theta(1-\theta)}}$$
+
+$$p_J(\theta) = \underline{\frac{1}{\pi \sqrt{n}}\frac{1}{\sqrt{\theta(1-\theta)}}}$$ {#eq-3-12-prior}
 
 ### (b) {#sec-3-12-b}
 
 > Reparameterize the binomial sampling model with $\psi = \log \theta / (1-\theta)$, so that $p(y|\psi) = {n\choose y} e^{\psi y} (1+e^{\psi})^{-n}$. Obtain Jefferys' prior distribution $p_J (\psi)$ for this model.
 
 
+\begin{align}
+  p(y|\psi) &= {n\choose y} e^{\psi y} (1+e^{\psi})^{-n}\\
+  \log(p(y|\psi)) &= {n\choose y} + \psi y \underbrace{\log(e)}_{=1} - n\log(1+e^{\psi})\\
+  \log(p(y|\psi)) &= {n\choose y} + \psi y  - n\log(1+e^{\psi})\\
+  \frac{\partial \log p(y|\psi)}{\partial \psi} &= y - n\frac{e^{\psi}}{1+e^{\psi}}\\ 
+  \frac{\partial^2 \log p(y|\psi)}{\partial^2 \psi} &= -n \frac{e^{\psi}}{(1+e^{\psi})^2}\\
+  E[ \frac{\partial^2 \log p(y|\psi)}{\partial^2 \psi} | \psi] &= -n \frac{e^{\psi}}{(1+e^{\psi})^2}\\
+  I(\psi) = -E[ \frac{\partial^2 \log p(y|\psi)}{\partial^2 \psi} | \psi] &= n \frac{e^{\psi}}{(1+e^{\psi})^2}\\ 
+\end{align}
+
+$\therefore$ $p_{J}(\psi) \propto \sqrt{I(\psi)} = \sqrt{\frac{n e^{\psi}}{(1+e^{\psi})^2}}$
+
+$$p_{J}(\psi) \propto \frac{\sqrt{n e^{\psi}}}{1+e^{\psi}}$$
+
 ### (c) 
 
-> Take the prior distribution from [(a)](#sec-3-12-a) and apply the change of variables formula from Exercise 3.10 to obtain the induced prior density on $psi$. 
+> Take the prior distribution from [(a)](#sec-3-12-a) and apply the change of variables formula from Exercise 3.10 to obtain the induced prior density on $\psi$. 
 > 
 > This density should be the same as the one derived in part [(b)](#sec-3-12-b) of this exercise. This consistency under reparameterization is the defining characteristic of Jeffrey's' prior.
+
+$$\psi = g(\theta) = \log[\frac{\theta}{1-\theta}]$$
+
+$$\theta = h(\psi) = \frac{e^{\psi}}{1+e^{\psi}}$$
+
+
+
+From @eq-3-12-prior, $p_{\theta}(\theta) = \frac{1}{\pi \sqrt{n}}\frac{1}{\sqrt{\theta(1-\theta)}}$, 
+
+\begin{align}
+  p_{\psi}(\psi) &= \frac{1}{\pi \sqrt{n}} p_{\theta}(h(\psi)) \times |\frac{dh}{d\psi}|\\
+                 &=  \frac{1}{\pi \sqrt{n}} \frac{1+e^{\psi}}{\sqrt{e^{\psi}(1+e^{\psi}-e^{\psi})}}\times \frac{e^{\psi}}{(1+e^{\psi})^2}\\
+                 &= \frac{1}{\pi \sqrt{n}} \frac{1+e^{\psi}}{\sqrt{e^{\psi}}}\times \frac{e^{\psi}}{(1+e^{\psi})^2}\\
+                 &= \frac{1}{\pi\sqrt{n}} \frac{\sqrt{e^{\psi}}}{1+e^{\psi}}\\
+                 &\propto \frac{\sqrt{e^{\psi}}}{1+e^{\psi}}\\
+                 &\propto p_{J}(\psi)
+\end{align}
+
+
 
 ::: {.content-hidden when-format="html"}
 
