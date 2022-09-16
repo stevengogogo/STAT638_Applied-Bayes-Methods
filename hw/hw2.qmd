@@ -655,11 +655,35 @@ plt.ylabel("$Pr(\\theta|Y)$");
 
 **Part 1**
 
+- $Y_2$ is dependent on $Y_1$, and $Y_1$ gives information about $\theta$. $\theta$ is needed to provide the predictive distribution over $Y_2$.
+- Assume $Y_2$ is binomial distribution. 
 
 **Part 2**
 
+\begin{align}
+  Pr(Y_2=y_2 |Y_1=2) &= \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta\\ 
+                     &= \int^{1}_{0} binomial(y_2, n_2, \theta) beta(\theta, 3,14) d\theta\\
+                     &= \int^{1}_{0} {n_2 \choose y_2}\theta^{y_2}(1-\theta)^{n_2-y_2} \frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\theta^{2}(1-\theta)^{13} d\theta\\ 
+                     &= {n_2 \choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)} \int^{1}_{0} \theta^{y_2}(1-\theta)^{n_2-y_2} \theta^{2}(1-\theta)^{13} d\theta\\&= {n_2 \choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)} \int^{1}_{0} \theta^{(2+y_2)}(1-\theta)^{n_2 - y_2 +13} d\theta\\
+                     &= {278\choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)} \int^{1}_{0} \theta^{(2+y_2)}(1-\theta)^{278 - y_2 +13} d\theta\\
+                     &= {278\choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)} \int^{1}_{0} \theta^{(2+y_2)}(1-\theta)^{291 - y_2} d\theta\\
+\end{align}
 
 **Part 3**
+
+Use the calculus trick:
+
+$$\int^{1}_{0} \theta^{a-1}(1-\theta)^{b-1}d\theta = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}$$
+
+\begin{align}
+  \int^{1}_{0} \theta^{(2+y_2)}(1-\theta)^{291 - y_2} d\theta &= \int^{1}_{0} \theta^{(3+y_2 - 1)}(1-\theta)^{292 - y_2 - 1} d\theta\\
+  &= \frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(3+y_2 + 292 - y_2)}\\ 
+  &= \frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(295)}\\
+\end{align}
+
+$\therefore$
+
+$$Pr(Y_2=y_2 |Y_1=2) = {278\choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(295)}$$
 
 ### (c) {#sec-3-7-c}
 > Plot the function $Pr(Y_2 = y_2 | Y_1 =2)$ as a function of $y_2$. Obtain the mean and standard deviation of $Y_2$, given $Y_1 = 2$.
