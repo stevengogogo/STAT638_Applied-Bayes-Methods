@@ -39,6 +39,7 @@ import scipy # scientific computing
 import pandas as pd # data managing
 from scipy.special import comb
 from scipy import stats as st
+from scipy.special import gamma
 import numpy as np
 import matplotlib.pyplot as plt
 # Matplotlib setting
@@ -312,30 +313,222 @@ interval_gamma_95(aB,bB)
 > Computing and plot the posterior expectation of $\theta_B$ under the prior distribution $\theta_B \sim gamma(12\times n_0, n_0)$ for each value of $n_0\in \{1,2,\dots, 50\}$.
 > Descirbe what sort of prior beliefs about $\theta_B$ to be close to that of $\theta_A$.
 
+The posterior distribution can be derived from @eq-gamma-conj. As shown in @fig-3-3-b, the mean value of $\theta_B$ with $n_0$ close to $50$ is necessary to have the similar posterior mean as $\theta_A$.
 
+``` {python}
+#| label: fig-3-3-b
+#| fig-cap: "Mean of Posterior distribution of mice B with given n0s."
+
+def post_gamma(a,b, sumY, n):
+  return st.gamma(a+sumY, scale=1/(b + n))
+
+n0s = np.arange(1, 50, 1)
+sumYB = 11+11+10+9+9+8+7+10+6+8+8+9+7
+nB = 13
+post_theta_rvBs = [post_gamma(12*n0, n0, sumYB, nB) for n0 in n0s]
+
+meanBs = [post_theta_rvBs[i].mean() for i in range(0, len(n0s))]
+
+
+# Plotting
+plt.plot(n0s, meanBs, "ko")
+plt.xlabel("$n_0$")
+plt.ylabel("$E[Pr(\\theta_{B}|y_{B})]$");
+```
 
 ### (c)
 
 > Should knowledge about population $A$ tell us anything about population $B$? Discuss whether or not it makes sense to have $p(\theta_A,\theta_B)=p(\theta_A)\times p(\theta_B)$.
+
+
+The understanding of mice $A$ is well known. Though mice $B$ is related to mice $A$, there is possibility that mice $B$ is different from the distribution of $A$. Thus, viewing mice $A$ and mice $B$ with independent prior distribution makes sense.
  
 ## Problem 3.4
 
-> Mixtures of beta priors: Estimate the probability $\theta$ of teen recidivism based on a study in which there were $n=43$ individuals released from incarceration and $y=15$ re-offenders within $36$.
+> Mixtures of beta priors: Estimate the probability $\theta$ of teen recidivism based on a study in which there were $n=43$ individuals released from incarceration and $y=15$ re-offenders within $36$ months.
+
 
 
 ### (a) {#sec-3-4-a}
 > Using a $beta(2,8)$ prior for $\theta$, plot $p(\theta)$, $p(y|\theta)$ and $p(\theta|y)$ as functions of $\theta$. Find the posterior mean, mode, and standard deviation of $\theta$.
 > Find a $95\%$ quantile-based condifence interval.
 
+- $p(\theta) \sim beta(2,8)$
+  - Plotted in @fig-3-4-prior 
+
+According to @hoff2009first pp. 37-38, the conjugate posterior ($\{\theta|Y=y\}$) given beta as prior is a beta distribution, and $Y\sim binomial(n,\theta)$
+
+- $p(y|\theta) = {n\choose y}\theta^{y}(1-\theta)^{(n-y)}$
+  - Plotted in @fig-3-4-likelihood 
+
+- $p(\theta | y) \sim beta(a+y, b + n-y) = beta(2+15, 8 + 43 - 15) = beta(17, 36)$
+  - Plotted in @fig-3-4-posterior 
+  - $E[p(\theta | y)] = \frac{a}{a+b} = \frac{17}{17+36} \approx 0.32$
+  - $Mode(p(\theta | y)) = \frac{a-1}{a+b-2} \approx 0.31$
+  - $std(p(\theta | y)) = \sqrt{var[p(\theta | y)]} = \sqrt{\frac{ab}{(a+b)^2 (a+b+1)}} =  \sqrt{\frac{17\times 36}{(17+36)^2 (17+36+1)}}\approx 0.06$
+  - Properties are shown in @tbl-3-4-posterior.
+
+
+``` {python}
+#| label: fig-3-4-prior
+#| fig-cap: "Prior distribution."
+
+thetas = np.linspace(0,1,1000)
+rv_theta = st.beta(2,8)
+
+# Plotting
+plt.plot(thetas, rv_theta.pdf(thetas), 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(\\theta)$");
+```
+
+
+
+``` {python}
+#| label: fig-3-4-likelihood
+#| fig-cap: "Likelihood"
+
+thetas = np.linspace(0,1,1000)
+n = 43
+y = 15
+
+pr_like = [st.binom.pmf(y, n, theta) for theta in thetas]
+
+# Plotting
+plt.plot(thetas, pr_like, 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(y|\\theta)$");
+```
+
+``` {python}
+#| label: fig-3-4-posterior
+#| fig-cap: "Posterior distribution"
+
+thetas = np.linspace(0,1,1000)
+rv_theta = st.beta(2+15, 8 + 43 - 15)
+
+# Plotting
+plt.plot(thetas, rv_theta.pdf(thetas), 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(\\theta | y)$");
+```
+
+``` {python}
+#| label: tbl-3-4-posterior
+#| tbl-cap: "Properties of posterior distribution."
+
+
+ints = rv_theta.interval(0.95)
+
+pd.DataFrame({"Properties": ["Left bound (CI)", "Right bound (CI)", "mean", "mode", "standard deviation"], "Values": [ints[0], ints[1], rv_theta.mean(), (17-1)/(17+36-2), rv_theta.std()]})
+```
 
 ### (b) {#sec-3-4-b}
 
 > Repeat [(a)](#sec-3-4-a), but using a $beta(8,2)$ prior for $\theta$.
 
+
+
+
+- $p(\theta) \sim beta(8,2)$
+  - Plotted in @fig-3-4-prior-2 
+
+- $p(y|\theta) = {n\choose y}\theta^{y}(1-\theta)^{(n-y)}$
+  - Plotted in @fig-3-4-likelihood-2
+
+- $p(\theta | y) \sim beta(a+y, b + n-y) = beta(8+15, 2 + 43 - 15) = beta(23, 30)$
+  - Plotted in @fig-3-4-posterior-2 
+  - $E[p(\theta | y)] = \frac{a}{a+b} = \frac{23}{23+30} \approx 0.434$
+  - $Mode(p(\theta | y)) = \frac{a-1}{a+b-2} \approx 0.431$
+  - $std(p(\theta | y)) = \sqrt{var[p(\theta | y)]} = \sqrt{\frac{ab}{(a+b)^2 (a+b+1)}} =  \sqrt{\frac{23\times 30}{(23+30)^2 (23+30+1)}}\approx 0.07$
+  - Properties are shown in @tbl-3-4-posterior-2.
+
+
+``` {python}
+#| label: fig-3-4-prior-2
+#| fig-cap: "Prior distribution."
+
+thetas = np.linspace(0,1,1000)
+rv_theta = st.beta(8,2)
+
+# Plotting
+plt.plot(thetas, rv_theta.pdf(thetas), 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(\\theta)$");
+```
+
+
+
+``` {python}
+#| label: fig-3-4-likelihood-2
+#| fig-cap: "Likelihood"
+
+thetas = np.linspace(0,1,1000)
+n = 43
+y = 15
+
+pr_like = [st.binom.pmf(y, n, theta) for theta in thetas]
+
+# Plotting
+plt.plot(thetas, pr_like, 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(y|\\theta)$");
+```
+
+``` {python}
+#| label: fig-3-4-posterior-2
+#| fig-cap: "Posterior distribution"
+
+thetas = np.linspace(0,1,1000)
+rv_theta = st.beta(8+15, 2 + 43 - 15)
+
+# Plotting
+plt.plot(thetas, rv_theta.pdf(thetas), 'k-')
+plt.xlabel("$\\theta$");
+plt.ylabel("$Pr(\\theta | y)$");
+```
+
+``` {python}
+#| label: tbl-3-4-posterior-2
+#| tbl-cap: "Properties of posterior distribution."
+
+
+ints = rv_theta.interval(0.95)
+
+pd.DataFrame({"Properties": ["Left bound (CI)", "Right bound (CI)", "mean", "mode", "standard deviation"], "Values": [ints[0], ints[1], rv_theta.mean(), (23-1)/(23+30-2), rv_theta.std()]})
+```
+
+
+
+
+
+
 ### (c) {#sec-3-4-c}
 > Consider the following prior distribution for $\theta$: 
 > $$p(\theta) = \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}[3\theta(1-\theta)^7+\theta^7(1-\theta)]$$
 > which is a $75-25\%$ mixture of a $beta(2,8)$ and a $beta(8,2)$ prior distribution. Plot this prior distribution and compare it to the priors in [(a)](#sec-3-4-a) and [(b)](#sec-3-4-b). Describe what sort of prior opinion this may represent.
+
+
+The mixture of beta distribution is plotted in @fig-3-4-mixbeta. This opinion merges two opposite suggestions with different weights:
+
+1. $\theta$ is low ([@fig-3-4-prior]).
+2. $\theta$ is high ([@fig-3-4-prior-2]).
+
+``` {python}
+#| label: fig-3-4-mixbeta
+#| fig-cap: "Mixture beta distribution"
+
+def mixBeta(th):
+  return 0.25*gamma(10)/(gamma(2)*gamma(8))*( 3*th*((1-th)**7) + (th**7)*(1-th) )
+
+thetas = np.linspace(0,1, 1000)
+prs = [mixBeta(theta) for theta in thetas]
+
+# Plotting
+plt.plot(thetas, prs, "k-")
+plt.xlabel("$\\theta$")
+plt.ylabel("$p(\\theta)$");
+```
 
 ### (d) {#sec-3-4-d}
 
@@ -348,8 +541,69 @@ interval_gamma_95(aB,bB)
 > 3. On a computer, calculate and plot $p(\theta) \times p(y|\theta)$ for a variety of $\theta$ values. Also find (approximately) the posterior mode, and discuss its relation to the modes in [(a)](#sec-3-4-a) and [(b)](#sec-3-4-b).
 
 
+**Part 1.**
+
+Noted that ${43 \choose 15} = \frac{43!}{15!28!}=\frac{\Gamma(44)}{\Gamma(16)\Gamma(29)}$
+
+\begin{align}
+  p(\theta)\times p(y|\theta) &= \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}[3\theta(1-\theta)^7+\theta^7(1-\theta)] \times {43\choose 15}\theta^{15}(1-\theta)^{(43-15)}\\
+  &= \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\underbrace{{43 \choose 15}}_{\frac{\Gamma(44)}{\Gamma(16)\Gamma(29)}}(\theta^{22}(1-\theta)^{29} + 3\theta^{16}(1-\theta)^{35})\\
+  &= \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\frac{\Gamma(44)}{\Gamma(16)\Gamma(29)}(\underline{\theta^{22}(1-\theta)^{29}} + \underline{3\theta^{16}(1-\theta)^{35}})\\
+\end{align}
+
+
+*The simplification is by the aid of walfram-alpha[^wolfram].*
+
+[^wolfram]: https://www.wolframalpha.com/input?i=%283*x*%281-x%29%5E7+%2B+x%5E7+*+%281-x%29%29+*x%5E15+*+%281-x%29%5E28
+
+**Part 2.**
+
+The distribution is the mixture of $Beta(23,30)$ and $Beta(17,36)$ with certain weights.
+
+**Part 3.**
+
+- The mode of $p(\theta) \times p(y|\theta)$  is $0.314$ (See [@fig-3-4-3-mixbeta]).
+- The mode in [(a)](#sec-3-4-a): $0.313725$
+- The mode in [(b)](#sec-3-4-b): $0.431373$
+
+Thus, the posterior distribution has the mode between $Beta(2,8)$ ([(a)](#sec-3-4-a)) and $Beta(8,2)$([(b)](#sec-3-4-b)), and more close to $Beta(2.8)$
+
+``` {python}
+#| label: fig-3-4-3-mixbeta
+#| fig-cap: "Posterior distribution with mixture of two beta distributions."
+
+def mixture_post(th):
+  scale = 0.25 * gamma(10)/(gamma(2)*gamma(8)) * gamma(44)/(gamma(16)*gamma(29))
+  beta = (th**22)*(1-th)**29 + 3*(th**16)*(1-th)**35
+  return scale*beta
+
+prs = [mixture_post(theta) for theta in thetas]
+
+maxTh = thetas[np.argmax(prs)]
+
+plt.plot(thetas, prs, 'k-')
+plt.xlabel("$\\theta$")
+plt.ylabel("$p(\\theta)\\times p(y|\\theta)$");
+plt.axvline(x=maxTh, linestyle='--', color='k', label= "Mode={}".format(maxTh));
+plt.legend();
+```
+
+
 ### (e)
 > Find a general formula for the weights of the mixture distribution in [(d) 2.](#sec-3-4-d), and provide an interpretation for their values.
+
+Let $c_1 =  \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\frac{\Gamma(44)}{\Gamma(16)\Gamma(29)}$
+
+\begin{align}
+  p(\theta)\times p(y|\theta) &= \frac{1}{4}\frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\frac{\Gamma(44)}{\Gamma(16)\Gamma(29)}(\underline{\theta^{22}(1-\theta)^{29}} + \underline{3\theta^{16}(1-\theta)^{35}})\\ 
+                              &= c_1 (\theta^{22}(1-\theta)^{29} + 3\theta^{16}(1-\theta)^{35})\\
+                              &= c_1 \theta^{22}(1-\theta)^{29} + 3c_1 \theta^{16}(1-\theta)^{35})\\
+                              &= c_1 \frac{\Gamma(23)\Gamma(30)}{\Gamma(53)} Beta(\theta, 23,30) + 3 c_1 \frac{\Gamma(17)\Gamma(36)}{\Gamma(51)} Beta(\theta, 17,36)\\ 
+                              &= 0.0003 \times Beta(\theta, 23,30) + 58.16 \times Beta(\theta, 17,36)\\
+                              &= \omega_1 \cdot Beta(\theta, 23,30) + \omega_2 \cdot Beta(\theta, 17,36)
+\end{align}
+
+That means $Beta(17,36)$ is preferred to $Beta(23,30)$. The updated posterior information is more close to the [(a)](#sec-3-4-d). That is because the mixture of priors has more weights ($75\%$) on the prior of $Beta(2,8)$.
 
 ## Problem 3.7
 
@@ -358,11 +612,38 @@ interval_gamma_95(aB,bB)
 ### (a)
 > Using a uniform prior distribution, find the posterior distribution of $\theta$, the fraction of students in special education classes who have the disability. Find the posterior mean, mode and standard deviation of $\theta$, and plot the posterior density.
 
+$$\theta \sim beta(1,1) (uniform)$$
+$$Y\sim binomial(n_1,\theta)$$
 
+\begin{align}
+  \theta|Y=y &\sim beta(1+y_1, 1+n_1 - y_1)\\ 
+             &= beta(1 + 2, 1+15-2)\\ 
+             &= beta(3, 14)\\ 
+             &= beta(a_p, b_p)\\ 
+\end{align}
 
+- The distribution is plotted in @fig-3-7-a
+- $E[\theta|Y] = \frac{a_p}{a_p+b_p} = \frac{3}{3+14} \approx 0.1764$
+- $Mode[\theta|Y] = \frac{(a_p - 1)}{a_p - 1 + b_p - 1} = \frac{(3 - 1)}{3 - 1 + 14 - 1} \approx 0.1333$
+- $Std[\theta|Y] = \sqrt{ \frac{a_p b_p}{(a_p+b_p+1)(a_p+b_p)^2} } = \sqrt{ \frac{3\cdot 14}{(3+14+1)(3+14)^2}} \approx 0.0899$
+
+``` {python}
+#| label: fig-3-7-a
+#| fig-cap: "Posterior distribution"
+
+thetas = np.linspace(0,1,1000)
+pos = st.beta(3, 14)
+pr_pos = [pos.pdf(theta) for theta in thetas]
+
+plt.plot(thetas, pr_pos, "k-")
+plt.xlabel("$\\theta$")
+plt.ylabel("$Pr(\\theta|Y)$");
+```
 
 > Researchers would like to recruit students with the disability to participate in a long-term study, but first they need to make sure they can recruit enough students. Let $n_2 = 278$ be the number of children in special education classes in this particular school district, and let $Y_2$ be the number of students with the disability.
+
 ### (b) 
+
 > Find $Pr(Y_2=y_2|Y_1 =2), the posterior predictive distribution of $Y_2$, as follows:
 > 1. Discuss what assumptions are needed about the joint distribution of $(Y_1, Y_2)$ such that the fololowing is true:
 > $$Pr(Y_2=y_2 |Y_1=2) = \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta$$
@@ -371,6 +652,8 @@ interval_gamma_95(aB,bB)
 >
 > 3. Figure out what the above integral must be by using the calculus result discussed in Section 3.1.
 
+
+
 ### (c) {#sec-3-7-c}
 > Plot the function $Pr(Y_2 = y_2 | Y_1 =2)$ as a function of $y_2$. Obtain the mean and standard deviation of $Y_2$, given $Y_1 = 2$.
 
@@ -378,21 +661,7 @@ interval_gamma_95(aB,bB)
 ### (d)
 > The posterior mode and the MLE (maximum likelihood estimate) of $\theta$, based on data from the pilot study, are both $\hat{\theta} = \frac{2}{15}$. Plot the distribution $Pr(Y_2 = y_2|\theta=\hat{\theta})$, and find the mean and standard deviation of $Y_2$ given $\theta=\hat{\theta}$. Compare these results to the plots and calculation in [(c)](#sec-3-7-c) and discuss any differences. Which distribution for $Y_2$ would you used to make predictions, and why?
 
-``` {python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
 
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
 
 
 ## Problem 3.12
