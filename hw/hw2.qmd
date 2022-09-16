@@ -40,6 +40,7 @@ import pandas as pd # data managing
 from scipy.special import comb
 from scipy import stats as st
 from scipy.special import gamma
+from scipy.special import comb
 import numpy as np
 import matplotlib.pyplot as plt
 # Matplotlib setting
@@ -682,18 +683,90 @@ $$\int^{1}_{0} \theta^{a-1}(1-\theta)^{b-1}d\theta = \frac{\Gamma(a)\Gamma(b)}{\
 \end{align}
 
 $\therefore$
-
-$$Pr(Y_2=y_2 |Y_1=2) = {278\choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(295)}$$
+\begin{align}
+Pr(Y_2=y_2 |Y_1=2) &= {278\choose y_2}\frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(295)}\\
+                   &= \frac{\Gamma(278)}{\Gamma(y_2)\Gamma(278-y_2)} \frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\frac{\Gamma(3+y_2)\Gamma(292 - y_2)}{\Gamma(295)}\\
+                   &= \frac{\Gamma(3+y_2)}{\Gamma(y_2)}\frac{\Gamma(278)}{\Gamma(295)}\frac{\Gamma(292-y_2)}{\Gamma(278-y_2)} \frac{\Gamma(17)}{\Gamma(3)\Gamma(14)}\\
+                   &= \prod^{3+y_2 -1}_{i=y_2} i \times \frac{1}{\prod^{295-1}_{i=278}i}\prod^{292-y_2 - 1}_{i=278-y_2}i \times 1680\\
+                   &= \prod^{2+y_2}_{i=y_2} i \times \frac{1}{\prod^{294}_{i=278}i}\prod^{291-y_2}_{i=278-y_2}i \times 1680\\
+\end{align}
 
 ### (c) {#sec-3-7-c}
 > Plot the function $Pr(Y_2 = y_2 | Y_1 =2)$ as a function of $y_2$. Obtain the mean and standard deviation of $Y_2$, given $Y_1 = 2$.
 
+- The plot of $Pr(Y_2 = y_2 | Y_1 =2)$ is in @fig-3-7-c.
+- mean and standard deviation are displayed in @tbl-3-7-c.
+
+
+``` {python}
+#| label: fig-3-7-c
+#| fig-cap: "Predictive distribution given Y1=2"
+
+def prod(a, b):
+  s = 1.0
+  for i in np.arange(a,b+1, 1.0):
+    s = s*i
+  return s
+
+def pred_prob(y2, n2=278):
+  return prod(y2, 2+y2)*(1/prod(278, 294))*prod(278-y2, 291-y2)*1680
+
+y2s = np.linspace(0, 278, 279)
+prs = [pred_prob(y2) for y2 in y2s]
+prs = prs/np.sum(prs)
+plt.plot(y2s, prs, 'ko')
+plt.xlabel("$y_{2}$")
+plt.ylabel("$p(Y_2 | Y_1=2)$");
+```
+
+``` {python}
+#| label: tbl-3-7-c
+#| tbl-cap: "Predictive distribution given Y1=2"
+
+mean = np.sum(prs * y2s)/np.sum(prs)
+std =  np.sqrt(np.sum(y2s*y2s*prs) - (np.sum(y2s*prs))**2)
+
+pd.DataFrame({"mean": [np.sum(prs * y2s)/np.sum(prs)], "std": [std]})
+
+```
 
 ### (d)
 > The posterior mode and the MLE (maximum likelihood estimate) of $\theta$, based on data from the pilot study, are both $\hat{\theta} = \frac{2}{15}$. Plot the distribution $Pr(Y_2 = y_2|\theta=\hat{\theta})$, and find the mean and standard deviation of $Y_2$ given $\theta=\hat{\theta}$. Compare these results to the plots and calculation in [(c)](#sec-3-7-c) and discuss any differences. Which distribution for $Y_2$ would you used to make predictions, and why?
 
+\begin{align}
+  Pr(Y_2 = y_2 |\theta=\hat{\theta}) &= binomial(y_2, n_2, \hat{\theta})\\
+\end{align}
 
+- The plot of $Pr(Y_2 = y_2|\theta=\hat{\theta})$ distribution along with $y_2$ is @fig-3-7-d.
+- Mean and standard deviation are shown in @tbl-3-7-d.
 
+- Compare to @fig-3-7-c, @fig-3-7-d has less variation and less mean, which is more close to the original average of $Y_1$ data ($=\frac{2}{15}$). 
+- @fig-3-7-c provides better prediction with MLE $\theta$ because its properties is more related to the original average, and the likelihood is maximized with MLE method.
+
+``` {python}
+#| label: fig-3-7-d
+#| fig-cap: "Predictive distribution given MLE theta"
+
+n2 = 278
+th = 2/15
+rv = st.binom(n2, th)
+
+y2s = np.linspace(0,n2, n2+1)
+prs = [rv.pmf(y2) for y2 in y2s]
+
+plt.plot(y2s, prs, "ko")
+plt.xlabel("$y_2$")
+plt.ylabel("$Pr(Y_2 = y_2|\\theta=\\hat{\\theta})$");
+```
+
+``` {python}
+#| label: tbl-3-7-d
+#| tbl-cap: "Predictive distribution given MLE theta"
+
+mean = np.sum(y2s*prs)
+std = np.sqrt(np.sum(y2s*y2s*prs) - (np.sum(y2s*prs))**2)
+pd.DataFrame({"mean": [np.sum(prs * y2s)/np.sum(prs)], "std": [std]})
+```
 
 ## Problem 3.12
 
