@@ -648,7 +648,7 @@ plt.ylabel("$Pr(\\theta|Y)$");
 > Find $Pr(Y_2=y_2|Y_1 =2)$, the posterior predictive distribution of $Y_2$, as follows:
 >
 > 1. Discuss what assumptions are needed about the joint distribution of $(Y_1, Y_2)$ such that the fololowing is true:
-> $$Pr(Y_2=y_2 |Y_1=2) = \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta$$
+> $$Pr(Y_2=y_2 |Y_1=2) = \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta$$ {#eq-3-7-b-p}
 > 
 > 2. Now plug in the forms of $Pr(Y_2=y_2|\theta)$ and $p(\theta|Y_1 =2)$ in the above integral.
 >
@@ -656,8 +656,17 @@ plt.ylabel("$Pr(\\theta|Y)$");
 
 **Part 1**
 
-- $Y_2$ is dependent on $Y_1$, and $Y_1$ gives information about $\theta$. $\theta$ is needed to provide the predictive distribution over $Y_2$.
-- Assume $Y_2$ is binomial distribution. 
+- The assumption is that $Y_2$ is *conditionally independent* on $Y_1$ over $\theta$ 
+
+Thus,
+
+\begin{align}
+  \int^{1}_{0} Pr(Y_2=y_2|\theta)p(\theta|Y_1=2)d\theta &= \int^{1}_{0} Pr(Y_2=y_2)|\theta, Y_1=2)p(\theta |Y_1=2)d\theta\\
+  &= \int^{1}_{0} Pr(Y_2=y_2, \theta |Y_1 =2) d\theta\\ 
+  &= Pr(Y_2 = y_2 | Y_1=2)
+\end{align}
+
+The equality of @eq-3-7-b-p holds.
 
 **Part 2**
 
