@@ -12,8 +12,10 @@ book:
     - ch1.qmd
     - ch2.qmd
     - ch3.qmd
+    - ch4.qmd
     - hw/hw1.qmd
     - hw/hw2.qmd
+    - hw/hw3.qmd
     - summary.qmd
     - analy/analy.ipynb
     - ref.qmd
