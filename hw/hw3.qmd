@@ -11,9 +11,9 @@ bibliography: ../ref.bib
 >
 > Do the following exercises in Hoff: 3.8, 3.9, 3.14.
 >
-> In Exercise 3.9, you should be able to avoid "brute-force" integration by exploiting the fact that the Galenshore distribution is a proper distribution, meaning that the density of the Galenshore(a,b) distribution integrates to one for any $a,b>0$.
+> In [Exercise 3.9](#p-3-9), you should be able to avoid "brute-force" integration by exploiting the fact that the Galenshore distribution is a proper distribution, meaning that the density of the Galenshore(a,b) distribution integrates to one for any $a,b>0$.
 >
-> For 3.14(b), note that $p_U(\theta)$ is proportional to the density of a known distribution.
+> For [3.14(b)](#p-3-14-b), note that $p_U(\theta)$ is proportional to the density of a known distribution.
 >
 > Please note that while there are only 3 problems in this assignment, some of them are fairly challenging. So please don't wait too long to get started on this assignment.
 
@@ -34,13 +34,58 @@ bibliography: ../ref.bib
 
 > Choose a single coin and spin it at least $50$ times. Record the number of heads obtained. Report the year and denomination of the coin.
 
+### (c) {#p-3-8-c}
+
+> Compute your posterior for $\theta$, based on the information obtained in [(b)](#p-3-8-b)
+
+### (d) 
+
+> Repeat [(b)](#p-3-8-b) and [(c)](#p-3-8-c) for a different coin, but possibly using a prior for $\theta$ that includes some information from the first coin. Your choice of a new prior may be informal, but needs to be justified. How the results from the first experiment influence your prior for the $\theta$ of the second coin may depend on whether or not the two coins have the same denomination, have a similar year, etc. Report the year and denomination of this coin.
+
+## Problem 3.9 {#p-3-9}
+
+> Galenshore distribution: An unknown quantity $Y$ has a Galenshore($\alpha$, $\theta$) distribution if its density is given by
+> 
+> $$p(y) = \frac{2}{\Gamma(a)}\theta^{2a}y^{2a-1}e^{-\theta^2 y^2}$$
+> for $y>0$, $\theta>0$ and $a>0$. Assume for now that $a$ is known. For this density,
+> $$E[Y]=\frac{\Gamma(a+\frac{1}{2})}{\theta\Gamma(a)}, \quad E[Y^2]=\frac{a}{\theta^2}$$
+
+### (a)
+
+> Identify a class of conjugate prior densities for $\theta$. Plot a few members of this class of densities.
+
+### (b)
+
+> Let $Y_1, \dots, Y_n \sim~i.i.d.$ Galenshore($a$,$\theta$). Find the posterior distribution of $\theta$ given $Y_1, \dots, Y_n$, using a prior from your conjugate class.
+
 ### (c)
 
-> Compute your posterior for $\theta$, based on the information obtained in [(b)]()
+> Write down $\frac{p(\theta_a | Y_1, \dots, Y_n)}{p(\theta_b | Y_1, \dots, Y_n)}$ and simplify. Identify a sufficient statistics.
 
 ### (d)
 
-## Problem 3.9
+> Determine $E[\theta|y_1,\dots,y_n]$.
 
+### (e)
+
+> Determine the form of the posterior predictive density $y(\tilde{y}|y_1,\dots, y_n)$.
 
 ## Problem 3.14
+
+> Unit information prior: Let $Y_1,\dots, Y_n \sim~i.i.d. p(y|\theta)$. Having observed the values $Y_1 = y_1, \dots, Y_n = y_n$, the *log likelihood* is given by $l(\theta|y)=\sum\log p(y_i|\theta)$, and the value $\hat{\theta}$ of $\theta$ that maximize $l(\theta|y)$ is called the *maximum likelihood estimator*. The negative of the curvature of the log-likelihood, $J(\theta)=-\frac{\partial^2 l}{\partial \theta^2}$, describes the precision of the MLE $\hat{\theta}$ and is called the *observed Fisher information*. For situations in which it is difficult to quantify prior information in terms of a probability distribution, some have suggested that the "prior" distribution be based on the likelihood, for example, by centering the prior distribution around the MLE $\hat{\theta}$. To deal with the fact that the MLE is not really prior information, the curvature of the prior is chosen so that it has only "one $n$th" as much information as the likelihood, so that $-\frac{\partial^2 \log p(\theta)}{\partial\theta^2} = \frac{J(\theta)}{n}$. Such a prior is called a *unit information prior* (Kass and Wasserman, 1995; Kass and Raftery, 1995), as it has as much information as the average amount of information from a single observation. The unit information prior is not really a prior distribution, as it is computed from the observed data. However, it can be roughly viewed as the prior information of someone with weak but accurate prior information.
+
+### (a) {#p-3-14-a}
+
+> Let $Y_1,\dots,Y_n\sim i.i.d.$ binary ($\theta$). Obtain the MLE $\hat{\theta}$ and $\frac{J(\hat{\theta})}{n}$.
+
+### (b) {#p-3-14-b}
+
+> Find a probability density $p_{U}(\theta)$ such that $\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$. Compute the information $-\frac{\partial^2 \log p_U(\theta)}{\partial\theta^2}$ of this density.
+
+### (c) {#p-3-14-c}
+
+> Obtain a probability density for $\theta$ that is proportional to $p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)$. Can this be considered a posterior distribution for $\theta$>
+
+### (d) {#p-3-14-d}
+
+> Repeat [(a)](#p-3-14-a), [(b)](#p-3-14-b) and [(c)](#p-3-14-c) but  with $p(y|\theta)$ being the Poisson distribution.
