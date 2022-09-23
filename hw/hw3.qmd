@@ -6,6 +6,10 @@ author:
     affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
 date: today
 bibliography: ../ref.bib
+jupyter: python3  
+execute: 
+    echo: true
+    freeze: auto
 ---
 > - Course: STAT638, 2022 Fall
 >
@@ -21,22 +25,198 @@ bibliography: ../ref.bib
 
 ---
 
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {python}
+%matplotlib inline
+import sys # system information
+import matplotlib # plotting
+import scipy # scientific computing
+import random 
+import pandas as pd # data managing
+from scipy.special import comb
+from scipy import stats as st
+from scipy.special import gamma
+import numpy as np
+import matplotlib.pyplot as plt
+# Matplotlib setting
+plt.rcParams['text.usetex'] = True
+matplotlib.rcParams['figure.dpi']= 300
+```
+
+### Version
+``` {python}
+print(sys.version)
+print(matplotlib.__version__)
+print(scipy.__version__)
+print(np.__version__)
+print(pd.__version__)
+```
+
+---
+
 ## Problem 3.8
 
-> Coins: @diaconis1985 suggest that coins spun on a flat surface display long-run frequencies of heads that vary from coin to coin. About $20\%$ of the coins behave symmetrically, whereas the remaining coins tend to give frequencies of $\frac{1}{3}$ or $\frac{2}{3}$
+> Coins: @diaconis1985 suggest that coins spun on a flat surface display long-run frequencies of heads that vary from coin to coin. About $20\%$ of the coins behave symmetrically, whereas the remaining coins tend to give frequencies of $\frac{1}{3}$ or $\frac{2}{3}$.
 
+Let $\theta$ be the priobability of tossing head.[^mix]
+
+
+[^mix]:  This solution is referred to the lecutre note about mixture priors. URL: http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf
 
 ### (a)
 
 > Based on the observations of @diaconis1985, use an appropriate mixture of beta distributions as a prior distribution for $\theta$, the long-run frequency of heads for a particular coin. Plot your prior.
 
+Let the prior probability $p_i(\theta)$ be a mixture of $Beta(a_i,b_i)$ with $i=[1,2,3]$, and coeifficient $k = [k_1, k_2, k_3]$ with $\sum_{i=1}^{3} k_j = 1$.
+
+Let the prior probabiility be
+
+\begin{align}
+  p(\theta) &= \sum_{i=1}^{3} k_i p_i(\theta)\\ 
+  &= k_1 p_1(\theta) + k_2 p_2(\theta) + k_3 p_3(\theta)\\ 
+  &= 0.2 \times Beta(\theta, a_1, b_1) + 0.4 \times Beta(\theta, a_2, b_2) + 0.4 \times Beta(\theta, a_3, b_3)\\
+  &= 0.2 \times Beta(\theta, 3, 3) + 0.4 \times Beta(\theta,2, 4) + 0.4 \times Beta(\theta,4, 2)
+\end{align}
+
+The distribution is shown in @fig-38-prior.
+
+
+``` {python}
+#| label: fig-38-prior
+#| fig-cap: "Designed mixture prior."
+#| echo: false
+
+def mix_coin(x):
+    p_theta = np.sum([0.2 * st.beta.pdf(x, 20, 20),\
+                0.4 * st.beta.pdf(x, 10, 20),\
+                0.4 * st.beta.pdf(x, 30, 15)])
+    return p_theta
+
+xs = np.linspace(0,1,100)
+ps = [mix_coin(x) for x in xs]
+
+# plotting
+fig, ax = plt.subplots()
+ax.plot(xs, ps, "k")
+ax.set_xlabel("$\\theta$")
+ax.set_ylabel("$p(\\theta)$");
+```
+
+
 ### (b) {#p-3-8-b}
 
 > Choose a single coin and spin it at least $50$ times. Record the number of heads obtained. Report the year and denomination of the coin.
 
+Let $n>50$ be the number of flips, and $x$ be the number of heads obtained.
+
+``` {python}
+# A single psudo coin with unknown probability of flipping head
+class PsudoCoin:
+  def __init__(self, random_state=202209):
+    np.random.seed(random_state)
+    self.random_state = random_state
+    self.ph = np.random.rand()
+    self.rv = st.bernoulli(self.ph)
+
+  def flips(self, n):
+    return self.rv.rvs(n, random_state=self.random_state)
+
+# parameters setting
+n = 100 # number of flips
+coin = PsudoCoin()
+
+# Experiment
+rs = coin.flips(n)
+
+# Results
+print(rs)
+```
+
+``` {python}
+#| label: tbl-flips
+#| tbl-cap: Satistics of the flipping coin experiment
+#| echo: false
+
+pd.DataFrame({"Properties":["N", "Number of heads (y=1)", "Number of tails"],\
+              "Values":[n, len(rs[rs==1]), len(rs[rs==0])]})
+```
+
 ### (c) {#p-3-8-c}
 
 > Compute your posterior for $\theta$, based on the information obtained in [(b)](#p-3-8-b)
+
+For $i = \{1,2,3\}$, the posterior probability of single distribution is
+
+\begin{align}
+p_{i}(\theta|y) &= \frac{p_{i}(\theta)p(y|\theta)}{\underbrace{\int_{\theta\in [0,1]}p_i(\theta)p(y|\theta) d\theta}_{=C_j}}\\
+&= \frac{Beta(\theta, a_i, b_i) {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\underbrace{\int_{0}^{1}Beta(\theta, a_i, b_i){n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}_{=C_j}} \\
+&= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)} {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}\\
+&= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}\\
+&= Beta(\theta, a_i + y, b_i + n - y)
+\end{align}
+
+The posterior distribution of individual prior is
+
+\begin{align}
+  p_{1}(\theta|y) &= Beta(\theta, a_1 + y, b_1 + n - y)\\ 
+                  &= Beta(\theta, 3+12,3+100-12) = Beta(\theta, 15,91)\\
+  p_{2}(\theta|y) &= Beta(\theta, a_2 + y, b_2 + n - y)\\ 
+                  &= Beta(\theta, 2 + 12, 4 + 100 - 12)= Beta(\theta, 14, 92)\\
+  p_{3}(\theta|y) &= Beta(\theta, a_3 + y, b_3 + n - y)\\ 
+                  &= Beta(\theta, 4 + 12, 2 + 100 - 12)=Beta(\theta, 16, 90)\\
+\end{align}
+
+\begin{align}
+  C_j &= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta\\
+  &= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta\\ 
+  &=  \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int_{0}^{1} \theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta\\ 
+  &= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int^{1}_{0} \theta^{a_i +y - 1}(1-\theta)^{b_i + n - y -1} d\theta\\ 
+  &= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \frac{\Gamma(a_i + y)\Gamma(b_i +n -y)}{\Gamma(a_i + b_i + n)}
+\end{align}
+
+\begin{align}
+  C_1 &= \frac{\Gamma(3+3)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(3+12)\Gamma(3+100-12)}{\Gamma(3+3+100)}\\ 
+      &= \frac{\Gamma(6)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(15)\Gamma(91)}{\Gamma(106)}\\
+  C_2 &= \frac{\Gamma(2 + 4)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(2 + 12)\Gamma(4 + 100 - 12)}{\Gamma(2 + 4 + 100)}\\ 
+  &= \frac{\Gamma(6)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(14)\Gamma(92)}{\Gamma(106)}\\
+  C_3 &= \frac{\Gamma(4 + 2)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(100-12)} \frac{\Gamma(4 + 12)\Gamma(2 + 100 - 12)}{\Gamma(4 + 2 + 100)}\\ 
+  &= \frac{\Gamma(6)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(16)\Gamma(90)}{\Gamma(106)}
+\end{align}
+
+
+\begin{align}
+k_{j}^{(1)} &= \frac{k_{j}^{(0)} C_j}{\sum_{i=1}^{J} k_{i}^{(0)} C_i}\\ 
+&= \frac{k_{j}^{0} C_{j}^{*}}{0.2\times \underbrace{\frac{\Gamma(15)\Gamma(61)}{\Gamma(3)\Gamma(3)}}_{C^{*}_{1}} + 0.4 \times \underbrace{\frac{\Gamma(14)\Gamma(92)}{\Gamma(2)\Gamma(4)}}_{C^{*}_{2}} + 0.4 \times \underbrace{\frac{\Gamma(16)\Gamma(90)}{\Gamma(4)\Gamma(2)}}_{C^{*}_{3}}}
+\end{align}
+
+
+where $j\in \{1,2,3\}$.
+
+``` {python}
+
+def gammafrac(a,b,c,d,):
+    return ((gamma(a)*gamma(b))**-1) * gamma(c) * gamma(d)
+
+c1 = gammafrac(3,3,15,61)
+c2 = gammafrac(2,4,14,92)
+c3 = gammafrac(4,2,16,90)
+C = c1 + c2 + c3
+
+pd.DataFrame({"Variables": ["C1*", "C2*", "C3*", "$k^{1}_{1}$", "$k^{1}_{2}$", "$k^{1}_{3}$"], "Values": [c1,c2,c3, c1/C, c2/C, c3/C]})
+```
+
+
+\begin{align}
+  p(\theta|y) &= \sum_{i=1}^{3} k_{i}^{(1)}p_{i}(\theta|y)\\
+              &= k_{1}^{(1)}p_{1}(\theta|y) + k_{2}^{(1)}p_{2}(\theta|y) + k_{3}^{(1)}p_{3}(\theta|y)\\ 
+              &= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) \\ 
+              &+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) \\ 
+              &+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)
+\end{align}
+
+
 
 ### (d) 
 
