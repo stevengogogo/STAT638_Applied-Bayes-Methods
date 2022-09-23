@@ -113,7 +113,7 @@ Let $n>50$ be the number of flips, and $x$ be the number of heads obtained.
 
 ``` {python}
 # A single psudo coin with unknown probability of flipping head
-class PsudoCoin:
+class PseudoCoin:
   def __init__(self, random_state=202209):
     np.random.seed(random_state)
     self.random_state = random_state
@@ -125,7 +125,7 @@ class PsudoCoin:
 
 # parameters setting
 n = 100 # number of flips
-coin = PsudoCoin()
+coin = PseudoCoin()
 
 # Experiment
 rs = coin.flips(n)
@@ -185,6 +185,10 @@ The posterior distribution of individual prior is
   &= \frac{\Gamma(6)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(16)\Gamma(90)}{\Gamma(106)}
 \end{align}
 
+Let 
+
+$$C^{*}_i = \frac{\Gamma(a_i +y)\Gamma(b_i + n - y)}{\Gamma(a_i)\Gamma(b_i)}$$ {#eq-c-abb}
+
 
 \begin{align}
 k_{j}^{(1)} &= \frac{k_{j}^{(0)} C_j}{\sum_{i=1}^{J} k_{i}^{(0)} C_i}\\ 
@@ -221,6 +225,70 @@ pd.DataFrame({"Variables": ["C1*", "C2*", "C3*", "$k^{1}_{1}$", "$k^{1}_{2}$", "
 ### (d) 
 
 > Repeat [(b)](#p-3-8-b) and [(c)](#p-3-8-c) for a different coin, but possibly using a prior for $\theta$ that includes some information from the first coin. Your choice of a new prior may be informal, but needs to be justified. How the results from the first experiment influence your prior for the $\theta$ of the second coin may depend on whether or not the two coins have the same denomination, have a similar year, etc. Report the year and denomination of this coin.
+
+``` {python}
+# pick another coin
+coin2 = PseudoCoin(random_state=202210)
+
+# parameters setting
+n2 = 100 # number of flips
+
+# Experiment
+rs2 = coin2.flips(n2)
+
+# Results
+print(rs2)
+```
+
+``` {python}
+#| label: tbl-flips2
+#| tbl-cap: Satistics of the flipping coin experiment
+#| echo: false
+
+pd.DataFrame({"Properties":["N", "Number of heads (y=1)", "Number of tails"],\
+              "Values":[n2, len(rs2[rs2==1]), len(rs2[rs2==0])]})
+```
+
+\begin{align}
+p^{1}(\theta) &= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) \\ 
+              &+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) \\ 
+              &+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)
+\end{align}
+
+Apply @eq-c-abb,
+
+\begin{align}
+  C^{*}_{1} &= \frac{\Gamma(15 + 51)\Gamma(91 + 100 - 51)}{\Gamma(15)\Gamma(91)}\\
+            &= \frac{\Gamma(66)\Gamma(140)}{\Gamma(15)\Gamma(91)}\\
+  C^{*}_{2} &= \frac{\Gamma(14 + 51)\Gamma(92 + 100 - 51)}{\Gamma(14)\Gamma(92)}\\
+            &= \frac{\Gamma(65)\Gamma(141)}{\Gamma(14)\Gamma(92)}\\
+  C^{*}_{3} &= \frac{\Gamma(16 + 51)\Gamma(90 + 100 - 51)}{\Gamma(16)\Gamma(90)}\\
+            &= \frac{\Gamma(67)\Gamma(139)}{\Gamma(16)\Gamma(90)}\\
+\end{align}
+
+``` {python}
+#| echo: false
+
+c1 = gammafrac(15,91, 66,140)
+c2 = gammafrac(14,92,65,141)
+c3 = gammafrac(16,90,67,139)
+C = c1 + c2 + c3
+
+pd.DataFrame({"Variables": ["C1*", "C2*", "C3*", "$k^{1}_{1}$", "$k^{1}_{2}$", "$k^{1}_{3}$"], "Values": [c1,c2,c3, c1/C, c2/C, c3/C]})
+```
+
+
+\begin{align}
+  p^{2}(\theta|y_2) &= \sum_{i=1}^{3} k_{i}^{(2)} p^{(2)}_{i}(\theta|y_2)\\ 
+                    &= k_{1}^{(2)} p^{(2)}_{1}(\theta|y_2) + k_{2}^{(2)} p^{(2)}_{2}(\theta|y_2) + k_{3}^{(2)} p^{(2)}_{3}(\theta|y_2)\\
+                    &=k_{1}^{(2)} Beta(15+51, 91+49)\\ 
+                    &+ k_{2}^{(2)} Beta(14+51,92+49)\\ 
+                    &+ k_{3}^{(2)} Beta(16+51, 90 + 49)\\ 
+                    &= 2.32\times 10^{-1} \times Beta(66,140)\\
+                    &+ 7.93\times 10^{-2} \times Beta(65,141)\\
+                    &+ 6.82\times 10^{-1} \times Beta(67,139)\\
+\end{align}
+
 
 ## Problem 3.9 {#p-3-9}
 
