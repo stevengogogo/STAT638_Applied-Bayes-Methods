@@ -342,7 +342,6 @@ p_{\theta}(\theta) &= \kappa(n_0,t_0)\theta^{2a}e^{(n_0 t_0 \theta^2)}
   p_{\theta}(\theta) &= p_{\phi}(\phi(\theta)) \times |\frac{d\phi(\theta)}{d\theta}|\\ 
                      &\propto \kappa(n_0, t_0)c(\theta^2)^{n_0}\exp(n_0 t_0 \theta^2) \times 2\theta\\ 
                      &\propto  \theta^{2a n_0 + 1}e^{(n_0 t_0 \theta^2)}\\
-                     
 \end{align}
 
 To avoid alias, let Galenshore pdf function be
