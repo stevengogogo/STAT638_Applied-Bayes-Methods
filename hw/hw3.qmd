@@ -522,3 +522,86 @@ where $\bar{y} = \sum_{i=1}^{n}y_i$.
 ### (d) {#p-3-14-d}
 
 > Repeat [(a)](#p-3-14-a), [(b)](#p-3-14-b) and [(c)](#p-3-14-c) but  with $p(y|\theta)$ being the Poisson distribution.
+
+From @hoff2009first [sec. 3.2], The PDE of poisson distribution is
+
+$$p(Y=y|\theta) = dpois(y,\theta) = \theta^y\frac{e^{-\theta}}{\Gamma(y)} \quad \text{ for } y\in\{0,1,2,...\}$$
+
+**Part I: MLE $\hat{\theta}$**
+
+\begin{align}
+  l(\theta|y) &= \sum^{n}_{i=1} \log p(y_i|\theta)\\
+              &= \sum^{n}_{i=1} \log\left( \theta^y\frac{e^{-\theta}}{\Gamma(y)} \right)\\ 
+              &= \log \frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\\ 
+              &= \log \left( \theta^{\sum y}e^{-n\theta} \right) - \log(\sum\Gamma(y))\\ 
+              &= \log\left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)} \right)
+\end{align}
+
+Get the MLE $\hat{\theta}$,
+
+\begin{align}
+  \frac{\partial l}{\partial \theta} &= \frac{\sum y}{\theta} - n\\
+  \hat{\theta} = \frac{\sum_{i=1}^{n} y}{n}
+\end{align}
+
+
+**Part II: Find Unit information prior**
+
+\begin{align}
+  \frac{J(\theta)}{n} &= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\ 
+                      &= \frac{\sum_{i=1}^{n} y_i}{\theta^2}\frac{1}{n}
+\end{align}
+
+
+**Part III: Derive $P_{U}$**
+
+\begin{align}
+  P_{U}(\theta) &= e^c e^{\frac{l(\theta|y)}{n}}\\ 
+                &= e^c \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}}
+\end{align}
+
+
+\begin{align}
+  \int_{0}^{1} P_{U}(\theta) d\theta = 1 &= e^c \int_{0}^{1}  \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}} d\theta\\ 
+  &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \int_{0}^{1} \theta^{\frac{\sum y}{n}}e^{-\theta} d\theta
+\end{align}
+
+Use the fact that $\int x^b e^{-x}dx = -\Gamma(b+1, x)$[^wolf-int], and $\Gamma(\cdot, \cdot)$ is incomplete gamma function.
+
+\begin{align}
+  1 &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \left[ \Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)\right]\\
+  c &= \log\left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right)
+\end{align}
+
+Therefore,
+
+\begin{align}
+  P_U(\theta) &= e^c e^{\frac{l(\theta|y)}{n}}\\
+              &= e^c \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}\\ 
+              &= \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}
+\end{align}
+
+**Part IV: Fisher information of $P_{U}$**
+
+\begin{align}
+  \log p_{U}(\theta) &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) + \frac{1}{n} \log \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]\\ 
+  &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) + \frac{1}{n} \log \left[\theta^{\sum y}e^{-n\theta}\right] - \frac{1}{n} \log (\sum\Gamma(y))
+\end{align}
+
+Use the fact that $\frac{\partial^2}{\partial x^2}\left[  \frac{\log(x^ae^{-nx})}{n}\right] = \frac{-a}{nx^2}$.[^wolf-ex-int]
+
+\begin{align}
+  -\frac{\partial^2 \log P_U(\theta)}{\partial \theta^2} = \frac{\sum y}{n\theta^2}_{\#}
+\end{align}
+
+**Part V: Obtain the posterior distribution**
+
+\begin{align}
+  p_U(\theta) \times p(y_1,\dots, y_n|\theta)%
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}}e^{\frac{l(\theta|y)}{n}} \times \prod_{i=1}^{n} p(y_i|\theta)\\ 
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}}e^{\frac{l(\theta|y)}{n}} \times \frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\\
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}+1}
+\end{align}
+
+[^wolf-int]: https://www.wolframalpha.com/input?i=integral%28+x%5Eb*+e%5E%28-x%29%29
+[^wolf-ex-int]: https://www.wolframalpha.com/input?i=d%5E2+1%2Fn*log%28x%5Ea*e%5E%28-nx%29%29%2Fdx%5E2
