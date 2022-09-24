@@ -232,21 +232,22 @@ curve(dgamma(x,a,b),0, 10)
 ```
 
 
----
+## Exponential Families and conjugate priors
 
-## Testing
+- $p(y|\phi) = h(y)c(\phi)e^{\phi t(y)}$
+  - $\phi$ is unknown parameter
+  - $t(y)$ is the sufficient statistic
+- General exponential family models for particular prior
+  - $p(\phi|n_0,t_0) = \kappa(n_0,t_0)c(\phi)^{n_0}e^{n_0 t_0 \phi}$
+  - have to posterior distribution
 
-```{r}
-a<-1; b<-1
-n1<-111; sy1<-217
-n2<-44; sy2<-66
-qgamma(c(.025,.975), a+sy1, b+n1)
-```
+\begin{align}  
+  p(\phi|y_1,\dots, y_n) &\propto p(\phi)p(y_1,\dots,y_n|\phi)\\ 
+                         &\propto c(\phi)^{n_0 + n} \exp \left(\phi \times \left[ n_0 t_0 + \sum_{i=1}^{n}t(y_i) \right]\right)\\ 
+                         &\propto p(\phi|n_0 +n, n_0t_0 +n \bar{t}(y))
+\end{align}
 
-```{r}
-plot(c(1,2,3,4,5),c(1,4,9,16,25))
-```
-
+where $\bar{t}(y)=\frac{\sum t(y_i)}{n}$
 
 ## Mixture distribution
 
