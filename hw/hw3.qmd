@@ -408,7 +408,8 @@ Use the posterior distribution derived in [(b)](#sec-3-9-b).
   p(\tilde{y} | \theta) &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\ 
   &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\
   &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\ 
-  &= \frac{2}{\Gamma(a(n_0 + n)+1))}((n_0+n)(n_0t_0+n\bar{t}(y)))^{(a(n_0 + n)+1))}y^{2(a(n_0 + n)+1))-1}e^{-((n_0+n)(n_0t_0+n\bar{t}(y))) y^2}\\
+  &= \frac{2}{\Gamma(a(n_0 + n)+1))}((n_0+n)(n_0t_0+n\bar{t}(y)))^{(a(n_0 + n)+1))}\\ 
+  &\times y^{2(a(n_0 + n)+1))-1}e^{-((n_0+n)(n_0t_0+n\bar{t}(y))) y^2}\\
 \end{align}
 
 \begin{align}
@@ -469,13 +470,54 @@ where $\hat{p} = \frac{\sum^{n}_{i=1}y_i}{n} = \frac{\bar{y}}{n}$.
 
 > Find a probability density $p_{U}(\theta)$ such that $\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$. Compute the information $-\frac{\partial^2 \log p_U(\theta)}{\partial\theta^2}$ of this density.
 
+**Part I: Derive $p_{U}(\theta)$** 
+
+\begin{align}
+  p_{U}(\theta) &= e^{\frac{l(\theta|y)}{n}}e^c\\
+  \int_{0}^{1}p_{U}(\theta)d\theta &= 1 = e^c  \int_{0}^{1} e^{\frac{l(\theta|y)}{n}} d\theta\\
+  1 &= e^c \int^{1}_{0} \exp(\hat{p}\log\theta + (1-\hat{p}\log(1-\theta))) d\theta\\ 
+  1 &= e^{c+1} \int^{1}_{0} \exp(\log\theta^{\hat{p}} -\log(1-\theta)^{\hat{p}})) d\theta\\ 
+  &= e^{c+1}\int^{1}_{0} \frac{\theta^{\hat{p}}}{(1-\theta)^{\hat{p}}} d\theta\\ 
+\end{align}
+
+Use the fact that $\int^{1}_{0} \frac{\theta^{\hat{p}}}{(1-\theta)^{\hat{p}}} d\theta = \pi \hat{p}\csc(\pi \hat{p})$[^wolf-integ1]. 
+
+\begin{align}
+  e^{c+1} &= \frac{\sin(\pi\hat{p})}{\pi \hat{p}}\\ 
+        e^{c}  &=  \frac{\sin(\pi\hat{p})}{e\pi \hat{p}}\\ 
+        c &= \log(\frac{\sin(\pi\hat{p})}{e\pi \hat{p}})
+\end{align}
+
+Therefore, we get
+
+$$\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left(\frac{\sin(\pi\hat{p})}{e\pi\hat{p}}\right)$$
 
 
+**Part II: Fisher inforamtion**
 
+\begin{align}
+  -\frac{\partial^2 \log p_{U}(\theta)}{\partial \theta^2} &= \frac{-1}{n}\frac{\partial^2 l(\theta|y)}{\partial \theta^2}\\ 
+  &= \frac{\hat{p}}{\theta} + \frac{1-\hat{p}}{1-\theta^2}_{\#}
+\end{align}
+
+[^wolf-integ1]: Solved by Wolfram Alpha. URL: https://www.wolframalpha.com/input?i=integral%28+x%5Ea%2F%281-x%29%5Ea%2C+0%2C+1%29
 
 ### (c) {#p-3-14-c}
 
-> Obtain a probability density for $\theta$ that is proportional to $p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)$. Can this be considered a posterior distribution for $\theta$>
+> Obtain a probability density for $\theta$ that is proportional to $p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)$. Can this be considered a posterior distribution for $\theta$?
+
+\begin{align}
+  p_U(\theta) \times p(y_1,\dots,y_n|\theta)%
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \prod_{i=1}^{n}p(y_i|\theta)\\
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}\\
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \theta^{\bar{y}}(1-\theta)^{n- \bar{y}}\\
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \frac{\theta^{\frac{\bar{y}}{n}}}{(1-\theta)^{\frac{\bar{y}}{n}}} \times  \theta^{\bar{y}}(1-\theta)^{n- \bar{y}}\\
+  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \frac{\theta^{\frac{1+\bar{y}}{n}}}{(1-\theta)^{\frac{\bar{y}}{n} -n + \bar{y}}}\\
+\end{align}
+
+where $\bar{y} = \sum_{i=1}^{n}y_i$.
+
+- Yes, the resulting is the unit information prior.
 
 ### (d) {#p-3-14-d}
 
