@@ -608,3 +608,9 @@ Use the fact that $\frac{\partial^2}{\partial x^2}\left[  \frac{\log(x^ae^{-nx})
 
 [^wolf-int]: https://www.wolframalpha.com/input?i=integral%28+x%5Eb*+e%5E%28-x%29%29
 [^wolf-ex-int]: https://www.wolframalpha.com/input?i=d%5E2+1%2Fn*log%28x%5Ea*e%5E%28-nx%29%29%2Fdx%5E2
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::
