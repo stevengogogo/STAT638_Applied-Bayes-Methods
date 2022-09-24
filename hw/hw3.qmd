@@ -11,8 +11,12 @@ execute:
     echo: true
     freeze: auto
 ---
-> - Course: STAT638, 2022 Fall
->
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+
 > Do the following exercises in Hoff: 3.8, 3.9, 3.14.
 >
 > In [Exercise 3.9](#p-3-9), you should be able to avoid "brute-force" integration by exploiting the fact that the Galenshore distribution is a proper distribution, meaning that the density of the Galenshore(a,b) distribution integrates to one for any $a,b>0$.
