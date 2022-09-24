@@ -209,7 +209,7 @@ plt.ylabel(r"$p(\theta_i |\sum^{n}_{i=1} Y_i = 57)$");
 ```
 
 
-## Problem 3.3
+## Problem 3.3 {#sec-p-3-3}
 
 > Tumor counts: A cancer laboratory is estimating the rate of tumorigenesis in two strains of mice, A and B. They have tumor count data for 10 mice in strain A and 13 mice in strain B. Type A mice have been well studied, and information from other laboratories suggests that type A mice have tumor counts that are approximately Poisson-distributed with a mean of 12. Tumor count rates for type B mice are unknown, but type B mice are related to type A mice. The observed tumor counts for the two populations are
 > $$\mathcal{y}_{A} = (12, 9, 12, 14, 13, 13, 15, 8, 15, 6);$$

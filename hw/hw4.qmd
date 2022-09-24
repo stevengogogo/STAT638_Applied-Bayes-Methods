@@ -34,7 +34,7 @@ execute:
 
 ## Problem 4.2
 
-> Tumor count comparisons: Reconsider the tumor count data in Exercise 3.3:
+> Tumor count comparisons: Reconsider the tumor count data in [Exercise 3.3](hw2.pdf#sec-p-3-3):
 
 ### (a)
 
@@ -61,7 +61,7 @@ execute:
 
 ### (a)
 
-> Using a Poisson sampling model, a $gamma(2,1)$ prior for each $\theta$ and the data in the files `menchild30bach.dat` and `menchild30nobach.dat`, obtain $5000$ samples of $\bar{Y}_{A}$ and $\bar{Y}_{B}$ from the posterior predictive distribution of the two samples. Plot the Monte Carlo approximations to these two posterior predictive distributions.
+> Using a Poisson sampling model, a $gamma(2,1)$ prior for each $\theta$ and the data in the files [`menchild30bach.dat`](data/menchild30bach.dat.txt) and [`menchild30nobach.dat`](data/menchild30nobach.dat.txt), obtain $5000$ samples of $\bar{Y}_{A}$ and $\bar{Y}_{B}$ from the posterior predictive distribution of the two samples. Plot the Monte Carlo approximations to these two posterior predictive distributions.
 
 ### (b)
 
@@ -76,6 +76,8 @@ execute:
 ### (d)
 
 > For each of the $5000$ $\theta_B$-valeus you sampled, sample $n_B=218$ Poisson random variables and count the number of $0$s and the number of $1$s in each of the $5000$ simulated datasets. You should now have tow sequences of length $5000$ each, one sequence counting the number of people having zero children for each of the $5000$ posterior predictive datasets, the other counting the number of people with one child. Plot the two sequences against one another (one on the $x$-axis, one on the $y$-axis). Add to the plot a point marking how many people in the observed dataset had zero children and one child. Using this plot, describe the adequency of the Poisson model.
+
+
 
 ::: {.content-hidden when-format="html"}
 
