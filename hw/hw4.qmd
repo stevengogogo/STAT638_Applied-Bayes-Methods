@@ -1,0 +1,38 @@
+---
+title: Homework 4
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+jupyter: python3  
+execute: 
+    echo: true
+    freeze: auto
+---
+
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read Chapter 4 in Hoff.
+> 
+> Then, do the following exercises in Hoff: 4.1, 4.2, 4.6, 4.8
+> 
+> All datasets in the Hoff book can be downloaded from https://pdhoff.github.io/book/ (Links to an external site.).
+
+- Deadline: `Oct 4 by 12:01pm`
+
+---
+
+## Problem 4.1
+
+
+## Problem 4.2
+
+
+## Problem 4.6
+
+## Problem 4.8
