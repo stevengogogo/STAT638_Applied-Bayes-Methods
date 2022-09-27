@@ -350,7 +350,7 @@ p_{\theta}(\theta) &= \kappa(n_0,t_0)\theta^{2a}e^{(n_0 t_0 \theta^2)}
 
 To avoid alias, let Galenshore pdf function be
 
-$$p_{X\sim Galenshore}(x;b,z) = \frac{2}{\Gamma(a)}z^{2a}x^{2a-1}e^{-z^2x^2}$$ {#eq-galen}
+$$p_{X\sim Galenshore}(x;a,z) = \frac{2}{\Gamma(a)}z^{2a}x^{2a-1}e^{-z^2x^2}$$ {#eq-galen}
 
 Combining @eq-galen together,
 
@@ -385,7 +385,7 @@ where $\bar{t}(y) = \frac{\sum t(y_i)}{n}$
 
 Because $t(y) = -y^2$ is the sufficient statistic of the exponential family, the sufficient statistics for $Y_1,\cdots, Y_n$ is 
 
-$$\bar{t}(y) = \frac{\sum t(y_i)}{n}$$
+$$\bar{t}(y) = \frac{\sum t(y_i)}{n} = \frac{\sum y_{i}^{2}}{n}$$
 
 
 ### (d)
@@ -407,20 +407,18 @@ Use the posterior distribution derived in [(b)](#sec-3-9-b).
   p(\tilde{y} | Y) &= \int_{\theta} p(\tilde{y} | \theta)p(\theta | Y) d\theta\\
 \end{align}
 
-\begin{align}
-  p(\tilde{y} | \theta) &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\ 
-  &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\
-  &= \frac{2}{\Gamma(a^{(1)})}\theta_{(1)}^{2a^{(1)}}y^{2a^{(1)}-1}e^{-\theta_{(1)}^{2} y^2}\\ 
-  &= \frac{2}{\Gamma(a(n_0 + n)+1))}((n_0+n)(n_0t_0+n\bar{t}(y)))^{(a(n_0 + n)+1))}\\ 
-  &\times y^{2(a(n_0 + n)+1))-1}e^{-((n_0+n)(n_0t_0+n\bar{t}(y))) y^2}\\
-\end{align}
+- $p(\tilde{y}|\theta) = \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2}$
+- $p(\theta | Y) \propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a_{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{b_{(1)}})$
+  - $p(\theta|Y) = \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2}$
 
 \begin{align}
-  p(\theta|Y) &\propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a^{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{\theta^{(1)}})\\
-  p(\bar{y}|\theta) &\propto dGalenshore(y; a^{(1)}, \theta^{(1)})
+  p(\tilde{y}|Y) 
+  &= \int_{\theta} \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2} \times \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2} d\theta\\
+  &= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2a + 2a_{(1)} - 1}e^{-\theta^2 \tilde{y^2} - b_{(1)}^{2}\theta^2} d\theta\\
+  &= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2(a + a_{(1)}) - 1}e^{-(\tilde{y^2} - b_{(1)}^{2})\theta^2} d\theta\\
+  &= \tilde{y}^{2a_{(1)}-1}\frac{2\Gamma(an+1)}{\Gamma(a_{(1)})\Gamma(a)}\frac{b_{(1)}^{2an}}{(b_{(1)} +\tilde{y}^2)^{2(an+1)}}
 \end{align}
 
-The resulting posterior predictive density is Galenshore distribution.
 
 ## Problem 3.14
 
@@ -462,10 +460,11 @@ Thus, the curvature is concave because the second partial derivative is negative
 \begin{align}
   \frac{J(\hat{\theta})}{n} &= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\
                             &= \left(\frac{\bar{y}}{\hat{\theta}^2}+\frac{n-\bar{y}}{(1-\hat{\theta})^2} \right)\frac{1}{n}\\ 
-                            &= \frac{\hat{p}}{\hat{\theta}^2} + \frac{1-\hat{p}}{(1-\hat{\theta}^2)}
+                            &= \frac{\hat{\theta}}{\hat{\theta}^2} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}\\ 
+                            &= \frac{1}{\hat{\theta}} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}\\
 \end{align}
 
-where $\hat{p} = \frac{\sum^{n}_{i=1}y_i}{n} = \frac{\bar{y}}{n}$.
+
 
 [^wiki-bernoulli]: General expression of Bernoullis Distribution. Wiki. URL: https://en.wikipedia.org/wiki/Bernoulli_distribution
 
@@ -478,29 +477,24 @@ where $\hat{p} = \frac{\sum^{n}_{i=1}y_i}{n} = \frac{\bar{y}}{n}$.
 \begin{align}
   p_{U}(\theta) &= e^{\frac{l(\theta|y)}{n}}e^c\\
   \int_{0}^{1}p_{U}(\theta)d\theta &= 1 = e^c  \int_{0}^{1} e^{\frac{l(\theta|y)}{n}} d\theta\\
-  1 &= e^c \int^{1}_{0} \exp(\hat{p}\log\theta + (1-\hat{p}\log(1-\theta))) d\theta\\ 
-  1 &= e^{c+1} \int^{1}_{0} \exp(\log\theta^{\hat{p}} -\log(1-\theta)^{\hat{p}})) d\theta\\ 
-  &= e^{c+1}\int^{1}_{0} \frac{\theta^{\hat{p}}}{(1-\theta)^{\hat{p}}} d\theta\\ 
+  1 &= e^c \int_{0}^{1} \exp(\hat{\theta}\log\theta + (1-\hat{\theta})\log(1-\theta))) d\theta\\ 
+  1 &= e^c \int_{0}^{1} \theta^{\hat{\theta}}(1-\theta)^{1-\hat{\theta}} d\theta\\ 
+  1 &= e^c \frac{-\pi}{2}(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})\\ 
+  e^c &= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\\
+  c &= \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)
 \end{align}
 
-Use the fact that $\int^{1}_{0} \frac{\theta^{\hat{p}}}{(1-\theta)^{\hat{p}}} d\theta = \pi \hat{p}\csc(\pi \hat{p})$[^wolf-integ1]. 
-
-\begin{align}
-  e^{c+1} &= \frac{\sin(\pi\hat{p})}{\pi \hat{p}}\\ 
-        e^{c}  &=  \frac{\sin(\pi\hat{p})}{e\pi \hat{p}}\\ 
-        c &= \log(\frac{\sin(\pi\hat{p})}{e\pi \hat{p}})
-\end{align}
 
 Therefore, we get
 
-$$\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left(\frac{\sin(\pi\hat{p})}{e\pi\hat{p}}\right)$$
+$$\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)$$
 
 
 **Part II: Fisher inforamtion**
 
 \begin{align}
   -\frac{\partial^2 \log p_{U}(\theta)}{\partial \theta^2} &= \frac{-1}{n}\frac{\partial^2 l(\theta|y)}{\partial \theta^2}\\ 
-  &= \frac{\hat{p}}{\theta} + \frac{1-\hat{p}}{1-\theta^2}_{\#}
+  &= \frac{\hat{\theta}}{\theta} + \frac{1-\hat{\theta}}{1-\theta^2}_{\#}
 \end{align}
 
 [^wolf-integ1]: Solved by Wolfram Alpha. URL: https://www.wolframalpha.com/input?i=integral%28+x%5Ea%2F%281-x%29%5Ea%2C+0%2C+1%29
@@ -510,15 +504,14 @@ $$\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left(\frac{\sin(\pi\hat{p})}
 > Obtain a probability density for $\theta$ that is proportional to $p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)$. Can this be considered a posterior distribution for $\theta$?
 
 \begin{align}
-  p_U(\theta) \times p(y_1,\dots,y_n|\theta)%
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \prod_{i=1}^{n}p(y_i|\theta)\\
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}\\
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} e^{\frac{l(\theta|y)}{n}} \times  \theta^{\bar{y}}(1-\theta)^{n- \bar{y}}\\
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \frac{\theta^{\frac{\bar{y}}{n}}}{(1-\theta)^{\frac{\bar{y}}{n}}} \times  \theta^{\bar{y}}(1-\theta)^{n- \bar{y}}\\
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \frac{\theta^{\frac{1+\bar{y}}{n}}}{(1-\theta)^{\frac{\bar{y}}{n} -n + \bar{y}}}\\
+  p_U(\theta) \times p(y_1,\dots,y_n|\theta)\\ 
+  &= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n}p(y_i|\theta)\\
+  &= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}\\ 
+  &= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}}}{(1-\theta)^{\hat{\theta}}} \times \theta^{n\hat{\theta}}(1-\theta)^{n(1-\hat{\theta})}\\ 
+  &= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}(n+1)}}{(1-\theta)^{\hat{\theta}-n(1-\hat{\theta})}}
 \end{align}
 
-where $\bar{y} = \sum_{i=1}^{n}y_i$.
+
 
 - Yes, the resulting is the unit information prior.
 
@@ -526,7 +519,7 @@ where $\bar{y} = \sum_{i=1}^{n}y_i$.
 
 > Repeat [(a)](#p-3-14-a), [(b)](#p-3-14-b) and [(c)](#p-3-14-c) but  with $p(y|\theta)$ being the Poisson distribution.
 
-From @hoff2009first [sec. 3.2], The PDE of poisson distribution is
+From @hoff2009first [sec. 3.2], The PDF of poisson distribution is
 
 $$p(Y=y|\theta) = dpois(y,\theta) = \theta^y\frac{e^{-\theta}}{\Gamma(y)} \quad \text{ for } y\in\{0,1,2,...\}$$
 
@@ -551,8 +544,8 @@ Get the MLE $\hat{\theta}$,
 **Part II: Find Unit information prior**
 
 \begin{align}
-  \frac{J(\theta)}{n} &= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\ 
-                      &= \frac{\sum_{i=1}^{n} y_i}{\theta^2}\frac{1}{n}
+  \frac{J(\hat{\theta})}{n} &= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\ 
+                      &= \frac{\sum_{i=1}^{n} y_i}{\theta^2}\frac{1}{n} = \frac{1}{\hat{\theta}}
 \end{align}
 
 
@@ -565,15 +558,15 @@ Get the MLE $\hat{\theta}$,
 
 
 \begin{align}
-  \int_{0}^{1} P_{U}(\theta) d\theta = 1 &= e^c \int_{0}^{1}  \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}} d\theta\\ 
-  &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \int_{0}^{1} \theta^{\frac{\sum y}{n}}e^{-\theta} d\theta
+  \int_{0}^{\infty} P_{U}(\theta) d\theta = 1 &= e^c \int_{0}^{\infty}  \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}} d\theta\\ 
+  &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \int_{0}^{\infty} \theta^{\hat{\theta}}e^{-\theta} d\theta
 \end{align}
 
-Use the fact that $\int x^b e^{-x}dx = -\Gamma(b+1, x)$[^wolf-int], and $\Gamma(\cdot, \cdot)$ is incomplete gamma function.
+Use the fact that $\int_{0}^{\infty} x^a e^{-x}dx = -\Gamma(a+1)$.
 
 \begin{align}
-  1 &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \left[ \Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)\right]\\
-  c &= \log\left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right)
+  1 &= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \Gamma(\hat{\theta}+1)\\
+  c &= \log\left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right)
 \end{align}
 
 Therefore,
@@ -581,14 +574,14 @@ Therefore,
 \begin{align}
   P_U(\theta) &= e^c e^{\frac{l(\theta|y)}{n}}\\
               &= e^c \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}\\ 
-              &= \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}
+              &= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}
 \end{align}
 
 **Part IV: Fisher information of $P_{U}$**
 
 \begin{align}
-  \log p_{U}(\theta) &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) + \frac{1}{n} \log \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]\\ 
-  &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\frac{\sum y}{n}, 1) -  \Gamma(\frac{\sum y}{n}, 0)}\right) + \frac{1}{n} \log \left[\theta^{\sum y}e^{-n\theta}\right] - \frac{1}{n} \log (\sum\Gamma(y))
+  \log p_{U}(\theta) &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]\\ 
+  &= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left[\theta^{\sum y}e^{-n\theta} - \frac{1}{n} \log (\sum\Gamma(y))\right]
 \end{align}
 
 Use the fact that $\frac{\partial^2}{\partial x^2}\left[  \frac{\log(x^ae^{-nx})}{n}\right] = \frac{-a}{nx^2}$.[^wolf-ex-int]
@@ -601,9 +594,9 @@ Use the fact that $\frac{\partial^2}{\partial x^2}\left[  \frac{\log(x^ae^{-nx})
 
 \begin{align}
   p_U(\theta) \times p(y_1,\dots, y_n|\theta)%
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}}e^{\frac{l(\theta|y)}{n}} \times \prod_{i=1}^{n} p(y_i|\theta)\\ 
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}}e^{\frac{l(\theta|y)}{n}} \times \frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\\
-  &= \frac{\sin(\pi\hat{p})}{e\pi\hat{p}} \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}+1}
+  &= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \prod_{i=1}^{n} p(y_i|\theta)\\ 
+  &= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\\
+  &= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left(\frac{\theta^{n\hat{\theta}}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}+1}
 \end{align}
 
 [^wolf-int]: https://www.wolframalpha.com/input?i=integral%28+x%5Eb*+e%5E%28-x%29%29
