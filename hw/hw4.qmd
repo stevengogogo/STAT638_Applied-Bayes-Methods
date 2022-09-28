@@ -31,6 +31,25 @@ execute:
 
 > Posterior comparisons: Reconsider the sample survey in Exercise 3.1. Suppose you are interested in comparing the rate of support in that county to the rate in another county. Suppose that a survey of sample size $50$ was done in the second county, and the total number of people in the sample who supported the policy was $30$. Identify the posterior distribution of $\theta_2$ assuming a uniform prior. Sample $5000$ values of each of $\theta_1$ and $\theta_2$ from their posterior distributions and estimate $Pr(\theta_1 < \theta_2|\text{ the data and prior })$.
 
+- Prior: $\theta \sim Uniform(0,1)$
+- Model: $p(\sum Y =n | \theta) = {N \choose n}\theta^{n}(1-\theta)^{N-n}$
+
+
+\begin{align}
+  p(\theta_1 | \sum^{N=100}_{i=1} Y_{i}^{(1)} = 57, \theta) &= \frac{p(\sum Y=57 |\theta)p(\theta)}{\int_{0}^{1} p(\sum Y=57|\theta)p(\theta)}\\
+\end{align}
+
+
+\begin{align}
+  p(\theta_2 | \sum^{N=50}_{i=1} Y_{i}^{(2)} = 30, \theta) &= \frac{p(\sum Y=30 |\theta)p(\theta)}{\int_{0}^{1} p(\sum Y=30|\theta)p(\theta)}\\
+\end{align}
+
+- Use the law of large number
+  - sample $\theta^{(1)}, \dots, \theta^{(S)}$ from $\theta\sim Uniform(0,1)$
+  - $\frac{\sum_{s=1}^{S}g(\theta^{(s)})}{S} \rightarrow E[g(\theta)|\theta] = \int g(\theta)p(\theta)d\theta$ as $S\rightarrow \infty$
+    - $g(\theta) = p(\sum Y=n|\theta)$
+
+
 
 ## Problem 4.2
 

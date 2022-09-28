@@ -7,27 +7,18 @@ execute:
   freeze: auto
 ---
 
-``` {r}
-install.packages("invgamma")
-K = 1000000
+## Mote Carlo Estimate
 
-a = 50
-b = 37815
+- Estimation of $Var[\theta|y_1,\dots,y_n]$: $\hat{\sigma}^2 = \sum \frac{(\theta^{(s)}\bar{\theta})^2}{S-1}$
+- Standard error: $\sqrt{\frac{\hat{\sigma}^2}{S}}$
+- $95\%$ Monte Carlo confidence interval: $\hat{\theta} \pm 2 \sqrt{\frac{\hat{\sigma}^2}{S}}$
 
-theta = rgamma(K,a,rate=b)
-psi = 1/theta
+$$std = \sqrt{\frac{\sigma^2}{n}}$$
 
-hist(psi, freq=FALSE, main='posterior')
-lines(density(psi), lwd=2)
+## Posterior inference for arbitrary functions
 
-```
+$$\log \text{odds}(\theta) = \log \frac{\theta}{1-\theta} = \gamma$$
 
-psudo number generator. `theta` is generated from random variable.
-``` {r}
-theta[1:10]
-```
-
-the inverse gamma distribution
 
 ``` {r}
 #####   STAT 638
@@ -151,14 +142,6 @@ curve(a*b^a/(x+b)^(a+1),add=TRUE,col=2)
 mean.pp=mean(y.tildes)
 mean.pp # exact mean: 771.7
 abline(v=mean.pp)
+
+
 ```
-```python
-In [7]: a = np.array([2, 23, 15, 7, 9, 11, 17, 19, 5, 3])
-
-In [8]: a[a > 10] = 0
-
-In [9]: a
-Out[9]: array([2, 0, 0, 7, 9, 0, 0, 0, 5, 3])
-```
-
-$$\bar{g(\theta)} = \frac{s}{\sqrt{k}} = $$

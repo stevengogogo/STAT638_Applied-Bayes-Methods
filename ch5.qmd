@@ -1,0 +1,19 @@
+---
+title: 'Chapter 5: Normal Distrbution'
+author: 'Shao-Ting Chiu'
+date: '20220901'
+jupyter: 'r'
+execute: 
+  freeze: auto
+---
+
+## Total Expectation and variance
+
+- Iterative Expectation
+$$E(X) = E(E(X|\omega))$$
+
+- Iterative Variance
+$$Var(X) = E(Var(X|\omega)) + Var(E(X|\omega))$$
+
+## Joint inference for mean and prediction
+
