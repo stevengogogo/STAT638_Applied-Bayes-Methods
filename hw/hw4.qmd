@@ -225,7 +225,7 @@ ax.hist(ys, weights=np.ones_like(ys)/len(ys));
 ax.plot(gammas, ys_true, label="Analytical solution");
 ax.set_xlabel("$\\gamma=\\log\\frac{\\theta}{1-\\theta}$")
 ax.set_ylabel("$p(\\gamma)$")
-ax.legend()
+ax.legend();
 ```
 
 - The prior of $\gamma$ is informative since it is centered around the $0$.
@@ -266,7 +266,7 @@ fig, ax = plt.subplots();
 [ax.hist(ys, weights=np.ones_like(ys)/len(ys), label=n, alpha=0.7, bins=np.arange(0,8,1)) for n,ys in zip(["A","B"],[bar_ya, bar_yb])]
 ax.set_xlabel("$N$")
 ax.set_ylabel("Probability")
-ax.legend()
+ax.legend();
 ```
 
 ### (b)
@@ -301,15 +301,14 @@ pd.DataFrame({"RVs":["Interval (thetaB-thetaA)", "Interval (YB-YA)"],\
 
 
 ``` {python}
-#| layout-ncol: 2
-#| fig-cap:
-#|    - "Distribution of Theta_B - Theta_A"
-#|    - "Distribution of Y_B - Y_A"
-
 plt.hist(theta_diff, weights=np.ones_like(theta_diff)/len(theta_diff), alpha=0.7)
+plt.title("Distribution of ThetaB - ThetaA")
 plt.show();
+```
 
+``` {python}
 plt.hist(Y_diff, weights=np.ones_like(Y_diff)/len(Y_diff), alpha=0.7)
+plt.title("Distribution of YB - YA")
 plt.show();
 ```
 
@@ -354,6 +353,7 @@ ax.set_xlabel("N of people with zero children")
 ax.set_ylabel("N of people with one children")
 ```
 
+- The observed data is in red, but the simulated data is centralized far from that point. Thus, the poisson model is not appropriate for this dataset.
 
 ## Appendix
 
