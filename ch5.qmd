@@ -7,6 +7,10 @@ execute:
   freeze: auto
 ---
 
+## The normal model
+
+$$p(y|\theta, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}e^{\frac{-1}{2}(\frac{y-\theta}{\sigma})^2}, \quad -\infty < y < \infty$$
+
 ## Total Expectation and variance
 
 - Iterative Expectation
@@ -17,3 +21,27 @@ $$Var(X) = E(Var(X|\omega)) + Var(E(X|\omega))$$
 
 ## Joint inference for mean and prediction
 
+
+
+## Jeffreys prior
+
+
+
+\begin{equation}
+  I(\theta_1, \theta_2) = 
+  \begin{pmatrix}
+    \theta_2 & 0\\ 
+    0 & .5\theta_{2}^{-2}
+  \end{pmatrix}
+\end{equation}
+
+Derivation:
+
+$$l(\theta)=\log(y|\theta) = -.5\log(2\pi)+.5\log(\theta_2) - .5 \theta_2(y-\theta_1)^2$$
+
+$$\frac{\partial l(\theta)}{\partial \theta_1} = \theta_2(y-\theta_1), \frac{\partial l(\theta)}{\partial \theta^{2}_{1}}=-\theta_2$$
+
+
+$$\frac{\partial^2 l(\theta)}{\partial\theta_2\partial\theta_1} = y - \theta_1$$
+
+$$\frac{\partial l(\theta)}{\partial \theta_2} = .5\theta^{-1}_{2} - .5 (y-\theta_1)^2, \frac{\partial^2 l(\theta)}{\partial \theta_{2}^{2}} = -.5\theta_{2}^{-2}$$
