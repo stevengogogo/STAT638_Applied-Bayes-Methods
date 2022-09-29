@@ -5,6 +5,12 @@ author:
     url: stchiu@email.tamu.edu
     affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
 date: today
+format: 
+  pdf:
+    table-of-contents: true
+    code-line-numbers: true
+  html:
+    table-of-contents: true
 bibliography: ../ref.bib
 jupyter: python3  
 execute: 
