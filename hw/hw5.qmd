@@ -1,0 +1,39 @@
+---
+title: Homework 5
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+jupyter: python3  
+execute: 
+    echo: true
+    freeze: auto
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read Chapter 5 in the Hoff book.
+> 
+> Then, do the following exercises in Hoff: 5.1, 5.2, 5.5.
+> 
+> For 5.2, \theta_A denotes the mean exam score for students assigned to method A, and \theta_B denotes the mean exam score for students assigned to method B.
+> 
+> Be careful: Some of the notation differs between the lecture slides and the Hoff book.
+
+- Deadline: `Oct 12 by 12:01pm`
+
+
+---
+
+
+## Problem 5.1
+
+
+## Problem 5.2
+
+
+## Problem 5.5
