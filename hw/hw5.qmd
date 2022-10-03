@@ -6,6 +6,11 @@ author:
     affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
 date: today
 bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+  pdf:
+    table-of-contents: true
 jupyter: python3  
 execute: 
     echo: true
@@ -29,11 +34,85 @@ execute:
 
 ---
 
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {python}
+%matplotlib inline
+import sys # system information
+import matplotlib # plotting
+import scipy # scientific computing
+import random 
+import pandas as pd # data managing
+from scipy.special import comb
+from scipy import stats as st
+from scipy.special import gamma
+import numpy as np
+import matplotlib.pyplot as plt
+# Matplotlib setting
+plt.rcParams['text.usetex'] = True
+matplotlib.rcParams['figure.dpi']= 300
+np.random.seed(20220928) # Consistent random effect
+```
+
+### Version
+``` {python}
+print(sys.version)
+print(matplotlib.__version__)
+print(scipy.__version__)
+print(np.__version__)
+print(pd.__version__)
+```
+
+---
+
 
 ## Problem 5.1
 
+> Studying: The files  [`school1.dat`](data/school1.dat), [`school2.dat`](data/school2.dat) and [`school3.dat`](data/school3.dat) contina data on the amount of time students from $3$ high schools spent on studying or homework during an exam period. Analyze data from each of these schools separately, using the normal model with a conjugate prior distribution, in which $\{\mu_0=5, \sigma^{2}_{0}=4, \kappa_0 = 1, \nu = 2\}$ and compute or approximate following:
+
+
+### (a)
+
+> Posterior means and $95\%$ confidence intervals for the mean $\theta$ and standard deviation $\sigma$ fomr each school;
+
+### (b)
+
+> The posterior probability that $\theta_i < \theta_j < \theta_k$ for all siz permutataions $\{i,j,k\}$ of $\{1,2,3\}$;
+
+### (c)
+
+> The posterior probability that $\tilde{Y}_i<\tilde{Y}_j < \tilde{Y}_k$ for all siz permuatations $\{i,j,k\}$ of $\{1,2,3\}$, where $\tilde{Y}_i$ is a sample from the posterior predictive distribution of school $i$.
+
+### (d)
+
+> Compute the posterior probability that $\theta_1$ is bigger than both $\theta_2$ and $\theta_3$, and the posterior probability that $\tilde{Y}_1$ is bigger than both $\tilde{Y}_2$ and $\tilde{Y}_3$.
 
 ## Problem 5.2
 
+> Sensitivity analysis: Thirty-two students in a science classroom were randomly assigned to one of two study methods, $A$ and $B$, so that $n_A = n_B = 16$ students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of $75$ with a standard deviation of $10$. The scores for the two groups are summarized by $\{\bar{y}_A=75.2, s_A = 7.3\}$ and $\{\bar{y}_B=77.5, s_b = 8.1\}$. Consider independent, conjugate normal prior distributions for each of $\theta_A$ and $\theta_B$, with $\mu_0=75$ and $\sigma_{0}^2 = 100$ for both groups. For each $(\kappa_0, \nu_0) \in \{(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)\}$ (or more values), obtain $Pr(\theta_A < \theta_B | y_A, y_B)$ via Monte Carlo Sampling. Plot this probability as a function of $\kappa_0 = \nu_0$. Describe how you might use this plot to convey the evidence that $\theta_A < \theta_B$ to people of a variety of prior opinions.
 
 ## Problem 5.5
+
+> Unit information prior: Obtain a unit information prior for the normal model as follows:
+
+### (a)
+
+> Reparameterize the normal model as $p(y|\theta, \psi)$, where $\psi=\frac{1}{\sigma^2}$. Write out the log likelihood $l(\theta, \psi|y) = \sum \log p(y_i|\theta, \psi)$ in terms of $\theta$ and $\psi$.
+
+### (b)
+
+> Find a probability density $P_U(\theta, \psi)$ so that $\log p_U(\theta, \psi) = \frac{l(\theta, \psi |y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$ or $\psi$. 
+>
+> Hint: Write $\sum (y_i-\theta)^2$ as $\sum(y_i - \bar{y} + \bar{y} - \theta)^2 = \sum(y_i-\bar{y})^2 + n(\theta - \bar{y})^2$, and recall that $\log p_U(\theta, \psi) = \log p_U(\theta|\psi) + \log p_U(\psi)$.
+
+
+### (c)
+
+> Find a probability density $p_U(\theta, \psi|y)$ that is proportional to $p_U(\theta, \psi) \times p(y_1, \dots, y_n |\theta, \psi)$. It may be convenient to write this joint density as $p_U(\theta|\psi, y)\times p_{U}(\psi|y)$. Can this joint density be considered a posterior density?
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::
