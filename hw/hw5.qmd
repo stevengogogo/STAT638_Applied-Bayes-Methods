@@ -49,6 +49,7 @@ from scipy import stats as st
 from scipy.special import gamma
 import numpy as np
 import matplotlib.pyplot as plt
+from itertools import permutations 
 # Matplotlib setting
 plt.rcParams['text.usetex'] = True
 matplotlib.rcParams['figure.dpi']= 300
@@ -69,28 +70,178 @@ print(pd.__version__)
 
 ## Problem 5.1
 
-> Studying: The files  [`school1.dat`](data/school1.dat), [`school2.dat`](data/school2.dat) and [`school3.dat`](data/school3.dat) contina data on the amount of time students from $3$ high schools spent on studying or homework during an exam period. Analyze data from each of these schools separately, using the normal model with a conjugate prior distribution, in which $\{\mu_0=5, \sigma^{2}_{0}=4, \kappa_0 = 1, \nu = 2\}$ and compute or approximate following:
+> Studying: The files  [`school1.dat`](data/school1.dat), [`school2.dat`](data/school2.dat) and [`school3.dat`](data/school3.dat) contina data on the amount of time students from $3$ high schools spent on studying or homework during an exam period. Analyze data from each of these schools separately, using the normal model with a conjugate prior distribution, in which $\{\mu_0=5, \sigma^{2}_{0}=4, \kappa_0 = 1, \nu_0 = 2\}$ and compute or approximate following:
 
+``` {python}
+schs = [np.loadtxt("data/school{}.dat".format(i)) for i in range(1,4)]
+```
 
 ### (a)
 
-> Posterior means and $95\%$ confidence intervals for the mean $\theta$ and standard deviation $\sigma$ fomr each school;
+> Posterior means and $95\%$ confidence intervals for the mean $\theta$ and standard deviation $\sigma$ from each school;
+
+``` {python}
+class NormalModel:
+  def __init__(self, data, mu0, var0, k0, v0):
+    # Prior
+    self.mu0 = mu0 # prior mean
+    self.var0= var0 # prior variance
+    self.k0= k0 # prior observation
+    self.v0 = v0 
+    # Data
+    self.data = data
+    self.mean = np.mean(data) # sample mean
+    self.n = len(data) # sample counts 
+    self.kn = self.n + self.k0 
+    self.s2 = np.sum( (self.data- self.mean)**2 ) / (self.n - 1)
+
+    # Posterior parameters
+    self.vn = self.get_vn(self.v0, self.n) # Posterior v
+    self.varn = self.get_varn(self.vn, self.v0, self.var0, self.k0, self.n, self.kn, self.mean, self.mu0) # Posterior variance
+    self.mun = self.get_mun(self.k0, self.mu0, self.n, self.mean, self.kn) # Posterior mean
+
+
+  def get_vn(self, v0, n):
+    return v0 + n
+
+  def get_varn(self, vn, v0, var0, k0, n, kn, mean, mu0):
+    varn = (1/vn)*(v0*var0 + (n-1)*self.s2 + (k0*n/kn)*(mean - mu0)**2)
+    return varn
+
+  def get_mun(self, k0, mu0, n, mean, kn):
+    return (k0*mu0 + n*mean)/kn
+
+  def rv_theta_post(self):
+    mu0 = self.mu0; k0 = self.k0; 
+    return st.norm(loc=self.mun, scale= np.sqrt(self.varn/self.kn))
+
+  def rv_pred(self):
+    mun = self.mun
+    varn = self.varn
+    return st.norm(loc=self.mun, scale= np.sqrt(self.varn))
+
+setting = {"mu0": 5, "var0":4, "k0":1, "v0":2}
+nms = [NormalModel(sch, **setting) for sch in schs]
+rv_thps = [nm.rv_theta_post() for nm in nms]
+
+# Display data
+pd.DataFrame({"School":[i+1 for i in range(0, len(nms))],"Mean":[rv_thp.mean() for rv_thp in rv_thps],"95% confidence interval (left, right)":[rv_thp.interval(0.95) for rv_thp in rv_thps]})
+```
 
 ### (b)
 
-> The posterior probability that $\theta_i < \theta_j < \theta_k$ for all siz permutataions $\{i,j,k\}$ of $\{1,2,3\}$;
+> The posterior probability that $\theta_i < \theta_j < \theta_k$ for all size permutataions $\{i,j,k\}$ of $\{1,2,3\}$;
+
+``` {python}
+n_mc = 10000
+samps_thp = [rv_thp.rvs(size=n_mc) for rv_thp in rv_thps]
+perm = list(permutations([0,1,2]))
+text = [""] * len(perm)
+probs = [int] * len(perm)
+for (a, i) in enumerate(perm):
+  text[a] = "theta_{} < theta_{} < theta_{}".format(i[0]+1, i[1]+1, i[2]+1)
+  probs[a] = np.sum(np.logical_and(samps_thp[i[0]] < samps_thp[i[1]], samps_thp[i[1]] < samps_thp[i[2]])) / n_mc
+
+pd.DataFrame({"Permuatations": text, "Probabilities": probs})
+```
 
 ### (c)
 
 > The posterior probability that $\tilde{Y}_i<\tilde{Y}_j < \tilde{Y}_k$ for all siz permuatations $\{i,j,k\}$ of $\{1,2,3\}$, where $\tilde{Y}_i$ is a sample from the posterior predictive distribution of school $i$.
 
+``` {python}
+rv_posts = [nm.rv_pred() for nm in nms]
+
+samps_post = [rv_post.rvs(size=n_mc) for rv_post in rv_posts]
+perm = list(permutations([0,1,2]))
+text = [""] * len(perm)
+probs = [int] * len(perm)
+for (a, i) in enumerate(perm):
+  text[a] = "Y_tilde_{} < Y_tilde_{} < Y_tilde_{}".format(i[0]+1, i[1]+1, i[2]+1)
+  probs[a] = np.sum(np.logical_and(samps_post[i[0]] < samps_post[i[1]], samps_post[i[1]] < samps_post[i[2]])) / n_mc
+
+pd.DataFrame({"Permuatations": text, "Probabilities": probs})
+```
+
+
 ### (d)
 
 > Compute the posterior probability that $\theta_1$ is bigger than both $\theta_2$ and $\theta_3$, and the posterior probability that $\tilde{Y}_1$ is bigger than both $\tilde{Y}_2$ and $\tilde{Y}_3$.
 
+
+``` {python}
+th_biggest = np.sum(np.logical_and(samps_thp[0]>samps_thp[1], samps_thp[0]>samps_thp[2]))/n_mc
+post_biggest = np.sum(np.logical_and(samps_post[0]>samps_post[1], samps_post[0]>samps_post[2]))/n_mc
+
+pd.DataFrame({"Properties": ["Theta_1 is the biggest", "Tilde_1 is the biggest"], "Probabilities":[th_biggest, post_biggest]})
+```
+
+
 ## Problem 5.2
 
-> Sensitivity analysis: Thirty-two students in a science classroom were randomly assigned to one of two study methods, $A$ and $B$, so that $n_A = n_B = 16$ students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of $75$ with a standard deviation of $10$. The scores for the two groups are summarized by $\{\bar{y}_A=75.2, s_A = 7.3\}$ and $\{\bar{y}_B=77.5, s_b = 8.1\}$. Consider independent, conjugate normal prior distributions for each of $\theta_A$ and $\theta_B$, with $\mu_0=75$ and $\sigma_{0}^2 = 100$ for both groups. For each $(\kappa_0, \nu_0) \in \{(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)\}$ (or more values), obtain $Pr(\theta_A < \theta_B | y_A, y_B)$ via Monte Carlo Sampling. Plot this probability as a function of $\kappa_0 = \nu_0$. Describe how you might use this plot to convey the evidence that $\theta_A < \theta_B$ to people of a variety of prior opinions.
+> Sensitivity analysis: $32$ students in a science classroom were randomly assigned to one of two study methods, $A$ and $B$, so that $n_A = n_B = 16$ students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of $75$ with a standard deviation of $10$. The scores for the two groups are summarized by $\{\bar{y}_A=75.2, s_A = 7.3\}$ and $\{\bar{y}_B=77.5, s_b = 8.1\}$. Consider independent, conjugate normal prior distributions for each of $\theta_A$ and $\theta_B$, with $\mu_0=75$ and $\sigma_{0}^2 = 100$ for both groups. For each $(\kappa_0, \nu_0) \in \{(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)\}$ (or more values), obtain $Pr(\theta_A < \theta_B | y_A, y_B)$ via Monte Carlo Sampling. Plot this probability as a function of $\kappa_0 = \nu_0$. Describe how you might use this plot to convey the evidence that $\theta_A < \theta_B$ to people of a variety of prior opinions.
+
+``` {python}
+class NormalModel:
+  def __init__(self, sample_size,sample_mean, sample_var, mu0, var0, k0, v0):
+    # Prior
+    self.mu0 = mu0 # prior mean
+    self.var0= var0 # prior variance
+    self.k0= k0 # prior observation
+    self.v0 = v0 
+    # Data
+    self.mean = sample_mean # sample mean
+    self.n = sample_size # sample counts 
+    self.kn = self.n + self.k0 
+    self.s2 = sample_var
+
+    # Posterior parameters
+    self.vn = self.get_vn(self.v0, self.n) # Posterior v
+    self.varn = self.get_varn(self.vn, self.v0, self.var0, self.k0, self.n, self.kn, self.mean, self.mu0) # Posterior variance
+    self.mun = self.get_mun(self.k0, self.mu0, self.n, self.mean, self.kn) # Posterior mean
+
+
+  def get_vn(self, v0, n):
+    return v0 + n
+
+  def get_varn(self, vn, v0, var0, k0, n, kn, mean, mu0):
+    varn = (1/vn)*(v0*var0 + (n-1)*self.s2 + (k0*n/kn)*(mean - mu0)**2)
+    return varn
+
+  def get_mun(self, k0, mu0, n, mean, kn):
+    return (k0*mu0 + n*mean)/kn
+
+  def rv_theta_post(self):
+    mu0 = self.mu0; k0 = self.k0; 
+    return st.norm(loc=self.mun, scale= np.sqrt(self.varn/self.kn))
+
+  def rv_pred(self):
+    mun = self.mun
+    varn = self.varn
+    return st.norm(loc=self.mun, scale= np.sqrt(self.varn))
+
+def expAB(k0,v0,size=1000):
+  setting = {"sample_size":16, "mu0": 75, "var0": 100, "k0":k0, "v0":v0}
+  rvtA = NormalModel(sample_mean=75.2,\
+    sample_var=7.3, **setting).rv_theta_post()
+  rvtB = NormalModel(sample_mean=77.5,\
+    sample_var=8.1, **setting).rv_theta_post()
+
+  spA, spB = rvtA.rvs(size=size), rvtB.rvs(size=size)
+  return np.sum(spA < spB)/size
+
+pars = [i**2 for i in range(0, 7)]
+vals = [float]*len(pars)
+
+for (i, p) in enumerate(pars):
+  vals[i] = expAB(p,p)
+
+# Plotting
+figV, axV = plt.subplots()
+axV.plot(pars,vals, 'o', color="k")
+axV.set_xlabel("$(\\kappa_0, \\nu_0)$")
+axV.set_ylabel("$Pr(\\theta_A < \\theta_B | y_A, y_B)$");
+```
 
 ## Problem 5.5
 
