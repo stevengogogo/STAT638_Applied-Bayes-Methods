@@ -181,6 +181,8 @@ pd.DataFrame({"Properties": ["Theta_1 is the biggest", "Tilde_1 is the biggest"]
 
 > Sensitivity analysis: $32$ students in a science classroom were randomly assigned to one of two study methods, $A$ and $B$, so that $n_A = n_B = 16$ students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of $75$ with a standard deviation of $10$. The scores for the two groups are summarized by $\{\bar{y}_A=75.2, s_A = 7.3\}$ and $\{\bar{y}_B=77.5, s_b = 8.1\}$. Consider independent, conjugate normal prior distributions for each of $\theta_A$ and $\theta_B$, with $\mu_0=75$ and $\sigma_{0}^2 = 100$ for both groups. For each $(\kappa_0, \nu_0) \in \{(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)\}$ (or more values), obtain $Pr(\theta_A < \theta_B | y_A, y_B)$ via Monte Carlo Sampling. Plot this probability as a function of $\kappa_0 = \nu_0$. Describe how you might use this plot to convey the evidence that $\theta_A < \theta_B$ to people of a variety of prior opinions.
 
+- Increase $(\kappa_0, \nu_0)$ can descrease the probability of $B$ bigger that than $A$. But, the probability of $B$ larger than $A$ can hardly lower than $0.5$.
+
 ``` {python}
 class NormalModel:
   def __init__(self, sample_size,sample_mean, sample_var, mu0, var0, k0, v0):
@@ -251,16 +253,62 @@ axV.set_ylabel("$Pr(\\theta_A < \\theta_B | y_A, y_B)$");
 
 > Reparameterize the normal model as $p(y|\theta, \psi)$, where $\psi=\frac{1}{\sigma^2}$. Write out the log likelihood $l(\theta, \psi|y) = \sum \log p(y_i|\theta, \psi)$ in terms of $\theta$ and $\psi$.
 
+$$p(y|\theta,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}(\frac{y-\theta}{\sigma})^2}$$
+
+$$p(y|\theta, \psi) = \frac{\sqrt{\psi}}{\sqrt{2\pi}}e^{-\frac{1}{2}(y-\theta)^2\psi}$$
+
+$$\log p(y_i|\theta,\psi) = \log\left(\sqrt{\frac{\psi}{2\pi}}\right) - \frac{1}{2}(y_i -\theta)^2\psi$$
+
+
+\begin{align}
+l(\theta,\psi|y) = \sum_{i=1}^{n} \log(y_i|\theta, \psi)%
+&= \log\left(\frac{\psi}{2\pi}\right)^{n/2} - \frac{1}{2}\psi \sum_{i=1}^{n}(y_i -\theta)^2\\ 
+&= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2\\ 
+&= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_{i}^{2} - 2\theta y_{i} + \theta^2)\\ 
+&= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}(\sum y_{i}^{2} - 2\theta\sum y_{i} + n\theta^2)\\ 
+&= \frac{-\psi}{2} \sum_{i=1}^{n} y_{i}^{2} + \psi\theta\sum_{i=1}^{n} y_i - \frac{n\psi\theta^2}{2} + \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right)
+\end{align}
+
 ### (b)
 
 > Find a probability density $P_U(\theta, \psi)$ so that $\log p_U(\theta, \psi) = \frac{l(\theta, \psi |y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$ or $\psi$. 
 >
 > Hint: Write $\sum (y_i-\theta)^2$ as $\sum(y_i - \bar{y} + \bar{y} - \theta)^2 = \sum(y_i-\bar{y})^2 + n(\theta - \bar{y})^2$, and recall that $\log p_U(\theta, \psi) = \log p_U(\theta|\psi) + \log p_U(\psi)$.
 
+\begin{align}
+l(\theta, \psi|y)%
+&=\frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2\\ 
+&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[\sum(y_i - \bar{y})^2 + n(\theta-\bar{y})^2\right]\\ 
+&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[n \sigma^2 + n(\theta-\bar{y})^2\right]\\
+&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{n\psi}{2}\left[ \frac{1}{\psi}+ (\theta-\bar{y})^2\right]\\
+\frac{l(\theta, \psi|y)}{n} + c &= \frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[ \frac{1}{\psi} + (\theta-\bar{y})^2\right] + c\\ 
+&= \frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(\theta-\bar{y})^2 + c - \frac{1}{2}\\ 
+&= \log p_U(\theta, \psi) = \log p_U (\theta|\psi) + \log p_U(\psi)
+\end{align}
+
+- $p_{U}(\theta, \psi) \propto \sqrt{\frac{\psi}{2\pi}} e^{-\frac{\psi(\theta-\bar{y})^2}{2}} \sim Normal(\bar{y}, \frac{1}{\psi})$
+
+- $p_U(\theta|\psi) \sim Normal(\bar{y}, \frac{1}{\psi})$
+
+- $p_{U}(\psi) \sim Gamma(\frac{3}{2}, \frac{(\theta-\bar{y})^2}{2})$
+
 
 ### (c)
 
 > Find a probability density $p_U(\theta, \psi|y)$ that is proportional to $p_U(\theta, \psi) \times p(y_1, \dots, y_n |\theta, \psi)$. It may be convenient to write this joint density as $p_U(\theta|\psi, y)\times p_{U}(\psi|y)$. Can this joint density be considered a posterior density?
+
+
+\begin{align}
+p_{U}(\theta,\psi |y)%
+&= p_U(\theta|\psi, y)\times p_{U}(\psi|y)\\
+&\propto Normal(\theta, \bar{y}, \frac{1}{\psi}) \times Gamma(\psi, \frac{3}{2}, \frac{(\theta-\bar{y})^2}{2})\\ 
+&\propto \psi e^{-\psi\frac{(\theta-\bar{y})^2}{2}} \times \psi^{\frac{1}{2}}e^{-\psi\frac{(\theta-\bar{y})^2}{2}}\\ 
+&\propto \psi^{\frac{3}{2}}e^{-\psi(\theta-\bar{y})^2}
+\end{align}
+
+- $p_U(\theta|\psi, y) \propto \psi^{\frac{3}{2}}e^{-\psi(\theta-\bar{y})^2}$
+- $p_U(\psi|\theta, y) \sim Gamma(\frac{3}{2}, (\theta-\bar{y})^2)$
+- Yes, it can be considered as a posterior density.
 
 ::: {.content-hidden when-format="html"}
 
