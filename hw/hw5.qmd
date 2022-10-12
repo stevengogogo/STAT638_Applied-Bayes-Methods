@@ -279,36 +279,70 @@ l(\theta,\psi|y) = \sum_{i=1}^{n} \log(y_i|\theta, \psi)%
 l(\theta, \psi|y)%
 &=\frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2\\ 
 &=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[\sum(y_i - \bar{y})^2 + n(\theta-\bar{y})^2\right]\\ 
-&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[n \sigma^2 + n(\theta-\bar{y})^2\right]\\
-&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{n\psi}{2}\left[ \frac{1}{\psi}+ (\theta-\bar{y})^2\right]\\
-\frac{l(\theta, \psi|y)}{n} + c &= \frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[ \frac{1}{\psi} + (\theta-\bar{y})^2\right] + c\\ 
-&= \frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(\theta-\bar{y})^2 + c - \frac{1}{2}\\ 
-&= \log p_U(\theta, \psi) = \log p_U (\theta|\psi) + \log p_U(\psi)
+&=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[(n-1) s^2 + n(\theta-\bar{y})^2\right]\\ 
+&= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left((n-1)s^2 + n\theta^2 - 2n\theta\bar{y} + n\bar{y}^2\right)\\
+&= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \theta^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \bar{y}^2}{2}\\ 
+&= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \bar{y}^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \theta^2}{2}
 \end{align}
 
-- $p_{U}(\theta, \psi) \propto \sqrt{\frac{\psi}{2\pi}} e^{-\frac{\psi(\theta-\bar{y})^2}{2}} \sim Normal(\bar{y}, \frac{1}{\psi})$
+\begin{align}
+\frac{l(\theta, \psi|y)}{n} + c &= \underbrace{\frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2n}(n-1)s^2 - \frac{\psi  \bar{y}^2}{2}}_{=h(\psi|y)} + \underbrace{\psi\theta\bar{y} - \frac{\psi\theta^2}{2}}_{=g(\theta|\psi, y)} + c
+\end{align}
 
-- $p_U(\theta|\psi) \sim Normal(\bar{y}, \frac{1}{\psi})$
+\begin{align}
+ p_U(\theta,\psi)%
+ &= \exp\left(\frac{l(\theta,\psi|y)}{n}+ c\right)\\
+ &\propto  \exp\left(\frac{l(\theta,\psi|y)}{n}\right)\\ 
+ &= \exp(h(\psi|y)) \exp(g(\theta|\psi,y))
+\end{align}
 
-- $p_{U}(\psi) \sim Gamma(\frac{3}{2}, \frac{(\theta-\bar{y})^2}{2})$
+\begin{align}
+\exp(h(\psi|y))%
+&= (\frac{\psi}{2\pi})^{1/2}\exp\left(- (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi\right)\\
+&\propto \psi^{\frac{1}{2}}\exp\left(- \frac{\psi}{(\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1}}\right)\\
+&\sim Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})
+\end{align}
 
+\begin{align}
+\exp(g(\theta|\psi, y))%
+&= \exp\left( \psi\theta\bar{y} - \frac{\psi\theta^2}{2}\right)\\
+&= \exp\left( -\frac{\psi}{2}\theta^2 + \psi\bar{y}\theta - \frac{\psi\bar{y}^2}{2} + \frac{\psi\bar{y}^2}{2} \right)\\
+&= \exp\left( -\frac{\psi}{2}(\theta^2 - 2\bar{y}\theta + \bar{y}^2) + \frac{\psi\bar{y}^2}{2}\right)\\
+&= \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 + \frac{\psi\bar{y}^2}{2}\right)\\
+&\propto \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 \right)\\
+&= \exp\left( - \frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}} \right)^2\right)\\ 
+&\propto Normal(\theta, \bar{y}, \psi^{-1/2})
+\end{align}
+
+Thus[^wiki-gamma],
+
+\begin{align}
+  P_{U}(\theta,\psi) &= P_{U}(\theta|\psi)P_{U}(\psi)
+  \propto  Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})\\ 
+  &\times Normal(\theta, \bar{y}, \psi^{-1/2})\\
+\end{align}
+
+[^wiki-gamma]: Use the PDF formula on [Wiki](https://en.wikipedia.org/wiki/Gamma_distribution)
 
 ### (c)
 
 > Find a probability density $p_U(\theta, \psi|y)$ that is proportional to $p_U(\theta, \psi) \times p(y_1, \dots, y_n |\theta, \psi)$. It may be convenient to write this joint density as $p_U(\theta|\psi, y)\times p_{U}(\psi|y)$. Can this joint density be considered a posterior density?
 
-
 \begin{align}
-p_{U}(\theta,\psi |y)%
-&= p_U(\theta|\psi, y)\times p_{U}(\psi|y)\\
-&\propto Normal(\theta, \bar{y}, \frac{1}{\psi}) \times Gamma(\psi, \frac{3}{2}, \frac{(\theta-\bar{y})^2}{2})\\ 
-&\propto \psi e^{-\psi\frac{(\theta-\bar{y})^2}{2}} \times \psi^{\frac{1}{2}}e^{-\psi\frac{(\theta-\bar{y})^2}{2}}\\ 
-&\propto \psi^{\frac{3}{2}}e^{-\psi(\theta-\bar{y})^2}
+ P_{U}(\theta, \psi|y)%
+ &= P_{U}(\psi|y) \times p_{U}(\theta|\psi, y)\\
+ &= Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})\\ 
+  &\times Normal(\theta, \bar{y}, \psi^{-1/2})\\
+  &\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}}\right)^2\right)\\
+  &\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta-\bar{y}\right)^2\right)\\
+  &\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta^2-2\theta\bar{y}+\bar{y}^2\right)\right)\\
+  &\psi^{1/2}\exp\left(-\left( \frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2} + \frac{\bar{y}^2}{2} \right)\psi \right) \times \exp\left(-\frac{\psi}{2}(\theta^2-2\theta\bar{y})\right)
 \end{align}
 
-- $p_U(\theta|\psi, y) \propto \psi^{\frac{3}{2}}e^{-\psi(\theta-\bar{y})^2}$
-- $p_U(\psi|\theta, y) \sim Gamma(\frac{3}{2}, (\theta-\bar{y})^2)$
-- Yes, it can be considered as a posterior density.
+
+- $p_U(\theta|\psi, y) \propto Normal(\theta, \bar{y}, \psi^{-1/2})$
+- $p_U(\psi|\theta, y) \sim Gamma(\frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})$
+- Yes, it can be considered as a posterior density because the unit information prior is the product of two proper distribution.
 
 ::: {.content-hidden when-format="html"}
 
