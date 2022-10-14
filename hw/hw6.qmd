@@ -1,0 +1,101 @@
+---
+title: "Homework 6"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+  pdf:
+    table-of-contents: true
+jupyter: python3  
+execute: 
+    echo: true
+    freeze: auto
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read @hoff2009first [ch. 6].
+> Then, do @hoff2009first [Exercise 6.1]. You may assume that $\theta$ and \gamma are a priori independent, and that $Y_A$ and $Y_B$ are conditionally independent given $\theta$ and $\gamma$.
+
+## Problem 6.1
+
+> Poisson population comparisons: Let's reconsider the number of children data of Exercise 4.8. We'll assume Poisson sampling models for the two groups as before, but now we'll parameterize $\theta_A$ and $\theta_B$ as $\theta_A = \theta, \theta_B = \theta\times \gamma$. In the parameterization, $\gamma$ represents the relative rate $\frac{\theta_B}{\theta_A}$. Let $\theta\sim gamma(a_\theta, b_\theta)$ and let $\gamma\sim gamma(a_\gamma, b_\gamma)$.
+
+### (a)
+> Are $\theta_A$ and $\theta_B$ independent or dependent under this prior distribution? In what situations is such a joint prior distribution justified?
+
+\begin{align}
+    Cov(\theta_A, \theta_B)%
+    &= E[\theta_A\theta_B] - E[\theta_A]E[\theta_B]\\
+    &= E[\theta \theta\gamma] - E[\theta]E[\theta\gamma]\\ 
+    &= E[\theta^2 \gamma] - E[\theta]E[\theta\gamma]\\ 
+    &= E[\theta^2]E[\gamma] - E[\theta]^2 E[\gamma]\\ 
+    &= E[\gamma](E[\theta^2] - E[\theta]^2)\\ 
+    &= E[\gamma]Var[\theta]\\ 
+    &= \frac{a_{\gamma}}{b_{\gamma}}\frac{a_{\theta}}{b_{\theta}^2}\\ 
+    &\neq 0
+\end{align}
+
+Because $Cov(\theta_A, \theta_B) > 0$, $\theta_A$ and $\theta_B$ are dependent.
+
+### (b)
+> Obtain the form of the full conditional distribution of $\theta$ given $\mathbb{y}_A$, $\mathbb{y}_B$ and $\gamma$.
+
+\begin{align}
+    p(\theta | y_A, y_B, \gamma)%
+    &= \frac{p(y_A, y_B, \gamma | \theta)p(\theta)}{p(y_A, y_B, \gamma)}\\
+    &\propto p(y_A, y_B, \gamma|\theta)p(\theta)\\ 
+    &= p(y_A|y_B, \gamma, \theta)p(y_B |\gamma, \theta)p(\gamma| \theta)p(\theta)p(\theta)\\ 
+    &= p(y_A|y_B, \gamma, \theta)p(y_B |\gamma, \theta)p(\gamma| \theta)p(\theta)^2\\ 
+    &= \prod_{i = 1}^{n_A} gamma(y_{Ai}; a_{\theta}, b_{\theta})  gamma(\gamma ;a_{\gamma}, b_{\gamma})gamma(\theta, a_{\theta}, b_{\theta})^2
+\end{align}
+
+\begin{align}
+    p(y_{B1}|\gamma, \theta)%
+    &= p(\gamma\theta | \gamma, \theta)\\ 
+\end{align}
+
+### (c)
+> Obtain the form of the full conditional distribution of $\gamma$ given $\mathbb{y}_A$, $\mathbb{y}_{B}$ and $\theta$.
+
+### (d)
+> Set $a_{\theta} = 2$ and $b_{\theta} =1$. Let $a_{\gamma} = b_{\gamma} \in \{8,16,32,64,128\}$. For each of these five values, run a Gibbs sampler of at least $5000$ iterations and obtain $E[\theta_B - \theta_A| \mathbb{y}_A, \mathbb{y}_B]$. Describe the effects of the prior distribution for $\gamma$ on the results.
+
+
+## Problem External
+
+> Also complete the following problem: We would like to study the survival times after patients receive a new cancer treatment. We observe the following survival times (in years) for $6$ patients: $3$, $5$, $x$, $4$, $x$, $x$. Here, $x$ denotes a censored observation, meaning that the respective patient survived for more than $5$ years after the treatment (which is when the study ended). We consider the following model:
+> \begin{equation} 
+    Y_i = \begin{cases}
+        Z_i, & Z_i \leq c\\ 
+        \times, & Z_i > c
+    \end{cases}, 
+    i = 1, \dots, n
+> \end{equation}
+> $$Z_1, \dots, Z_n |\theta \sim^{iid} Exponential(\theta)$$
+> $$\theta\sim Gamma(a,b)$$
+> We have $a=1$, $b=4$, $c=5$, and $n=6$.
+
+### (a)
+> Find the full-conditional distribution (FCD) of $\theta$
+
+### (b)
+> Find the FCD of each $Z_i$. 
+>
+> (Hint: For uncensored $i$, this distribution will be a degenerate point mass; for censored $i$, the resulting distribution will be a so-called truncated exponential distribution, which is proportional to a exponential density but constrained to lie in an interval. Each FCD does not depend on other Z's)
+
+### (c) {#sec-e-c}
+> Implement a Gibbs sampler that approximate the joint posterior of $\theta$ and $Z_1,\dots, Z_n$.
+> (For example, you can use [`truncdist::rtrunc(3, spec=`exp`, a=c, rate=theta)`](https://www.rdocumentation.org/packages/truncdist/versions/1.0-2/topics/rtrunc) to sample from a truncated exponential in R.)
+> Run the sampler for enough iterations such that each of the effective sample sizes for $\theta$ and for the three censored $Z_i$ are all greater than $1000$. Provide the corresponding trace plots and discuss the mixing of the Markov chain.
+
+
+### (d)
+> Obtain an approximate $96\%$ posterior credible interval for $\theta$ based on the samples from [(c)](#sec-e-c).
