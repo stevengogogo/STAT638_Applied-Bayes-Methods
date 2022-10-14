@@ -86,32 +86,121 @@ Because $Cov(\theta_A, \theta_B) > 0$, $\theta_A$ and $\theta_B$ are dependent.
 
 \begin{align}
     p(\theta|y_A, y_B, \gamma)%
-    &= p(\theta|y_A)\\ 
-    &\sim gamma(\theta; a_{\theta} + \sum_{i=1}^{n} y_i, b_{\theta} + n)
+    &= \frac{p(y_A, y_B | \theta, \gamma) p(\theta|\gamma)}{p(y_A, y_B |\gamma)}\\ 
+    &= \frac{p(y_A|\theta,\gamma)p(y_B|\theta,\gamma)p(\theta|\gamma)}{p(y_A|\gamma)p(y_B|\gamma)}\\ 
+    &= \frac{p(y_A|\theta)p(y_B|\theta,\gamma)p(\theta)}{p(y_A)p(y_B|\gamma)}\\ 
+    &\propto p(y_A|\theta) p(y_B |\theta,\gamma)p(\theta)\\ 
+    &=  \prod_{i=1}^{n_A} poisson(y_{Ai};\theta)\times \prod_{i=1}^{n_B} poisson(y_{Bi};\theta\gamma) \times gamma(\theta; a_{\theta}, b_{\theta})\\ 
+    &= \theta^{\sum_{i=1}^{n_A}y_{Ai}}e^{-n_A\theta} \times (\theta\gamma)^{\sum_{i=1}^{n_B}}e^{-n_B \theta\gamma} \times  \theta^{a_{\theta}-1}e^{-b_{\theta}\theta}\\ 
+    &= \theta^{n_A\bar{y}_A}e^{-n_A \theta}\times (\theta\gamma)^{n_B\bar{y}_B}e^{-n_B\theta\gamma}\times \theta^{a_{\theta}-1}e^{-b_{\theta}\theta}\\ 
+    &= \theta^{n_A\bar{y}_A}e^{-n_A \theta}\times (\theta)^{n_B\bar{y}_B}e^{-n_B\theta\gamma}\times \theta^{a_{\theta}-1}e^{-b_{\theta}\theta}\\ 
+    &\propto \theta^{n_A\bar{y}_A + n_B\bar{y}_B + a_{\theta}-1}e^{-(n_A+n_B\gamma+b_{\theta})\theta}
 \end{align}
 
+Therefore, $p(\theta|y_A, y_B, \gamma) \sim gamma(\theta| n_A\bar{y}_A + n_B\bar{y}_B + a_\theta, n_A+ n_B\gamma + b_\theta)$
 
 ### (c)
 > Obtain the form of the full conditional distribution of $\gamma$ given $\mathbb{y}_A$, $\mathbb{y}_{B}$ and $\theta$.
 
 \begin{align}
     p(\gamma | y_A, y_B, \theta)%
-    &= p(\gamma | y_A, y_B)\\
-    &= \frac{p(y_A, y_B |\gamma)p(\gamma)}{p(y_A, y_B)}\\ 
-    &\propto  p(y_A, y_B |\gamma)p(\gamma)\\ 
-    &\sim gamma(\gamma; a_{\gamma} + \sum^{n}_{i=1} \frac{y_{Bi}}{y_{Ai}}, b_{\gamma} + n)
+    &= \frac{p(y_A, y_B | \gamma, \theta)p(\gamma|\theta)}{p(y_A, y_B|\theta)}\\ 
+    &\propto p(y_A, y_B | \gamma, \theta)p(\gamma|\theta)\\ 
+    &= p(y_A|\gamma,\theta)p(y_B|\gamma,\theta)p(\gamma)\\ 
+    &= p(y_A|\theta)p(y_B|\gamma,\theta)p(\gamma)\\ 
+    &= \prod_{i=1}^{n_A}p(y_{Ai}|\theta) \prod_{i=1}^{n_B}p(y_{Bi}|\gamma,\theta)p(\gamma)\\ 
+    &= \theta^{s\bar{y}_A}e^{-n_A\theta}(\gamma\theta)^{n_B\bar{y}_B}e^{-n_B\gamma\theta}\gamma^{a_{\gamma}-1}e^{-b_{\gamma}\gamma}\\ 
+    &\propto \gamma^{n_B\bar{y}_B + a_\gamma -1 } e^{-n_A\theta-n_B\gamma\theta-b_\gamma\gamma}\\ 
+    &\propto \gamma^{n_B\bar{y}_B + a_\gamma -1 } e^{-(n_B\theta+b_\gamma)\gamma}
 \end{align}
+
+Therefore, $p(\gamma|y_A, y_B, \theta) \sim Gamma(n_B\bar{y}_B+a_\gamma, n_B\theta+b_\gamma)$ 
 
 
 ### (d)
 > Set $a_{\theta} = 2$ and $b_{\theta} =1$. Let $a_{\gamma} = b_{\gamma} \in \{8,16,32,64,128\}$. For each of these five values, run a Gibbs sampler of at least $5000$ iterations and obtain $E[\theta_B - \theta_A| \mathbb{y}_A, \mathbb{y}_B]$. Describe the effects of the prior distribution for $\gamma$ on the results.
 
-``` {python}
-dataA = np.loadtxt("data/menchild30bach.dat")
-dataB = np.loadtxt("data/menchild30nobach.dat")
 
-print(dataA.shape)
-print(dataB.shape)
+
+``` {python}
+class GibbSampler:
+    def __init__(self, a_t, b_t, a_g, b_g):
+        # Theta
+        self.a_t = 2
+        self.b_t = 1
+        # Gamma
+        self.a_g = a_g
+        self.b_g = b_g
+        self.theta = st.gamma(a_t, scale=1/b_t)
+        self.gamma = st.gamma(a_g, scale=1/b_g)
+
+    def expection(self, obs_func, dataA, dataB, n_sampling):
+        # Sample number
+        nA=len(dataA)
+        nB= len(dataB)
+        # Sample mean
+        mA = np.mean(dataA)
+        mB = np.mean(dataB)
+        
+    
+        thetaAs = np.zeros(n_sampling) 
+        thetaBs = np.zeros(n_sampling)
+
+        # initial
+        theta_pre = st.gamma.rvs(self.a_t, scale=(self.b_t)**-1)
+        gamma_pre = st.gamma.rvs(self.a_g, scale=(self.b_g)**-1)
+
+        # Gibbs iteration
+        thetaAs[0] = theta_pre
+        thetaBs[0] = theta_pre*gamma_pre
+        
+        for i in range(1,n_sampling):
+            # posterior
+            theta = st.gamma.rvs(nA*mA + nB*mB + self.a_t, scale= (nA + nB*gamma_pre + self.b_t)**-1)
+            theta_pre = theta
+            gamma = st.gamma.rvs(nB*mB + self.a_g, scale= (nB*theta_pre + self.b_g)**-1)
+            gamma_pre = gamma
+    
+            # transformation
+            thetaAs[i] = theta
+            thetaBs[i] = theta*gamma
+        
+        # Apply obs
+        obs = [obs_func(thetaAs[i], thetaBs[i]) for i in range(0,n_sampling)]
+        
+        return np.mean(obs)
+
+
+def obs_func(theta_A, theta_B):
+    return theta_B - theta_A
+
+
+vals = np.array([8,16,32,64,128], dtype=float)       
+
+priors = [{\
+    "a_t": 2.0,
+    "b_t": 1.0,
+    "a_g": a,
+    "b_g": a
+} for a in vals]
+
+obs = {
+    "obs_func": obs_func, 
+    "dataA": np.loadtxt("data/menchild30bach.dat"), 
+    "dataB": np.loadtxt("data/menchild30nobach.dat"), 
+    "n_sampling": 5000
+}
+
+exps = np.zeros(len(vals))
+
+for i in range(0, len(vals)):
+    g = GibbSampler(**priors[i])
+    exps[i] = g.expection(**obs)
+
+
+plt.plot(vals, exps, "-o",color="black");
+plt.xlabel("$(a_{g}, b_{g})$");
+plt.ylabel("$E[\\theta_{B}-\\theta_{A} | y_A, y_{B}]$");
 ```
 
 ## Problem External
