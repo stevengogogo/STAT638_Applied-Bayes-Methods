@@ -24,6 +24,42 @@ execute:
 > Read @hoff2009first [ch. 6].
 > Then, do @hoff2009first [Exercise 6.1]. You may assume that $\theta$ and \gamma are a priori independent, and that $Y_A$ and $Y_B$ are conditionally independent given $\theta$ and $\gamma$.
 
+---
+
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {python}
+%matplotlib inline
+import sys # system information
+import matplotlib # plotting
+import scipy # scientific computing
+import random 
+import pandas as pd # data managing
+from scipy.special import comb
+from scipy import stats as st
+from scipy.special import gamma
+import numpy as np
+import matplotlib.pyplot as plt
+from itertools import permutations 
+# Matplotlib setting
+plt.rcParams['text.usetex'] = True
+matplotlib.rcParams['figure.dpi']= 300
+np.random.seed(20220928) # Consistent random effect
+```
+
+### Version
+``` {python}
+print(sys.version)
+print(matplotlib.__version__)
+print(scipy.__version__)
+print(np.__version__)
+print(pd.__version__)
+```
+
+---
+
+
 ## Problem 6.1
 
 > Poisson population comparisons: Let's reconsider the number of children data of Exercise 4.8. We'll assume Poisson sampling models for the two groups as before, but now we'll parameterize $\theta_A$ and $\theta_B$ as $\theta_A = \theta, \theta_B = \theta\times \gamma$. In the parameterization, $\gamma$ represents the relative rate $\frac{\theta_B}{\theta_A}$. Let $\theta\sim gamma(a_\theta, b_\theta)$ and let $\gamma\sim gamma(a_\gamma, b_\gamma)$.
@@ -49,25 +85,34 @@ Because $Cov(\theta_A, \theta_B) > 0$, $\theta_A$ and $\theta_B$ are dependent.
 > Obtain the form of the full conditional distribution of $\theta$ given $\mathbb{y}_A$, $\mathbb{y}_B$ and $\gamma$.
 
 \begin{align}
-    p(\theta | y_A, y_B, \gamma)%
-    &= \frac{p(y_A, y_B, \gamma | \theta)p(\theta)}{p(y_A, y_B, \gamma)}\\
-    &\propto p(y_A, y_B, \gamma|\theta)p(\theta)\\ 
-    &= p(y_A|y_B, \gamma, \theta)p(y_B |\gamma, \theta)p(\gamma| \theta)p(\theta)p(\theta)\\ 
-    &= p(y_A|y_B, \gamma, \theta)p(y_B |\gamma, \theta)p(\gamma| \theta)p(\theta)^2\\ 
-    &= \prod_{i = 1}^{n_A} gamma(y_{Ai}; a_{\theta}, b_{\theta})  gamma(\gamma ;a_{\gamma}, b_{\gamma})gamma(\theta, a_{\theta}, b_{\theta})^2
+    p(\theta|y_A, y_B, \gamma)%
+    &= p(\theta|y_A)\\ 
+    &\sim gamma(\theta; a_{\theta} + \sum_{i=1}^{n} y_i, b_{\theta} + n)
 \end{align}
 
-\begin{align}
-    p(y_{B1}|\gamma, \theta)%
-    &= p(\gamma\theta | \gamma, \theta)\\ 
-\end{align}
 
 ### (c)
 > Obtain the form of the full conditional distribution of $\gamma$ given $\mathbb{y}_A$, $\mathbb{y}_{B}$ and $\theta$.
 
+\begin{align}
+    p(\gamma | y_A, y_B, \theta)%
+    &= p(\gamma | y_A, y_B)\\
+    &= \frac{p(y_A, y_B |\gamma)p(\gamma)}{p(y_A, y_B)}\\ 
+    &\propto  p(y_A, y_B |\gamma)p(\gamma)\\ 
+    &\sim gamma(\gamma; a_{\gamma} + \sum^{n}_{i=1} \frac{y_{Bi}}{y_{Ai}}, b_{\gamma} + n)
+\end{align}
+
+
 ### (d)
 > Set $a_{\theta} = 2$ and $b_{\theta} =1$. Let $a_{\gamma} = b_{\gamma} \in \{8,16,32,64,128\}$. For each of these five values, run a Gibbs sampler of at least $5000$ iterations and obtain $E[\theta_B - \theta_A| \mathbb{y}_A, \mathbb{y}_B]$. Describe the effects of the prior distribution for $\gamma$ on the results.
 
+``` {python}
+dataA = np.loadtxt("data/menchild30bach.dat")
+dataB = np.loadtxt("data/menchild30nobach.dat")
+
+print(dataA.shape)
+print(dataB.shape)
+```
 
 ## Problem External
 
