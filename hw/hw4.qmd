@@ -244,7 +244,7 @@ ax.legend();
 
 > Using a Poisson sampling model, a $gamma(2,1)$ prior for each $\theta$ and the data in the files [`menchild30bach.dat`](data/menchild30bach.dat.txt) and [`menchild30nobach.dat`](data/menchild30nobach.dat.txt), obtain $5000$ samples of $\bar{Y}_{A}$ and $\bar{Y}_{B}$ from the posterior predictive distribution of the two samples. Plot the Monte Carlo approximations to these two posterior predictive distributions. (data available in [Appendix](#sec-data))
 
-``` {python}
+``` 
 # Data
 dataA = np.loadtxt("data/menchild30bach.dat")
 dataB = np.loadtxt("data/menchild30nobach.dat")
@@ -287,7 +287,7 @@ ax.legend();
 - The $95\%$ confidence interval does not contain the negative region. Thus, the belief of $\theta_B > \theta_A$ is confident.
 - However, there is more uncertainty about the posterior predictive distribution, leading to the uncertain quantity comparison between $Y_A$ and $Y_B$.
 
-``` {python}
+```
 N = 5000
 thetaAs = st.gamma.rvs(2+np.sum(dataA), scale=1/(1+len(dataA)), size=N)
 thetaBs = st.gamma.rvs(2+np.sum(dataB), scale=1/(1+len(dataB)), size=N)

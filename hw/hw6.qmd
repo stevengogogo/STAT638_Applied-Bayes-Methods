@@ -220,10 +220,59 @@ plt.ylabel("$E[\\theta_{B}-\\theta_{A} | y_A, y_{B}]$");
 ### (a)
 > Find the full-conditional distribution (FCD) of $\theta$
 
+\begin{align}
+    p(\theta|y, z)%
+    &\propto \underbrace{p(y|\theta, z)}_{=1}p(\theta|z)\\
+    &= p(\theta|z)\\ 
+    &= \frac{p(z|\theta)p(\theta)}{p(z)}\\ 
+    &\propto p(z|\theta)p(\theta)\\ 
+    &= \prod_{i=1}^{n=6} p(z_i|\theta)p(\theta)
+\end{align}
+
+- $p(z_i|\theta) \propto \theta e^{-\theta z_i}$
+- $p(\theta) \propto \theta^{a-1}e^{-b\theta}$
+
+\begin{align}
+    p(\theta|y,z)% 
+    &=  \left(\prod_{i=1}^{n=6} \theta e^{-\theta z_i}\right) \theta^{a-1}e^{-b\theta}\\ 
+    &= \theta^n e^{-\theta n \bar{z}}\theta^{a-1}e^{-b\theta}\\ 
+    &= \theta^{n+a-1}e^{-b\theta-\theta n \bar{z}}\\ 
+    &= \theta^{(n+a)-1}e^{-(b+n\bar{z})\theta}
+\end{align}
+
+Therefore, $\theta \sim gamma(n+a, b+n\bar{z})$
+- where $\bar{z} = \frac{1}{n}\sum_{i=1}^{n}z_i$
+
 ### (b)
 > Find the FCD of each $Z_i$. 
 >
 > (Hint: For uncensored $i$, this distribution will be a degenerate point mass; for censored $i$, the resulting distribution will be a so-called truncated exponential distribution, which is proportional to a exponential density but constrained to lie in an interval. Each FCD does not depend on other Z's)
+
+\begin{align}
+    p(z_i | \theta, y_i)%
+    &= \begin{cases}
+        1, & y_{i} \text{ is uncensored }\\ 
+        p(z_i |\theta, y_i=x) & y_{i} \text{ is censored }
+    \end{cases}
+\end{align}
+
+\begin{align}
+     p(z_i |\theta, y_i=x)%
+     &\propto p(y_i=x|z_i, \theta)p(z_i|\theta)\\ 
+     &= p(z_i \in [c,\infty] |z_i, \theta ) (\theta e^{-\theta z_i})\\ 
+     &= \left(\int_{c}^{\infty} \theta e^{-\theta x}dx \right)(\theta e^{-\theta z_i})\\ 
+     &= e^{-\theta c}(\theta e^{-\theta z_i})\\ 
+     &= \theta e^{-\theta(z_i + c)}
+\end{align}
+
+\begin{align}
+    p(z_i |\theta, y_i=x)%
+    &= \theta e^{-\theta(z_i - c)}
+\end{align}
+
+- $p(z_i |\theta, y_i \text{ is uncensored }) = 1$
+- $p(z_i |\theta, y_i =x) = \theta^{}$
+
 
 ### (c) {#sec-e-c}
 > Implement a Gibbs sampler that approximate the joint posterior of $\theta$ and $Z_1,\dots, Z_n$.
