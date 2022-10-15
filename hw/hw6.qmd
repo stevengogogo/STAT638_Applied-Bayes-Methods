@@ -248,22 +248,7 @@ Therefore, $\theta \sim gamma(n+a, b+n\bar{z})$
 >
 > (Hint: For uncensored $i$, this distribution will be a degenerate point mass; for censored $i$, the resulting distribution will be a so-called truncated exponential distribution, which is proportional to a exponential density but constrained to lie in an interval. Each FCD does not depend on other Z's)
 
-\begin{align}
-    p(z_i | \theta, y_i)%
-    &= \begin{cases}
-        1, & y_{i} \text{ is uncensored }\\ 
-        p(z_i |\theta, y_i=x) & y_{i} \text{ is censored }
-    \end{cases}
-\end{align}
 
-\begin{align}
-     p(z_i |\theta, y_i=x)%
-     &\propto p(y_i=x|z_i, \theta)p(z_i|\theta)\\ 
-     &= p(z_i \in [c,\infty] |z_i, \theta ) (\theta e^{-\theta z_i})\\ 
-     &= \left(\int_{c}^{\infty} \theta e^{-\theta x}dx \right)(\theta e^{-\theta z_i})\\ 
-     &= e^{-\theta c}(\theta e^{-\theta z_i})\\ 
-     &= \theta e^{-\theta(z_i + c)}
-\end{align}
 
 \begin{align}
     p(z_i |\theta, y_i=x)%
@@ -271,14 +256,78 @@ Therefore, $\theta \sim gamma(n+a, b+n\bar{z})$
 \end{align}
 
 - $p(z_i |\theta, y_i \text{ is uncensored }) = 1$
-- $p(z_i |\theta, y_i =x) = \theta^{}$
 
+\begin{align}
+    p(z_i|\theta, y_i =x)%
+    &= p(z_i=c+t | \theta, z_i>c)\\ 
+    &= \frac{p(z_i=c+t \cap z_i >c |\theta)}{p(z_i >c |\theta)}\\ 
+    &= \frac{p(z_i = c+ t |\theta)}{p(z_i>c|\theta)}\\ 
+    &= \frac{\theta e^{-\theta(c+t)}}{\int_{c}^{\infty}\theta e^{-\theta x}dx}\\ 
+    &= \theta e^{-\theta t}\\ 
+    &= \theta e^{-\theta (z_i - c)}
+\end{align}
+
+This is the memoryless property of Exponential distribution[^exp].
+
+In summary,
+
+\begin{equation}
+    p(z_i|\theta, y_i) = \begin{cases}
+        1, & y = z_i\\ 
+        \theta e^{-\theta (z_i - c)} & y=x
+    \end{cases}
+\end{equation}
+
+[^exp]: https://byjus.com/maths/exponential-distribution/
 
 ### (c) {#sec-e-c}
 > Implement a Gibbs sampler that approximate the joint posterior of $\theta$ and $Z_1,\dots, Z_n$.
-> (For example, you can use [`truncdist::rtrunc(3, spec=`exp`, a=c, rate=theta)`](https://www.rdocumentation.org/packages/truncdist/versions/1.0-2/topics/rtrunc) to sample from a truncated exponential in R.)
+> (For example, you can use [`truncdist::rtrunc(3, spec=`exp`, a=c, rate=theta)`](https://www.rdocumentation.org/packages/truncdist/versions/1.0-2/topics/rtrunc) (Use [`stats.truncexpon`](https://stackoverflow.com/questions/40143718/python-scipy-truncated-exponential-distribution)) to sample from a truncated exponential in R.)
 > Run the sampler for enough iterations such that each of the effective sample sizes for $\theta$ and for the three censored $Z_i$ are all greater than $1000$. Provide the corresponding trace plots and discuss the mixing of the Markov chain.
+
+- Both sampling converges to a range of stochastic state, that means the sampling is not stuck in certain region. The dependence between two subsequence steps is low.
+
+``` {python}
+data = np.array([3,5,4], dtype=float)
+n = 6
+n_cs = n - len(data)
+a = 1
+b = 4
+c = 5
+nSamp = 1000
+
+thetas = np.zeros(nSamp)
+zs = np.zeros((nSamp, n_cs))
+
+thetas[0] = 40
+zs[0] = [5,10,8]
+
+for i in range(1, nSamp):
+    df = np.concatenate([data, zs[i-1]])
+    thetas[i] = st.gamma.rvs(n+a, b+n*np.mean(df))
+    zs[i] = st.truncexpon.rvs(b = (np.inf - c)/thetas[i], loc = c, scale= thetas[i]**-1, size =3)
+
+# Plotting
+fig, ax = plt.subplots(2,1)
+
+ax[0].plot(thetas, "-", color="k")
+ax[1].plot(zs[:,0], "-", color="k")
+
+ax[1].set_xlabel("Iteration")
+ax[0].set_ylabel("$\\theta$")
+ax[1].set_ylabel("Z");
+```
 
 
 ### (d)
 > Obtain an approximate $96\%$ posterior credible interval for $\theta$ based on the samples from [(c)](#sec-e-c).
+
+``` {python}
+plt.hist(thetas);
+```
+``` {python}
+invs = st.mstats.mquantiles(thetas, prob=[0.02, 0.98])
+
+pd.DataFrame({"96% Credible Interval of theta": ["Left bound", "Right bound"], "Value": invs})
+```
+
