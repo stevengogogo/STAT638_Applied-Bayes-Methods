@@ -11,7 +11,7 @@ format:
     table-of-contents: true
   pdf:
     table-of-contents: true
-jupyter: python3  
+jupyter: julia-1.8
 execute: 
     echo: true
     freeze: auto
@@ -31,6 +31,31 @@ execute:
 > For 7.3, note that the `rWishart()` function in R  returns a three-dimensional array, so we have to index the array as [,,1] to get to the actual matrix located within the array.
 
 
+---
+
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {julia}
+using Pkg
+Pkg.activate("hw7")
+using Distributions
+using DataFrames
+using Turing
+using Plots
+using DelimitedFiles
+using LinearAlgebra
+using Statistics
+using Turing
+```
+
+### Version
+``` {julia}
+Pkg.status()
+```
+
+---
+
 ## Problem 7.1
 
 > Jeffrey's prior: For the multivariate normal model, Jeffreys' rule for generating a prior distribution on $(\theta, \Sigma)$ gives $p_J(\theta, \Sigma) \propto |\Sigma|^{-(p+2)/2}$.
@@ -39,28 +64,136 @@ execute:
 
 > Explain why the function $p_J$ cannot actually be a probability density for $(\theta, \Sigma)$.
 
+The density is independent of $\theta$. The integration can be infinity and beyond $1$.
+
+
 ### (b)
 
-> Let $p_J(\theta, \Sigma|y_1, \dots, y_n)$ be the probability density that is proportional to $p_J(\theta, \Sigma)\times p(y_1,\dots, y_n|\theta, \Sigma)$. Obtain the form of $p_J(\theta, \Sigma|y_1, \dots, y_n)$, $p_J(\theta|\Sigma, y_1, \dots, y_n)$ and $p_j(\Sigma|y_1, \dots, y_n)$.
+> Let $p_J(\theta, \Sigma|y_1, \dots, y_n)$ be the probability density that is proportional to $p_J(\theta, \Sigma)\times p(y_1,\dots, y_n|\theta, \Sigma)$. Obtain the form of $p_J(\theta, \Sigma|y_1, \dots, y_n)$, $p_J(\theta|\Sigma, y_1, \dots, y_n)$ and $p_J(\Sigma|y_1, \dots, y_n)$.
+
+
+\begin{align}
+    p_{J}(\theta, \Sigma | y_1, \dots, y_n)%
+    &\propto p_J(\theta, \Sigma) \times p(y_1, \dots, y_n | \theta, \Sigma)\\
+    &\propto |\Sigma|^{-\frac{p+2}{2}} \times \left[|\Sigma|^{-\frac{n}{2}} \exp\left(-tr(S_{\theta}\Sigma^{-1})\right)\right /2]\\ 
+    &\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_{\theta}\Sigma^{-1})/2 \right)
+\end{align}
+
+\begin{align}
+    p_J(\theta | \Sigma, y_1, \dots, y_n)%
+    &\propto  \exp\left[ - \sum^{n}_{i=1} (y_i - \theta)^T \Sigma^{-1} (y_i - \theta)/2 \right]\\ 
+    &\propto \exp \left[ -n(\bar{y} - \theta)^T \Sigma^{-1} (\bar{y}-\theta)/2 \right]\\ 
+    &\propto Normal(\theta; \bar{y},\frac{\Sigma}{n})
+\end{align}
+
+\begin{align}
+    p_{J}(\Sigma | y_1, \dots, y_n, \theta)%
+    &\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_\theta \Sigma^{-1})/2 \right)\\ 
+    &\propto inverse-Wishart(\Sigma; n+1, S_{\theta}^{-1} )
+\end{align}
+
 
 ## Problem 7.3
 
 > Australian crab data: The files `bluecrab.dat` and `orangecrab.dat` contain measurements of body depth ($Y_1$) and rear width ($Y_2$), in millimeters, made on $50$ male crabs from each of two species, blud and orange. We will model these data using a bivariate normal distribution.
 
 
+``` {julia}
+dblue = readdlm("data/bluecrab.dat")
+doran = readdlm("data/orangecrab.dat");
+```
+
 ### (a) 
 
 > For each of the two species, obtain posterior distributions of the population mean $\theta$ and covariance matrix $\Sigma$ as follows: Using the semiconjugate prior distributions for $\theta$ and $\Sigma$, set $\mu_0$ equal to the sample mean of the data, $\Lambda_0$ and $S_0$ equal to the sample covariance matrix and $\nu_0 =4$. Obtain $10000$ posterior samples of $\theta$ and $\Sigma$. Note that this prior distribution lossely centers the parameters around empirical estimates based on the observed data (and is very similar to the unit information prior described in the previous exericise). It cannot be consitered as our true prior distribution, as it was derived from the observed data. However, it can roughly considered as the prior distribution of someone with weak but unbiased information.
+
+- $p(\theta) = \exp\left[ -\frac{1}{2}\theta^T A_0 \theta + \theta^T b_0\right] = multivariate-normal(\mu_0, \Lambda_0)$
+    - $A_0 = \Lambda_{0}^{-1}$
+    - $b_0 = \Lambda_{0}^{-1}\mu_0$
+- $p(\Sigma) = inverse-Whishart(\nu_0, S_{0}^{-1})$
+
+``` {julia}
+S = 10000
+function sampling(crab)
+    n, p = size(crab)
+    μ₀ = transpose(mean(crab, dims=1))
+    Λ₀ = S₀= cov(crab)
+    ν₀ = 4
+    θs = zeros(S, p)
+    Σs = zeros(S, p, p);
+
+    # Gibbs sampling
+    for s in 1:S
+        # update θ
+        Λₙ = inv(inv(Λ₀) + n*inv(S₀))
+        μₙ = Λₙ * (inv(Λ₀)*μ₀ + n*inv(S₀)*μ₀)
+        θ = rand(MvNormal( vec(μₙ), Λₙ))
+
+        # update Σ
+        res = crab .- reshape(θ, 1, p)
+        Sₜₕ = transpose(res) * res
+        Sₙ = S₀ + Sₜₕ
+        Σ = rand(InverseWishart(ν₀ + n, Sₙ))
+        # Store data
+        θs[s,:] = θ
+        Σs[s,:, :] = Σ
+    end
+    return θs, Σs
+end 
+
+
+θbs, Σbs = sampling(dblue)
+θos, Σos = sampling(doran);
+```
+
+
 
 ### (b)
 
 > Plot values of $\theta=(\theta_1, \theta_2)'$ for each group and compare. Describe any size differences between the two groups.
 
 
+``` {julia}
+plot
+pb = scatter(θbs[:,1], θbs[:,2], label="Blue")
+po = scatter(θos[:,1], θos[:,2], label="Orange")
+
+μθb = mean(θbs, dims=1)
+μθo = mean(θos, dims=1)
+
+scatter!(pb, [μθb[1]], [μθb[2]], label="mean $(round.(μθb; digits = 1))))", markersize = 10)
+scatter!(po, [μθo[1]], [μθo[2]], label="mean $(round.(μθo; digits = 1))", markersize = 10)
+
+plot(pb, po, layout = (1, 2), xlabel="θ₁", ylabel="θ₂")
+```
+
+``` {julia}
+mean(θos[:,1] .> θbs[:,1])
+```
+
+``` {julia}
+mean(θos[:,2] .> θbs[:,2])
+```
+
 ### (c)
 
 > From each covariance matrix obtained from the Gibbs sampler, obtain the corresponding correlation coefficient. From these values, plot posterior densities of the correlations $\rho_{\text{blue}}$ and $\rho_{\text{orange}}$ for the two groups. Evaluate differences between the two species by comparing these posterior distributions. In particular, obtain an approximation to $Pr(\rho_{\text{blue}} < \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})$. What do the results suggest about differences between the two populations?
 
+
+``` {julia}
+correlation(covmat) = covmat[1,2] / sqrt(covmat[1,1] * covmat[2,2])
+
+corrbs = [correlation(Σbs[i,:,:]) for i in 1:S]
+corros = [correlation(Σos[i,:,:]) for i in 1:S];
+
+h = histogram(corrbs, label="Blue", xlabel="Correlation")
+histogram!(h, corros, label="Orange", ylabel="Count")
+```
+
+$Pr(\rho_{\text{blue}} < \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})$ is 
+``` {julia}
+mean(corrbs .< corros)
+```
 
 ## Problem 7.4
 
