@@ -9,6 +9,7 @@ bibliography: ../ref.bib
 format:
   html:
     table-of-contents: true
+    keep-ipynb: true
   pdf:
     table-of-contents: true
 jupyter: julia-1.8
@@ -52,6 +53,7 @@ using Turing
 ### Version
 ``` {julia}
 Pkg.status()
+VERSION
 ```
 
 ---
@@ -199,18 +201,115 @@ mean(corrbs .< corros)
 
 > Marriage data: The file `agehw.dat` contains data on the ages of $100$ married couples sampled from the U.S. population.
 
+``` {julia}
+dagew = readdlm("data/agehw.dat")[2:end, :]
+size(dagew)
+```
+
 ### (a)
 
 > Before you look at the data, use your own knowledge to formulate a semiconjugate prior distribution for $\theta=(\theta_h, \theta_w)^T$ and $\Sigma$, where $\theta_h$, $\theta_w$ are mean husband and wife ages, and $\Sigma$ is the covariance matrix.
 
+- $\mu_0 = (50, 50)^T$
+- prior corrleation: $0.7$, variance $13$
+    - $0.7 = \frac{\sigma_{1,2}}{169}$
+    - $\sigma_{1,2} = 118.3$
+- $\Lambda = \begin{bmatrix} 169 & 118.3\\ 118.3 & 169\end{bmatrix}$
+- Set $S^{-1}_{0} = \Lambda_{0}$
+- $\nu_0 = p + 2 = 4$
+
+
+``` {julia}
+n, p = size(dagew);
+
+μ₀ = ones(p,1) .* transpose(mean(dagew, dims=1))
+Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
+ν₀ = p + 2;
+```
+
+
 
 ### (b)
 
-> Generate a *prior predictive dataset* of size $n=100$, by sampling $(\theta, \Sigma)$ from your prior distribution and then simulating $Y_1, \dots, Y_n \sim i.i.d.$ multivariate normal $(\theta, \Sigma)$. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not conform to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.
+> Generate a *prior predictive dataset* of size $n=100$, by sampling $(\theta, \Sigma)$ from your prior distribution and then simulating $Y_1, \dots, Y_n \sim i.i.d.$ multivariate normal $(\theta, \Sigma)$. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not confirm to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.
+
+``` {julia}
+N = 100
+S = 9 
+
+Ypreds = zeros(S, p, N)
+for i in 1:S
+    θ = rand(MvNormal( vec(μ₀), Λ₀))
+    Σ = rand(InverseWishart(ν₀ + n, S₀))
+    Ypreds[i,:, :] = rand(MvNormal(θ, Σ), N)
+end
+
+pvers = [plot() for i in 1:S]
+for i in 1:S
+    scatter!(pvers[i], Ypreds[i, 1, :], Ypreds[i, 2, :], label="Dataset $i")
+end
+
+plot(pvers..., layout = (3, 3), xlabel="Y₁", ylabel="Y₂")
+
+```
 
 ### (c)
 
 > Using your prior distribution and the $100$ values in the dataset, obtain an MCMC approximation to $p(\theta, \Sigma|y_1, \dots, y_{100})$. Plot the joint posterior distribution of $\theta_h$ and $\theta_w$, and also the marginal posterior density of the correlation between Y_h and Y_w, the ages of a husband and wife. Obtain $95\%$ posterior confidence intervals for $\theta_h$, $\theta_w$ and the correlation coefficient.
+
+
+``` {julia}
+S = 10000
+
+function mcmc(data, μ₀, Λ₀, S₀, ν₀)
+    yₙ = mean(data, dims=1)
+    n, p = size(data)
+
+    θs = zeros(S, p)
+    Σs = zeros(S, p, p)
+    Σ = cov(data)
+    for i in 1:S
+        #update θ
+        Λₙ = inv(inv(Λ₀) + n * inv(Σ))
+        Λₙ[1,2] = Λₙ[2,1]
+
+        μₙ = Λₙ * (inv(Λ₀)*μ₀ + n*inv(Σ) * transpose(yₙ))
+
+   
+        θ = rand(MvNormal( vec(μₙ), Λₙ))
+
+        #update Σ
+        res = data .- reshape(θ, 1, p)
+        Sₜₕ = transpose(res) * res
+        Sₙ = S₀ + Sₜₕ
+        Σ = rand(InverseWishart(ν₀ + n, Sₙ))
+        # Store data
+        θs[i,:] = θ
+        Σs[i,:, :] = Σ
+    end
+
+    return θs, Σs
+end
+
+θs, Σs = mcmc(dagew, μ₀, Λ₀, S₀, ν₀);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+```{julia}
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
 
 ### (d)
 
@@ -220,10 +319,117 @@ mean(corrbs .< corros)
 > 2. The unit information prior, described in Exercise 7.2;
 > 3. A "diffuse prior" with $\mu_0=0, \Lambda_0 = 10^5 \times I, S_0 = 1000\times I$ and $v_0 =3$.
 
+
+#### Part I**
+
+``` {julia}
+θs, Σs = mcmc(dagew, μ₀, cov(dagew), cov(dagew), size(dagew)[1]+1);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+```{julia}
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+#### Part II
+
+``` {julia}
+θs, Σs = mcmc(dagew, transpose(mean(dagew, dims=1)), cov(dagew)/100., cov(dagew)/100., 2. + 1.);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+```{julia}
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+
+#### Part III
+
+``` {julia}
+θs, Σs = mcmc(dagew, [0;0], [10^5 0; 0 10^5], [10^3 0; 0 10^3], 3);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+```{julia}
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
 ### (e)
 
-> Compare the confidence intervals from (d) to those obtained in (c). Discuss whether or not you think that your prior information is helpful in estimating $\theta$ and $\Sigma$, or if you think one of the alternatives in (d) is preferable. What about if yhe sample size were much smaller, say $n=25$?
+> Compare the confidence intervals from (d) to those obtained in (c). Discuss whether or not you think that your prior information is helpful in estimating $\theta$ and $\Sigma$, or if you think one of the alternatives in (d) is preferable. What about if the sample size were much smaller, say $n=25$?
 
+The prior information does not matter because the sample size is large. No matter how prior is setup, the posterior distribution is similar. However, for smaller sample size, those approaches may differ.
+
+``` {julia}
+μ₀ = [50.; 50.]
+Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
+ν₀ = p + 2+9;
+
+θs, Σs = mcmc(dagew, μ₀, Λ₀, S₀, ν₀)
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+```{julia}
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
 
 ::: {.content-hidden when-format="html"}
 
