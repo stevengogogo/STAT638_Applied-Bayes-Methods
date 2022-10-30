@@ -299,13 +299,13 @@ nSamp = 1000
 thetas = np.zeros(nSamp)
 zs = np.zeros((nSamp, n_cs))
 
-thetas[0] = 40
-zs[0] = [5,10,8]
+thetas[0] = 1
+zs[0] = [7,10,8]
 
 for i in range(1, nSamp):
     df = np.concatenate([data, zs[i-1]])
-    thetas[i] = st.gamma.rvs(n+a, b+n*np.mean(df))
-    zs[i] = st.truncexpon.rvs(b = (np.inf - c)/thetas[i], loc = c, scale= thetas[i]**-1, size =3)
+    thetas[i] = st.gamma.rvs(n+a, scale= (b+np.sum(df))**-1)
+    zs[i] = st.expon.rvs(loc = c, scale= thetas[i], size =3)
 
 # Plotting
 fig, ax = plt.subplots(2,1)
@@ -318,6 +318,10 @@ ax[0].set_ylabel("$\\theta$")
 ax[1].set_ylabel("Z");
 ```
 
+- Truncated exponential distribution is sampled by [`scipy.stats.truncexpon`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.truncexpon.html) [^trunc]
+
+
+[^trunc]: $f(x,b) = \frac{\exp(-x)}{1-\exp(-b)}$. $y = (x-loc)/scale$
 
 ### (d)
 > Obtain an approximate $96\%$ posterior credible interval for $\theta$ based on the samples from [(c)](#sec-e-c).
@@ -330,4 +334,10 @@ invs = st.mstats.mquantiles(thetas, prob=[0.02, 0.98])
 
 pd.DataFrame({"96% Credible Interval of theta": ["Left bound", "Right bound"], "Value": invs})
 ```
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::
 

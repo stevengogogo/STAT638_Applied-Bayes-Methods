@@ -1,0 +1,99 @@
+---
+title: "Homework 7"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+  pdf:
+    table-of-contents: true
+jupyter: python3  
+execute: 
+    echo: true
+    freeze: auto
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read Chapter 7 in Hoff. Then, do the following exercises:  7.1, 7.3, 7.4.
+> 
+> Problem 7.1 considers the standard/joint Jeffreys prior (as opposed to the independent Jeffreys prior considered on the lecture slides). You may find the following hints useful:
+> 
+> - You can write  $y_i-\theta$  as  $(y_i - \bar{y}) + (\bar{y}-\theta)$  and expand the quadratic form in the exponent in the multivariate normal likelihood accordingly.
+> - $\sum_{i} b^{T}_{i} Ac = c^T A(\Sigma_{i} b_i)$
+> - Brute-force integration can sometimes be avoided if the integrand is proportional to a known density (e.g., multivariate normal), as any density integrates to 1 and the normalizing constant is known for known densities.
+> For 7.3, note that the `rWishart()` function in R  returns a three-dimensional array, so we have to index the array as [,,1] to get to the actual matrix located within the array.
+
+
+## Problem 7.1
+
+> Jeffrey's prior: For the multivariate normal model, Jeffreys' rule for generating a prior distribution on $(\theta, \Sigma)$ gives $p_J(\theta, \Sigma) \propto |\Sigma|^{-(p+2)/2}$.
+
+### (a)
+
+> Explain why the function $p_J$ cannot actually be a probability density for $(\theta, \Sigma)$.
+
+### (b)
+
+> Let $p_J(\theta, \Sigma|y_1, \dots, y_n)$ be the probability density that is proportional to $p_J(\theta, \Sigma)\times p(y_1,\dots, y_n|\theta, \Sigma)$. Obtain the form of $p_J(\theta, \Sigma|y_1, \dots, y_n)$, $p_J(\theta|\Sigma, y_1, \dots, y_n)$ and $p_j(\Sigma|y_1, \dots, y_n)$.
+
+## Problem 7.3
+
+> Australian crab data: The files `bluecrab.dat` and `orangecrab.dat` contain measurements of body depth ($Y_1$) and rear width ($Y_2$), in millimeters, made on $50$ male crabs from each of two species, blud and orange. We will model these data using a bivariate normal distribution.
+
+
+### (a) 
+
+> For each of the two species, obtain posterior distributions of the population mean $\theta$ and covariance matrix $\Sigma$ as follows: Using the semiconjugate prior distributions for $\theta$ and $\Sigma$, set $\mu_0$ equal to the sample mean of the data, $\Lambda_0$ and $S_0$ equal to the sample covariance matrix and $\nu_0 =4$. Obtain $10000$ posterior samples of $\theta$ and $\Sigma$. Note that this prior distribution lossely centers the parameters around empirical estimates based on the observed data (and is very similar to the unit information prior described in the previous exericise). It cannot be consitered as our true prior distribution, as it was derived from the observed data. However, it can roughly considered as the prior distribution of someone with weak but unbiased information.
+
+### (b)
+
+> Plot values of $\theta=(\theta_1, \theta_2)'$ for each group and compare. Describe any size differences between the two groups.
+
+
+### (c)
+
+> From each covariance matrix obtained from the Gibbs sampler, obtain the corresponding correlation coefficient. From these values, plot posterior densities of the correlations $\rho_{\text{blue}}$ and $\rho_{\text{orange}}$ for the two groups. Evaluate differences between the two species by comparing these posterior distributions. In particular, obtain an approximation to $Pr(\rho_{\text{blue}} < \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})$. What do the results suggest about differences between the two populations?
+
+
+## Problem 7.4
+
+> Marriage data: The file `agehw.dat` contains data on the ages of $100$ married couples sampled from the U.S. population.
+
+### (a)
+
+> Before you look at the data, use your own knowledge to formulate a semiconjugate prior distribution for $\theta=(\theta_h, \theta_w)^T$ and $\Sigma$, where $\theta_h$, $\theta_w$ are mean husband and wife ages, and $\Sigma$ is the covariance matrix.
+
+
+### (b)
+
+> Generate a *prior predictive dataset* of size $n=100$, by sampling $(\theta, \Sigma)$ from your prior distribution and then simulating $Y_1, \dots, Y_n \sim i.i.d.$ multivariate normal $(\theta, \Sigma)$. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not conform to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.
+
+### (c)
+
+> Using your prior distribution and the $100$ values in the dataset, obtain an MCMC approximation to $p(\theta, \Sigma|y_1, \dots, y_{100})$. Plot the joint posterior distribution of $\theta_h$ and $\theta_w$, and also the marginal posterior density of the correlation between Y_h and Y_w, the ages of a husband and wife. Obtain $95\%$ posterior confidence intervals for $\theta_h$, $\theta_w$ and the correlation coefficient.
+
+### (d)
+
+> Obtain $95\%$ posterior confidence intervals for $\theta_h$, $\theta_{\omega}$ and the correlation coefficient using the following prior distributions:
+>
+> 1. Jeffrey's prior, described in Exercise 7.1;
+> 2. The unit information prior, described in Exercise 7.2;
+> 3. A "diffuse prior" with $\mu_0=0, \Lambda_0 = 10^5 \times I, S_0 = 1000\times I$ and $v_0 =3$.
+
+### (e)
+
+> Compare the confidence intervals from (d) to those obtained in (c). Discuss whether or not you think that your prior information is helpful in estimating $\theta$ and $\Sigma$, or if you think one of the alternatives in (d) is preferable. What about if yhe sample size were much smaller, say $n=25$?
+
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::
