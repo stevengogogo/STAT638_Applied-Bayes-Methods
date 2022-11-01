@@ -16,3 +16,4 @@ index.tex
 _site/
 *_freeze/
 *.DS_Store
+*Manifest.toml
