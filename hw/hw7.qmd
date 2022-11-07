@@ -155,6 +155,8 @@ end
 > Plot values of $\theta=(\theta_1, \theta_2)'$ for each group and compare. Describe any size differences between the two groups.
 
 
+The blue crab has larger variance and lower means of $\theta_1$ and $\theta_2$ than orange one.
+
 ``` {julia}
 plot
 pb = scatter(θbs[:,1], θbs[:,2], label="Blue")
@@ -232,6 +234,10 @@ n, p = size(dagew);
 ### (b)
 
 > Generate a *prior predictive dataset* of size $n=100$, by sampling $(\theta, \Sigma)$ from your prior distribution and then simulating $Y_1, \dots, Y_n \sim i.i.d.$ multivariate normal $(\theta, \Sigma)$. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not confirm to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.
+
+Choose 
+
+$p = 2$, and Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
 
 ``` {julia}
 N = 100

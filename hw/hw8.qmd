@@ -1,0 +1,123 @@
+---
+title: "Homework 8"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+    keep-ipynb: true
+  pdf:
+    table-of-contents: true
+jupyter: julia-1.8
+execute: 
+    echo: true
+    freeze: auto
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read Chapter 8 in the Hoff book. Then do the following exercises in Hoff: 8.1 and 8.3.
+> 
+> Please note some typos in 8.1: All $\theta_i$'s should be $\theta_j$'s.
+> 
+> For 8.1(c), you may find [the law of total (co-)variance](https://en.wikipedia.org/wiki/Law_of_total_covariance) useful. In addition, remember that all of these laws also hold for conditional distributions (e.g., when conditioning on additional quantities such as $\mu$ and $\tau^2$ in all terms on the left- and right-hand side of the equation).
+
+
+### Problem 8.1
+
+> Components of variance: Consider the hierarchical model where
+> 
+> $$\theta_1, \dots, \theta_m | \mu, \tau^2 \sim i.i.d. \text{normal}(\mu, \tau^2)$$
+> 
+> $$y_{1,j}, \dots, y_{n_j, j} |\theta_j, \sigma^2 \sim i.i.d. \text{normal}(\theta_j, \sigma^2)$$
+> For this problem, we will eventually compute the following:
+>
+> - $Var[y_{i,j}|\theta_i, \sigma^2]$, $Var[\bar{y}_{\cdot,j}|\theta_i, \sigma^2]$, $Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]$
+> - $Var[y_{i,j}|\mu, \tau^2]$, $Var[\bar{y}_{\cdot,j}|\mu, \tau^2]$, $Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]$
+> First, lets use our intuition to guess at the answers:
+
+
+### (a)
+
+> Which do you think is bigger, $Var[y_{i,j}|\theta_i, \sigma^2]$ or $Var[y_{i,j}|\mu, \tau^2]$? To guide your intuition, you can interpret the first as the variability of the $Y$'s when sampling from a fixed group, and the second as the variability in first sampling a group, then sampling a unit from within the group.
+
+- $Var[y_{i,j} | \mu, \tau^2]$ because $\theta_j$ is uncertain and the between-group varibability create additional uncertainty.
+
+### (b)
+
+> Do you think $Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]$ is negative, positive, or zero? Answer the same for $Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]$. You may want to think about what $y_{i_2, j}$ tells you about $y_{i_1, j}$ if $\theta_j$ is known, and what it tells you when $\theta_j$ is unknown.
+
+
+$Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]$
+
+Because $y_{i_1, j}$ and $y_{i_2, j}$ is i.i.d. sampled, I expect $Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]$ to be zero.
+
+$Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]$
+
+$y_{1,j}$ does tell information about $y_{2,j}$. The covariance $Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]$ is likely to be positive because values from same $\theta_j$ tend to be close together.
+
+### (c)
+
+> Now compute each of the six quantities above and compare to your answers in (a) and (b). [^tot-var]
+
+\begin{align}
+    Var[y_{i,j}|\theta_i, \sigma^2]%
+    &= \sigma^2
+\end{align}
+
+
+\begin{align}
+    Var[\bar{y}_{\cdot,j}|\theta_i, \sigma^2]%
+    &= Var[\sum_{i'=1}^{n_j}y_{i',j}/n |\theta_i, \sigma^2]\\ 
+    &= \frac{1}{n^2}Var[\sum_{i'=1}^{n_j}y_{i',j} |\theta_i, \sigma^2]\\ 
+    &= \frac{1}{n^2} \sum_{i'=1}^{n_j} Var[y_{i',j} |\theta_i, \sigma^2]\\ 
+    &= \frac{1}{n} Var[y_{i',j} |\theta_i, \sigma^2]\\
+    &= \frac{\sigma^2}{n} 
+\end{align}
+
+
+\begin{align}
+    Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]% 
+    &= E[y_{i_1, j} y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\ 
+    &= E[y_{i_1, j}]E[y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\ 
+    &= 0
+\end{align}
+
+\begin{align}
+    Var[y_{i,j}|\mu, \tau^2]%
+    &= E(Var[y_{i,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2) + Var(E[y_{i,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2)\\ 
+    &= E(\sigma^2 | \mu, \tau^2) + Var(\theta | \mu, \tau^2)\\ 
+    &= \sigma^2 + \tau^2
+\end{align}
+
+
+\begin{align}
+    Var[\bar{y}_{\cdot,j}|\mu, \tau^2]%
+    &= E(Var[\bar{y}_{\cdot,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2) + Var(E[\bar{y}_{\cdot,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2)\\ 
+    &= E(\frac{\sigma^2}{n}|\mu,\tau^2) + Var(\theta | \mu, \tau^2)\\ 
+    &= \frac{\sigma^2}{n} + \tau^2
+\end{align}
+
+\begin{align}
+    Cov[y_{i_1, j}, y_{i_2, j}|\mu, \tau^2]%
+    &= E(Cov[y_{i_1, j}, y_{i_2, j} | \theta, \sigma^2, \mu, \tau^2]| \mu, \tau^2) \\ 
+    &+ Cov(E[y_{i_1, j} | \theta, \sigma^2, \mu, \tau^2], E[y_{i_2, j} | \theta, \sigma^2, \mu, \tau^2] | \mu, \tau^2)\\ 
+    &= 0 + Cov(\theta, \theta | \mu, \tau^2)\\ 
+    &= E[\theta^2|\mu, \tau^2] - E[\theta|\mu, \tau^2]^2\\
+    &= Var(\theta |\mu, \tau^2)\\ 
+    &= \tau^2
+\end{align}
+
+[^tot-var]: $Var(Y) =  E[Var(Y|X)] + Var(E[Y|X])$
+
+### (d)
+
+> Now assume we have a prior $p(\mu)$ for $\mu$. Using Bayes' rule, show that 
+> $$p(\mu|\theta_1, \dots, \theta_m, \sigma^2, \tau^2, y_1, \dots, y_m) = p(\mu|\theta_1, \dots, \theta_m, \tau^2)$$
+> Interpret in words what this means.
