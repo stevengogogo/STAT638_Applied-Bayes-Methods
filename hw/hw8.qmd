@@ -28,6 +28,29 @@ execute:
 > 
 > For 8.1(c), you may find [the law of total (co-)variance](https://en.wikipedia.org/wiki/Law_of_total_covariance) useful. In addition, remember that all of these laws also hold for conditional distributions (e.g., when conditioning on additional quantities such as $\mu$ and $\tau^2$ in all terms on the left- and right-hand side of the equation).
 
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {julia}
+using Pkg
+Pkg.activate("hw8")
+using Distributions
+using DataFrames
+using Turing
+using Plots
+using DelimitedFiles
+using LinearAlgebra
+using Statistics
+using Turing
+```
+
+### Version
+``` {julia}
+Pkg.status()
+VERSION
+```
+
+---
 
 ### Problem 8.1
 
@@ -121,3 +144,45 @@ $y_{1,j}$ does tell information about $y_{2,j}$. The covariance $Cov[y_{i_1,j}, 
 > Now assume we have a prior $p(\mu)$ for $\mu$. Using Bayes' rule, show that 
 > $$p(\mu|\theta_1, \dots, \theta_m, \sigma^2, \tau^2, y_1, \dots, y_m) = p(\mu|\theta_1, \dots, \theta_m, \tau^2)$$
 > Interpret in words what this means.
+
+\begin{align}
+p(\mu|\theta_1, \dots, \theta_m, \sigma^2, \tau^2, y_1, \dots, y_m)%
+&= \frac{p(\sigma^2, y_1, \dots, y_m | \mu, \theta_1, \dots, \theta_m, \tau^2) p(\mu |\theta_1, \dots, \theta_m, \tau^2)}{ p(\sigma^2, y_1, \dots, y_m | \theta_1, \dots, \theta_m, \tau^2) }\\ 
+&= p(\mu|\theta_1, \dots, \theta_m, \tau^2)
+\end{align}
+
+where $p(\sigma^2, y_1, \dots, y_m | \mu, \theta_1, \dots, \theta_m, \tau^2) =  p(\sigma^2, y_1, \dots, y_m |  \theta_1, \dots, \theta_m, \tau^2)$ because knowing $\mu$ doesn't provide more information when $\theta_1, \dots, \theta_m$ are known.
+
+## Problem 8.3
+
+> Herarchical modeling: The files `school1.dat` through `school8.dat` give weekly hours spent on homework for students sampled from eight different schools. Obtain posterior distributions for the true means for the eight different schools using a herarchical normal model with the following prior parameters:
+> $$\mu_0 = 7, \gamma^{2}_{0} = 5, \tau^{2}_{0}=10, \eta_0 = 2, \sigma^{2}_{0} = 15, \nu_0 = 2$$
+
+
+``` {julia}
+
+```
+
+### (a)
+
+> Run a Gibbs sampling algorithm to approximate the posterior distribution of $\{\theta, \sigma^2, \mu, tau^2\}$. Assess the convergence of the Markov chain, and find the effective sample size for $\{\sigma^2, \mu, \tau^2\}$. Run the chain long enough so that the effective sample sizes are all above $1000$.
+
+
+
+
+### (b)
+
+> Compute posterior means and $95\%$ confidence regions for $\{\sigma^2, \mu, \tau^2\}$. Also, compare the posterior densities to the prior densities, and discuss what was learned from the data.
+
+
+### (c)
+> Plot the posterior density of $R=\frac{\tau^2}{\sigma^2 + \tau^2}$ and compare it to a plot of the prior density of $R$. Describe the evidence for between-school variation.
+
+### (d)
+
+> Obtain the posterior probability that $\theta_7$ is smaller than $\theta_6$, as well as the posterior probability that $\theta_7$ is smaller than of all the $\theta$'s.
+
+
+### (e)
+
+> Plot the sample averages $\bar{y}_1, \dots, \bar{y}_8$ against the posterior expectations of $\theta_1, \dots, \theta_8$, and describe the relationship. Also compute the sample mean of all observations and compare it to the posterior mean of $\mu$.
