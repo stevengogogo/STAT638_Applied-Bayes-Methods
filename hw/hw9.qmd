@@ -1,0 +1,39 @@
+---
+title: "Homework 8"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+    keep-ipynb: true
+  pdf:
+    table-of-contents: true
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+> Read Chapter 9 in the Hoff book. Then do Problems 9.1 and 9.2 in Hoff.
+> 
+> For both regression models, please include an intercept term ($\beta_0$).
+> 
+> In 9.1(b), please replace "max" by "min". (This is not listed in the official book errata, but appears to be a typo.)
+> 
+> For 9.2, the azdiabetes.dat data are described in *Exercise* 6 of Chapter 7 (see errata).
+
+
+
+## Problem 9.1
+
+> Extrapolation: The file `swim.dat` contains data on the amount of time in seconds, it takes each of four high school swimmers to swim $50$ yards. Each swimmer has $6$ times, taken on a biweekly basis.
+
+### (a)
+
+> Perform the following data analysis for each swimmer separately:
+> 
+> 1. Fit a linear regression model of swimming time

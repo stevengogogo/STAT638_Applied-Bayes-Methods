@@ -1,0 +1,16 @@
+\contentsline {subsection}{\nonumberline Description}{1}{subsection*.3}%
+\contentsline {subsection}{\nonumberline Computational Enviromnent Setup}{2}{subsection*.5}%
+\contentsline {subsubsection}{\nonumberline Third-party libraries}{2}{subsubsection*.7}%
+\contentsline {subsubsection}{\nonumberline Version}{2}{subsubsection*.9}%
+\contentsline {subsubsection}{\nonumberline Problem 8.1}{3}{subsubsection*.11}%
+\contentsline {subsubsection}{\nonumberline (a)}{3}{subsubsection*.13}%
+\contentsline {subsubsection}{\nonumberline (b)}{3}{subsubsection*.15}%
+\contentsline {subsubsection}{\nonumberline (c)}{4}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline (d)}{5}{subsubsection*.19}%
+\contentsline {subsection}{\nonumberline Problem 8.3}{6}{subsection*.21}%
+\contentsline {subsubsection}{\nonumberline (a)}{6}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline (b)}{10}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline (c)}{11}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline (d)}{12}{subsubsection*.32}%
+\contentsline {subsubsection}{\nonumberline (e)}{13}{subsubsection*.34}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
