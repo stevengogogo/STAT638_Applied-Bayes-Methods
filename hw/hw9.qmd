@@ -1,5 +1,5 @@
 ---
-title: "Homework 8"
+title: "Homework 9"
 author: 
   - name: Shao-Ting Chiu (UIN:433002162)
     url: stchiu@email.tamu.edu
@@ -12,11 +12,32 @@ format:
     keep-ipynb: true
   pdf:
     table-of-contents: true
+jupyter: julia-1.8
+execute: 
+    echo: true
+    freeze: auto
 ---
+
+## Computational Environment
+
+``` {julia}
+using Pkg
+Pkg.activate("hw9")
+using Distributions
+using DataFrames
+using Plots
+using DelimitedFiles
+using LinearAlgebra
+using Statistics
+using ProtoStructs
+import Random
+Random.seed!(2022)
+```
 
 ## Description
 
 - Course: STAT638, 2022 Fall
+- Deadline: 2022/11/17, 12:00 pm
 
 > Read Chapter 9 in the Hoff book. Then do Problems 9.1 and 9.2 in Hoff.
 > 
@@ -36,4 +57,77 @@ format:
 
 > Perform the following data analysis for each swimmer separately:
 > 
-> 1. Fit a linear regression model of swimming time
+> 1. Fit a linear regression model of swimming time as the response and week as the explanatory variable. To formulate your prior, use the information that competitive times for this age group generally range from $22$ to $24$ seconds.
+> 2. For each swimmer $j$, obtain a posterior predictive distribution for $Y^{*}_j$, their time if they were to swim $2$ weeks from the last recorded time.
+
+- Suppose a linear model
+$$Y = X\beta + \epsilon$$
+
+$$Y_i = x_{i,1} \beta_1 + x_{i,2} \beta_2 + \epsilon_i$$
+
+- $Y = \begin{bmatrix} Y_1\\  \vdots\\ Y_6\end{bmatrix}$. A swimmer's record of $6$. Series in time
+
+- $X = \begin{bmatrix} x_{1,1} & x_{1,2}\\ \vdots & \vdots \\ x_{6,1} & x_{6,2} \end{bmatrix}$
+  - $x_{j,1}$: $j$th record with swim score in the range of 22 to 24 second
+  - $x_{j,2}$: Weeks of training
+
+- $\beta = \begin{bmatrix} \beta_1 \\ \beta_2 \end{bmatrix}$. 
+  - $\mu_0 = \begin{bmatrix} 23\\ 0 \end{bmatrix}$
+    - The prior expectation of intercept of $y$ is $23$.
+  - $\beta_0 \sim N_p(\mu_0, \Sigma_0)$.
+    1. FCD: $\beta|y, \sigma^2 \sim N_p(\beta_n, \Sigma_n)$
+    1. $\Sigma^{-1}_{n} = \Sigma^{-1}_{0} + \frac{X^T X}{\sigma^2}$
+    2. $\beta_n = \Sigma_n (\Sigma^{-1}_{0} \beta_0 + \frac{X^T y}{\sigma^2})$ 
+
+**Prior setting**
+
+- $\Sigma_{0} = \begin{bmatrix} 0.1 & 0\\ 0 & 0.1 \end{bmatrix}$
+  - There is uncertainty about $\beta$ estimation. 
+  - Covariance of time and intersept is believe as $0$
+- $\sigma^2 \sim IG(\nu_0/2 , \nu_0 \sigma^{2}_0 /2)$
+  - FCD: $\sigma^2 |y,\beta \sim IG((\nu_0 + n)/2, (\nu_0\sigma^{2}_{0}) + SSR(\beta)/2)$
+- $SSR(\beta) = (y - X\beta)^T (y-X\beta)$
+
+
+``` {julia}
+data = readdlm("data/swim.dat")
+```
+
+``` {julia}
+S = 1000
+
+n = size(data)[2] # number of records
+X = hcat( ones(n), collect(0:2:10) )
+```
+
+``` {julia}
+@proto struct SwimmingModel
+  # Data
+  X = hcat( ones(n), collect(0:2:10) )
+  
+end
+
+@proto struct SwimmingPrior
+
+end
+
+SwimmingModel().X
+```
+
+### (b)
+
+> The coach of the team has to decide which of the four swimmers will compete in a swimming meet in $2$ weeks. Using your predictive distributions, compute $Pr(Y^{*}_{j} = \max\{Y^{*}_1,\dots, Y^{*}_4\}|Y)$ for each swimmer $j$, and based on this make a recommendation to the coach.
+
+## Problem 9.2
+
+> Model selection: As described in Example 6 of Chapter 7, the file `azdiabetes.dat` contains data on health-related variables of a population of $532$ women. In this exercise we will be modeling the conditional distribution of glucose level (`glu`) as a linear combination of the other variables, excluding the variable `diabetes`.
+
+
+### (a)
+
+> Fit a regression model using the $g$-prior with $g=n$, $\nu_0 =2$ and $\sigma^{2}_{0} = 1$. Obtain posterior confidence intervals for all of the parameters.
+
+
+### (b)
+
+> Perform the model selection and averaging procedure described in Section 9.3. Obtain $Pr(\beta_j \neq 0 |y)$, as well as posterior confidence intervals for all of the parameters. Compare to the results in part (a).
