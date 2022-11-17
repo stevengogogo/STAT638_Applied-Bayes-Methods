@@ -34,7 +34,6 @@ end
 function β_FCD(σ², m::SwimmingModel)
     Σₙ =( m.β₀.Σ^-1 + m.X' * m.X / σ²)^-1
     μₙ = Σₙ*(m.β₀.Σ^-1 * m.β₀.μ + m.X' * m.y / σ²)
-    @show Σₙ
     return MvNormal(vec(μₙ), Hermitian(Σₙ))
 end
 
@@ -66,27 +65,15 @@ end
 
 ys = readdlm("data/swim.dat")
 j_swim = 1
-m = SwimmingModel(y = hcat(ys[j_swim,:]))
-
-
-# Sampling vector
-βsmp = zeros(m.S, length(m.β₀.μ))
-σ²smp = zeros(m.S)
-y = zeros(m.S)
-# Init
-βsmp[1,:] = rand(m.β₀)
-σ²smp[1] = m.σ₀²
-y[1] = m.y[1]
-for i in 2:m.S 
-    βsmp[i,:] = rand(β_FCD(σ²smp[i-1], m))
-    σ²smp[i] = rand(σ²_FCD(βsmp[i-1,:], m))
-
-    # Predict 
-    @show βsmp[i,:] * [1 12] 
-    y[i] = βsmp[i,:]' * [1, 12] + rand(Normal(0., σ²smp[i]))
+ms = [ SwimmingModel(y = hcat(ys[i,:]) ) for i in 1:size(ys)[1] ]
+ys_pred = zeros(size(ys)[1], ms[1].S) 
+X_pred = [1,12]
+for i in eachindex(ms)
+    ys_pred[i,:] = pred([1,12], ms[i]).y
 end
 
-pred([1,12], m)
-
 ## Plotting
-histogram(y)
+p = [histogram(ys_pred[i,:], label="Swimmer $i", color="black",
+    xlabel="Week", ylabel="Seconds"
+    ) for i in 1:size(ys)[1]]
+plot(p...)
