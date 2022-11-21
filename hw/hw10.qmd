@@ -1,0 +1,44 @@
+---
+title: "Homework 10"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+    keep-ipynb: true
+  pdf:
+    table-of-contents: true
+    tex-engine: lualatex
+jupyter: julia-1.8
+execute: 
+    echo: true
+    freeze: auto
+---
+
+
+## Descrition
+
+- Course: STAT638, 2022Fall
+- Deadline: 2022/10/29, 12:01 pm
+> Read Chapter 10 in the Hoff book
+
+## Problem HW10-1
+
+> Assume we have $4$ observations, $(-1,0,1,10)$, where the last observation can be thought of as an outlier. Assume that conditional on an unknown parameter $\theta$, the data area i.i.id. from some population distribution. Assume a standard normal prior for $\theta$.
+
+### (1)
+
+> First, assume that the population distribution is a normal distribution with mean $\theta$ and variance $1$. Draw samples from the posterior of $\theta$ using a Metropolis algorithm and also derive the exact posterior in closed form.
+
+
+### (2)
+
+> Now assume the population distribution is a Cauchy distribution with location parameter $\theta$ and scale $1$. (This is equivalent to a nonstandardized t distribution with one degree of freedom and location parameter $\theta$.) Draw samples from the posterior using the Metropolis algorithm.
+
+### (3)
+
+> Plot the exact posterior density from part $1$, together with kernel density estimates from the two Metropolis samplers. Describe how the outlier has affected the posteriors.
