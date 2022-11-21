@@ -16,6 +16,12 @@ book:
     - hw/hw1.qmd
     - hw/hw2.qmd
     - hw/hw3.qmd
+    - hw/hw4.qmd
+    - hw/hw5.qmd
+    - hw/hw6.qmd
+    - hw/hw7.qmd
+    - hw/hw8.qmd
+    - hw/hw9.qmd
     - summary.qmd
     - analy/analy.ipynb
     - ref.qmd

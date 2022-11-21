@@ -184,7 +184,7 @@ plot(ps...)
 Problem 9.2 (b)
 """
 
-m = DiabetesModel(y=y, X=X,  S=1000)
+m = DiabetesModel(y=y, X=X,  S=500)
 
 
 function σ²_FCD(m::DiabetesModel, zs)
@@ -206,7 +206,7 @@ function y_margin(σz², m::DiabetesModel, zs)
     Xz  = @view m.X[1:end, Bool.(zs)]
     ssr = SSR(Xz, y, g)
 
-    pyl = (pz/2.)log(1. +g) + (ν₀/2.)*log(σz²) - ((ν₀+n)/2)log((ν₀*σz² + ssr))
+    pyl = -(pz/2.)log(1. +g) + (ν₀/2.)*log(σz²) - ((ν₀+n)/2)*log((ν₀*σz² + ssr))
     return pyl
 end
 
@@ -229,7 +229,8 @@ zsmp = ones(m.S, size(m.X)[2])
 # Gibbs sampling
 for i in 2:m.S
     for j in Random.shuffle(1:m.p)
-        zsmp[i, j] = rand(z_FCD(j, σ²smp[i-1], zsmp, i-1, m))
+        zp = z_FCD(j, σ²smp[i-1], zsmp, i-1, m)
+        zsmp[i, j] = rand(zp)
     end
 
     σ²smp[i] = rand(σ²_FCD(m, zsmp[i,:]))

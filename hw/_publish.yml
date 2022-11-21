@@ -1,0 +1,4 @@
+- source: hw9.qmd
+  quarto-pub:
+    - id: 1f75606f-e95c-4df7-af72-0abc72226c1c
+      url: 'https://quartopub.com/sites/stchiu/stat_638_hw_9'
