@@ -52,23 +52,14 @@ mean(data)
 1 / var(data)
 ```
 
-\begin{align}
-  \sigma^{-2}_{n}%
-  &= \sigma^{-2}_{0} + n\sigma^{-2}\\
-  &\approx 1 + 4 \times 0.039\\
-  &\approx 1.156
-\end{align}
-a
-\begin{align}
-  \mu_n%
-  &= (\frac{\sigma^{-2}_{0}}{\sigma^{-2}_{n}})\mu_0 + (\frac{n\sigma^{-2}}{\sigma^{-2}_n})\bar{y}\\ 
-  &\approx (\frac{1}{1.156})\theta + (\frac{0.039 \times 4}{1.156})\times 2.5\\
-  & \approx 0.87 \theta + 0.337\\
-\end{align}
+$$\theta \sim Normal(\mu_0=0, \tau^{2}_{0}=1)$$
+$$Y \sim Normal(\theta, \sigma^2 = 1)$$
 
-$$\theta \sim Normal(0,1)$$
-
-\begin{}
+\begin{align}
+  P(\theta | y, \sigma^2)%
+  &\propto \exp\{-\frac{1}{2\tau^{2}_{0}}(\theta - \mu_0)^2\}\exp\{-\frac{1}{2\sigma^2}\sum(y_i - \theta)^2\}\\
+  &= \exp\{-\frac{1}{2}\theta^2\}\exp\{-\frac{1}{2}\sum(y_i - \theta)^2\}\\
+\end{align}
 
 ### (2)
 
