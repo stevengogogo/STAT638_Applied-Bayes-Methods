@@ -26,14 +26,49 @@ execute:
 - Deadline: 2022/10/29, 12:01 pm
 > Read Chapter 10 in the Hoff book
 
+``` {julia}
+using Statistics
+```
+
 ## Problem HW10-1
 
-> Assume we have $4$ observations, $(-1,0,1,10)$, where the last observation can be thought of as an outlier. Assume that conditional on an unknown parameter $\theta$, the data area i.i.id. from some population distribution. Assume a standard normal prior for $\theta$.
+> Assume we have $4$ observations, $(-1,0,1,10)$, where the last observation can be thought of as an outlier. Assume that conditional on an unknown parameter $\theta$, the data area i.i.d. from some population distribution. Assume a standard normal prior for $\theta$.
 
 ### (1)
 
 > First, assume that the population distribution is a normal distribution with mean $\theta$ and variance $1$. Draw samples from the posterior of $\theta$ using a Metropolis algorithm and also derive the exact posterior in closed form.
 
+``` {julia}
+data = [-1., 0., 1., 10.]
+```
+
+**Exact**
+
+``` {julia}
+mean(data)
+```
+ 
+``` {julia}
+1 / var(data)
+```
+
+\begin{align}
+  \sigma^{-2}_{n}%
+  &= \sigma^{-2}_{0} + n\sigma^{-2}\\
+  &\approx 1 + 4 \times 0.039\\
+  &\approx 1.156
+\end{align}
+a
+\begin{align}
+  \mu_n%
+  &= (\frac{\sigma^{-2}_{0}}{\sigma^{-2}_{n}})\mu_0 + (\frac{n\sigma^{-2}}{\sigma^{-2}_n})\bar{y}\\ 
+  &\approx (\frac{1}{1.156})\theta + (\frac{0.039 \times 4}{1.156})\times 2.5\\
+  & \approx 0.87 \theta + 0.337\\
+\end{align}
+
+$$\theta \sim Normal(0,1)$$
+
+\begin{}
 
 ### (2)
 
