@@ -2,3 +2,7 @@
   quarto-pub:
     - id: 1f75606f-e95c-4df7-af72-0abc72226c1c
       url: 'https://quartopub.com/sites/stchiu/stat_638_hw_9'
+- source: hw10.qmd
+  quarto-pub:
+    - id: 42f0a404-332e-47b3-aef0-c7d9656a4caf
+      url: 'https://quartopub.com/sites/stchiu/stat638__hw10'
