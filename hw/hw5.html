@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu (UIN:433002162)">
+<meta name="dcterms.date" content="2023-01-20">
+
+<title>STAT638: Applied Bayesian Methods - 9&nbsp; Homework 5</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hw/hw6.html" rel="next">
+<link href="../hw/hw4.html" rel="prev">
+<link href="../img/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">STAT638: Applied Bayesian Methods</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"><strong>Lecture Notes</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"><strong>Assignments</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw5.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw6.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw7.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw8.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw9.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">9.1</span>  Description</a></li>
+  <li><a href="#computational-enviromnent-setup" id="toc-computational-enviromnent-setup" class="nav-link" data-scroll-target="#computational-enviromnent-setup"><span class="toc-section-number">9.2</span>  Computational Enviromnent Setup</a>
+  <ul class="collapse">
+  <li><a href="#third-party-libraries" id="toc-third-party-libraries" class="nav-link" data-scroll-target="#third-party-libraries"><span class="toc-section-number">9.2.1</span>  Third-party libraries</a></li>
+  <li><a href="#version" id="toc-version" class="nav-link" data-scroll-target="#version"><span class="toc-section-number">9.2.2</span>  Version</a></li>
+  </ul></li>
+  <li><a href="#problem-5.1" id="toc-problem-5.1" class="nav-link" data-scroll-target="#problem-5.1"><span class="toc-section-number">9.3</span>  Problem 5.1</a>
+  <ul class="collapse">
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a"><span class="toc-section-number">9.3.1</span>  (a)</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b"><span class="toc-section-number">9.3.2</span>  (b)</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c"><span class="toc-section-number">9.3.3</span>  (c)</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d"><span class="toc-section-number">9.3.4</span>  (d)</a></li>
+  </ul></li>
+  <li><a href="#problem-5.2" id="toc-problem-5.2" class="nav-link" data-scroll-target="#problem-5.2"><span class="toc-section-number">9.4</span>  Problem 5.2</a></li>
+  <li><a href="#problem-5.5" id="toc-problem-5.5" class="nav-link" data-scroll-target="#problem-5.5"><span class="toc-section-number">9.5</span>  Problem 5.5</a>
+  <ul class="collapse">
+  <li><a href="#a-1" id="toc-a-1" class="nav-link" data-scroll-target="#a-1"><span class="toc-section-number">9.5.1</span>  (a)</a></li>
+  <li><a href="#b-1" id="toc-b-1" class="nav-link" data-scroll-target="#b-1"><span class="toc-section-number">9.5.2</span>  (b)</a></li>
+  <li><a href="#c-1" id="toc-c-1" class="nav-link" data-scroll-target="#c-1"><span class="toc-section-number">9.5.3</span>  (c)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading"></div>
+  
+    <div class="quarto-title-meta-contents">
+    <a href="stchiu@email.tamu.edu">Shao-Ting Chiu (UIN:433002162)</a> 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Electrical and Computer Engineering, Texas A&amp;M University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="description" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="description"><span class="header-section-number">9.1</span> Description</h2>
+<ul>
+<li>Course: STAT638, 2022 Fall</li>
+</ul>
+<blockquote class="blockquote">
+<p>Read Chapter 5 in the Hoff book.</p>
+<p>Then, do the following exercises in Hoff: 5.1, 5.2, 5.5.</p>
+<p>For 5.2, _A denotes the mean exam score for students assigned to method A, and _B denotes the mean exam score for students assigned to method B.</p>
+<p>Be careful: Some of the notation differs between the lecture slides and the Hoff book.</p>
+</blockquote>
+<ul>
+<li>Deadline: <code>Oct 12 by 12:01pm</code></li>
+</ul>
+<hr>
+</section>
+<section id="computational-enviromnent-setup" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="computational-enviromnent-setup"><span class="header-section-number">9.2</span> Computational Enviromnent Setup</h2>
+<section id="third-party-libraries" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="third-party-libraries"><span class="header-section-number">9.2.1</span> Third-party libraries</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys <span class="co"># system information</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="co"># plotting</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="co"># scientific computing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># data managing</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> comb</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats <span class="im">as</span> st</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Matplotlib setting</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'text.usetex'</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>]<span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20220928</span>) <span class="co"># Consistent random effect</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="version" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="version"><span class="header-section-number">9.2.2</span> Version</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sys.version)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matplotlib.__version__)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.__version__)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.9.12 (main, Apr  5 2022, 01:52:34) 
+[Clang 12.0.0 ]
+3.6.2
+1.9.3
+1.23.4
+1.5.1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="problem-5.1" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="problem-5.1"><span class="header-section-number">9.3</span> Problem 5.1</h2>
+<blockquote class="blockquote">
+<p>Studying: The files <a href="data/school1.dat"><code>school1.dat</code></a>, <a href="data/school2.dat"><code>school2.dat</code></a> and <a href="data/school3.dat"><code>school3.dat</code></a> contina data on the amount of time students from <span class="math inline">\(3\)</span> high schools spent on studying or homework during an exam period. Analyze data from each of these schools separately, using the normal model with a conjugate prior distribution, in which <span class="math inline">\(\{\mu_0=5, \sigma^{2}_{0}=4, \kappa_0 = 1, \nu_0 = 2\}\)</span> and compute or approximate following:</p>
+</blockquote>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>schs <span class="op">=</span> [np.loadtxt(<span class="st">"data/school</span><span class="sc">{}</span><span class="st">.dat"</span>.<span class="bu">format</span>(i)) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">4</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="a" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="a"><span class="header-section-number">9.3.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Posterior means and <span class="math inline">\(95\%\)</span> confidence intervals for the mean <span class="math inline">\(\theta\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> from each school;</p>
+</blockquote>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NormalModel:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, mu0, var0, k0, v0):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mu0 <span class="op">=</span> mu0 <span class="co"># prior mean</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.var0<span class="op">=</span> var0 <span class="co"># prior variance</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.k0<span class="op">=</span> k0 <span class="co"># prior observation</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.v0 <span class="op">=</span> v0 </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.data <span class="op">=</span> data</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mean <span class="op">=</span> np.mean(data) <span class="co"># sample mean</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.n <span class="op">=</span> <span class="bu">len</span>(data) <span class="co"># sample counts </span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.kn <span class="op">=</span> <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k0 </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.s2 <span class="op">=</span> np.<span class="bu">sum</span>( (<span class="va">self</span>.data<span class="op">-</span> <span class="va">self</span>.mean)<span class="op">**</span><span class="dv">2</span> ) <span class="op">/</span> (<span class="va">self</span>.n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior parameters</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.vn <span class="op">=</span> <span class="va">self</span>.get_vn(<span class="va">self</span>.v0, <span class="va">self</span>.n) <span class="co"># Posterior v</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.varn <span class="op">=</span> <span class="va">self</span>.get_varn(<span class="va">self</span>.vn, <span class="va">self</span>.v0, <span class="va">self</span>.var0, <span class="va">self</span>.k0, <span class="va">self</span>.n, <span class="va">self</span>.kn, <span class="va">self</span>.mean, <span class="va">self</span>.mu0) <span class="co"># Posterior variance</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mun <span class="op">=</span> <span class="va">self</span>.get_mun(<span class="va">self</span>.k0, <span class="va">self</span>.mu0, <span class="va">self</span>.n, <span class="va">self</span>.mean, <span class="va">self</span>.kn) <span class="co"># Posterior mean</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_vn(<span class="va">self</span>, v0, n):</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> v0 <span class="op">+</span> n</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_varn(<span class="va">self</span>, vn, v0, var0, k0, n, kn, mean, mu0):</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>vn)<span class="op">*</span>(v0<span class="op">*</span>var0 <span class="op">+</span> (n<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.s2 <span class="op">+</span> (k0<span class="op">*</span>n<span class="op">/</span>kn)<span class="op">*</span>(mean <span class="op">-</span> mu0)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> varn</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_mun(<span class="va">self</span>, k0, mu0, n, mean, kn):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (k0<span class="op">*</span>mu0 <span class="op">+</span> n<span class="op">*</span>mean)<span class="op">/</span>kn</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_theta_post(<span class="va">self</span>):</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    mu0 <span class="op">=</span> <span class="va">self</span>.mu0<span class="op">;</span> k0 <span class="op">=</span> <span class="va">self</span>.k0<span class="op">;</span> </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn<span class="op">/</span><span class="va">self</span>.kn))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_pred(<span class="va">self</span>):</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    mun <span class="op">=</span> <span class="va">self</span>.mun</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> <span class="va">self</span>.varn</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn))</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>setting <span class="op">=</span> {<span class="st">"mu0"</span>: <span class="dv">5</span>, <span class="st">"var0"</span>:<span class="dv">4</span>, <span class="st">"k0"</span>:<span class="dv">1</span>, <span class="st">"v0"</span>:<span class="dv">2</span>}</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>nms <span class="op">=</span> [NormalModel(sch, <span class="op">**</span>setting) <span class="cf">for</span> sch <span class="kw">in</span> schs]</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>rv_thps <span class="op">=</span> [nm.rv_theta_post() <span class="cf">for</span> nm <span class="kw">in</span> nms]</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Display data</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"School"</span>:[i<span class="op">+</span><span class="dv">1</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(nms))],<span class="st">"Mean"</span>:[rv_thp.mean() <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps],<span class="st">"95</span><span class="sc">% c</span><span class="st">onfidence interval (left, right)"</span>:[rv_thp.interval(<span class="fl">0.95</span>) <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>School</th>
+      <th>Mean</th>
+      <th>95% confidence interval (left, right)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>9.292308</td>
+      <td>(7.832422909482735, 10.752192475132652)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>6.948750</td>
+      <td>(5.242990325564609, 8.654509674435392)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>7.812381</td>
+      <td>(6.26475553664974, 9.360006368112167)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="b" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="b"><span class="header-section-number">9.3.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>The posterior probability that <span class="math inline">\(\theta_i &lt; \theta_j &lt; \theta_k\)</span> for all size permutataions <span class="math inline">\(\{i,j,k\}\)</span> of <span class="math inline">\(\{1,2,3\}\)</span>;</p>
+</blockquote>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n_mc <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>samps_thp <span class="op">=</span> [rv_thp.rvs(size<span class="op">=</span>n_mc) <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>perm <span class="op">=</span> <span class="bu">list</span>(permutations([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>]))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> [<span class="st">""</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [<span class="bu">int</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a, i) <span class="kw">in</span> <span class="bu">enumerate</span>(perm):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  text[a] <span class="op">=</span> <span class="st">"theta_</span><span class="sc">{}</span><span class="st"> &lt; theta_</span><span class="sc">{}</span><span class="st"> &lt; theta_</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(i[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  probs[a] <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_thp[i[<span class="dv">0</span>]] <span class="op">&lt;</span> samps_thp[i[<span class="dv">1</span>]], samps_thp[i[<span class="dv">1</span>]] <span class="op">&lt;</span> samps_thp[i[<span class="dv">2</span>]])) <span class="op">/</span> n_mc</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Permuatations"</span>: text, <span class="st">"Probabilities"</span>: probs})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Permuatations</th>
+      <th>Probabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>theta_1 &lt; theta_2 &lt; theta_3</td>
+      <td>0.0058</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>theta_1 &lt; theta_3 &lt; theta_2</td>
+      <td>0.0030</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>theta_2 &lt; theta_1 &lt; theta_3</td>
+      <td>0.0788</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>theta_2 &lt; theta_3 &lt; theta_1</td>
+      <td>0.6929</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>theta_3 &lt; theta_1 &lt; theta_2</td>
+      <td>0.0123</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>theta_3 &lt; theta_2 &lt; theta_1</td>
+      <td>0.2072</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="c" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="c"><span class="header-section-number">9.3.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>The posterior probability that <span class="math inline">\(\tilde{Y}_i&lt;\tilde{Y}_j &lt; \tilde{Y}_k\)</span> for all siz permuatations <span class="math inline">\(\{i,j,k\}\)</span> of <span class="math inline">\(\{1,2,3\}\)</span>, where <span class="math inline">\(\tilde{Y}_i\)</span> is a sample from the posterior predictive distribution of school <span class="math inline">\(i\)</span>.</p>
+</blockquote>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rv_posts <span class="op">=</span> [nm.rv_pred() <span class="cf">for</span> nm <span class="kw">in</span> nms]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>samps_post <span class="op">=</span> [rv_post.rvs(size<span class="op">=</span>n_mc) <span class="cf">for</span> rv_post <span class="kw">in</span> rv_posts]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>perm <span class="op">=</span> <span class="bu">list</span>(permutations([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>]))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> [<span class="st">""</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [<span class="bu">int</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a, i) <span class="kw">in</span> <span class="bu">enumerate</span>(perm):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  text[a] <span class="op">=</span> <span class="st">"Y_tilde_</span><span class="sc">{}</span><span class="st"> &lt; Y_tilde_</span><span class="sc">{}</span><span class="st"> &lt; Y_tilde_</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(i[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  probs[a] <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_post[i[<span class="dv">0</span>]] <span class="op">&lt;</span> samps_post[i[<span class="dv">1</span>]], samps_post[i[<span class="dv">1</span>]] <span class="op">&lt;</span> samps_post[i[<span class="dv">2</span>]])) <span class="op">/</span> n_mc</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Permuatations"</span>: text, <span class="st">"Probabilities"</span>: probs})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Permuatations</th>
+      <th>Probabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Y_tilde_1 &lt; Y_tilde_2 &lt; Y_tilde_3</td>
+      <td>0.1020</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Y_tilde_1 &lt; Y_tilde_3 &lt; Y_tilde_2</td>
+      <td>0.1029</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Y_tilde_2 &lt; Y_tilde_1 &lt; Y_tilde_3</td>
+      <td>0.1857</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Y_tilde_2 &lt; Y_tilde_3 &lt; Y_tilde_1</td>
+      <td>0.2686</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Y_tilde_3 &lt; Y_tilde_1 &lt; Y_tilde_2</td>
+      <td>0.1361</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Y_tilde_3 &lt; Y_tilde_2 &lt; Y_tilde_1</td>
+      <td>0.2047</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="d" class="level3" data-number="9.3.4">
+<h3 data-number="9.3.4" class="anchored" data-anchor-id="d"><span class="header-section-number">9.3.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Compute the posterior probability that <span class="math inline">\(\theta_1\)</span> is bigger than both <span class="math inline">\(\theta_2\)</span> and <span class="math inline">\(\theta_3\)</span>, and the posterior probability that <span class="math inline">\(\tilde{Y}_1\)</span> is bigger than both <span class="math inline">\(\tilde{Y}_2\)</span> and <span class="math inline">\(\tilde{Y}_3\)</span>.</p>
+</blockquote>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>th_biggest <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_thp[<span class="dv">0</span>]<span class="op">&gt;</span>samps_thp[<span class="dv">1</span>], samps_thp[<span class="dv">0</span>]<span class="op">&gt;</span>samps_thp[<span class="dv">2</span>]))<span class="op">/</span>n_mc</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>post_biggest <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_post[<span class="dv">0</span>]<span class="op">&gt;</span>samps_post[<span class="dv">1</span>], samps_post[<span class="dv">0</span>]<span class="op">&gt;</span>samps_post[<span class="dv">2</span>]))<span class="op">/</span>n_mc</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Properties"</span>: [<span class="st">"Theta_1 is the biggest"</span>, <span class="st">"Tilde_1 is the biggest"</span>], <span class="st">"Probabilities"</span>:[th_biggest, post_biggest]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Properties</th>
+      <th>Probabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Theta_1 is the biggest</td>
+      <td>0.9001</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Tilde_1 is the biggest</td>
+      <td>0.4733</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="problem-5.2" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="problem-5.2"><span class="header-section-number">9.4</span> Problem 5.2</h2>
+<blockquote class="blockquote">
+<p>Sensitivity analysis: <span class="math inline">\(32\)</span> students in a science classroom were randomly assigned to one of two study methods, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, so that <span class="math inline">\(n_A = n_B = 16\)</span> students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of <span class="math inline">\(75\)</span> with a standard deviation of <span class="math inline">\(10\)</span>. The scores for the two groups are summarized by <span class="math inline">\(\{\bar{y}_A=75.2, s_A = 7.3\}\)</span> and <span class="math inline">\(\{\bar{y}_B=77.5, s_b = 8.1\}\)</span>. Consider independent, conjugate normal prior distributions for each of <span class="math inline">\(\theta_A\)</span> and <span class="math inline">\(\theta_B\)</span>, with <span class="math inline">\(\mu_0=75\)</span> and <span class="math inline">\(\sigma_{0}^2 = 100\)</span> for both groups. For each <span class="math inline">\((\kappa_0, \nu_0) \in \{(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)\}\)</span> (or more values), obtain <span class="math inline">\(Pr(\theta_A &lt; \theta_B | y_A, y_B)\)</span> via Monte Carlo Sampling. Plot this probability as a function of <span class="math inline">\(\kappa_0 = \nu_0\)</span>. Describe how you might use this plot to convey the evidence that <span class="math inline">\(\theta_A &lt; \theta_B\)</span> to people of a variety of prior opinions.</p>
+</blockquote>
+<ul>
+<li>Increase <span class="math inline">\((\kappa_0, \nu_0)\)</span> can descrease the probability of <span class="math inline">\(B\)</span> bigger that than <span class="math inline">\(A\)</span>. But, the probability of <span class="math inline">\(B\)</span> larger than <span class="math inline">\(A\)</span> can hardly lower than <span class="math inline">\(0.5\)</span>.</li>
+</ul>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NormalModel:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, sample_size,sample_mean, sample_var, mu0, var0, k0, v0):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mu0 <span class="op">=</span> mu0 <span class="co"># prior mean</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.var0<span class="op">=</span> var0 <span class="co"># prior variance</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.k0<span class="op">=</span> k0 <span class="co"># prior observation</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.v0 <span class="op">=</span> v0 </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mean <span class="op">=</span> sample_mean <span class="co"># sample mean</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.n <span class="op">=</span> sample_size <span class="co"># sample counts </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.kn <span class="op">=</span> <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k0 </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.s2 <span class="op">=</span> sample_var</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior parameters</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.vn <span class="op">=</span> <span class="va">self</span>.get_vn(<span class="va">self</span>.v0, <span class="va">self</span>.n) <span class="co"># Posterior v</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.varn <span class="op">=</span> <span class="va">self</span>.get_varn(<span class="va">self</span>.vn, <span class="va">self</span>.v0, <span class="va">self</span>.var0, <span class="va">self</span>.k0, <span class="va">self</span>.n, <span class="va">self</span>.kn, <span class="va">self</span>.mean, <span class="va">self</span>.mu0) <span class="co"># Posterior variance</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mun <span class="op">=</span> <span class="va">self</span>.get_mun(<span class="va">self</span>.k0, <span class="va">self</span>.mu0, <span class="va">self</span>.n, <span class="va">self</span>.mean, <span class="va">self</span>.kn) <span class="co"># Posterior mean</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_vn(<span class="va">self</span>, v0, n):</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> v0 <span class="op">+</span> n</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_varn(<span class="va">self</span>, vn, v0, var0, k0, n, kn, mean, mu0):</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>vn)<span class="op">*</span>(v0<span class="op">*</span>var0 <span class="op">+</span> (n<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.s2 <span class="op">+</span> (k0<span class="op">*</span>n<span class="op">/</span>kn)<span class="op">*</span>(mean <span class="op">-</span> mu0)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> varn</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_mun(<span class="va">self</span>, k0, mu0, n, mean, kn):</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (k0<span class="op">*</span>mu0 <span class="op">+</span> n<span class="op">*</span>mean)<span class="op">/</span>kn</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_theta_post(<span class="va">self</span>):</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    mu0 <span class="op">=</span> <span class="va">self</span>.mu0<span class="op">;</span> k0 <span class="op">=</span> <span class="va">self</span>.k0<span class="op">;</span> </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn<span class="op">/</span><span class="va">self</span>.kn))</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_pred(<span class="va">self</span>):</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    mun <span class="op">=</span> <span class="va">self</span>.mun</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> <span class="va">self</span>.varn</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn))</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> expAB(k0,v0,size<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  setting <span class="op">=</span> {<span class="st">"sample_size"</span>:<span class="dv">16</span>, <span class="st">"mu0"</span>: <span class="dv">75</span>, <span class="st">"var0"</span>: <span class="dv">100</span>, <span class="st">"k0"</span>:k0, <span class="st">"v0"</span>:v0}</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  rvtA <span class="op">=</span> NormalModel(sample_mean<span class="op">=</span><span class="fl">75.2</span>,<span class="op">\</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    sample_var<span class="op">=</span><span class="fl">7.3</span>, <span class="op">**</span>setting).rv_theta_post()</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  rvtB <span class="op">=</span> NormalModel(sample_mean<span class="op">=</span><span class="fl">77.5</span>,<span class="op">\</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    sample_var<span class="op">=</span><span class="fl">8.1</span>, <span class="op">**</span>setting).rv_theta_post()</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  spA, spB <span class="op">=</span> rvtA.rvs(size<span class="op">=</span>size), rvtB.rvs(size<span class="op">=</span>size)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.<span class="bu">sum</span>(spA <span class="op">&lt;</span> spB)<span class="op">/</span>size</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>pars <span class="op">=</span> [i<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">7</span>)]</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [<span class="bu">float</span>]<span class="op">*</span><span class="bu">len</span>(pars)</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, p) <span class="kw">in</span> <span class="bu">enumerate</span>(pars):</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  vals[i] <span class="op">=</span> expAB(p,p)</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>figV, axV <span class="op">=</span> plt.subplots()</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>axV.plot(pars,vals, <span class="st">'o'</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>axV.set_xlabel(<span class="st">"$(</span><span class="ch">\\</span><span class="st">kappa_0, </span><span class="ch">\\</span><span class="st">nu_0)$"</span>)</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>axV.set_ylabel(<span class="st">"$Pr(</span><span class="ch">\\</span><span class="st">theta_A &lt; </span><span class="ch">\\</span><span class="st">theta_B | y_A, y_B)$"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="hw5_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="problem-5.5" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="problem-5.5"><span class="header-section-number">9.5</span> Problem 5.5</h2>
+<blockquote class="blockquote">
+<p>Unit information prior: Obtain a unit information prior for the normal model as follows:</p>
+</blockquote>
+<section id="a-1" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="a-1"><span class="header-section-number">9.5.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Reparameterize the normal model as <span class="math inline">\(p(y|\theta, \psi)\)</span>, where <span class="math inline">\(\psi=\frac{1}{\sigma^2}\)</span>. Write out the log likelihood <span class="math inline">\(l(\theta, \psi|y) = \sum \log p(y_i|\theta, \psi)\)</span> in terms of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\psi\)</span>.</p>
+</blockquote>
+<p><span class="math display">\[p(y|\theta,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}(\frac{y-\theta}{\sigma})^2}\]</span></p>
+<p><span class="math display">\[p(y|\theta, \psi) = \frac{\sqrt{\psi}}{\sqrt{2\pi}}e^{-\frac{1}{2}(y-\theta)^2\psi}\]</span></p>
+<p><span class="math display">\[\log p(y_i|\theta,\psi) = \log\left(\sqrt{\frac{\psi}{2\pi}}\right) - \frac{1}{2}(y_i -\theta)^2\psi\]</span></p>
+<p><span class="math display">\[\begin{align}
+l(\theta,\psi|y) = \sum_{i=1}^{n} \log(y_i|\theta, \psi)%
+&amp;= \log\left(\frac{\psi}{2\pi}\right)^{n/2} - \frac{1}{2}\psi \sum_{i=1}^{n}(y_i -\theta)^2\\
+&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2\\
+&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_{i}^{2} - 2\theta y_{i} + \theta^2)\\
+&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}(\sum y_{i}^{2} - 2\theta\sum y_{i} + n\theta^2)\\
+&amp;= \frac{-\psi}{2} \sum_{i=1}^{n} y_{i}^{2} + \psi\theta\sum_{i=1}^{n} y_i - \frac{n\psi\theta^2}{2} + \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right)
+\end{align}\]</span></p>
+</section>
+<section id="b-1" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="b-1"><span class="header-section-number">9.5.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Find a probability density <span class="math inline">\(P_U(\theta, \psi)\)</span> so that <span class="math inline">\(\log p_U(\theta, \psi) = \frac{l(\theta, \psi |y)}{n} + c\)</span>, where <span class="math inline">\(c\)</span> is a constant that does not depend on <span class="math inline">\(\theta\)</span> or <span class="math inline">\(\psi\)</span>.</p>
+<p>Hint: Write <span class="math inline">\(\sum (y_i-\theta)^2\)</span> as <span class="math inline">\(\sum(y_i - \bar{y} + \bar{y} - \theta)^2 = \sum(y_i-\bar{y})^2 + n(\theta - \bar{y})^2\)</span>, and recall that <span class="math inline">\(\log p_U(\theta, \psi) = \log p_U(\theta|\psi) + \log p_U(\psi)\)</span>.</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+l(\theta, \psi|y)%
+&amp;=\frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2\\
+&amp;=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[\sum(y_i - \bar{y})^2 + n(\theta-\bar{y})^2\right]\\
+&amp;=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left[(n-1) s^2 + n(\theta-\bar{y})^2\right]\\
+&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left((n-1)s^2 + n\theta^2 - 2n\theta\bar{y} + n\bar{y}^2\right)\\
+&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \theta^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \bar{y}^2}{2}\\
+&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \bar{y}^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \theta^2}{2}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+\frac{l(\theta, \psi|y)}{n} + c &amp;= \underbrace{\frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2n}(n-1)s^2 - \frac{\psi  \bar{y}^2}{2}}_{=h(\psi|y)} + \underbrace{\psi\theta\bar{y} - \frac{\psi\theta^2}{2}}_{=g(\theta|\psi, y)} + c
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+p_U(\theta,\psi)%
+&amp;= \exp\left(\frac{l(\theta,\psi|y)}{n}+ c\right)\\
+&amp;\propto  \exp\left(\frac{l(\theta,\psi|y)}{n}\right)\\
+&amp;= \exp(h(\psi|y)) \exp(g(\theta|\psi,y))
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+\exp(h(\psi|y))%
+&amp;= (\frac{\psi}{2\pi})^{1/2}\exp\left(- (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi\right)\\
+&amp;\propto \psi^{\frac{1}{2}}\exp\left(- \frac{\psi}{(\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1}}\right)\\
+&amp;\sim Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+\exp(g(\theta|\psi, y))%
+&amp;= \exp\left( \psi\theta\bar{y} - \frac{\psi\theta^2}{2}\right)\\
+&amp;= \exp\left( -\frac{\psi}{2}\theta^2 + \psi\bar{y}\theta - \frac{\psi\bar{y}^2}{2} + \frac{\psi\bar{y}^2}{2} \right)\\
+&amp;= \exp\left( -\frac{\psi}{2}(\theta^2 - 2\bar{y}\theta + \bar{y}^2) + \frac{\psi\bar{y}^2}{2}\right)\\
+&amp;= \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 + \frac{\psi\bar{y}^2}{2}\right)\\
+&amp;\propto \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 \right)\\
+&amp;= \exp\left( - \frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}} \right)^2\right)\\
+&amp;\propto Normal(\theta, \bar{y}, \psi^{-1/2})
+\end{align}\]</span></p>
+<p>Thus<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>,</p>
+<p><span class="math display">\[\begin{align}
+  P_{U}(\theta,\psi) &amp;= P_{U}(\theta|\psi)P_{U}(\psi)
+  \propto  Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})\\
+  &amp;\times Normal(\theta, \bar{y}, \psi^{-1/2})\\
+\end{align}\]</span></p>
+</section>
+<section id="c-1" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="c-1"><span class="header-section-number">9.5.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Find a probability density <span class="math inline">\(p_U(\theta, \psi|y)\)</span> that is proportional to <span class="math inline">\(p_U(\theta, \psi) \times p(y_1, \dots, y_n |\theta, \psi)\)</span>. It may be convenient to write this joint density as <span class="math inline">\(p_U(\theta|\psi, y)\times p_{U}(\psi|y)\)</span>. Can this joint density be considered a posterior density?</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+P_{U}(\theta, \psi|y)%
+&amp;= P_{U}(\psi|y) \times p_{U}(\theta|\psi, y)\\
+&amp;= Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})\\
+  &amp;\times Normal(\theta, \bar{y}, \psi^{-1/2})\\
+  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}}\right)^2\right)\\
+  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta-\bar{y}\right)^2\right)\\
+  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta^2-2\theta\bar{y}+\bar{y}^2\right)\right)\\
+  &amp;\psi^{1/2}\exp\left(-\left( \frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2} + \frac{\bar{y}^2}{2} \right)\psi \right) \times \exp\left(-\frac{\psi}{2}(\theta^2-2\theta\bar{y})\right)
+\end{align}\]</span></p>
+<ul>
+<li><span class="math inline">\(p_U(\theta|\psi, y) \propto Normal(\theta, \bar{y}, \psi^{-1/2})\)</span></li>
+<li><span class="math inline">\(p_U(\psi|\theta, y) \sim Gamma(\frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})\)</span></li>
+<li>Yes, it can be considered as a posterior density because the unit information prior is the product of two proper distribution.</li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Use the PDF formula on <a href="https://en.wikipedia.org/wiki/Gamma_distribution">Wiki</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../hw/hw4.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../hw/hw6.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Homework 5</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Shao-Ting Chiu (UIN:433002162)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    url: stchiu@email.tamu.edu</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Department of Electrical and Computer Engineering, Texas A\&amp;M University</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../ref.bib</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">    table-of-contents: true</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">  pdf:</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">    table-of-contents: true</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3  </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">    echo: true</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">    freeze: auto</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Description</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Course: STAT638, 2022 Fall</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Read Chapter 5 in the Hoff book.</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Then, do the following exercises in Hoff: 5.1, 5.2, 5.5.</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For 5.2, \theta_A denotes the mean exam score for students assigned to method A, and \theta_B denotes the mean exam score for students assigned to method B.</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Be careful: Some of the notation differs between the lecture slides and the Hoff book.</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Deadline: <span class="in">`Oct 12 by 12:01pm`</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational Enviromnent Setup</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third-party libraries</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys <span class="co"># system information</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="co"># plotting</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="co"># scientific computing</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random </span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># data managing</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> comb</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats <span class="im">as</span> st</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> permutations </span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Matplotlib setting</span></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'text.usetex'</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>]<span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20220928</span>) <span class="co"># Consistent random effect</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sys.version)</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matplotlib.__version__)</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.__version__)</span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 5.1</span></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Studying: The files  </span><span class="co">[</span><span class="ot">`school1.dat`</span><span class="co">](data/school1.dat)</span><span class="at">, </span><span class="co">[</span><span class="ot">`school2.dat`</span><span class="co">](data/school2.dat)</span><span class="at"> and </span><span class="co">[</span><span class="ot">`school3.dat`</span><span class="co">](data/school3.dat)</span><span class="at"> contina data on the amount of time students from $3$ high schools spent on studying or homework during an exam period. Analyze data from each of these schools separately, using the normal model with a conjugate prior distribution, in which $</span><span class="sc">\{</span><span class="at">\mu_0=5, \sigma^{2}_{0}=4, \kappa_0 = 1, \nu_0 = 2</span><span class="sc">\}</span><span class="at">$ and compute or approximate following:</span></span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>schs <span class="op">=</span> [np.loadtxt(<span class="st">"data/school</span><span class="sc">{}</span><span class="st">.dat"</span>.<span class="bu">format</span>(i)) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">4</span>)]</span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### (a)</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Posterior means and $95\%$ confidence intervals for the mean $\theta$ and standard deviation $\sigma$ from each school;</span></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NormalModel:</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, mu0, var0, k0, v0):</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior</span></span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mu0 <span class="op">=</span> mu0 <span class="co"># prior mean</span></span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.var0<span class="op">=</span> var0 <span class="co"># prior variance</span></span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.k0<span class="op">=</span> k0 <span class="co"># prior observation</span></span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.v0 <span class="op">=</span> v0 </span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data</span></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.data <span class="op">=</span> data</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mean <span class="op">=</span> np.mean(data) <span class="co"># sample mean</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.n <span class="op">=</span> <span class="bu">len</span>(data) <span class="co"># sample counts </span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.kn <span class="op">=</span> <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k0 </span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.s2 <span class="op">=</span> np.<span class="bu">sum</span>( (<span class="va">self</span>.data<span class="op">-</span> <span class="va">self</span>.mean)<span class="op">**</span><span class="dv">2</span> ) <span class="op">/</span> (<span class="va">self</span>.n <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior parameters</span></span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.vn <span class="op">=</span> <span class="va">self</span>.get_vn(<span class="va">self</span>.v0, <span class="va">self</span>.n) <span class="co"># Posterior v</span></span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.varn <span class="op">=</span> <span class="va">self</span>.get_varn(<span class="va">self</span>.vn, <span class="va">self</span>.v0, <span class="va">self</span>.var0, <span class="va">self</span>.k0, <span class="va">self</span>.n, <span class="va">self</span>.kn, <span class="va">self</span>.mean, <span class="va">self</span>.mu0) <span class="co"># Posterior variance</span></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mun <span class="op">=</span> <span class="va">self</span>.get_mun(<span class="va">self</span>.k0, <span class="va">self</span>.mu0, <span class="va">self</span>.n, <span class="va">self</span>.mean, <span class="va">self</span>.kn) <span class="co"># Posterior mean</span></span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_vn(<span class="va">self</span>, v0, n):</span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> v0 <span class="op">+</span> n</span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_varn(<span class="va">self</span>, vn, v0, var0, k0, n, kn, mean, mu0):</span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>vn)<span class="op">*</span>(v0<span class="op">*</span>var0 <span class="op">+</span> (n<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.s2 <span class="op">+</span> (k0<span class="op">*</span>n<span class="op">/</span>kn)<span class="op">*</span>(mean <span class="op">-</span> mu0)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> varn</span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_mun(<span class="va">self</span>, k0, mu0, n, mean, kn):</span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (k0<span class="op">*</span>mu0 <span class="op">+</span> n<span class="op">*</span>mean)<span class="op">/</span>kn</span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_theta_post(<span class="va">self</span>):</span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>    mu0 <span class="op">=</span> <span class="va">self</span>.mu0<span class="op">;</span> k0 <span class="op">=</span> <span class="va">self</span>.k0<span class="op">;</span> </span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn<span class="op">/</span><span class="va">self</span>.kn))</span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_pred(<span class="va">self</span>):</span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>    mun <span class="op">=</span> <span class="va">self</span>.mun</span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> <span class="va">self</span>.varn</span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn))</span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>setting <span class="op">=</span> {<span class="st">"mu0"</span>: <span class="dv">5</span>, <span class="st">"var0"</span>:<span class="dv">4</span>, <span class="st">"k0"</span>:<span class="dv">1</span>, <span class="st">"v0"</span>:<span class="dv">2</span>}</span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>nms <span class="op">=</span> [NormalModel(sch, <span class="op">**</span>setting) <span class="cf">for</span> sch <span class="kw">in</span> schs]</span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>rv_thps <span class="op">=</span> [nm.rv_theta_post() <span class="cf">for</span> nm <span class="kw">in</span> nms]</span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Display data</span></span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"School"</span>:[i<span class="op">+</span><span class="dv">1</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(nms))],<span class="st">"Mean"</span>:[rv_thp.mean() <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps],<span class="st">"95</span><span class="sc">% c</span><span class="st">onfidence interval (left, right)"</span>:[rv_thp.interval(<span class="fl">0.95</span>) <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps]})</span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### (b)</span></span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The posterior probability that $\theta_i &lt; \theta_j &lt; \theta_k$ for all size permutataions $</span><span class="sc">\{</span><span class="at">i,j,k</span><span class="sc">\}</span><span class="at">$ of $</span><span class="sc">\{</span><span class="at">1,2,3</span><span class="sc">\}</span><span class="at">$;</span></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>n_mc <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>samps_thp <span class="op">=</span> [rv_thp.rvs(size<span class="op">=</span>n_mc) <span class="cf">for</span> rv_thp <span class="kw">in</span> rv_thps]</span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>perm <span class="op">=</span> <span class="bu">list</span>(permutations([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>]))</span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> [<span class="st">""</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [<span class="bu">int</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a, i) <span class="kw">in</span> <span class="bu">enumerate</span>(perm):</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>  text[a] <span class="op">=</span> <span class="st">"theta_</span><span class="sc">{}</span><span class="st"> &lt; theta_</span><span class="sc">{}</span><span class="st"> &lt; theta_</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(i[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>  probs[a] <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_thp[i[<span class="dv">0</span>]] <span class="op">&lt;</span> samps_thp[i[<span class="dv">1</span>]], samps_thp[i[<span class="dv">1</span>]] <span class="op">&lt;</span> samps_thp[i[<span class="dv">2</span>]])) <span class="op">/</span> n_mc</span>
+<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Permuatations"</span>: text, <span class="st">"Probabilities"</span>: probs})</span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a><span class="fu">### (c)</span></span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The posterior probability that $\tilde{Y}_i&lt;\tilde{Y}_j &lt; \tilde{Y}_k$ for all siz permuatations $\{i,j,k\}$ of $\{1,2,3\}$, where $\tilde{Y}_i$ is a sample from the posterior predictive distribution of school $i$.</span></span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>rv_posts <span class="op">=</span> [nm.rv_pred() <span class="cf">for</span> nm <span class="kw">in</span> nms]</span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>samps_post <span class="op">=</span> [rv_post.rvs(size<span class="op">=</span>n_mc) <span class="cf">for</span> rv_post <span class="kw">in</span> rv_posts]</span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>perm <span class="op">=</span> <span class="bu">list</span>(permutations([<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>]))</span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> [<span class="st">""</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [<span class="bu">int</span>] <span class="op">*</span> <span class="bu">len</span>(perm)</span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a, i) <span class="kw">in</span> <span class="bu">enumerate</span>(perm):</span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a>  text[a] <span class="op">=</span> <span class="st">"Y_tilde_</span><span class="sc">{}</span><span class="st"> &lt; Y_tilde_</span><span class="sc">{}</span><span class="st"> &lt; Y_tilde_</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(i[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, i[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a>  probs[a] <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_post[i[<span class="dv">0</span>]] <span class="op">&lt;</span> samps_post[i[<span class="dv">1</span>]], samps_post[i[<span class="dv">1</span>]] <span class="op">&lt;</span> samps_post[i[<span class="dv">2</span>]])) <span class="op">/</span> n_mc</span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Permuatations"</span>: text, <span class="st">"Probabilities"</span>: probs})</span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### (d)</span></span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Compute the posterior probability that $\theta_1$ is bigger than both $\theta_2$ and $\theta_3$, and the posterior probability that $\tilde{Y}_1$ is bigger than both $\tilde{Y}_2$ and $\tilde{Y}_3$.</span></span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>th_biggest <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_thp[<span class="dv">0</span>]<span class="op">&gt;</span>samps_thp[<span class="dv">1</span>], samps_thp[<span class="dv">0</span>]<span class="op">&gt;</span>samps_thp[<span class="dv">2</span>]))<span class="op">/</span>n_mc</span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a>post_biggest <span class="op">=</span> np.<span class="bu">sum</span>(np.logical_and(samps_post[<span class="dv">0</span>]<span class="op">&gt;</span>samps_post[<span class="dv">1</span>], samps_post[<span class="dv">0</span>]<span class="op">&gt;</span>samps_post[<span class="dv">2</span>]))<span class="op">/</span>n_mc</span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Properties"</span>: [<span class="st">"Theta_1 is the biggest"</span>, <span class="st">"Tilde_1 is the biggest"</span>], <span class="st">"Probabilities"</span>:[th_biggest, post_biggest]})</span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 5.2</span></span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Sensitivity analysis: $32$ students in a science classroom were randomly assigned to one of two study methods, $A$ and $B$, so that $n_A = n_B = 16$ students were assigned to each method. After several weeks of study, students were examined on the course material with an exam designed to give an average score of $75$ with a standard deviation of $10$. The scores for the two groups are summarized by $\{\bar{y}_A=75.2, s_A = 7.3\}$ and $\{\bar{y}_B=77.5, s_b = 8.1\}$. Consider independent, conjugate normal prior distributions for each of $\theta_A$ and $\theta_B$, with $\mu_0=75$ and $\sigma_{0}^2 = 100$ for both groups. For each $(\kappa_0, \nu_0) \in </span><span class="sc">\{</span><span class="at">(1,1),(2,2), (4,4),(8,8), (16,16), (32,32)</span><span class="sc">\}</span><span class="at">$ (or more values), obtain $Pr(\theta_A &lt; \theta_B | y_A, y_B)$ via Monte Carlo Sampling. Plot this probability as a function of $\kappa_0 = \nu_0$. Describe how you might use this plot to convey the evidence that $\theta_A &lt; \theta_B$ to people of a variety of prior opinions.</span></span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Increase $(\kappa_0, \nu_0)$ can descrease the probability of $B$ bigger that than $A$. But, the probability of $B$ larger than $A$ can hardly lower than $0.5$.</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NormalModel:</span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, sample_size,sample_mean, sample_var, mu0, var0, k0, v0):</span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior</span></span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mu0 <span class="op">=</span> mu0 <span class="co"># prior mean</span></span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.var0<span class="op">=</span> var0 <span class="co"># prior variance</span></span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.k0<span class="op">=</span> k0 <span class="co"># prior observation</span></span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.v0 <span class="op">=</span> v0 </span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data</span></span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mean <span class="op">=</span> sample_mean <span class="co"># sample mean</span></span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.n <span class="op">=</span> sample_size <span class="co"># sample counts </span></span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.kn <span class="op">=</span> <span class="va">self</span>.n <span class="op">+</span> <span class="va">self</span>.k0 </span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.s2 <span class="op">=</span> sample_var</span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Posterior parameters</span></span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.vn <span class="op">=</span> <span class="va">self</span>.get_vn(<span class="va">self</span>.v0, <span class="va">self</span>.n) <span class="co"># Posterior v</span></span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.varn <span class="op">=</span> <span class="va">self</span>.get_varn(<span class="va">self</span>.vn, <span class="va">self</span>.v0, <span class="va">self</span>.var0, <span class="va">self</span>.k0, <span class="va">self</span>.n, <span class="va">self</span>.kn, <span class="va">self</span>.mean, <span class="va">self</span>.mu0) <span class="co"># Posterior variance</span></span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.mun <span class="op">=</span> <span class="va">self</span>.get_mun(<span class="va">self</span>.k0, <span class="va">self</span>.mu0, <span class="va">self</span>.n, <span class="va">self</span>.mean, <span class="va">self</span>.kn) <span class="co"># Posterior mean</span></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_vn(<span class="va">self</span>, v0, n):</span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> v0 <span class="op">+</span> n</span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_varn(<span class="va">self</span>, vn, v0, var0, k0, n, kn, mean, mu0):</span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>vn)<span class="op">*</span>(v0<span class="op">*</span>var0 <span class="op">+</span> (n<span class="op">-</span><span class="dv">1</span>)<span class="op">*</span><span class="va">self</span>.s2 <span class="op">+</span> (k0<span class="op">*</span>n<span class="op">/</span>kn)<span class="op">*</span>(mean <span class="op">-</span> mu0)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> varn</span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> get_mun(<span class="va">self</span>, k0, mu0, n, mean, kn):</span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (k0<span class="op">*</span>mu0 <span class="op">+</span> n<span class="op">*</span>mean)<span class="op">/</span>kn</span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_theta_post(<span class="va">self</span>):</span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>    mu0 <span class="op">=</span> <span class="va">self</span>.mu0<span class="op">;</span> k0 <span class="op">=</span> <span class="va">self</span>.k0<span class="op">;</span> </span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn<span class="op">/</span><span class="va">self</span>.kn))</span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> rv_pred(<span class="va">self</span>):</span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a>    mun <span class="op">=</span> <span class="va">self</span>.mun</span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>    varn <span class="op">=</span> <span class="va">self</span>.varn</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> st.norm(loc<span class="op">=</span><span class="va">self</span>.mun, scale<span class="op">=</span> np.sqrt(<span class="va">self</span>.varn))</span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> expAB(k0,v0,size<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a>  setting <span class="op">=</span> {<span class="st">"sample_size"</span>:<span class="dv">16</span>, <span class="st">"mu0"</span>: <span class="dv">75</span>, <span class="st">"var0"</span>: <span class="dv">100</span>, <span class="st">"k0"</span>:k0, <span class="st">"v0"</span>:v0}</span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>  rvtA <span class="op">=</span> NormalModel(sample_mean<span class="op">=</span><span class="fl">75.2</span>,<span class="op">\</span></span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>    sample_var<span class="op">=</span><span class="fl">7.3</span>, <span class="op">**</span>setting).rv_theta_post()</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>  rvtB <span class="op">=</span> NormalModel(sample_mean<span class="op">=</span><span class="fl">77.5</span>,<span class="op">\</span></span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a>    sample_var<span class="op">=</span><span class="fl">8.1</span>, <span class="op">**</span>setting).rv_theta_post()</span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>  spA, spB <span class="op">=</span> rvtA.rvs(size<span class="op">=</span>size), rvtB.rvs(size<span class="op">=</span>size)</span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.<span class="bu">sum</span>(spA <span class="op">&lt;</span> spB)<span class="op">/</span>size</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>pars <span class="op">=</span> [i<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">7</span>)]</span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>vals <span class="op">=</span> [<span class="bu">float</span>]<span class="op">*</span><span class="bu">len</span>(pars)</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, p) <span class="kw">in</span> <span class="bu">enumerate</span>(pars):</span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>  vals[i] <span class="op">=</span> expAB(p,p)</span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>figV, axV <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>axV.plot(pars,vals, <span class="st">'o'</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>axV.set_xlabel(<span class="st">"$(</span><span class="ch">\\</span><span class="st">kappa_0, </span><span class="ch">\\</span><span class="st">nu_0)$"</span>)</span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>axV.set_ylabel(<span class="st">"$Pr(</span><span class="ch">\\</span><span class="st">theta_A &lt; </span><span class="ch">\\</span><span class="st">theta_B | y_A, y_B)$"</span>)<span class="op">;</span></span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 5.5</span></span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Unit information prior: Obtain a unit information prior for the normal model as follows:</span></span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### (a)</span></span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Reparameterize the normal model as $p(y|\theta, \psi)$, where $\psi=\frac{1}{\sigma^2}$. Write out the log likelihood $l(\theta, \psi|y) = \sum \log p(y_i|\theta, \psi)$ in terms of $\theta$ and $\psi$.</span></span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a>$$p(y|\theta,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}(\frac{y-\theta}{\sigma})^2}$$</span>
+<span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a>$$p(y|\theta, \psi) = \frac{\sqrt{\psi}}{\sqrt{2\pi}}e^{-\frac{1}{2}(y-\theta)^2\psi}$$</span>
+<span id="cb10-259"><a href="#cb10-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-260"><a href="#cb10-260" aria-hidden="true" tabindex="-1"></a>$$\log p(y_i|\theta,\psi) = \log\left(\sqrt{\frac{\psi}{2\pi}}\right) - \frac{1}{2}(y_i -\theta)^2\psi$$</span>
+<span id="cb10-261"><a href="#cb10-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-262"><a href="#cb10-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-263"><a href="#cb10-263" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-264"><a href="#cb10-264" aria-hidden="true" tabindex="-1"></a>l(\theta,\psi|y) = \sum_{i=1}^{n} \log(y_i|\theta, \psi)%</span>
+<span id="cb10-265"><a href="#cb10-265" aria-hidden="true" tabindex="-1"></a>&amp;= \log\left(\frac{\psi}{2\pi}\right)^{n/2} - \frac{1}{2}\psi \sum_{i=1}^{n}(y_i -\theta)^2<span class="sc">\\</span> </span>
+<span id="cb10-266"><a href="#cb10-266" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2<span class="sc">\\</span> </span>
+<span id="cb10-267"><a href="#cb10-267" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_{i}^{2} - 2\theta y_{i} + \theta^2)<span class="sc">\\</span> </span>
+<span id="cb10-268"><a href="#cb10-268" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}(\sum y_{i}^{2} - 2\theta\sum y_{i} + n\theta^2)<span class="sc">\\</span> </span>
+<span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{-\psi}{2} \sum_{i=1}^{n} y_{i}^{2} + \psi\theta\sum_{i=1}^{n} y_i - \frac{n\psi\theta^2}{2} + \frac{n}{2} \log\left( \frac{\psi}{2\pi} \right)</span>
+<span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a><span class="fu">### (b)</span></span>
+<span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Find a probability density $P_U(\theta, \psi)$ so that $\log p_U(\theta, \psi) = \frac{l(\theta, \psi |y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$ or $\psi$. </span></span>
+<span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Hint: Write $\sum (y_i-\theta)^2$ as $\sum(y_i - \bar{y} + \bar{y} - \theta)^2 = \sum(y_i-\bar{y})^2 + n(\theta - \bar{y})^2$, and recall that $\log p_U(\theta, \psi) = \log p_U(\theta|\psi) + \log p_U(\psi)$.</span></span>
+<span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a>l(\theta, \psi|y)%</span>
+<span id="cb10-280"><a href="#cb10-280" aria-hidden="true" tabindex="-1"></a>&amp;=\frac{n}{2} \log\left( \frac{\psi}{2\pi} \right) - \frac{\psi}{2}\sum^{n}_{i=1}(y_i - \theta)^2<span class="sc">\\</span> </span>
+<span id="cb10-281"><a href="#cb10-281" aria-hidden="true" tabindex="-1"></a>&amp;=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left<span class="co">[</span><span class="ot">\sum(y_i - \bar{y})^2 + n(\theta-\bar{y})^2\right</span><span class="co">]</span><span class="sc">\\</span> </span>
+<span id="cb10-282"><a href="#cb10-282" aria-hidden="true" tabindex="-1"></a>&amp;=\frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left<span class="co">[</span><span class="ot">(n-1) s^2 + n(\theta-\bar{y})^2\right</span><span class="co">]</span><span class="sc">\\</span> </span>
+<span id="cb10-283"><a href="#cb10-283" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}\left((n-1)s^2 + n\theta^2 - 2n\theta\bar{y} + n\bar{y}^2\right)<span class="sc">\\</span></span>
+<span id="cb10-284"><a href="#cb10-284" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \theta^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \bar{y}^2}{2}<span class="sc">\\</span> </span>
+<span id="cb10-285"><a href="#cb10-285" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{n}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2}(n-1)s^2 - \frac{\psi n \bar{y}^2}{2} + n\psi\theta\bar{y} - \frac{\psi n \theta^2}{2}</span>
+<span id="cb10-286"><a href="#cb10-286" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-287"><a href="#cb10-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-288"><a href="#cb10-288" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-289"><a href="#cb10-289" aria-hidden="true" tabindex="-1"></a>\frac{l(\theta, \psi|y)}{n} + c &amp;= \underbrace{\frac{1}{2}\log\left(\frac{\psi}{2\pi}\right) - \frac{\psi}{2n}(n-1)s^2 - \frac{\psi  \bar{y}^2}{2}}_{=h(\psi|y)} + \underbrace{\psi\theta\bar{y} - \frac{\psi\theta^2}{2}}_{=g(\theta|\psi, y)} + c</span>
+<span id="cb10-290"><a href="#cb10-290" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-291"><a href="#cb10-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-292"><a href="#cb10-292" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-293"><a href="#cb10-293" aria-hidden="true" tabindex="-1"></a> p_U(\theta,\psi)%</span>
+<span id="cb10-294"><a href="#cb10-294" aria-hidden="true" tabindex="-1"></a> &amp;= \exp\left(\frac{l(\theta,\psi|y)}{n}+ c\right)<span class="sc">\\</span></span>
+<span id="cb10-295"><a href="#cb10-295" aria-hidden="true" tabindex="-1"></a> &amp;\propto  \exp\left(\frac{l(\theta,\psi|y)}{n}\right)<span class="sc">\\</span> </span>
+<span id="cb10-296"><a href="#cb10-296" aria-hidden="true" tabindex="-1"></a> &amp;= \exp(h(\psi|y)) \exp(g(\theta|\psi,y))</span>
+<span id="cb10-297"><a href="#cb10-297" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-298"><a href="#cb10-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-299"><a href="#cb10-299" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-300"><a href="#cb10-300" aria-hidden="true" tabindex="-1"></a>\exp(h(\psi|y))%</span>
+<span id="cb10-301"><a href="#cb10-301" aria-hidden="true" tabindex="-1"></a>&amp;= (\frac{\psi}{2\pi})^{1/2}\exp\left(- (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi\right)<span class="sc">\\</span></span>
+<span id="cb10-302"><a href="#cb10-302" aria-hidden="true" tabindex="-1"></a>&amp;\propto \psi^{\frac{1}{2}}\exp\left(- \frac{\psi}{(\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1}}\right)<span class="sc">\\</span></span>
+<span id="cb10-303"><a href="#cb10-303" aria-hidden="true" tabindex="-1"></a>&amp;\sim Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})</span>
+<span id="cb10-304"><a href="#cb10-304" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-305"><a href="#cb10-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-306"><a href="#cb10-306" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-307"><a href="#cb10-307" aria-hidden="true" tabindex="-1"></a>\exp(g(\theta|\psi, y))%</span>
+<span id="cb10-308"><a href="#cb10-308" aria-hidden="true" tabindex="-1"></a>&amp;= \exp\left( \psi\theta\bar{y} - \frac{\psi\theta^2}{2}\right)<span class="sc">\\</span></span>
+<span id="cb10-309"><a href="#cb10-309" aria-hidden="true" tabindex="-1"></a>&amp;= \exp\left( -\frac{\psi}{2}\theta^2 + \psi\bar{y}\theta - \frac{\psi\bar{y}^2}{2} + \frac{\psi\bar{y}^2}{2} \right)<span class="sc">\\</span></span>
+<span id="cb10-310"><a href="#cb10-310" aria-hidden="true" tabindex="-1"></a>&amp;= \exp\left( -\frac{\psi}{2}(\theta^2 - 2\bar{y}\theta + \bar{y}^2) + \frac{\psi\bar{y}^2}{2}\right)<span class="sc">\\</span></span>
+<span id="cb10-311"><a href="#cb10-311" aria-hidden="true" tabindex="-1"></a>&amp;= \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 + \frac{\psi\bar{y}^2}{2}\right)<span class="sc">\\</span></span>
+<span id="cb10-312"><a href="#cb10-312" aria-hidden="true" tabindex="-1"></a>&amp;\propto \exp\left( -\frac{\psi}{2} (\theta-\bar{y})^2 \right)<span class="sc">\\</span></span>
+<span id="cb10-313"><a href="#cb10-313" aria-hidden="true" tabindex="-1"></a>&amp;= \exp\left( - \frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}} \right)^2\right)<span class="sc">\\</span> </span>
+<span id="cb10-314"><a href="#cb10-314" aria-hidden="true" tabindex="-1"></a>&amp;\propto Normal(\theta, \bar{y}, \psi^{-1/2})</span>
+<span id="cb10-315"><a href="#cb10-315" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-316"><a href="#cb10-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-317"><a href="#cb10-317" aria-hidden="true" tabindex="-1"></a>Thus<span class="ot">[^wiki-gamma]</span>,</span>
+<span id="cb10-318"><a href="#cb10-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-319"><a href="#cb10-319" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-320"><a href="#cb10-320" aria-hidden="true" tabindex="-1"></a>  P_{U}(\theta,\psi) &amp;= P_{U}(\theta|\psi)P_{U}(\psi)</span>
+<span id="cb10-321"><a href="#cb10-321" aria-hidden="true" tabindex="-1"></a>  \propto  Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})<span class="sc">\\</span> </span>
+<span id="cb10-322"><a href="#cb10-322" aria-hidden="true" tabindex="-1"></a>  &amp;\times Normal(\theta, \bar{y}, \psi^{-1/2})<span class="sc">\\</span></span>
+<span id="cb10-323"><a href="#cb10-323" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-324"><a href="#cb10-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-325"><a href="#cb10-325" aria-hidden="true" tabindex="-1"></a><span class="ot">[^wiki-gamma]: </span>Use the PDF formula on <span class="co">[</span><span class="ot">Wiki</span><span class="co">](https://en.wikipedia.org/wiki/Gamma_distribution)</span></span>
+<span id="cb10-326"><a href="#cb10-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-327"><a href="#cb10-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### (c)</span></span>
+<span id="cb10-328"><a href="#cb10-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-329"><a href="#cb10-329" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Find a probability density $p_U(\theta, \psi|y)$ that is proportional to $p_U(\theta, \psi) \times p(y_1, \dots, y_n |\theta, \psi)$. It may be convenient to write this joint density as $p_U(\theta|\psi, y)\times p_{U}(\psi|y)$. Can this joint density be considered a posterior density?</span></span>
+<span id="cb10-330"><a href="#cb10-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-331"><a href="#cb10-331" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb10-332"><a href="#cb10-332" aria-hidden="true" tabindex="-1"></a> P_{U}(\theta, \psi|y)%</span>
+<span id="cb10-333"><a href="#cb10-333" aria-hidden="true" tabindex="-1"></a> &amp;= P_{U}(\psi|y) \times p_{U}(\theta|\psi, y)<span class="sc">\\</span></span>
+<span id="cb10-334"><a href="#cb10-334" aria-hidden="true" tabindex="-1"></a> &amp;= Gamma(\psi, \frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})<span class="sc">\\</span> </span>
+<span id="cb10-335"><a href="#cb10-335" aria-hidden="true" tabindex="-1"></a>  &amp;\times Normal(\theta, \bar{y}, \psi^{-1/2})<span class="sc">\\</span></span>
+<span id="cb10-336"><a href="#cb10-336" aria-hidden="true" tabindex="-1"></a>  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{1}{2}\left(\frac{\theta-\bar{y}}{\psi^{-1/2}}\right)^2\right)<span class="sc">\\</span></span>
+<span id="cb10-337"><a href="#cb10-337" aria-hidden="true" tabindex="-1"></a>  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta-\bar{y}\right)^2\right)<span class="sc">\\</span></span>
+<span id="cb10-338"><a href="#cb10-338" aria-hidden="true" tabindex="-1"></a>  &amp;\propto \psi^{1/2}\exp\left( - (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})\psi \right)\times \exp\left(-\frac{\psi}{2}\left(\theta^2-2\theta\bar{y}+\bar{y}^2\right)\right)<span class="sc">\\</span></span>
+<span id="cb10-339"><a href="#cb10-339" aria-hidden="true" tabindex="-1"></a>  &amp;\psi^{1/2}\exp\left(-\left( \frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2} + \frac{\bar{y}^2}{2} \right)\psi \right) \times \exp\left(-\frac{\psi}{2}(\theta^2-2\theta\bar{y})\right)</span>
+<span id="cb10-340"><a href="#cb10-340" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p_U(\theta|\psi, y) \propto Normal(\theta, \bar{y}, \psi^{-1/2})$</span>
+<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p_U(\psi|\theta, y) \sim Gamma(\frac{3}{2}, (\frac{(n-1)s^2}{2n} + \frac{\bar{y}^2}{2})^{-1})$</span>
+<span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Yes, it can be considered as a posterior density because the unit information prior is the product of two proper distribution.</span>
+<span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden when-format="html"}</span>
+<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

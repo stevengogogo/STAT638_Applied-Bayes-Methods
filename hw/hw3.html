@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu (UIN:433002162)">
+<meta name="dcterms.date" content="2023-01-20">
+
+<title>STAT638: Applied Bayesian Methods - 7&nbsp; Homework 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hw/hw4.html" rel="next">
+<link href="../hw/hw2.html" rel="prev">
+<link href="../img/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">STAT638: Applied Bayesian Methods</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"><strong>Lecture Notes</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"><strong>Assignments</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw3.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw6.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw7.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw8.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw9.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">7.1</span>  Description</a></li>
+  <li><a href="#computational-enviromnent-setup" id="toc-computational-enviromnent-setup" class="nav-link" data-scroll-target="#computational-enviromnent-setup"><span class="toc-section-number">7.2</span>  Computational Enviromnent Setup</a>
+  <ul class="collapse">
+  <li><a href="#third-party-libraries" id="toc-third-party-libraries" class="nav-link" data-scroll-target="#third-party-libraries"><span class="toc-section-number">7.2.1</span>  Third-party libraries</a></li>
+  <li><a href="#version" id="toc-version" class="nav-link" data-scroll-target="#version"><span class="toc-section-number">7.2.2</span>  Version</a></li>
+  </ul></li>
+  <li><a href="#problem-3.8" id="toc-problem-3.8" class="nav-link" data-scroll-target="#problem-3.8"><span class="toc-section-number">7.3</span>  Problem 3.8</a>
+  <ul class="collapse">
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a"><span class="toc-section-number">7.3.1</span>  (a)</a></li>
+  <li><a href="#p-3-8-b" id="toc-p-3-8-b" class="nav-link" data-scroll-target="#p-3-8-b"><span class="toc-section-number">7.3.2</span>  (b)</a></li>
+  <li><a href="#p-3-8-c" id="toc-p-3-8-c" class="nav-link" data-scroll-target="#p-3-8-c"><span class="toc-section-number">7.3.3</span>  (c)</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d"><span class="toc-section-number">7.3.4</span>  (d)</a></li>
+  </ul></li>
+  <li><a href="#p-3-9" id="toc-p-3-9" class="nav-link" data-scroll-target="#p-3-9"><span class="toc-section-number">7.4</span>  Problem 3.9</a>
+  <ul class="collapse">
+  <li><a href="#a-1" id="toc-a-1" class="nav-link" data-scroll-target="#a-1"><span class="toc-section-number">7.4.1</span>  (a)</a></li>
+  <li><a href="#sec-3-9-b" id="toc-sec-3-9-b" class="nav-link" data-scroll-target="#sec-3-9-b"><span class="toc-section-number">7.4.2</span>  (b)</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c"><span class="toc-section-number">7.4.3</span>  (c)</a></li>
+  <li><a href="#d-1" id="toc-d-1" class="nav-link" data-scroll-target="#d-1"><span class="toc-section-number">7.4.4</span>  (d)</a></li>
+  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e"><span class="toc-section-number">7.4.5</span>  (e)</a></li>
+  </ul></li>
+  <li><a href="#problem-3.14" id="toc-problem-3.14" class="nav-link" data-scroll-target="#problem-3.14"><span class="toc-section-number">7.5</span>  Problem 3.14</a>
+  <ul class="collapse">
+  <li><a href="#p-3-14-a" id="toc-p-3-14-a" class="nav-link" data-scroll-target="#p-3-14-a"><span class="toc-section-number">7.5.1</span>  (a)</a></li>
+  <li><a href="#p-3-14-b" id="toc-p-3-14-b" class="nav-link" data-scroll-target="#p-3-14-b"><span class="toc-section-number">7.5.2</span>  (b)</a></li>
+  <li><a href="#p-3-14-c" id="toc-p-3-14-c" class="nav-link" data-scroll-target="#p-3-14-c"><span class="toc-section-number">7.5.3</span>  (c)</a></li>
+  <li><a href="#p-3-14-d" id="toc-p-3-14-d" class="nav-link" data-scroll-target="#p-3-14-d"><span class="toc-section-number">7.5.4</span>  (d)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading"></div>
+  
+    <div class="quarto-title-meta-contents">
+    <a href="stchiu@email.tamu.edu">Shao-Ting Chiu (UIN:433002162)</a> 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Electrical and Computer Engineering, Texas A&amp;M University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="description" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="description"><span class="header-section-number">7.1</span> Description</h2>
+<ul>
+<li>Course: STAT638, 2022 Fall</li>
+</ul>
+<blockquote class="blockquote">
+<p>Do the following exercises in Hoff: 3.8, 3.9, 3.14.</p>
+<p>In <a href="#p-3-9">Exercise 3.9</a>, you should be able to avoid “brute-force” integration by exploiting the fact that the Galenshore distribution is a proper distribution, meaning that the density of the Galenshore(a,b) distribution integrates to one for any <span class="math inline">\(a,b&gt;0\)</span>.</p>
+<p>For <a href="#p-3-14-b">3.14(b)</a>, note that <span class="math inline">\(p_U(\theta)\)</span> is proportional to the density of a known distribution.</p>
+<p>Please note that while there are only 3 problems in this assignment, some of them are fairly challenging. So please don’t wait too long to get started on this assignment.</p>
+</blockquote>
+<ul>
+<li>Deadline: <code>Sept. 27, 12:01pm</code></li>
+</ul>
+<hr>
+</section>
+<section id="computational-enviromnent-setup" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="computational-enviromnent-setup"><span class="header-section-number">7.2</span> Computational Enviromnent Setup</h2>
+<section id="third-party-libraries" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="third-party-libraries"><span class="header-section-number">7.2.1</span> Third-party libraries</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys <span class="co"># system information</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="co"># plotting</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="co"># scientific computing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># data managing</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> comb</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats <span class="im">as</span> st</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Matplotlib setting</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'text.usetex'</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>]<span class="op">=</span> <span class="dv">300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="version" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="version"><span class="header-section-number">7.2.2</span> Version</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sys.version)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matplotlib.__version__)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.__version__)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3.8.12 (default, Oct 22 2021, 18:39:35) 
+[Clang 13.0.0 (clang-1300.0.29.3)]
+3.3.1
+1.5.2
+1.19.1
+1.1.1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="problem-3.8" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="problem-3.8"><span class="header-section-number">7.3</span> Problem 3.8</h2>
+<blockquote class="blockquote">
+<p>Coins: <span class="citation" data-cites="diaconis1985">Diaconis and Ylvisaker (<a href="../ref.html#ref-diaconis1985" role="doc-biblioref">1985</a>)</span> suggest that coins spun on a flat surface display long-run frequencies of heads that vary from coin to coin. About <span class="math inline">\(20\%\)</span> of the coins behave symmetrically, whereas the remaining coins tend to give frequencies of <span class="math inline">\(\frac{1}{3}\)</span> or <span class="math inline">\(\frac{2}{3}\)</span>.</p>
+</blockquote>
+<p>Let <span class="math inline">\(\theta\)</span> be the priobability of tossing head.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="a" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="a"><span class="header-section-number">7.3.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Based on the observations of <span class="citation" data-cites="diaconis1985">Diaconis and Ylvisaker (<a href="../ref.html#ref-diaconis1985" role="doc-biblioref">1985</a>)</span>, use an appropriate mixture of beta distributions as a prior distribution for <span class="math inline">\(\theta\)</span>, the long-run frequency of heads for a particular coin. Plot your prior.</p>
+</blockquote>
+<p>Let the prior probability <span class="math inline">\(p_i(\theta)\)</span> be a mixture of <span class="math inline">\(Beta(a_i,b_i)\)</span> with <span class="math inline">\(i=[1,2,3]\)</span>, and coeifficient <span class="math inline">\(k = [k_1, k_2, k_3]\)</span> with <span class="math inline">\(\sum_{i=1}^{3} k_j = 1\)</span>.</p>
+<p>Let the prior probabiility be</p>
+<p><span class="math display">\[\begin{align}
+  p(\theta) &amp;= \sum_{i=1}^{3} k_i p_i(\theta)\\
+  &amp;= k_1 p_1(\theta) + k_2 p_2(\theta) + k_3 p_3(\theta)\\
+  &amp;= 0.2 \times Beta(\theta, a_1, b_1) + 0.4 \times Beta(\theta, a_2, b_2) + 0.4 \times Beta(\theta, a_3, b_3)\\
+  &amp;= 0.2 \times Beta(\theta, 3, 3) + 0.4 \times Beta(\theta,2, 4) + 0.4 \times Beta(\theta,4, 2)
+\end{align}\]</span></p>
+<p>The distribution is shown in <a href="#fig-38-prior">Figure&nbsp;<span>7.1</span></a>.</p>
+<div class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="fig-38-prior" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="hw3_files/figure-html/fig-38-prior-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7.1: Designed mixture prior.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="p-3-8-b" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="p-3-8-b"><span class="header-section-number">7.3.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Choose a single coin and spin it at least <span class="math inline">\(50\)</span> times. Record the number of heads obtained. Report the year and denomination of the coin.</p>
+</blockquote>
+<p>Let <span class="math inline">\(n&gt;50\)</span> be the number of flips, and <span class="math inline">\(x\)</span> be the number of heads obtained.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A single psudo coin with unknown probability of flipping head</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PseudoCoin:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, random_state<span class="op">=</span><span class="dv">202209</span>):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    np.random.seed(random_state)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.random_state <span class="op">=</span> random_state</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.ph <span class="op">=</span> np.random.rand()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.rv <span class="op">=</span> st.bernoulli(<span class="va">self</span>.ph)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> flips(<span class="va">self</span>, n):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.rv.rvs(n, random_state<span class="op">=</span><span class="va">self</span>.random_state)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters setting</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span> <span class="co"># number of flips</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>coin <span class="op">=</span> PseudoCoin()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>rs <span class="op">=</span> coin.flips(n)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0
+ 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div id="tbl-flips" class="anchored">
+
+<div>
+
+<table class="dataframe table table-sm table-striped"><caption>Table&nbsp;7.1:  Satistics of the flipping coin experiment </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Properties</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>N</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Number of heads (y=1)</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Number of tails</td>
+      <td>88</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="p-3-8-c" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="p-3-8-c"><span class="header-section-number">7.3.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Compute your posterior for <span class="math inline">\(\theta\)</span>, based on the information obtained in <a href="#p-3-8-b">(b)</a></p>
+</blockquote>
+<p>For <span class="math inline">\(i = \{1,2,3\}\)</span>, the posterior probability of single distribution is</p>
+<p><span class="math display">\[\begin{align}
+p_{i}(\theta|y) &amp;= \frac{p_{i}(\theta)p(y|\theta)}{\underbrace{\int_{\theta\in [0,1]}p_i(\theta)p(y|\theta) d\theta}_{=C_j}}\\
+&amp;= \frac{Beta(\theta, a_i, b_i) {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\underbrace{\int_{0}^{1}Beta(\theta, a_i, b_i){n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}_{=C_j}} \\
+&amp;= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)} {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}\\
+&amp;= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}\\
+&amp;= Beta(\theta, a_i + y, b_i + n - y)
+\end{align}\]</span></p>
+<p>The posterior distribution of individual prior is</p>
+<p><span class="math display">\[\begin{align}
+  p_{1}(\theta|y) &amp;= Beta(\theta, a_1 + y, b_1 + n - y)\\
+                  &amp;= Beta(\theta, 3+12,3+100-12) = Beta(\theta, 15,91)\\
+  p_{2}(\theta|y) &amp;= Beta(\theta, a_2 + y, b_2 + n - y)\\
+                  &amp;= Beta(\theta, 2 + 12, 4 + 100 - 12)= Beta(\theta, 14, 92)\\
+  p_{3}(\theta|y) &amp;= Beta(\theta, a_3 + y, b_3 + n - y)\\
+                  &amp;= Beta(\theta, 4 + 12, 2 + 100 - 12)=Beta(\theta, 16, 90)\\
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+  C_j &amp;= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta\\
+  &amp;= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta\\
+  &amp;=  \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int_{0}^{1} \theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta\\
+  &amp;= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int^{1}_{0} \theta^{a_i +y - 1}(1-\theta)^{b_i + n - y -1} d\theta\\
+  &amp;= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \frac{\Gamma(a_i + y)\Gamma(b_i +n -y)}{\Gamma(a_i + b_i + n)}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+  C_1 &amp;= \frac{\Gamma(3+3)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(3+12)\Gamma(3+100-12)}{\Gamma(3+3+100)}\\
+      &amp;= \frac{\Gamma(6)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(15)\Gamma(91)}{\Gamma(106)}\\
+  C_2 &amp;= \frac{\Gamma(2 + 4)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(2 + 12)\Gamma(4 + 100 - 12)}{\Gamma(2 + 4 + 100)}\\
+  &amp;= \frac{\Gamma(6)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(14)\Gamma(92)}{\Gamma(106)}\\
+  C_3 &amp;= \frac{\Gamma(4 + 2)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(100-12)} \frac{\Gamma(4 + 12)\Gamma(2 + 100 - 12)}{\Gamma(4 + 2 + 100)}\\
+  &amp;= \frac{\Gamma(6)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(16)\Gamma(90)}{\Gamma(106)}
+\end{align}\]</span></p>
+<p>Let</p>
+<p><span id="eq-c-abb"><span class="math display">\[C^{*}_i = \frac{\Gamma(a_i +y)\Gamma(b_i + n - y)}{\Gamma(a_i)\Gamma(b_i)} \tag{7.1}\]</span></span></p>
+<p><span class="math display">\[\begin{align}
+k_{j}^{(1)} &amp;= \frac{k_{j}^{(0)} C_j}{\sum_{i=1}^{J} k_{i}^{(0)} C_i}\\
+&amp;= \frac{k_{j}^{0} C_{j}^{*}}{0.2\times \underbrace{\frac{\Gamma(15)\Gamma(61)}{\Gamma(3)\Gamma(3)}}_{C^{*}_{1}} + 0.4 \times \underbrace{\frac{\Gamma(14)\Gamma(92)}{\Gamma(2)\Gamma(4)}}_{C^{*}_{2}} + 0.4 \times \underbrace{\frac{\Gamma(16)\Gamma(90)}{\Gamma(4)\Gamma(2)}}_{C^{*}_{3}}}
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(j\in \{1,2,3\}\)</span>.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gammafrac(a,b,c,d,):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ((gamma(a)<span class="op">*</span>gamma(b))<span class="op">**-</span><span class="dv">1</span>) <span class="op">*</span> gamma(c) <span class="op">*</span> gamma(d)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> gammafrac(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">61</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> gammafrac(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">14</span>,<span class="dv">92</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>c3 <span class="op">=</span> gammafrac(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">16</span>,<span class="dv">90</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> c1 <span class="op">+</span> c2 <span class="op">+</span> c3</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Variables"</span>: [<span class="st">"C1*"</span>, <span class="st">"C2*"</span>, <span class="st">"C3*"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{1}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{2}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{3}</span><span class="st">$"</span>], <span class="st">"Values"</span>: [c1,c2,c3, c1<span class="op">/</span>C, c2<span class="op">/</span>C, c3<span class="op">/</span>C]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Variables</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C1*</td>
+      <td>1.813524e+92</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C2*</td>
+      <td>1.403157e+149</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C3*</td>
+      <td>3.597838e+147</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>$k^{1}_{1}$</td>
+      <td>1.260148e-57</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>$k^{1}_{2}$</td>
+      <td>9.750000e-01</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>$k^{1}_{3}$</td>
+      <td>2.500000e-02</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\begin{align}
+  p(\theta|y) &amp;= \sum_{i=1}^{3} k_{i}^{(1)}p_{i}(\theta|y)\\
+              &amp;= k_{1}^{(1)}p_{1}(\theta|y) + k_{2}^{(1)}p_{2}(\theta|y) + k_{3}^{(1)}p_{3}(\theta|y)\\
+              &amp;= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) \\
+              &amp;+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) \\
+              &amp;+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)
+\end{align}\]</span></p>
+</section>
+<section id="d" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="d"><span class="header-section-number">7.3.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Repeat <a href="#p-3-8-b">(b)</a> and <a href="#p-3-8-c">(c)</a> for a different coin, but possibly using a prior for <span class="math inline">\(\theta\)</span> that includes some information from the first coin. Your choice of a new prior may be informal, but needs to be justified. How the results from the first experiment influence your prior for the <span class="math inline">\(\theta\)</span> of the second coin may depend on whether or not the two coins have the same denomination, have a similar year, etc. Report the year and denomination of this coin.</p>
+</blockquote>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pick another coin</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>coin2 <span class="op">=</span> PseudoCoin(random_state<span class="op">=</span><span class="dv">202210</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters setting</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>n2 <span class="op">=</span> <span class="dv">100</span> <span class="co"># number of flips</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>rs2 <span class="op">=</span> coin2.flips(n2)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rs2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1 1 0 1 1 0 0 1 1 1 0 1 1 0 1 0 0 1 1 1 1 1 1 1 0 0 0 0 1 0 0 1 1 0 1 0 0
+ 1 1 0 0 0 1 1 0 1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 0 0 1 1 1 0 0 0 1 1 1 0 1 0
+ 1 0 1 1 0 0 1 0 0 1 0 0 1 1 1 1 1 0 1 0 0 1 1 0 0 1]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="tbl-flips2" class="anchored">
+
+<div>
+
+<table class="dataframe table table-sm table-striped"><caption>Table&nbsp;7.2:  Satistics of the flipping coin experiment </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Properties</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>N</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Number of heads (y=1)</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Number of tails</td>
+      <td>49</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\begin{align}
+p^{1}(\theta) &amp;= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) \\
+              &amp;+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) \\
+              &amp;+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)
+\end{align}\]</span></p>
+<p>Apply <a href="#eq-c-abb">Equation&nbsp;<span>7.1</span></a>,</p>
+<p><span class="math display">\[\begin{align}
+  C^{*}_{1} &amp;= \frac{\Gamma(15 + 51)\Gamma(91 + 100 - 51)}{\Gamma(15)\Gamma(91)}\\
+            &amp;= \frac{\Gamma(66)\Gamma(140)}{\Gamma(15)\Gamma(91)}\\
+  C^{*}_{2} &amp;= \frac{\Gamma(14 + 51)\Gamma(92 + 100 - 51)}{\Gamma(14)\Gamma(92)}\\
+            &amp;= \frac{\Gamma(65)\Gamma(141)}{\Gamma(14)\Gamma(92)}\\
+  C^{*}_{3} &amp;= \frac{\Gamma(16 + 51)\Gamma(90 + 100 - 51)}{\Gamma(16)\Gamma(90)}\\
+            &amp;= \frac{\Gamma(67)\Gamma(139)}{\Gamma(16)\Gamma(90)}\\
+\end{align}\]</span></p>
+<div class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Variables</th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C1*</td>
+      <td>6.123054e+180</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C2*</td>
+      <td>2.028941e+180</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C3*</td>
+      <td>1.744410e+181</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>$k^{1}_{1}$</td>
+      <td>2.392183e-01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>$k^{1}_{2}$</td>
+      <td>7.926761e-02</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>$k^{1}_{3}$</td>
+      <td>6.815141e-01</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\begin{align}
+  p^{2}(\theta|y_2) &amp;= \sum_{i=1}^{3} k_{i}^{(2)} p^{(2)}_{i}(\theta|y_2)\\
+                    &amp;= k_{1}^{(2)} p^{(2)}_{1}(\theta|y_2) + k_{2}^{(2)} p^{(2)}_{2}(\theta|y_2) + k_{3}^{(2)} p^{(2)}_{3}(\theta|y_2)\\
+                    &amp;=k_{1}^{(2)} Beta(15+51, 91+49)\\
+                    &amp;+ k_{2}^{(2)} Beta(14+51,92+49)\\
+                    &amp;+ k_{3}^{(2)} Beta(16+51, 90 + 49)\\
+                    &amp;= 2.32\times 10^{-1} \times Beta(66,140)\\
+                    &amp;+ 7.93\times 10^{-2} \times Beta(65,141)\\
+                    &amp;+ 6.82\times 10^{-1} \times Beta(67,139)\\
+\end{align}\]</span></p>
+</section>
+</section>
+<section id="p-3-9" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="p-3-9"><span class="header-section-number">7.4</span> Problem 3.9</h2>
+<blockquote class="blockquote">
+<p>Galenshore distribution: An unknown quantity <span class="math inline">\(Y\)</span> has a Galenshore(<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\theta\)</span>) distribution if its density is given by</p>
+<p><span class="math display">\[p(y) = \frac{2}{\Gamma(a)}\theta^{2a}y^{2a-1}e^{-\theta^2 y^2}\]</span> for <span class="math inline">\(y&gt;0\)</span>, <span class="math inline">\(\theta&gt;0\)</span> and <span class="math inline">\(a&gt;0\)</span>. Assume for now that <span class="math inline">\(a\)</span> is known. For this density, <span class="math display">\[E[Y]=\frac{\Gamma(a+\frac{1}{2})}{\theta\Gamma(a)}, \quad E[Y^2]=\frac{a}{\theta^2}\]</span></p>
+</blockquote>
+<section id="a-1" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="a-1"><span class="header-section-number">7.4.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Identify a class of conjugate prior densities for <span class="math inline">\(\theta\)</span>. Plot a few members of this class of densities.</p>
+</blockquote>
+<p><strong>Identifying Galenshore distribution belongs to exponential family</strong></p>
+<p><span class="math display">\[\begin{align}
+  p(y|\theta) &amp;= \frac{2}{\Gamma(a)}y^{2a-1}\theta^{2a}e^{-\theta^2 y^2}\\
+              &amp;= \left(\frac{2}{\Gamma(a)}y^{2a-1}\right) \left(\theta^{2}\right)^a\left(e^{-\theta^2 y^2}\right)\\
+\end{align}\]</span></p>
+<ul>
+<li><span class="math inline">\(\phi(\theta) = \theta^2\)</span></li>
+<li><span class="math inline">\(h(y) = \frac{2}{\Gamma(a)}y^{2a-1}\)</span></li>
+<li><span class="math inline">\(c(\phi) = \phi^a\)</span></li>
+<li><span class="math inline">\(t(y) = -y^2\)</span></li>
+</ul>
+<p><span class="math display">\[p(y|\phi) = \underbrace{(\frac{2}{\Gamma(a)}y^{2a-1})}_{=h(y)}\underbrace{(\phi^a)}_{=c(\phi)} \exp(\phi\cdot\underbrace{(-1)\cdot y^2}_{=t(y)})\]</span></p>
+<p><strong>Derive the posterior distribution</strong></p>
+<p><span class="math display">\[\begin{align}
+  p(\phi|n_0, t_0) &amp;= \kappa(n_0, t_0)c(\phi)^{n_0}\exp(n_0 t_0 \phi)\\
+                   &amp;= \kappa(n_0, t_0)\phi^{a n_0}\exp(n_0 t_0 \phi)\\
+  p(\theta^2|n_0, t_0) &amp;= \kappa(n_0, t_0)\theta^{2 a n_0}e^{(n_0 t_0 \theta^2)}\\
+\end{align}\]</span></p>
+<p><strong>Apply change of variables</strong></p>
+<p>Let <span class="math inline">\(f(\phi) = \sqrt{\theta} = \theta\)</span> (<span class="math inline">\(f\)</span> is a monotonous function), and <span class="math inline">\(\phi(\theta) = \theta^2\)</span></p>
+<p><span class="math display">\[\begin{align}
+p_{\phi}(\phi) &amp;= p_{\theta}(f(\phi)) \times |\frac{df}{d\phi}|\\
+\kappa(n_0, t_0)c(\phi)^{n_0}\exp(n_0 t_0 \phi) &amp;= p_{\theta}(\theta) \times (\frac{1}{2\sqrt{\theta}})\\
+\kappa(n_0, t_0)c(\theta^2)^{n_0}\exp(n_0 t_0 \theta^2) &amp;= p_{\theta}(\theta) \times (\frac{1}{2\sqrt{\theta}})\\
+p_{\theta}(\theta) &amp;= \kappa(n_0,t_0)\theta^{2a}e^{(n_0 t_0 \theta^2)}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+  p_{\theta}(\theta) &amp;= p_{\phi}(\phi(\theta)) \times |\frac{d\phi(\theta)}{d\theta}|\\
+                     &amp;\propto \kappa(n_0, t_0)c(\theta^2)^{n_0}\exp(n_0 t_0 \theta^2) \times 2\theta\\
+                     &amp;\propto  \theta^{2a n_0 + 1}e^{(n_0 t_0 \theta^2)}\\
+\end{align}\]</span></p>
+<p>To avoid alias, let Galenshore pdf function be</p>
+<p><span id="eq-galen"><span class="math display">\[p_{X\sim Galenshore}(x;a,z) = \frac{2}{\Gamma(a)}z^{2a}x^{2a-1}e^{-z^2x^2} \tag{7.2}\]</span></span></p>
+<p>Combining <a href="#eq-galen">Equation&nbsp;<span>7.2</span></a> together,</p>
+<p><span class="math display">\[\begin{align}
+  p_{\theta}(\theta | n_0, t_0) &amp;\propto dGalenshore(\theta; an_0 +1, \sqrt{-n_0t_0})\\
+\end{align}\]</span></p>
+<p><span class="math inline">\(\because t_0=-y^2\)</span> <span class="math inline">\(\therefore -n_0t_0=n_0y^2\geq 0\)</span>.</p>
+</section>
+<section id="sec-3-9-b" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="sec-3-9-b"><span class="header-section-number">7.4.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Let <span class="math inline">\(Y_1, \dots, Y_n \sim~i.i.d.\)</span> Galenshore(<span class="math inline">\(a\)</span>,<span class="math inline">\(\theta\)</span>). Find the posterior distribution of <span class="math inline">\(\theta\)</span> given <span class="math inline">\(Y_1, \dots, Y_n\)</span>, using a prior from your conjugate class.</p>
+</blockquote>
+<p>Use the formula described in <span class="citation" data-cites="hoff2009first">Hoff (<a href="../ref.html#ref-hoff2009first" role="doc-biblioref">2009, vol. 580, sec. 3.3</a>)</span>.</p>
+<ul>
+<li><span class="math inline">\(n^{(1)} = n_0 + n\)</span></li>
+<li><span class="math inline">\(t^{(1)} = n_0t_0 + n\bar{t}(y)\)</span></li>
+</ul>
+<p><span class="math display">\[\begin{align}
+p(\phi|Y) &amp;\propto Galenshore(an'+1, \sqrt{-n't'})\\
+          &amp;\propto p(\phi|n_0+n, n_0t_0 + n\bar{t}(y))\\
+p(\theta|Y) &amp;\propto dGalenshore(\theta; a(n_0 + n)+1, \sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))})
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(\bar{t}(y) = \frac{\sum t(y_i)}{n}\)</span></p>
+</section>
+<section id="c" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="c"><span class="header-section-number">7.4.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Write down <span class="math inline">\(\frac{p(\theta_a | Y_1, \dots, Y_n)}{p(\theta_b | Y_1, \dots, Y_n)}\)</span> and simplify. Identify a sufficient statistics.</p>
+</blockquote>
+<p>Because <span class="math inline">\(t(y) = -y^2\)</span> is the sufficient statistic of the exponential family, the sufficient statistics for <span class="math inline">\(Y_1,\cdots, Y_n\)</span> is</p>
+<p><span class="math display">\[\bar{t}(y) = \frac{\sum t(y_i)}{n} = \frac{\sum y_{i}^{2}}{n}\]</span></p>
+</section>
+<section id="d-1" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="d-1"><span class="header-section-number">7.4.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Determine <span class="math inline">\(E[\theta|y_1,\dots,y_n]\)</span>.</p>
+</blockquote>
+<p>Use the posterior distribution derived in <a href="#sec-3-9-b">(b)</a>.</p>
+<p><span class="math display">\[\begin{align}
+  p(\theta|Y) &amp;\propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a^{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{\theta^{(1)}})\\
+  E[\theta|Y] &amp;= \frac{\Gamma(a(n_0 + n)+\frac{3}{2})}{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}\Gamma(a(n_0 + n)+1)}
+\end{align}\]</span></p>
+</section>
+<section id="e" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="e"><span class="header-section-number">7.4.5</span> (e)</h3>
+<blockquote class="blockquote">
+<p>Determine the form of the posterior predictive density <span class="math inline">\(p(\tilde{y}|y_1,\dots, y_n)\)</span>.</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+  p(\tilde{y} | Y) &amp;= \int_{\theta} p(\tilde{y} | \theta)p(\theta | Y) d\theta\\
+\end{align}\]</span></p>
+<ul>
+<li><span class="math inline">\(p(\tilde{y}|\theta) = \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2}\)</span></li>
+<li><span class="math inline">\(p(\theta | Y) \propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a_{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{b_{(1)}})\)</span>
+<ul>
+<li><span class="math inline">\(p(\theta|Y) = \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2}\)</span></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\begin{align}
+  p(\tilde{y}|Y)
+  &amp;= \int_{\theta} \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2} \times \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2} d\theta\\
+  &amp;= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2a + 2a_{(1)} - 1}e^{-\theta^2 \tilde{y^2} - b_{(1)}^{2}\theta^2} d\theta\\
+  &amp;= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2(a + a_{(1)}) - 1}e^{-(\tilde{y^2} - b_{(1)}^{2})\theta^2} d\theta\\
+  &amp;= \tilde{y}^{2a_{(1)}-1}\frac{2\Gamma(an+1)}{\Gamma(a_{(1)})\Gamma(a)}\frac{b_{(1)}^{2an}}{(b_{(1)} +\tilde{y}^2)^{2(an+1)}}
+\end{align}\]</span></p>
+</section>
+</section>
+<section id="problem-3.14" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="problem-3.14"><span class="header-section-number">7.5</span> Problem 3.14</h2>
+<blockquote class="blockquote">
+<p>Unit information prior: Let <span class="math inline">\(Y_1,\dots, Y_n \sim~i.i.d. p(y|\theta)\)</span>. Having observed the values <span class="math inline">\(Y_1 = y_1, \dots, Y_n = y_n\)</span>, the <em>log likelihood</em> is given by <span class="math inline">\(l(\theta|y)=\sum\log p(y_i|\theta)\)</span>, and the value <span class="math inline">\(\hat{\theta}\)</span> of <span class="math inline">\(\theta\)</span> that maximize <span class="math inline">\(l(\theta|y)\)</span> is called the <em>maximum likelihood estimator</em>. The negative of the curvature of the log-likelihood, <span class="math inline">\(J(\theta)=-\frac{\partial^2 l}{\partial \theta^2}\)</span>, describes the precision of the MLE <span class="math inline">\(\hat{\theta}\)</span> and is called the <em>observed Fisher information</em>. For situations in which it is difficult to quantify prior information in terms of a probability distribution, some have suggested that the “prior” distribution be based on the likelihood, for example, by centering the prior distribution around the MLE <span class="math inline">\(\hat{\theta}\)</span>. To deal with the fact that the MLE is not really prior information, the curvature of the prior is chosen so that it has only “one <span class="math inline">\(n\)</span>th” as much information as the likelihood, so that <span class="math inline">\(-\frac{\partial^2 \log p(\theta)}{\partial\theta^2} = \frac{J(\theta)}{n}\)</span>. Such a prior is called a <em>unit information prior</em> (Kass and Wasserman, 1995; Kass and Raftery, 1995), as it has as much information as the average amount of information from a single observation. The unit information prior is not really a prior distribution, as it is computed from the observed data. However, it can be roughly viewed as the prior information of someone with weak but accurate prior information.</p>
+</blockquote>
+<section id="p-3-14-a" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="p-3-14-a"><span class="header-section-number">7.5.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Let <span class="math inline">\(Y_1,\dots,Y_n\sim i.i.d.\)</span> binary (<span class="math inline">\(\theta\)</span>). Obtain the MLE <span class="math inline">\(\hat{\theta}\)</span> and <span class="math inline">\(\frac{J(\hat{\theta})}{n}\)</span>.</p>
+</blockquote>
+<p>The Bernoullis distribution can be expressed as<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span class="math display">\[p(y_i|\theta) = \theta^{y_i}(1-\theta)^{1-y_i}\quad \text{ for } y_i \in\{0,1\}\]</span></p>
+<p>Because <span class="math inline">\(Y_i,\dots,Y_n\sim i.i.d.\)</span>, <span class="math inline">\(k_1=\dots=k_n=k\)</span>.</p>
+<p><span class="math display">\[\begin{align}
+  l(\theta|y) &amp;= \sum_{i=1}^{n} \log p(y_i|\theta)\\
+              &amp;= \sum_{i=1}^{n} \log (\theta^{y_i} (1-\theta)^{1-y_i})\\
+              &amp;= \sum_{i=1}^{n} \left( y_i\log \theta + (1-y_i)\log(1-\theta) \right)\\
+              &amp;= \log\theta \sum_{i=1}^{n} y_i + \log(1-\theta)(n - \sum_{i=1}^{n} y_i)
+\end{align}\]</span></p>
+<p>Thus, <span class="math inline">\(\bar{y} = \sum_{i=1}^{n} y_i\)</span> is the sufficient statistics.</p>
+<p><span class="math display">\[l(\theta|y) = \bar{y}\log\theta + (n-\bar{y})\log(1-\theta)\]</span></p>
+<p><span class="math display">\[\begin{align}
+  \frac{\partial l(\theta|y)}{\partial\theta} &amp;= \frac{\bar{y}}{\theta} - \frac{n-\bar{y}}{1-\theta}\\
+  \frac{\partial^2 l(\theta|y)}{\partial^2 \theta} &amp;= \frac{-\bar{y}}{\theta^2} - \frac{\overbrace{n-\bar{y}}^{\geq 0}}{(1-\theta)^2} \leq 0
+\end{align}\]</span></p>
+<p>Thus, the curvature is concave because the second partial derivative is negative. Next, find the maximum <span class="math inline">\(\hat{\theta}\)</span>.</p>
+<p><span class="math display">\[\begin{align}
+  0 &amp;= \frac{\partial l(\hat{\theta} | y)}{\partial\theta}= \frac{\bar{y}}{\hat{\theta}} - \frac{n-\bar{y}}{1-\hat{\theta}}\\
+  \hat{\theta} &amp;= \frac{\bar{y}}{n}_{\#}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+  \frac{J(\hat{\theta})}{n} &amp;= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\
+                            &amp;= \left(\frac{\bar{y}}{\hat{\theta}^2}+\frac{n-\bar{y}}{(1-\hat{\theta})^2} \right)\frac{1}{n}\\
+                            &amp;= \frac{\hat{\theta}}{\hat{\theta}^2} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}\\
+                            &amp;= \frac{1}{\hat{\theta}} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}\\
+\end{align}\]</span></p>
+</section>
+<section id="p-3-14-b" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="p-3-14-b"><span class="header-section-number">7.5.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Find a probability density <span class="math inline">\(p_{U}(\theta)\)</span> such that <span class="math inline">\(\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + c\)</span>, where <span class="math inline">\(c\)</span> is a constant that does not depend on <span class="math inline">\(\theta\)</span>. Compute the information <span class="math inline">\(-\frac{\partial^2 \log p_U(\theta)}{\partial\theta^2}\)</span> of this density.</p>
+</blockquote>
+<p><strong>Part I: Derive <span class="math inline">\(p_{U}(\theta)\)</span></strong></p>
+<p><span class="math display">\[\begin{align}
+  p_{U}(\theta) &amp;= e^{\frac{l(\theta|y)}{n}}e^c\\
+  \int_{0}^{1}p_{U}(\theta)d\theta &amp;= 1 = e^c  \int_{0}^{1} e^{\frac{l(\theta|y)}{n}} d\theta\\
+  1 &amp;= e^c \int_{0}^{1} \exp(\hat{\theta}\log\theta + (1-\hat{\theta})\log(1-\theta))) d\theta\\
+  1 &amp;= e^c \int_{0}^{1} \theta^{\hat{\theta}}(1-\theta)^{1-\hat{\theta}} d\theta\\
+  1 &amp;= e^c \frac{-\pi}{2}(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})\\
+  e^c &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\\
+  c &amp;= \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)
+\end{align}\]</span></p>
+<p>Therefore, we get</p>
+<p><span class="math display">\[\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)\]</span></p>
+<p><strong>Part II: Fisher inforamtion</strong></p>
+<p><span class="math display">\[\begin{align}
+  -\frac{\partial^2 \log p_{U}(\theta)}{\partial \theta^2} &amp;= \frac{-1}{n}\frac{\partial^2 l(\theta|y)}{\partial \theta^2}\\
+  &amp;= \frac{\hat{\theta}}{\theta} + \frac{1-\hat{\theta}}{1-\theta^2}_{\#}
+\end{align}\]</span></p>
+</section>
+<section id="p-3-14-c" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="p-3-14-c"><span class="header-section-number">7.5.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Obtain a probability density for <span class="math inline">\(\theta\)</span> that is proportional to <span class="math inline">\(p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)\)</span>. Can this be considered a posterior distribution for <span class="math inline">\(\theta\)</span>?</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+  p_U(\theta) \times p(y_1,\dots,y_n|\theta)\\
+  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n}p(y_i|\theta)\\
+  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}\\
+  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}}}{(1-\theta)^{\hat{\theta}}} \times \theta^{n\hat{\theta}}(1-\theta)^{n(1-\hat{\theta})}\\
+  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}(n+1)}}{(1-\theta)^{\hat{\theta}-n(1-\hat{\theta})}}
+\end{align}\]</span></p>
+<ul>
+<li>Yes, the resulting is the unit information prior.</li>
+</ul>
+</section>
+<section id="p-3-14-d" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="p-3-14-d"><span class="header-section-number">7.5.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Repeat <a href="#p-3-14-a">(a)</a>, <a href="#p-3-14-b">(b)</a> and <a href="#p-3-14-c">(c)</a> but with <span class="math inline">\(p(y|\theta)\)</span> being the Poisson distribution.</p>
+</blockquote>
+<p>From <span class="citation" data-cites="hoff2009first">Hoff (<a href="../ref.html#ref-hoff2009first" role="doc-biblioref">2009, vol. 580, sec. 3.2</a>)</span>, The PDF of poisson distribution is</p>
+<p><span class="math display">\[p(Y=y|\theta) = dpois(y,\theta) = \theta^y\frac{e^{-\theta}}{\Gamma(y)} \quad \text{ for } y\in\{0,1,2,...\}\]</span></p>
+<p><strong>Part I: MLE <span class="math inline">\(\hat{\theta}\)</span></strong></p>
+<p><span class="math display">\[\begin{align}
+  l(\theta|y) &amp;= \sum^{n}_{i=1} \log p(y_i|\theta)\\
+              &amp;= \sum^{n}_{i=1} \log\left( \theta^y\frac{e^{-\theta}}{\Gamma(y)} \right)\\
+              &amp;= \log \frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\\
+              &amp;= \log \left( \theta^{\sum y}e^{-n\theta} \right) - \log(\sum\Gamma(y))\\
+              &amp;= \log\left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)} \right)
+\end{align}\]</span></p>
+<p>Get the MLE <span class="math inline">\(\hat{\theta}\)</span>,</p>
+<p><span class="math display">\[\begin{align}
+  \frac{\partial l}{\partial \theta} &amp;= \frac{\sum y}{\theta} - n\\
+  \hat{\theta} = \frac{\sum_{i=1}^{n} y}{n}
+\end{align}\]</span></p>
+<p><strong>Part II: Find Unit information prior</strong></p>
+<p><span class="math display">\[\begin{align}
+  \frac{J(\hat{\theta})}{n} &amp;= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}\\
+                      &amp;= \frac{\sum_{i=1}^{n} y_i}{\theta^2}\frac{1}{n} = \frac{1}{\hat{\theta}}
+\end{align}\]</span></p>
+<p><strong>Part III: Derive <span class="math inline">\(P_{U}\)</span></strong></p>
+<p><span class="math display">\[\begin{align}
+  P_{U}(\theta) &amp;= e^c e^{\frac{l(\theta|y)}{n}}\\
+                &amp;= e^c \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+  \int_{0}^{\infty} P_{U}(\theta) d\theta = 1 &amp;= e^c \int_{0}^{\infty}  \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}} d\theta\\
+  &amp;= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \int_{0}^{\infty} \theta^{\hat{\theta}}e^{-\theta} d\theta
+\end{align}\]</span></p>
+<p>Use the fact that <span class="math inline">\(\int_{0}^{\infty} x^a e^{-x}dx = -\Gamma(a+1)\)</span>.</p>
+<p><span class="math display">\[\begin{align}
+  1 &amp;= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \Gamma(\hat{\theta}+1)\\
+  c &amp;= \log\left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right)
+\end{align}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[\begin{align}
+  P_U(\theta) &amp;= e^c e^{\frac{l(\theta|y)}{n}}\\
+              &amp;= e^c \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}\\
+              &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]^{\frac{1}{n}}
+\end{align}\]</span></p>
+<p><strong>Part IV: Fisher information of <span class="math inline">\(P_{U}\)</span></strong></p>
+<p><span class="math display">\[\begin{align}
+  \log p_{U}(\theta) &amp;= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left[\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right]\\
+  &amp;= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left[\theta^{\sum y}e^{-n\theta} - \frac{1}{n} \log (\sum\Gamma(y))\right]
+\end{align}\]</span></p>
+<p>Use the fact that <span class="math inline">\(\frac{\partial^2}{\partial x^2}\left[ \frac{\log(x^ae^{-nx})}{n}\right] = \frac{-a}{nx^2}\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p><span class="math display">\[\begin{align}
+  -\frac{\partial^2 \log P_U(\theta)}{\partial \theta^2} = \frac{\sum y}{n\theta^2}_{\#}
+\end{align}\]</span></p>
+<p><strong>Part V: Obtain the posterior distribution</strong></p>
+<p><span class="math display">\[\begin{align}
+  p_U(\theta) \times p(y_1,\dots, y_n|\theta)%
+  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \prod_{i=1}^{n} p(y_i|\theta)\\
+  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\\
+  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left(\frac{\theta^{n\hat{\theta}}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}+1}
+\end{align}\]</span></p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-diaconis1985" class="csl-entry" role="doc-biblioentry">
+Diaconis, Persi, and Donald Ylvisaker. 1985. <span>“Quantifying Prior Opinion, Bayesian Statistics. Vol. 2.”</span> North Holland Amsterdam:
+</div>
+<div id="ref-hoff2009first" class="csl-entry" role="doc-biblioentry">
+Hoff, Peter D. 2009. <em>A First Course in Bayesian Statistical Methods</em>. Vol. 580. Springer.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>This solution is referred to the lecutre note about mixture priors. URL: http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>General expression of Bernoullis Distribution. Wiki. URL: https://en.wikipedia.org/wiki/Bernoulli_distribution<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://www.wolframalpha.com/input?i=d%5E2+1%2Fn<em>log%28x%5Ea</em>e%5E%28-nx%29%29%2Fdx%5E2<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../hw/hw2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../hw/hw4.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Homework 3</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Shao-Ting Chiu (UIN:433002162)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">    url: stchiu@email.tamu.edu</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Department of Electrical and Computer Engineering, Texas A\&amp;M University</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../ref.bib</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3  </span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">    echo: true</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">    freeze: auto</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Description</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Course: STAT638, 2022 Fall</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Do the following exercises in Hoff: 3.8, 3.9, 3.14.</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; In </span><span class="co">[</span><span class="ot">Exercise 3.9</span><span class="co">](#p-3-9)</span><span class="at">, you should be able to avoid "brute-force" integration by exploiting the fact that the Galenshore distribution is a proper distribution, meaning that the density of the Galenshore(a,b) distribution integrates to one for any $a,b&gt;0$.</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For </span><span class="co">[</span><span class="ot">3.14(b)</span><span class="co">](#p-3-14-b)</span><span class="at">, note that $p_U(\theta)$ is proportional to the density of a known distribution.</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Please note that while there are only 3 problems in this assignment, some of them are fairly challenging. So please don't wait too long to get started on this assignment.</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Deadline: <span class="in">`Sept. 27, 12:01pm`</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational Enviromnent Setup</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third-party libraries</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys <span class="co"># system information</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="co"># plotting</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="co"># scientific computing</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># data managing</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> comb</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats <span class="im">as</span> st</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> gamma</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Matplotlib setting</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'text.usetex'</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>]<span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sys.version)</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matplotlib.__version__)</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scipy.__version__)</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.__version__)</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.__version__)</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3.8</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Coins: @diaconis1985 suggest that coins spun on a flat surface display long-run frequencies of heads that vary from coin to coin. About $20\%$ of the coins behave symmetrically, whereas the remaining coins tend to give frequencies of $\frac{1}{3}$ or $\frac{2}{3}$.</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>Let $\theta$ be the priobability of tossing head.<span class="ot">[^mix]</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="ot">[^mix]:  </span>This solution is referred to the lecutre note about mixture priors. URL: http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### (a)</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Based on the observations of @diaconis1985, use an appropriate mixture of beta distributions as a prior distribution for $\theta$, the long-run frequency of heads for a particular coin. Plot your prior.</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>Let the prior probability $p_i(\theta)$ be a mixture of $Beta(a_i,b_i)$ with $i=<span class="co">[</span><span class="ot">1,2,3</span><span class="co">]</span>$, and coeifficient $k = <span class="co">[</span><span class="ot">k_1, k_2, k_3</span><span class="co">]</span>$ with $\sum_{i=1}^{3} k_j = 1$.</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>Let the prior probabiility be</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  p(\theta) &amp;= \sum_{i=1}^{3} k_i p_i(\theta)<span class="sc">\\</span> </span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>  &amp;= k_1 p_1(\theta) + k_2 p_2(\theta) + k_3 p_3(\theta)<span class="sc">\\</span> </span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>  &amp;= 0.2 \times Beta(\theta, a_1, b_1) + 0.4 \times Beta(\theta, a_2, b_2) + 0.4 \times Beta(\theta, a_3, b_3)<span class="sc">\\</span></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>  &amp;= 0.2 \times Beta(\theta, 3, 3) + 0.4 \times Beta(\theta,2, 4) + 0.4 \times Beta(\theta,4, 2)</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>The distribution is shown in @fig-38-prior.</span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-38-prior</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Designed mixture prior."</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mix_coin(x):</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>    p_theta <span class="op">=</span> np.<span class="bu">sum</span>([<span class="fl">0.2</span> <span class="op">*</span> st.beta.pdf(x, <span class="dv">20</span>, <span class="dv">20</span>),<span class="op">\</span></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>                <span class="fl">0.4</span> <span class="op">*</span> st.beta.pdf(x, <span class="dv">10</span>, <span class="dv">20</span>),<span class="op">\</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>                <span class="fl">0.4</span> <span class="op">*</span> st.beta.pdf(x, <span class="dv">30</span>, <span class="dv">15</span>)])</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> p_theta</span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> [mix_coin(x) <span class="cf">for</span> x <span class="kw">in</span> xs]</span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>ax.plot(xs, ps, <span class="st">"k"</span>)</span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"$</span><span class="ch">\\</span><span class="st">theta$"</span>)</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"$p(</span><span class="ch">\\</span><span class="st">theta)$"</span>)<span class="op">;</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">### (b) {#p-3-8-b}</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Choose a single coin and spin it at least $50$ times. Record the number of heads obtained. Report the year and denomination of the coin.</span></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>Let $n&gt;50$ be the number of flips, and $x$ be the number of heads obtained.</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="co"># A single psudo coin with unknown probability of flipping head</span></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PseudoCoin:</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, random_state<span class="op">=</span><span class="dv">202209</span>):</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>    np.random.seed(random_state)</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.random_state <span class="op">=</span> random_state</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.ph <span class="op">=</span> np.random.rand()</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.rv <span class="op">=</span> st.bernoulli(<span class="va">self</span>.ph)</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> flips(<span class="va">self</span>, n):</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">self</span>.rv.rvs(n, random_state<span class="op">=</span><span class="va">self</span>.random_state)</span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters setting</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span> <span class="co"># number of flips</span></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>coin <span class="op">=</span> PseudoCoin()</span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>rs <span class="op">=</span> coin.flips(n)</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rs)</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-flips</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: Satistics of the flipping coin experiment</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Properties"</span>:[<span class="st">"N"</span>, <span class="st">"Number of heads (y=1)"</span>, <span class="st">"Number of tails"</span>],<span class="op">\</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Values"</span>:[n, <span class="bu">len</span>(rs[rs<span class="op">==</span><span class="dv">1</span>]), <span class="bu">len</span>(rs[rs<span class="op">==</span><span class="dv">0</span>])]})</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### (c) {#p-3-8-c}</span></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Compute your posterior for $\theta$, based on the information obtained in </span><span class="co">[</span><span class="ot">(b)</span><span class="co">](#p-3-8-b)</span></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a>For $i = <span class="sc">\{</span>1,2,3<span class="sc">\}</span>$, the posterior probability of single distribution is</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>p_{i}(\theta|y) &amp;= \frac{p_{i}(\theta)p(y|\theta)}{\underbrace{\int_{\theta\in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>}p_i(\theta)p(y|\theta) d\theta}_{=C_j}}<span class="sc">\\</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{Beta(\theta, a_i, b_i) {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\underbrace{\int_{0}^{1}Beta(\theta, a_i, b_i){n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}_{=C_j}} <span class="sc">\\</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)} {n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}<span class="sc">\\</span></span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y}}{\int_{0}^{1}\frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta}<span class="sc">\\</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>&amp;= Beta(\theta, a_i + y, b_i + n - y)</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>The posterior distribution of individual prior is</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>  p_{1}(\theta|y) &amp;= Beta(\theta, a_1 + y, b_1 + n - y)<span class="sc">\\</span> </span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>                  &amp;= Beta(\theta, 3+12,3+100-12) = Beta(\theta, 15,91)<span class="sc">\\</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>  p_{2}(\theta|y) &amp;= Beta(\theta, a_2 + y, b_2 + n - y)<span class="sc">\\</span> </span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>                  &amp;= Beta(\theta, 2 + 12, 4 + 100 - 12)= Beta(\theta, 14, 92)<span class="sc">\\</span></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>  p_{3}(\theta|y) &amp;= Beta(\theta, a_3 + y, b_3 + n - y)<span class="sc">\\</span> </span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>                  &amp;= Beta(\theta, 4 + 12, 2 + 100 - 12)=Beta(\theta, 16, 90)<span class="sc">\\</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>  C_j &amp;= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}{n\choose y}\theta^{y}(1-\theta)^{n-y} d\theta<span class="sc">\\</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a>  &amp;= \int_{0}^{1} \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)}\theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta<span class="sc">\\</span> </span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>  &amp;=  \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int_{0}^{1} \theta^{(a_i-1)}(1-\theta)^{b_i - 1}\theta^{y}(1-\theta)^{n-y} d\theta<span class="sc">\\</span> </span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \int^{1}_{0} \theta^{a_i +y - 1}(1-\theta)^{b_i + n - y -1} d\theta<span class="sc">\\</span> </span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{\Gamma(a_i +b_i)}{\Gamma(a_i)\Gamma(b_i)}\frac{\Gamma(n)}{\Gamma(y)\Gamma(n-y)} \frac{\Gamma(a_i + y)\Gamma(b_i +n -y)}{\Gamma(a_i + b_i + n)}</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>  C_1 &amp;= \frac{\Gamma(3+3)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(3+12)\Gamma(3+100-12)}{\Gamma(3+3+100)}<span class="sc">\\</span> </span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>      &amp;= \frac{\Gamma(6)}{\Gamma(3)\Gamma(3)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)}\frac{\Gamma(15)\Gamma(91)}{\Gamma(106)}<span class="sc">\\</span></span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>  C_2 &amp;= \frac{\Gamma(2 + 4)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(2 + 12)\Gamma(4 + 100 - 12)}{\Gamma(2 + 4 + 100)}<span class="sc">\\</span> </span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{\Gamma(6)}{\Gamma(2)\Gamma(4)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(14)\Gamma(92)}{\Gamma(106)}<span class="sc">\\</span></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>  C_3 &amp;= \frac{\Gamma(4 + 2)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(100-12)} \frac{\Gamma(4 + 12)\Gamma(2 + 100 - 12)}{\Gamma(4 + 2 + 100)}<span class="sc">\\</span> </span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{\Gamma(6)}{\Gamma(4)\Gamma(2)}\frac{\Gamma(100)}{\Gamma(12)\Gamma(88)} \frac{\Gamma(16)\Gamma(90)}{\Gamma(106)}</span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>Let </span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>$$C^{*}_i = \frac{\Gamma(a_i +y)\Gamma(b_i + n - y)}{\Gamma(a_i)\Gamma(b_i)}$$ {#eq-c-abb}</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>k_{j}^{(1)} &amp;= \frac{k_{j}^{(0)} C_j}{\sum_{i=1}^{J} k_{i}^{(0)} C_i}<span class="sc">\\</span> </span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>&amp;= \frac{k_{j}^{0} C_{j}^{*}}{0.2\times \underbrace{\frac{\Gamma(15)\Gamma(61)}{\Gamma(3)\Gamma(3)}}_{C^{*}_{1}} + 0.4 \times \underbrace{\frac{\Gamma(14)\Gamma(92)}{\Gamma(2)\Gamma(4)}}_{C^{*}_{2}} + 0.4 \times \underbrace{\frac{\Gamma(16)\Gamma(90)}{\Gamma(4)\Gamma(2)}}_{C^{*}_{3}}}</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>where $j\in <span class="sc">\{</span>1,2,3<span class="sc">\}</span>$.</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gammafrac(a,b,c,d,):</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ((gamma(a)<span class="op">*</span>gamma(b))<span class="op">**-</span><span class="dv">1</span>) <span class="op">*</span> gamma(c) <span class="op">*</span> gamma(d)</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> gammafrac(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">61</span>)</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> gammafrac(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">14</span>,<span class="dv">92</span>)</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>c3 <span class="op">=</span> gammafrac(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">16</span>,<span class="dv">90</span>)</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> c1 <span class="op">+</span> c2 <span class="op">+</span> c3</span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Variables"</span>: [<span class="st">"C1*"</span>, <span class="st">"C2*"</span>, <span class="st">"C3*"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{1}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{2}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{3}</span><span class="st">$"</span>], <span class="st">"Values"</span>: [c1,c2,c3, c1<span class="op">/</span>C, c2<span class="op">/</span>C, c3<span class="op">/</span>C]})</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a>  p(\theta|y) &amp;= \sum_{i=1}^{3} k_{i}^{(1)}p_{i}(\theta|y)<span class="sc">\\</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>              &amp;= k_{1}^{(1)}p_{1}(\theta|y) + k_{2}^{(1)}p_{2}(\theta|y) + k_{3}^{(1)}p_{3}(\theta|y)<span class="sc">\\</span> </span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>              &amp;= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) <span class="sc">\\</span> </span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a>              &amp;+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) <span class="sc">\\</span> </span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>              &amp;+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### (d) </span></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Repeat </span><span class="co">[</span><span class="ot">(b)</span><span class="co">](#p-3-8-b)</span><span class="at"> and </span><span class="co">[</span><span class="ot">(c)</span><span class="co">](#p-3-8-c)</span><span class="at"> for a different coin, but possibly using a prior for $\theta$ that includes some information from the first coin. Your choice of a new prior may be informal, but needs to be justified. How the results from the first experiment influence your prior for the $\theta$ of the second coin may depend on whether or not the two coins have the same denomination, have a similar year, etc. Report the year and denomination of this coin.</span></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a><span class="co"># pick another coin</span></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>coin2 <span class="op">=</span> PseudoCoin(random_state<span class="op">=</span><span class="dv">202210</span>)</span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters setting</span></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>n2 <span class="op">=</span> <span class="dv">100</span> <span class="co"># number of flips</span></span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a><span class="co"># Experiment</span></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>rs2 <span class="op">=</span> coin2.flips(n2)</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rs2)</span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: tbl-flips2</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| tbl-cap: Satistics of the flipping coin experiment</span></span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Properties"</span>:[<span class="st">"N"</span>, <span class="st">"Number of heads (y=1)"</span>, <span class="st">"Number of tails"</span>],<span class="op">\</span></span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Values"</span>:[n2, <span class="bu">len</span>(rs2[rs2<span class="op">==</span><span class="dv">1</span>]), <span class="bu">len</span>(rs2[rs2<span class="op">==</span><span class="dv">0</span>])]})</span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a>p^{1}(\theta) &amp;= 1.260148\times 10^{-57} \times  Beta(\theta, 15,91) <span class="sc">\\</span> </span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a>              &amp;+ 9.750000\times 10^{-01} \times Beta(\theta, 14, 92) <span class="sc">\\</span> </span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>              &amp;+ 2.500000e\times 10^{-02} \times Beta(\theta, 16, 90)</span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>Apply @eq-c-abb,</span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a>  C^{*}_{1} &amp;= \frac{\Gamma(15 + 51)\Gamma(91 + 100 - 51)}{\Gamma(15)\Gamma(91)}<span class="sc">\\</span></span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a>            &amp;= \frac{\Gamma(66)\Gamma(140)}{\Gamma(15)\Gamma(91)}<span class="sc">\\</span></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>  C^{*}_{2} &amp;= \frac{\Gamma(14 + 51)\Gamma(92 + 100 - 51)}{\Gamma(14)\Gamma(92)}<span class="sc">\\</span></span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>            &amp;= \frac{\Gamma(65)\Gamma(141)}{\Gamma(14)\Gamma(92)}<span class="sc">\\</span></span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>  C^{*}_{3} &amp;= \frac{\Gamma(16 + 51)\Gamma(90 + 100 - 51)}{\Gamma(16)\Gamma(90)}<span class="sc">\\</span></span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a>            &amp;= \frac{\Gamma(67)\Gamma(139)}{\Gamma(16)\Gamma(90)}<span class="sc">\\</span></span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a><span class="in">``` {python}</span></span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> gammafrac(<span class="dv">15</span>,<span class="dv">91</span>, <span class="dv">66</span>,<span class="dv">140</span>)</span>
+<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> gammafrac(<span class="dv">14</span>,<span class="dv">92</span>,<span class="dv">65</span>,<span class="dv">141</span>)</span>
+<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a>c3 <span class="op">=</span> gammafrac(<span class="dv">16</span>,<span class="dv">90</span>,<span class="dv">67</span>,<span class="dv">139</span>)</span>
+<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> c1 <span class="op">+</span> c2 <span class="op">+</span> c3</span>
+<span id="cb9-280"><a href="#cb9-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-281"><a href="#cb9-281" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"Variables"</span>: [<span class="st">"C1*"</span>, <span class="st">"C2*"</span>, <span class="st">"C3*"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{1}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{2}</span><span class="st">$"</span>, <span class="st">"$k^</span><span class="sc">{1}</span><span class="st">_</span><span class="sc">{3}</span><span class="st">$"</span>], <span class="st">"Values"</span>: [c1,c2,c3, c1<span class="op">/</span>C, c2<span class="op">/</span>C, c3<span class="op">/</span>C]})</span>
+<span id="cb9-282"><a href="#cb9-282" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-285"><a href="#cb9-285" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-286"><a href="#cb9-286" aria-hidden="true" tabindex="-1"></a>  p^{2}(\theta|y_2) &amp;= \sum_{i=1}^{3} k_{i}^{(2)} p^{(2)}_{i}(\theta|y_2)<span class="sc">\\</span> </span>
+<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a>                    &amp;= k_{1}^{(2)} p^{(2)}_{1}(\theta|y_2) + k_{2}^{(2)} p^{(2)}_{2}(\theta|y_2) + k_{3}^{(2)} p^{(2)}_{3}(\theta|y_2)<span class="sc">\\</span></span>
+<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a>                    &amp;=k_{1}^{(2)} Beta(15+51, 91+49)<span class="sc">\\</span> </span>
+<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a>                    &amp;+ k_{2}^{(2)} Beta(14+51,92+49)<span class="sc">\\</span> </span>
+<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a>                    &amp;+ k_{3}^{(2)} Beta(16+51, 90 + 49)<span class="sc">\\</span> </span>
+<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a>                    &amp;= 2.32\times 10^{-1} \times Beta(66,140)<span class="sc">\\</span></span>
+<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a>                    &amp;+ 7.93\times 10^{-2} \times Beta(65,141)<span class="sc">\\</span></span>
+<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a>                    &amp;+ 6.82\times 10^{-1} \times Beta(67,139)<span class="sc">\\</span></span>
+<span id="cb9-294"><a href="#cb9-294" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3.9 {#p-3-9}</span></span>
+<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Galenshore distribution: An unknown quantity $Y$ has a Galenshore($\alpha$, $\theta$) distribution if its density is given by</span></span>
+<span id="cb9-300"><a href="#cb9-300" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb9-301"><a href="#cb9-301" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; $$p(y) = \frac{2}{\Gamma(a)}\theta^{2a}y^{2a-1}e^{-\theta^2 y^2}$$</span></span>
+<span id="cb9-302"><a href="#cb9-302" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; for $y&gt;0$, $\theta&gt;0$ and $a&gt;0$. Assume for now that $a$ is known. For this density,</span></span>
+<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; $$E</span><span class="co">[</span><span class="ot">Y</span><span class="co">]</span><span class="at">=\frac{\Gamma(a+\frac{1}{2})}{\theta\Gamma(a)}, \quad E</span><span class="co">[</span><span class="ot">Y^2</span><span class="co">]</span><span class="at">=\frac{a}{\theta^2}$$</span></span>
+<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a><span class="fu">### (a)</span></span>
+<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Identify a class of conjugate prior densities for $\theta$. Plot a few members of this class of densities.</span></span>
+<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a>**Identifying Galenshore distribution belongs to exponential family**</span>
+<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a>  p(y|\theta) &amp;= \frac{2}{\Gamma(a)}y^{2a-1}\theta^{2a}e^{-\theta^2 y^2}<span class="sc">\\</span></span>
+<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a>              &amp;= \left(\frac{2}{\Gamma(a)}y^{2a-1}\right) \left(\theta^{2}\right)^a\left(e^{-\theta^2 y^2}\right)<span class="sc">\\</span> </span>
+<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-316"><a href="#cb9-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\phi(\theta) = \theta^2$</span>
+<span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h(y) = \frac{2}{\Gamma(a)}y^{2a-1}$</span>
+<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$c(\phi) = \phi^a$</span>
+<span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$t(y) = -y^2$</span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a>$$p(y|\phi) = \underbrace{(\frac{2}{\Gamma(a)}y^{2a-1})}_{=h(y)}\underbrace{(\phi^a)}_{=c(\phi)} \exp(\phi\cdot\underbrace{(-1)\cdot y^2}_{=t(y)})$$</span>
+<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-325"><a href="#cb9-325" aria-hidden="true" tabindex="-1"></a>**Derive the posterior distribution**</span>
+<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a>  p(\phi|n_0, t_0) &amp;= \kappa(n_0, t_0)c(\phi)^{n_0}\exp(n_0 t_0 \phi)<span class="sc">\\</span></span>
+<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a>                   &amp;= \kappa(n_0, t_0)\phi^{a n_0}\exp(n_0 t_0 \phi)<span class="sc">\\</span></span>
+<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a>  p(\theta^2|n_0, t_0) &amp;= \kappa(n_0, t_0)\theta^{2 a n_0}e^{(n_0 t_0 \theta^2)}<span class="sc">\\</span></span>
+<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a>**Apply change of variables**</span>
+<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a>Let $f(\phi) = \sqrt{\theta} = \theta$  ($f$ is a monotonous function), and $\phi(\theta) = \theta^2$</span>
+<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a>p_{\phi}(\phi) &amp;= p_{\theta}(f(\phi)) \times |\frac{df}{d\phi}|<span class="sc">\\</span> </span>
+<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a>\kappa(n_0, t_0)c(\phi)^{n_0}\exp(n_0 t_0 \phi) &amp;= p_{\theta}(\theta) \times (\frac{1}{2\sqrt{\theta}})<span class="sc">\\</span></span>
+<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a>\kappa(n_0, t_0)c(\theta^2)^{n_0}\exp(n_0 t_0 \theta^2) &amp;= p_{\theta}(\theta) \times (\frac{1}{2\sqrt{\theta}})<span class="sc">\\</span> </span>
+<span id="cb9-341"><a href="#cb9-341" aria-hidden="true" tabindex="-1"></a>p_{\theta}(\theta) &amp;= \kappa(n_0,t_0)\theta^{2a}e^{(n_0 t_0 \theta^2)}</span>
+<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a>  p_{\theta}(\theta) &amp;= p_{\phi}(\phi(\theta)) \times |\frac{d\phi(\theta)}{d\theta}|<span class="sc">\\</span> </span>
+<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a>                     &amp;\propto \kappa(n_0, t_0)c(\theta^2)^{n_0}\exp(n_0 t_0 \theta^2) \times 2\theta<span class="sc">\\</span> </span>
+<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a>                     &amp;\propto  \theta^{2a n_0 + 1}e^{(n_0 t_0 \theta^2)}<span class="sc">\\</span></span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a>To avoid alias, let Galenshore pdf function be</span>
+<span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a>$$p_{X\sim Galenshore}(x;a,z) = \frac{2}{\Gamma(a)}z^{2a}x^{2a-1}e^{-z^2x^2}$$ {#eq-galen}</span>
+<span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a>Combining @eq-galen together,</span>
+<span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-357"><a href="#cb9-357" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-358"><a href="#cb9-358" aria-hidden="true" tabindex="-1"></a>  p_{\theta}(\theta | n_0, t_0) &amp;\propto dGalenshore(\theta; an_0 +1, \sqrt{-n_0t_0})<span class="sc">\\</span></span>
+<span id="cb9-359"><a href="#cb9-359" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-360"><a href="#cb9-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a>$\because t_0=-y^2$ $\therefore -n_0t_0=n_0y^2\geq 0$.</span>
+<span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a><span class="fu">### (b) {#sec-3-9-b}</span></span>
+<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-365"><a href="#cb9-365" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Let $Y_1, \dots, Y_n \sim~i.i.d.$ Galenshore($a$,$\theta$). Find the posterior distribution of $\theta$ given $Y_1, \dots, Y_n$, using a prior from your conjugate class.</span></span>
+<span id="cb9-366"><a href="#cb9-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-367"><a href="#cb9-367" aria-hidden="true" tabindex="-1"></a>Use the formula described in @hoff2009first <span class="co">[</span><span class="ot">sec. 3.3</span><span class="co">]</span>.</span>
+<span id="cb9-368"><a href="#cb9-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-369"><a href="#cb9-369" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$n^{(1)} = n_0 + n$</span>
+<span id="cb9-370"><a href="#cb9-370" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$t^{(1)} = n_0t_0 + n\bar{t}(y)$</span>
+<span id="cb9-371"><a href="#cb9-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-372"><a href="#cb9-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-373"><a href="#cb9-373" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-374"><a href="#cb9-374" aria-hidden="true" tabindex="-1"></a>p(\phi|Y) &amp;\propto Galenshore(an'+1, \sqrt{-n't'})<span class="sc">\\</span> </span>
+<span id="cb9-375"><a href="#cb9-375" aria-hidden="true" tabindex="-1"></a>          &amp;\propto p(\phi|n_0+n, n_0t_0 + n\bar{t}(y))<span class="sc">\\</span></span>
+<span id="cb9-376"><a href="#cb9-376" aria-hidden="true" tabindex="-1"></a>p(\theta|Y) &amp;\propto dGalenshore(\theta; a(n_0 + n)+1, \sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))})</span>
+<span id="cb9-377"><a href="#cb9-377" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-378"><a href="#cb9-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-379"><a href="#cb9-379" aria-hidden="true" tabindex="-1"></a>where $\bar{t}(y) = \frac{\sum t(y_i)}{n}$</span>
+<span id="cb9-380"><a href="#cb9-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-381"><a href="#cb9-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-382"><a href="#cb9-382" aria-hidden="true" tabindex="-1"></a><span class="fu">### (c)</span></span>
+<span id="cb9-383"><a href="#cb9-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-384"><a href="#cb9-384" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Write down $\frac{p(\theta_a | Y_1, \dots, Y_n)}{p(\theta_b | Y_1, \dots, Y_n)}$ and simplify. Identify a sufficient statistics.</span></span>
+<span id="cb9-385"><a href="#cb9-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-386"><a href="#cb9-386" aria-hidden="true" tabindex="-1"></a>Because $t(y) = -y^2$ is the sufficient statistic of the exponential family, the sufficient statistics for $Y_1,\cdots, Y_n$ is </span>
+<span id="cb9-387"><a href="#cb9-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-388"><a href="#cb9-388" aria-hidden="true" tabindex="-1"></a>$$\bar{t}(y) = \frac{\sum t(y_i)}{n} = \frac{\sum y_{i}^{2}}{n}$$</span>
+<span id="cb9-389"><a href="#cb9-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-390"><a href="#cb9-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-391"><a href="#cb9-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### (d)</span></span>
+<span id="cb9-392"><a href="#cb9-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-393"><a href="#cb9-393" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Determine $E</span><span class="co">[</span><span class="ot">\theta|y_1,\dots,y_n</span><span class="co">]</span><span class="at">$.</span></span>
+<span id="cb9-394"><a href="#cb9-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-395"><a href="#cb9-395" aria-hidden="true" tabindex="-1"></a>Use the posterior distribution derived in <span class="co">[</span><span class="ot">(b)</span><span class="co">](#sec-3-9-b)</span>.</span>
+<span id="cb9-396"><a href="#cb9-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-397"><a href="#cb9-397" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-398"><a href="#cb9-398" aria-hidden="true" tabindex="-1"></a>  p(\theta|Y) &amp;\propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a^{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{\theta^{(1)}})<span class="sc">\\</span></span>
+<span id="cb9-399"><a href="#cb9-399" aria-hidden="true" tabindex="-1"></a>  E<span class="co">[</span><span class="ot">\theta|Y</span><span class="co">]</span> &amp;= \frac{\Gamma(a(n_0 + n)+\frac{3}{2})}{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}\Gamma(a(n_0 + n)+1)}</span>
+<span id="cb9-400"><a href="#cb9-400" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-401"><a href="#cb9-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-402"><a href="#cb9-402" aria-hidden="true" tabindex="-1"></a><span class="fu">### (e)</span></span>
+<span id="cb9-403"><a href="#cb9-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-404"><a href="#cb9-404" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Determine the form of the posterior predictive density $p(\tilde{y}|y_1,\dots, y_n)$.</span></span>
+<span id="cb9-405"><a href="#cb9-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-406"><a href="#cb9-406" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-407"><a href="#cb9-407" aria-hidden="true" tabindex="-1"></a>  p(\tilde{y} | Y) &amp;= \int_{\theta} p(\tilde{y} | \theta)p(\theta | Y) d\theta<span class="sc">\\</span></span>
+<span id="cb9-408"><a href="#cb9-408" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-409"><a href="#cb9-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-410"><a href="#cb9-410" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p(\tilde{y}|\theta) = \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2}$</span>
+<span id="cb9-411"><a href="#cb9-411" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p(\theta | Y) \propto dGalenshore(\theta; \underbrace{a(n_0 + n)+1}_{a_{(1)}}, \underbrace{\sqrt{(n_0+n)(n_0t_0+n\bar{t}(y))}}_{b_{(1)}})$</span>
+<span id="cb9-412"><a href="#cb9-412" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$p(\theta|Y) = \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2}$</span>
+<span id="cb9-413"><a href="#cb9-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-414"><a href="#cb9-414" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-415"><a href="#cb9-415" aria-hidden="true" tabindex="-1"></a>  p(\tilde{y}|Y) </span>
+<span id="cb9-416"><a href="#cb9-416" aria-hidden="true" tabindex="-1"></a>  &amp;= \int_{\theta} \frac{2}{\Gamma(a)}\theta^{2a} \tilde{y}^{2a -1} e^{-\theta^2 \tilde{y}^2} \times \frac{2}{\Gamma(a_{(1)})}b_{(1)}^{2a_{(1)}}\theta^{2a_{(1)} - 1}e^{-b_{(1)}^{2}\theta^2} d\theta<span class="sc">\\</span></span>
+<span id="cb9-417"><a href="#cb9-417" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2a + 2a_{(1)} - 1}e^{-\theta^2 \tilde{y^2} - b_{(1)}^{2}\theta^2} d\theta<span class="sc">\\</span></span>
+<span id="cb9-418"><a href="#cb9-418" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{4\tilde{y}^{2a-1}b^{2a_{(1)}}_{(1)}}{\Gamma(a)\Gamma(a_{(1)})}\int_{\theta} \theta^{2(a + a_{(1)}) - 1}e^{-(\tilde{y^2} - b_{(1)}^{2})\theta^2} d\theta<span class="sc">\\</span></span>
+<span id="cb9-419"><a href="#cb9-419" aria-hidden="true" tabindex="-1"></a>  &amp;= \tilde{y}^{2a_{(1)}-1}\frac{2\Gamma(an+1)}{\Gamma(a_{(1)})\Gamma(a)}\frac{b_{(1)}^{2an}}{(b_{(1)} +\tilde{y}^2)^{2(an+1)}}</span>
+<span id="cb9-420"><a href="#cb9-420" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem 3.14</span></span>
+<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-425"><a href="#cb9-425" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Unit information prior: Let $Y_1,\dots, Y_n \sim~i.i.d. p(y|\theta)$. Having observed the values $Y_1 = y_1, \dots, Y_n = y_n$, the *log likelihood* is given by $l(\theta|y)=\sum\log p(y_i|\theta)$, and the value $\hat{\theta}$ of $\theta$ that maximize $l(\theta|y)$ is called the *maximum likelihood estimator*. The negative of the curvature of the log-likelihood, $J(\theta)=-\frac{\partial^2 l}{\partial \theta^2}$, describes the precision of the MLE $\hat{\theta}$ and is called the *observed Fisher information*. For situations in which it is difficult to quantify prior information in terms of a probability distribution, some have suggested that the "prior" distribution be based on the likelihood, for example, by centering the prior distribution around the MLE $\hat{\theta}$. To deal with the fact that the MLE is not really prior information, the curvature of the prior is chosen so that it has only "one $n$th" as much information as the likelihood, so that $-\frac{\partial^2 \log p(\theta)}{\partial\theta^2} = \frac{J(\theta)}{n}$. Such a prior is called a *unit information prior* (Kass and Wasserman, 1995; Kass and Raftery, 1995), as it has as much information as the average amount of information from a single observation. The unit information prior is not really a prior distribution, as it is computed from the observed data. However, it can be roughly viewed as the prior information of someone with weak but accurate prior information.</span></span>
+<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-427"><a href="#cb9-427" aria-hidden="true" tabindex="-1"></a><span class="fu">### (a) {#p-3-14-a}</span></span>
+<span id="cb9-428"><a href="#cb9-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-429"><a href="#cb9-429" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Let $Y_1,\dots,Y_n\sim i.i.d.$ binary ($\theta$). Obtain the MLE $\hat{\theta}$ and $\frac{J(\hat{\theta})}{n}$.</span></span>
+<span id="cb9-430"><a href="#cb9-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-431"><a href="#cb9-431" aria-hidden="true" tabindex="-1"></a>The Bernoullis distribution can be expressed as<span class="ot">[^wiki-bernoulli]</span> </span>
+<span id="cb9-432"><a href="#cb9-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-433"><a href="#cb9-433" aria-hidden="true" tabindex="-1"></a>$$p(y_i|\theta) = \theta^{y_i}(1-\theta)^{1-y_i}\quad \text{ for } y_i \in<span class="sc">\{</span>0,1<span class="sc">\}</span>$$</span>
+<span id="cb9-434"><a href="#cb9-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-435"><a href="#cb9-435" aria-hidden="true" tabindex="-1"></a>Because $Y_i,\dots,Y_n\sim i.i.d.$, $k_1=\dots=k_n=k$.</span>
+<span id="cb9-436"><a href="#cb9-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-437"><a href="#cb9-437" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-438"><a href="#cb9-438" aria-hidden="true" tabindex="-1"></a>  l(\theta|y) &amp;= \sum_{i=1}^{n} \log p(y_i|\theta)<span class="sc">\\</span></span>
+<span id="cb9-439"><a href="#cb9-439" aria-hidden="true" tabindex="-1"></a>              &amp;= \sum_{i=1}^{n} \log (\theta^{y_i} (1-\theta)^{1-y_i})<span class="sc">\\</span></span>
+<span id="cb9-440"><a href="#cb9-440" aria-hidden="true" tabindex="-1"></a>              &amp;= \sum_{i=1}^{n} \left( y_i\log \theta + (1-y_i)\log(1-\theta) \right)<span class="sc">\\</span> </span>
+<span id="cb9-441"><a href="#cb9-441" aria-hidden="true" tabindex="-1"></a>              &amp;= \log\theta \sum_{i=1}^{n} y_i + \log(1-\theta)(n - \sum_{i=1}^{n} y_i)</span>
+<span id="cb9-442"><a href="#cb9-442" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-443"><a href="#cb9-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-444"><a href="#cb9-444" aria-hidden="true" tabindex="-1"></a>Thus, $\bar{y} = \sum_{i=1}^{n} y_i$ is the sufficient statistics.</span>
+<span id="cb9-445"><a href="#cb9-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-446"><a href="#cb9-446" aria-hidden="true" tabindex="-1"></a>$$l(\theta|y) = \bar{y}\log\theta + (n-\bar{y})\log(1-\theta)$$</span>
+<span id="cb9-447"><a href="#cb9-447" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-448"><a href="#cb9-448" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-449"><a href="#cb9-449" aria-hidden="true" tabindex="-1"></a>  \frac{\partial l(\theta|y)}{\partial\theta} &amp;= \frac{\bar{y}}{\theta} - \frac{n-\bar{y}}{1-\theta}<span class="sc">\\</span></span>
+<span id="cb9-450"><a href="#cb9-450" aria-hidden="true" tabindex="-1"></a>  \frac{\partial^2 l(\theta|y)}{\partial^2 \theta} &amp;= \frac{-\bar{y}}{\theta^2} - \frac{\overbrace{n-\bar{y}}^{\geq 0}}{(1-\theta)^2} \leq 0</span>
+<span id="cb9-451"><a href="#cb9-451" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-452"><a href="#cb9-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-453"><a href="#cb9-453" aria-hidden="true" tabindex="-1"></a>Thus, the curvature is concave because the second partial derivative is negative. Next, find the maximum $\hat{\theta}$.</span>
+<span id="cb9-454"><a href="#cb9-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-455"><a href="#cb9-455" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-456"><a href="#cb9-456" aria-hidden="true" tabindex="-1"></a>  0 &amp;= \frac{\partial l(\hat{\theta} | y)}{\partial\theta}= \frac{\bar{y}}{\hat{\theta}} - \frac{n-\bar{y}}{1-\hat{\theta}}<span class="sc">\\</span> </span>
+<span id="cb9-457"><a href="#cb9-457" aria-hidden="true" tabindex="-1"></a>  \hat{\theta} &amp;= \frac{\bar{y}}{n}_{<span class="sc">\#</span>}</span>
+<span id="cb9-458"><a href="#cb9-458" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-459"><a href="#cb9-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-460"><a href="#cb9-460" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-461"><a href="#cb9-461" aria-hidden="true" tabindex="-1"></a>  \frac{J(\hat{\theta})}{n} &amp;= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}<span class="sc">\\</span></span>
+<span id="cb9-462"><a href="#cb9-462" aria-hidden="true" tabindex="-1"></a>                            &amp;= \left(\frac{\bar{y}}{\hat{\theta}^2}+\frac{n-\bar{y}}{(1-\hat{\theta})^2} \right)\frac{1}{n}<span class="sc">\\</span> </span>
+<span id="cb9-463"><a href="#cb9-463" aria-hidden="true" tabindex="-1"></a>                            &amp;= \frac{\hat{\theta}}{\hat{\theta}^2} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}<span class="sc">\\</span> </span>
+<span id="cb9-464"><a href="#cb9-464" aria-hidden="true" tabindex="-1"></a>                            &amp;= \frac{1}{\hat{\theta}} + \frac{1-\hat{\theta}}{(1-\hat{\theta}^2)}<span class="sc">\\</span></span>
+<span id="cb9-465"><a href="#cb9-465" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-466"><a href="#cb9-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-467"><a href="#cb9-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-468"><a href="#cb9-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-469"><a href="#cb9-469" aria-hidden="true" tabindex="-1"></a><span class="ot">[^wiki-bernoulli]: </span>General expression of Bernoullis Distribution. Wiki. URL: https://en.wikipedia.org/wiki/Bernoulli_distribution</span>
+<span id="cb9-470"><a href="#cb9-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-471"><a href="#cb9-471" aria-hidden="true" tabindex="-1"></a><span class="fu">### (b) {#p-3-14-b}</span></span>
+<span id="cb9-472"><a href="#cb9-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-473"><a href="#cb9-473" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Find a probability density $p_{U}(\theta)$ such that $\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + c$, where $c$ is a constant that does not depend on $\theta$. Compute the information $-\frac{\partial^2 \log p_U(\theta)}{\partial\theta^2}$ of this density.</span></span>
+<span id="cb9-474"><a href="#cb9-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-475"><a href="#cb9-475" aria-hidden="true" tabindex="-1"></a>**Part I: Derive $p_{U}(\theta)$** </span>
+<span id="cb9-476"><a href="#cb9-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-477"><a href="#cb9-477" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-478"><a href="#cb9-478" aria-hidden="true" tabindex="-1"></a>  p_{U}(\theta) &amp;= e^{\frac{l(\theta|y)}{n}}e^c<span class="sc">\\</span></span>
+<span id="cb9-479"><a href="#cb9-479" aria-hidden="true" tabindex="-1"></a>  \int_{0}^{1}p_{U}(\theta)d\theta &amp;= 1 = e^c  \int_{0}^{1} e^{\frac{l(\theta|y)}{n}} d\theta<span class="sc">\\</span></span>
+<span id="cb9-480"><a href="#cb9-480" aria-hidden="true" tabindex="-1"></a>  1 &amp;= e^c \int_{0}^{1} \exp(\hat{\theta}\log\theta + (1-\hat{\theta})\log(1-\theta))) d\theta<span class="sc">\\</span> </span>
+<span id="cb9-481"><a href="#cb9-481" aria-hidden="true" tabindex="-1"></a>  1 &amp;= e^c \int_{0}^{1} \theta^{\hat{\theta}}(1-\theta)^{1-\hat{\theta}} d\theta<span class="sc">\\</span> </span>
+<span id="cb9-482"><a href="#cb9-482" aria-hidden="true" tabindex="-1"></a>  1 &amp;= e^c \frac{-\pi}{2}(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})<span class="sc">\\</span> </span>
+<span id="cb9-483"><a href="#cb9-483" aria-hidden="true" tabindex="-1"></a>  e^c &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}<span class="sc">\\</span></span>
+<span id="cb9-484"><a href="#cb9-484" aria-hidden="true" tabindex="-1"></a>  c &amp;= \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)</span>
+<span id="cb9-485"><a href="#cb9-485" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-486"><a href="#cb9-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-487"><a href="#cb9-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-488"><a href="#cb9-488" aria-hidden="true" tabindex="-1"></a>Therefore, we get</span>
+<span id="cb9-489"><a href="#cb9-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-490"><a href="#cb9-490" aria-hidden="true" tabindex="-1"></a>$$\log p_{U}(\theta) = \frac{l(\theta|y)}{n} + \log\left( \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})} \right)$$</span>
+<span id="cb9-491"><a href="#cb9-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-492"><a href="#cb9-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-493"><a href="#cb9-493" aria-hidden="true" tabindex="-1"></a>**Part II: Fisher inforamtion**</span>
+<span id="cb9-494"><a href="#cb9-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-495"><a href="#cb9-495" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-496"><a href="#cb9-496" aria-hidden="true" tabindex="-1"></a>  -\frac{\partial^2 \log p_{U}(\theta)}{\partial \theta^2} &amp;= \frac{-1}{n}\frac{\partial^2 l(\theta|y)}{\partial \theta^2}<span class="sc">\\</span> </span>
+<span id="cb9-497"><a href="#cb9-497" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{\hat{\theta}}{\theta} + \frac{1-\hat{\theta}}{1-\theta^2}_{<span class="sc">\#</span>}</span>
+<span id="cb9-498"><a href="#cb9-498" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-499"><a href="#cb9-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-500"><a href="#cb9-500" aria-hidden="true" tabindex="-1"></a><span class="ot">[^wolf-integ1]: </span>Solved by Wolfram Alpha. URL: https://www.wolframalpha.com/input?i=integral%28+x%5Ea%2F%281-x%29%5Ea%2C+0%2C+1%29</span>
+<span id="cb9-501"><a href="#cb9-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-502"><a href="#cb9-502" aria-hidden="true" tabindex="-1"></a><span class="fu">### (c) {#p-3-14-c}</span></span>
+<span id="cb9-503"><a href="#cb9-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-504"><a href="#cb9-504" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Obtain a probability density for $\theta$ that is proportional to $p_{U}(\theta) \times p(y_1,\dots, y_n |\theta)$. Can this be considered a posterior distribution for $\theta$?</span></span>
+<span id="cb9-505"><a href="#cb9-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-506"><a href="#cb9-506" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-507"><a href="#cb9-507" aria-hidden="true" tabindex="-1"></a>  p_U(\theta) \times p(y_1,\dots,y_n|\theta)<span class="sc">\\</span> </span>
+<span id="cb9-508"><a href="#cb9-508" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n}p(y_i|\theta)<span class="sc">\\</span></span>
+<span id="cb9-509"><a href="#cb9-509" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}e^{\frac{l(\theta|y)}{n}}\times  \prod_{i=1}^{n} \theta^{y_i}(1-\theta)^{1-y_i}<span class="sc">\\</span> </span>
+<span id="cb9-510"><a href="#cb9-510" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}}}{(1-\theta)^{\hat{\theta}}} \times \theta^{n\hat{\theta}}(1-\theta)^{n(1-\hat{\theta})}<span class="sc">\\</span> </span>
+<span id="cb9-511"><a href="#cb9-511" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{-2}{\pi(\hat{\theta}-1)\hat{\theta}\csc(\pi\hat{\theta})}\frac{\theta^{\hat{\theta}(n+1)}}{(1-\theta)^{\hat{\theta}-n(1-\hat{\theta})}}</span>
+<span id="cb9-512"><a href="#cb9-512" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-513"><a href="#cb9-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-514"><a href="#cb9-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-515"><a href="#cb9-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-516"><a href="#cb9-516" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Yes, the resulting is the unit information prior.</span>
+<span id="cb9-517"><a href="#cb9-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-518"><a href="#cb9-518" aria-hidden="true" tabindex="-1"></a><span class="fu">### (d) {#p-3-14-d}</span></span>
+<span id="cb9-519"><a href="#cb9-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-520"><a href="#cb9-520" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Repeat </span><span class="co">[</span><span class="ot">(a)</span><span class="co">](#p-3-14-a)</span><span class="at">, </span><span class="co">[</span><span class="ot">(b)</span><span class="co">](#p-3-14-b)</span><span class="at"> and </span><span class="co">[</span><span class="ot">(c)</span><span class="co">](#p-3-14-c)</span><span class="at"> but  with $p(y|\theta)$ being the Poisson distribution.</span></span>
+<span id="cb9-521"><a href="#cb9-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-522"><a href="#cb9-522" aria-hidden="true" tabindex="-1"></a>From @hoff2009first <span class="co">[</span><span class="ot">sec. 3.2</span><span class="co">]</span>, The PDF of poisson distribution is</span>
+<span id="cb9-523"><a href="#cb9-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-524"><a href="#cb9-524" aria-hidden="true" tabindex="-1"></a>$$p(Y=y|\theta) = dpois(y,\theta) = \theta^y\frac{e^{-\theta}}{\Gamma(y)} \quad \text{ for } y\in<span class="sc">\{</span>0,1,2,...<span class="sc">\}</span>$$</span>
+<span id="cb9-525"><a href="#cb9-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-526"><a href="#cb9-526" aria-hidden="true" tabindex="-1"></a>**Part I: MLE $\hat{\theta}$**</span>
+<span id="cb9-527"><a href="#cb9-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-528"><a href="#cb9-528" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-529"><a href="#cb9-529" aria-hidden="true" tabindex="-1"></a>  l(\theta|y) &amp;= \sum^{n}_{i=1} \log p(y_i|\theta)<span class="sc">\\</span></span>
+<span id="cb9-530"><a href="#cb9-530" aria-hidden="true" tabindex="-1"></a>              &amp;= \sum^{n}_{i=1} \log\left( \theta^y\frac{e^{-\theta}}{\Gamma(y)} \right)<span class="sc">\\</span> </span>
+<span id="cb9-531"><a href="#cb9-531" aria-hidden="true" tabindex="-1"></a>              &amp;= \log \frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}<span class="sc">\\</span> </span>
+<span id="cb9-532"><a href="#cb9-532" aria-hidden="true" tabindex="-1"></a>              &amp;= \log \left( \theta^{\sum y}e^{-n\theta} \right) - \log(\sum\Gamma(y))<span class="sc">\\</span> </span>
+<span id="cb9-533"><a href="#cb9-533" aria-hidden="true" tabindex="-1"></a>              &amp;= \log\left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)} \right)</span>
+<span id="cb9-534"><a href="#cb9-534" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-535"><a href="#cb9-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-536"><a href="#cb9-536" aria-hidden="true" tabindex="-1"></a>Get the MLE $\hat{\theta}$,</span>
+<span id="cb9-537"><a href="#cb9-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-538"><a href="#cb9-538" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-539"><a href="#cb9-539" aria-hidden="true" tabindex="-1"></a>  \frac{\partial l}{\partial \theta} &amp;= \frac{\sum y}{\theta} - n<span class="sc">\\</span></span>
+<span id="cb9-540"><a href="#cb9-540" aria-hidden="true" tabindex="-1"></a>  \hat{\theta} = \frac{\sum_{i=1}^{n} y}{n}</span>
+<span id="cb9-541"><a href="#cb9-541" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-542"><a href="#cb9-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-543"><a href="#cb9-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-544"><a href="#cb9-544" aria-hidden="true" tabindex="-1"></a>**Part II: Find Unit information prior**</span>
+<span id="cb9-545"><a href="#cb9-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-546"><a href="#cb9-546" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-547"><a href="#cb9-547" aria-hidden="true" tabindex="-1"></a>  \frac{J(\hat{\theta})}{n} &amp;= -\frac{\partial^2 l}{\partial\theta^2}\frac{1}{n}<span class="sc">\\</span> </span>
+<span id="cb9-548"><a href="#cb9-548" aria-hidden="true" tabindex="-1"></a>                      &amp;= \frac{\sum_{i=1}^{n} y_i}{\theta^2}\frac{1}{n} = \frac{1}{\hat{\theta}}</span>
+<span id="cb9-549"><a href="#cb9-549" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-550"><a href="#cb9-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-551"><a href="#cb9-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-552"><a href="#cb9-552" aria-hidden="true" tabindex="-1"></a>**Part III: Derive $P_{U}$**</span>
+<span id="cb9-553"><a href="#cb9-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-554"><a href="#cb9-554" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-555"><a href="#cb9-555" aria-hidden="true" tabindex="-1"></a>  P_{U}(\theta) &amp;= e^c e^{\frac{l(\theta|y)}{n}}<span class="sc">\\</span> </span>
+<span id="cb9-556"><a href="#cb9-556" aria-hidden="true" tabindex="-1"></a>                &amp;= e^c \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}}</span>
+<span id="cb9-557"><a href="#cb9-557" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-558"><a href="#cb9-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-559"><a href="#cb9-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-560"><a href="#cb9-560" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-561"><a href="#cb9-561" aria-hidden="true" tabindex="-1"></a>  \int_{0}^{\infty} P_{U}(\theta) d\theta = 1 &amp;= e^c \int_{0}^{\infty}  \left(\frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}} d\theta<span class="sc">\\</span> </span>
+<span id="cb9-562"><a href="#cb9-562" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \int_{0}^{\infty} \theta^{\hat{\theta}}e^{-\theta} d\theta</span>
+<span id="cb9-563"><a href="#cb9-563" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-564"><a href="#cb9-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-565"><a href="#cb9-565" aria-hidden="true" tabindex="-1"></a>Use the fact that $\int_{0}^{\infty} x^a e^{-x}dx = -\Gamma(a+1)$.</span>
+<span id="cb9-566"><a href="#cb9-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-567"><a href="#cb9-567" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-568"><a href="#cb9-568" aria-hidden="true" tabindex="-1"></a>  1 &amp;= \frac{e^c}{(\sum\Gamma(y))^{\frac{1}{n}}} \Gamma(\hat{\theta}+1)<span class="sc">\\</span></span>
+<span id="cb9-569"><a href="#cb9-569" aria-hidden="true" tabindex="-1"></a>  c &amp;= \log\left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right)</span>
+<span id="cb9-570"><a href="#cb9-570" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-571"><a href="#cb9-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-572"><a href="#cb9-572" aria-hidden="true" tabindex="-1"></a>Therefore,</span>
+<span id="cb9-573"><a href="#cb9-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-574"><a href="#cb9-574" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-575"><a href="#cb9-575" aria-hidden="true" tabindex="-1"></a>  P_U(\theta) &amp;= e^c e^{\frac{l(\theta|y)}{n}}<span class="sc">\\</span></span>
+<span id="cb9-576"><a href="#cb9-576" aria-hidden="true" tabindex="-1"></a>              &amp;= e^c \left<span class="co">[</span><span class="ot">\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right</span><span class="co">]</span>^{\frac{1}{n}}<span class="sc">\\</span> </span>
+<span id="cb9-577"><a href="#cb9-577" aria-hidden="true" tabindex="-1"></a>              &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left<span class="co">[</span><span class="ot">\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right</span><span class="co">]</span>^{\frac{1}{n}}</span>
+<span id="cb9-578"><a href="#cb9-578" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-579"><a href="#cb9-579" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-580"><a href="#cb9-580" aria-hidden="true" tabindex="-1"></a>**Part IV: Fisher information of $P_{U}$**</span>
+<span id="cb9-581"><a href="#cb9-581" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-582"><a href="#cb9-582" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-583"><a href="#cb9-583" aria-hidden="true" tabindex="-1"></a>  \log p_{U}(\theta) &amp;= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left<span class="co">[</span><span class="ot">\frac{\theta^{\sum y}e^{-n\theta}}{\sum \Gamma(y)}\right</span><span class="co">]</span><span class="sc">\\</span> </span>
+<span id="cb9-584"><a href="#cb9-584" aria-hidden="true" tabindex="-1"></a>  &amp;= \log \left(\frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}\right) + \frac{1}{n} \log \left<span class="co">[</span><span class="ot">\theta^{\sum y}e^{-n\theta} - \frac{1}{n} \log (\sum\Gamma(y))\right</span><span class="co">]</span></span>
+<span id="cb9-585"><a href="#cb9-585" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-586"><a href="#cb9-586" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-587"><a href="#cb9-587" aria-hidden="true" tabindex="-1"></a>Use the fact that $\frac{\partial^2}{\partial x^2}\left<span class="co">[</span><span class="ot">  \frac{\log(x^ae^{-nx})}{n}\right</span><span class="co">]</span> = \frac{-a}{nx^2}$.<span class="ot">[^wolf-ex-int]</span></span>
+<span id="cb9-588"><a href="#cb9-588" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-589"><a href="#cb9-589" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-590"><a href="#cb9-590" aria-hidden="true" tabindex="-1"></a>  -\frac{\partial^2 \log P_U(\theta)}{\partial \theta^2} = \frac{\sum y}{n\theta^2}_{<span class="sc">\#</span>}</span>
+<span id="cb9-591"><a href="#cb9-591" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-592"><a href="#cb9-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-593"><a href="#cb9-593" aria-hidden="true" tabindex="-1"></a>**Part V: Obtain the posterior distribution**</span>
+<span id="cb9-594"><a href="#cb9-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-595"><a href="#cb9-595" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb9-596"><a href="#cb9-596" aria-hidden="true" tabindex="-1"></a>  p_U(\theta) \times p(y_1,\dots, y_n|\theta)%</span>
+<span id="cb9-597"><a href="#cb9-597" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \prod_{i=1}^{n} p(y_i|\theta)<span class="sc">\\</span> </span>
+<span id="cb9-598"><a href="#cb9-598" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)}e^{\frac{l(\theta|y)}{n}} \times \frac{\theta^{\sum y}e^{-n\theta}}{\sum\Gamma(y)}<span class="sc">\\</span></span>
+<span id="cb9-599"><a href="#cb9-599" aria-hidden="true" tabindex="-1"></a>  &amp;= \frac{(\sum\Gamma(y))^{\frac{1}{n}}}{\Gamma(\hat{\theta}+1)} \left(\frac{\theta^{n\hat{\theta}}e^{-n\theta}}{\sum\Gamma(y)}\right)^{\frac{1}{n}+1}</span>
+<span id="cb9-600"><a href="#cb9-600" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb9-601"><a href="#cb9-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-602"><a href="#cb9-602" aria-hidden="true" tabindex="-1"></a><span class="ot">[^wolf-int]: https://www.wolframalpha.com/input?i=integral%28+x%5Eb*+e%5E%28-x%29%29</span></span>
+<span id="cb9-603"><a href="#cb9-603" aria-hidden="true" tabindex="-1"></a><span class="ot">[^wolf-ex-int]: https://www.wolframalpha.com/input?i=d%5E2+1%2Fn*log%28x%5Ea*e%5E%28-nx%29%29%2Fdx%5E2</span></span>
+<span id="cb9-604"><a href="#cb9-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-605"><a href="#cb9-605" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden when-format="html"}</span>
+<span id="cb9-606"><a href="#cb9-606" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-607"><a href="#cb9-607" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb9-608"><a href="#cb9-608" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-609"><a href="#cb9-609" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

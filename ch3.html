@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu">
+<meta name="dcterms.date" content="2022-09-01">
+
+<title>STAT638: Applied Bayesian Methods - 3&nbsp; Chapter 3: One-parameter models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch4.html" rel="next">
+<link href="./ch2.html" rel="prev">
+<link href="./img/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">STAT638: Applied Bayesian Methods</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"><strong>Lecture Notes</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch3.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"><strong>Assignments</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw6.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw7.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw8.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./hw/hw9.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#key-messages" id="toc-key-messages" class="nav-link active" data-scroll-target="#key-messages"><span class="toc-section-number">3.1</span>  Key messages</a></li>
+  <li><a href="#the-binomial-model" id="toc-the-binomial-model" class="nav-link" data-scroll-target="#the-binomial-model"><span class="toc-section-number">3.2</span>  The binomial model</a></li>
+  <li><a href="#the-beta-distribution" id="toc-the-beta-distribution" class="nav-link" data-scroll-target="#the-beta-distribution"><span class="toc-section-number">3.3</span>  The beta distribution</a></li>
+  <li><a href="#inference-for-exchangeable-binary-data" id="toc-inference-for-exchangeable-binary-data" class="nav-link" data-scroll-target="#inference-for-exchangeable-binary-data"><span class="toc-section-number">3.4</span>  Inference for exchangeable binary data</a></li>
+  <li><a href="#sufficient-statistics" id="toc-sufficient-statistics" class="nav-link" data-scroll-target="#sufficient-statistics"><span class="toc-section-number">3.5</span>  Sufficient statistics</a></li>
+  <li><a href="#conjugacy" id="toc-conjugacy" class="nav-link" data-scroll-target="#conjugacy"><span class="toc-section-number">3.6</span>  Conjugacy</a></li>
+  <li><a href="#combining-information" id="toc-combining-information" class="nav-link" data-scroll-target="#combining-information"><span class="toc-section-number">3.7</span>  Combining information</a></li>
+  <li><a href="#predictive-distribution" id="toc-predictive-distribution" class="nav-link" data-scroll-target="#predictive-distribution"><span class="toc-section-number">3.8</span>  Predictive distribution</a></li>
+  <li><a href="#confidence-regions" id="toc-confidence-regions" class="nav-link" data-scroll-target="#confidence-regions"><span class="toc-section-number">3.9</span>  Confidence regions</a></li>
+  <li><a href="#binomial-distribution" id="toc-binomial-distribution" class="nav-link" data-scroll-target="#binomial-distribution"><span class="toc-section-number">3.10</span>  Binomial distribution</a></li>
+  <li><a href="#the-poisson-model" id="toc-the-poisson-model" class="nav-link" data-scroll-target="#the-poisson-model"><span class="toc-section-number">3.11</span>  The Poisson model</a>
+  <ul class="collapse">
+  <li><a href="#posterior-inference" id="toc-posterior-inference" class="nav-link" data-scroll-target="#posterior-inference"><span class="toc-section-number">3.11.1</span>  Posterior inference</a></li>
+  </ul></li>
+  <li><a href="#some-one-parameter-models" id="toc-some-one-parameter-models" class="nav-link" data-scroll-target="#some-one-parameter-models"><span class="toc-section-number">3.12</span>  Some one-parameter models</a></li>
+  <li><a href="#bayesian-prediction" id="toc-bayesian-prediction" class="nav-link" data-scroll-target="#bayesian-prediction"><span class="toc-section-number">3.13</span>  Bayesian prediction</a>
+  <ul class="collapse">
+  <li><a href="#the-marginal" id="toc-the-marginal" class="nav-link" data-scroll-target="#the-marginal"><span class="toc-section-number">3.13.1</span>  The marginal</a></li>
+  <li><a href="#posterior-predictive-distribution" id="toc-posterior-predictive-distribution" class="nav-link" data-scroll-target="#posterior-predictive-distribution"><span class="toc-section-number">3.13.2</span>  Posterior predictive distribution</a></li>
+  <li><a href="#sufficient-statistics-1" id="toc-sufficient-statistics-1" class="nav-link" data-scroll-target="#sufficient-statistics-1"><span class="toc-section-number">3.13.3</span>  Sufficient statistics</a></li>
+  <li><a href="#conjugate-prior" id="toc-conjugate-prior" class="nav-link" data-scroll-target="#conjugate-prior"><span class="toc-section-number">3.13.4</span>  Conjugate prior</a></li>
+  </ul></li>
+  <li><a href="#jeffreys-prior" id="toc-jeffreys-prior" class="nav-link" data-scroll-target="#jeffreys-prior"><span class="toc-section-number">3.14</span>  Jeffreys prior</a></li>
+  <li><a href="#gamma-distribution-1" id="toc-gamma-distribution-1" class="nav-link" data-scroll-target="#gamma-distribution-1"><span class="toc-section-number">3.15</span>  Gamma Distribution</a></li>
+  <li><a href="#exponential-families-and-conjugate-priors" id="toc-exponential-families-and-conjugate-priors" class="nav-link" data-scroll-target="#exponential-families-and-conjugate-priors"><span class="toc-section-number">3.16</span>  Exponential Families and conjugate priors</a></li>
+  <li><a href="#mixture-distribution" id="toc-mixture-distribution" class="nav-link" data-scroll-target="#mixture-distribution"><span class="toc-section-number">3.17</span>  Mixture distribution</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="toc-section-number">3.18</span>  Installation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Shao-Ting Chiu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 1, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="key-messages" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="key-messages"><span class="header-section-number">3.1</span> Key messages</h2>
+<ul>
+<li>One-parameter models
+<ul>
+<li>Binomial model</li>
+<li>Poisson model</li>
+</ul></li>
+<li>Bayesian data analysis
+<ul>
+<li>Conjugate prior distribution</li>
+<li>Predictive distribution</li>
+<li>Confidence regions</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-binomial-model" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="the-binomial-model"><span class="header-section-number">3.2</span> The binomial model</h2>
+<p><span class="math display">\[p(\theta|y) \propto p(y|\theta)\]</span></p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Calculus
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\int^{1}_{0}\theta^{a-1}(1-\theta)^{b-1}d\theta = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}\]</span></p>
+<p>where <span class="math inline">\(\Gamma(n) = (n-1)!\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="the-beta-distribution" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-beta-distribution"><span class="header-section-number">3.3</span> The beta distribution</h2>
+<p><span class="math display">\[p(\theta) = dbeta(\theta, a, b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\theta^{a-1}(1-\theta)^{b-1}\quad \text{for}~0\leq \theta\leq 1\]</span></p>
+<ul>
+<li><span class="math inline">\(E[\theta]=\frac{a}{a+b}\)</span></li>
+<li><span class="math inline">\(Var[\theta] = \frac{ab}{(a+b+1)(a+b)^2} = \frac{E[\theta]E[1-\theta]}{a+b+}\)</span></li>
+</ul>
+</section>
+<section id="inference-for-exchangeable-binary-data" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="inference-for-exchangeable-binary-data"><span class="header-section-number">3.4</span> Inference for exchangeable binary data</h2>
+<p>If <span class="math inline">\(Y_{1},\dots,Y_n|\theta\)</span> are i.i.d. binary (<span class="math inline">\(\theta\)</span>):</p>
+<p><span id="eq-exh"><span class="math display">\[p(\theta|y_1,\dots,y_n) = \frac{\theta^{\sum y_i}(1-\theta)^{n-\sum y_{i}} \times p(\theta)}{p(y_1,\dots,y_n)} \tag{3.1}\]</span></span></p>
+</section>
+<section id="sufficient-statistics" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sufficient-statistics"><span class="header-section-number">3.5</span> Sufficient statistics</h2>
+<p>If compare the relative probabilities of any two <span class="math inline">\(\theta\)</span>-values, <span class="math inline">\(\theta_a\)</span> and <span class="math inline">\(\theta_b\)</span> (from <a href="#eq-exh">Equation&nbsp;<span>3.1</span></a>):</p>
+<p><span id="eq-relative"><span class="math display">\[\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = (\frac{\theta_{a}}{\theta_b})^{\sum y_i}(\frac{1-\theta_{a}}{1-\theta_b})^{n - \sum y_i}\frac{p(\theta_a)}{p(\theta_b)} \tag{3.2}\]</span></span></p>
+<p><a href="#eq-relative">Equation&nbsp;<span>3.2</span></a> shows that</p>
+<p><span class="math display">\[p(\theta\in A|Y_1=y_1,\dots,Y_n = y_n) = p(\theta \in A|\sum^{n}_{i=1} Y_i=\sum^{n}_{i=1}y_i)\]</span></p>
+<p><span class="math inline">\(\sum^{n}_{i=1} Y_i\)</span> is a <em>sufficient statistic</em> for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(p(y_1,\dots,y_n|\theta)\)</span>. It is sufficient to know <span class="math inline">\(\sum Y_i\)</span> to make inference about <span class="math inline">\(\theta\)</span>.</p>
+<p>In this case where <span class="math inline">\(Y_1, \dots, Y_n|\theta\)</span> are i.i.d. binary (<span class="math inline">\(\theta\)</span>) random variables, the sufficient statistics <span class="math inline">\(Y=\sum^{n}_{i=1} Y_i\)</span> has a <em>binomial distribution</em> with parameters <span class="math inline">\((n,\theta)\)</span>.</p>
+</section>
+<section id="conjugacy" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="conjugacy"><span class="header-section-number">3.6</span> Conjugacy</h2>
+<ul>
+<li><strong>Beta prior</strong> and <strong>binomial sampling</strong> leads to <strong>beta posterior</strong>
+<ul>
+<li><em>beta prior</em> is <strong>conjugate</strong> for the <em>binomial sampling</em>.</li>
+</ul></li>
+</ul>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition: Conjugate
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A class <span class="math inline">\(\mathcal{P}\)</span> of prior distribution for <span class="math inline">\(\theta\)</span> is called conjugate for a sampling model <span class="math inline">\(p(y|\theta)\)</span> if</p>
+<p><span class="math display">\[p(\theta) \in \mathcal{P} \Rightarrow p(\theta|y) \in \mathcal{P}\]</span></p>
+</div>
+</div>
+<ul>
+<li>Conjugate priors make posterior calculations easy.</li>
+</ul>
+</section>
+<section id="combining-information" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="combining-information"><span class="header-section-number">3.7</span> Combining information</h2>
+<p>If <span class="math inline">\(\theta|Y=y \sim beta(a+y, b+n-y)\)</span>, then</p>
+<p><span id="eq-post"><span class="math display">\[\begin{aligned}
+E[\theta|y] &amp;=\frac{a+y}{a+b+n}\\
+            &amp;= \frac{a+b}{a+b+n}\underbrace{\frac{a}{a+b}}_{\text{prior expectation}} + \frac{n}{a+b+n}\underbrace{\frac{y}{n}}_{\text{data average}}\\
+\end{aligned} \tag{3.3}\]</span></span></p>
+<p>From <a href="#eq-post">Equation&nbsp;<span>3.3</span></a>, the <em>posterior expectation</em> is a <strong>weighted average</strong> of the <em>prior expectation</em> and the <em>sample average</em>. This leads to interpretation of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as “prior data”:</p>
+<ul>
+<li><span class="math inline">\(a\)</span>: prior number of 1’s</li>
+<li><span class="math inline">\(b\)</span>: prior number of 0’s</li>
+<li><span class="math inline">\(a+b\)</span>: prior sample size</li>
+</ul>
+</section>
+<section id="predictive-distribution" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="predictive-distribution"><span class="header-section-number">3.8</span> Predictive distribution</h2>
+<p>The predictive distribution of <span class="math inline">\(\tilde{Y}\)</span> is the conditional distribution of <span class="math inline">\(\tilde{Y}\)</span> given <span class="math inline">\(\{Y_1=y_1,\dots,Y_n=y_n\}\)</span></p>
+<p><span class="math display">\[Pr(\tilde{Y}=1|y_1,\dots,y_n) = E[\theta|y_1,\dots,y_n] = \frac{a+\sum^{n}_{i=1}y_i}{a+b+n}\]</span></p>
+<ol type="1">
+<li>Predictive distribution does not depend on any unknown quantities.</li>
+<li>Predictive distribution depends on our observed data.</li>
+</ol>
+</section>
+<section id="confidence-regions" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="confidence-regions"><span class="header-section-number">3.9</span> Confidence regions</h2>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Bayesian coverage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An interval <span class="math inline">\([l(y), u(y)]\)</span>, based on the observed data <span class="math inline">\(Y=y\)</span>, has <span class="math inline">\(95\%\)</span> Bayesian coverage for <span class="math inline">\(\theta\)</span> if <span id="eq-bayes-cov"><span class="math display">\[Pr(l(y)&lt;\theta&lt;u(y)|Y=y) = .95 \tag{3.4}\]</span></span></p>
+<ul>
+<li><a href="#eq-bayes-cov">Equation&nbsp;<span>3.4</span></a> describes the information about the true value of <span class="math inline">\(\theta\)</span> after observing <span class="math inline">\(Y=y\)</span>.</li>
+<li><strong>post-experimental coverage</strong></li>
+</ul>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Frequentist coverage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A random interval <span class="math inline">\([l(Y), u(Y)]\)</span> has <span class="math inline">\(95\%\)</span> frequentist coverage for <span class="math inline">\(\theta\)</span> if, before the data are gathered,</p>
+<p><span id="eq-freq-cov"><span class="math display">\[Pr(l(Y) &lt; \theta &lt; u(Y)|\theta) = .95 \tag{3.5}\]</span></span></p>
+<ul>
+<li><a href="#eq-freq-cov">Equation&nbsp;<span>3.5</span></a> describes the probability that the interval will cover the true value before the data are observed</li>
+<li><strong>pre-experimental coverage</strong></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="binomial-distribution" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="binomial-distribution"><span class="header-section-number">3.10</span> Binomial distribution</h2>
+<p><span class="math display">\[p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\quad y\in\{0,1,\dots, n\}\]</span></p>
+</section>
+<section id="the-poisson-model" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="the-poisson-model"><span class="header-section-number">3.11</span> The Poisson model</h2>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Poisson distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[Pr(Y=y|\theta) = \theta^{y}\frac{e^{-\theta}}{y!}\quad \text{for} y\in \{0,1,2,\dots\}\]</span></p>
+<ul>
+<li><span class="math inline">\(E[Y|\theta] = \theta\)</span></li>
+<li><span class="math inline">\(Var[Y|\theta] = \theta\)</span></li>
+</ul>
+</div>
+</div>
+<section id="posterior-inference" class="level3" data-number="3.11.1">
+<h3 data-number="3.11.1" class="anchored" data-anchor-id="posterior-inference"><span class="header-section-number">3.11.1</span> Posterior inference</h3>
+<p>Let <span class="math inline">\(Y_1,\dots,Y_n\)</span> as i.i.d. Poisson with mean <span class="math inline">\(\theta\)</span>, then the joint pdf is</p>
+<span class="math display">\[\begin{aligned}
+Pr(Y_1 =y_1,\dots, Y_n = y_n |\theta) &amp;= \prod^{n}_{i=1} p(y_i|\theta)\\
+                                     &amp;= \prod^{n}_{i=1} \frac{1}{y_{i}!} \theta^{y_i}e^{-\theta}\\
+                                     &amp;= c(y_1, \dots, y_n)\theta^{\sum y_i}e^{-n\theta}
+\end{aligned}\]</span>
+<p>{#eq-pois-son}</p>
+</section>
+</section>
+<section id="some-one-parameter-models" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="some-one-parameter-models"><span class="header-section-number">3.12</span> Some one-parameter models</h2>
+</section>
+<section id="bayesian-prediction" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="bayesian-prediction"><span class="header-section-number">3.13</span> Bayesian prediction</h2>
+<section id="the-marginal" class="level3" data-number="3.13.1">
+<h3 data-number="3.13.1" class="anchored" data-anchor-id="the-marginal"><span class="header-section-number">3.13.1</span> The marginal</h3>
+<span class="math display">\[\begin{aligned}
+  p(y) &amp;= \int p(y,\theta)d\theta\\
+       &amp;= \int_{\Theta}p(y|\theta)p(\theta)d\theta
+\end{aligned}\]</span>
+</section>
+<section id="posterior-predictive-distribution" class="level3" data-number="3.13.2">
+<h3 data-number="3.13.2" class="anchored" data-anchor-id="posterior-predictive-distribution"><span class="header-section-number">3.13.2</span> Posterior predictive distribution</h3>
+<p>Let <span class="math inline">\(\bar{Y}\)</span> be a data point that is yet to be observed.</p>
+<span class="math display">\[\begin{aligned}
+  p(\bar{y}|y) &amp;= \int_{\Theta} p(\bar{y}, \theta|y)d\theta\\
+               &amp;= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta
+\end{aligned}\]</span>
+</section>
+<section id="sufficient-statistics-1" class="level3" data-number="3.13.3">
+<h3 data-number="3.13.3" class="anchored" data-anchor-id="sufficient-statistics-1"><span class="header-section-number">3.13.3</span> Sufficient statistics</h3>
+<p>Comparing two values of <span class="math inline">\(\theta\)</span> a poseteriori,</p>
+<p><span class="math display">\[\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = \frac{e^{-n\theta_a}}{-n\theta_b}\frac{\theta_{a}^{\sum y_i}}{\theta_{b}^{\sum y_i}}\frac{p(\theta_a)}{p(\theta_b)}\]</span></p>
+</section>
+<section id="conjugate-prior" class="level3" data-number="3.13.4">
+<h3 data-number="3.13.4" class="anchored" data-anchor-id="conjugate-prior"><span class="header-section-number">3.13.4</span> Conjugate prior</h3>
+<p><span class="math display">\[p(\theta|y_1,\dots,y_n) \propto p(\theta) \times \underbrace{p(y_1,\dots,y_n|\theta)}_{\theta^{\sum y_i} e^{-n\theta}}\]</span></p>
+<ul>
+<li><span class="math inline">\(\theta^{c_1}e^{-c_2 \theta}\)</span>: Gamma distribution</li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Gamma distribution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta} \quad \text{for } \theta, a, b &gt; 0\]</span></p>
+<ul>
+<li><span class="math inline">\(E[\theta] = \frac{a}{b}\)</span></li>
+<li><span class="math inline">\(Var[\theta] = \frac{a}{b^2}\)</span></li>
+</ul>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Gamma pdf integration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\int^{\infty}_{0} \theta^{a-1}e^{-b\theta}d\theta = \frac{\Gamma(a)}{b^a}\]</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="jeffreys-prior" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="jeffreys-prior"><span class="header-section-number">3.14</span> Jeffreys prior</h2>
+<ul>
+<li><a href="https://www2.stat.duke.edu/courses/Fall11/sta114/jeffreys.pdf">Notes 12. The Jeffreys Prior</a></li>
+</ul>
+</section>
+<section id="gamma-distribution-1" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="gamma-distribution-1"><span class="header-section-number">3.15</span> Gamma Distribution</h2>
+<blockquote class="blockquote">
+<p>Conjuagate prior of Poisson data</p>
+</blockquote>
+<p><span class="math display">\[p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1} e^{-b\theta}I_{0,\infty}(\theta)\]</span></p>
+<ul>
+<li>posterior of poisson data</li>
+</ul>
+<p><span class="math display">\[E(\theta|y) = \frac{a+n\bar{y}}{b+n} = \frac{b}{b+n}\frac{a}{b} + \frac{n}{b+n}\frac{n\bar{y}}{n} = (1-\omega_n)E(\theta) + \omega_n \bar{y}\]</span></p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">1</span>; b<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch3_files/figure-html/cell-2-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">4</span>; b<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch3_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">16</span>; b<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="ch3_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="exponential-families-and-conjugate-priors" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="exponential-families-and-conjugate-priors"><span class="header-section-number">3.16</span> Exponential Families and conjugate priors</h2>
+<ul>
+<li><span class="math inline">\(p(y|\phi) = h(y)c(\phi)e^{\phi t(y)}\)</span>
+<ul>
+<li><span class="math inline">\(\phi\)</span> is unknown parameter</li>
+<li><span class="math inline">\(t(y)\)</span> is the sufficient statistic</li>
+</ul></li>
+<li>General exponential family models for particular prior
+<ul>
+<li><span class="math inline">\(p(\phi|n_0,t_0) = \kappa(n_0,t_0)c(\phi)^{n_0}e^{n_0 t_0 \phi}\)</span></li>
+<li>have to posterior distribution</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[\begin{align}  
+  p(\phi|y_1,\dots, y_n) &amp;\propto p(\phi)p(y_1,\dots,y_n|\phi)\\
+                         &amp;\propto c(\phi)^{n_0 + n} \exp \left(\phi \times \left[ n_0 t_0 + \sum_{i=1}^{n}t(y_i) \right]\right)\\
+                         &amp;\propto p(\phi|n_0 +n, n_0t_0 +n \bar{t}(y))
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(\bar{t}(y)=\frac{\sum t(y_i)}{n}\)</span></p>
+</section>
+<section id="mixture-distribution" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="mixture-distribution"><span class="header-section-number">3.17</span> Mixture distribution</h2>
+<blockquote class="blockquote">
+<p>http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf</p>
+</blockquote>
+</section>
+<section id="installation" class="level2" data-number="3.18">
+<h2 data-number="3.18" class="anchored" data-anchor-id="installation"><span class="header-section-number">3.18</span> Installation</h2>
+<p>R installation: https://www.drdataking.com/post/how-to-add-existing-r-to-jupyter-notebook/</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch4.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> 'Chapter 3: One-parameter models'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> 'Shao-Ting Chiu'</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '20220901'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> 'r'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  freeze: auto</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key messages</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>One-parameter models</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Binomial model</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Poisson model</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian data analysis</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Conjugate prior distribution</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Predictive distribution</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Confidence regions</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The binomial model</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>$$p(\theta|y) \propto p(y|\theta)$$</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculus</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>$$\int^{1}_{0}\theta^{a-1}(1-\theta)^{b-1}d\theta = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}$$</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>where $\Gamma(n) = (n-1)!$.</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## The beta distribution</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>$$p(\theta) = dbeta(\theta, a, b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\theta^{a-1}(1-\theta)^{b-1}\quad \text{for}~0\leq \theta\leq 1$$</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$E<span class="co">[</span><span class="ot">\theta</span><span class="co">]</span>=\frac{a}{a+b}$</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$Var<span class="co">[</span><span class="ot">\theta</span><span class="co">]</span> = \frac{ab}{(a+b+1)(a+b)^2} = \frac{E<span class="co">[</span><span class="ot">\theta</span><span class="co">]</span>E<span class="co">[</span><span class="ot">1-\theta</span><span class="co">]</span>}{a+b+}$</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inference for exchangeable binary data</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>If $Y_{1},\dots,Y_n|\theta$ are i.i.d. binary ($\theta$):</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>$$p(\theta|y_1,\dots,y_n) = \frac{\theta^{\sum y_i}(1-\theta)^{n-\sum y_{i}} \times p(\theta)}{p(y_1,\dots,y_n)}$$ {#eq-exh}</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sufficient statistics</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>If compare the relative probabilities of any two $\theta$-values, $\theta_a$ and $\theta_b$ (from @eq-exh):</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>$$\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = (\frac{\theta_{a}}{\theta_b})^{\sum y_i}(\frac{1-\theta_{a}}{1-\theta_b})^{n - \sum y_i}\frac{p(\theta_a)}{p(\theta_b)}$$ {#eq-relative}</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>@eq-relative shows that </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>$$p(\theta\in A|Y_1=y_1,\dots,Y_n = y_n) = p(\theta \in A|\sum^{n}_{i=1} Y_i=\sum^{n}_{i=1}y_i)$$</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>$\sum^{n}_{i=1} Y_i$ is a *sufficient statistic* for $\theta$ and $p(y_1,\dots,y_n|\theta)$. It is sufficient to know $\sum Y_i$ to make inference about $\theta$.</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>In this case where $Y_1, \dots, Y_n|\theta$ are i.i.d. binary ($\theta$) random variables, the sufficient statistics $Y=\sum^{n}_{i=1} Y_i$ has a *binomial distribution* with parameters $(n,\theta)$.</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conjugacy</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Beta prior** and **binomial sampling** leads to **beta posterior**</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>*beta prior* is **conjugate** for the *binomial sampling*.</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition: Conjugate</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>A class $\mathcal{P}$ of prior distribution for $\theta$ is called conjugate for a sampling model $p(y|\theta)$ if </span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>$$p(\theta) \in \mathcal{P} \Rightarrow p(\theta|y) \in \mathcal{P}$$</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Conjugate priors make posterior calculations easy.</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Combining information</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>If $\theta|Y=y \sim beta(a+y, b+n-y)$, then</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>$$\begin{aligned}</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">\theta|y</span><span class="co">]</span> &amp;=\frac{a+y}{a+b+n}<span class="sc">\\</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>            &amp;= \frac{a+b}{a+b+n}\underbrace{\frac{a}{a+b}}_{\text{prior expectation}} + \frac{n}{a+b+n}\underbrace{\frac{y}{n}}_{\text{data average}}<span class="sc">\\</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>\end{aligned}$$ {#eq-post}</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>From @eq-post, the *posterior expectation* is a **weighted average** of the *prior expectation* and the *sample average*. This leads to interpretation of $a$ and $b$ as "prior data":</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$a$: prior number of 1's</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$b$: prior number of 0's</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$a+b$: prior sample size</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="fu">## Predictive distribution</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>The predictive distribution of $\tilde{Y}$ is the conditional distribution of $\tilde{Y}$ given $<span class="sc">\{</span>Y_1=y_1,\dots,Y_n=y_n<span class="sc">\}</span>$</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>$$Pr(\tilde{Y}=1|y_1,\dots,y_n) = E<span class="co">[</span><span class="ot">\theta|y_1,\dots,y_n</span><span class="co">]</span> = \frac{a+\sum^{n}_{i=1}y_i}{a+b+n}$$</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Predictive distribution does not depend on any unknown quantities.</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Predictive distribution depends on our observed data.</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Confidence regions</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bayesian coverage</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>An interval $<span class="co">[</span><span class="ot">l(y), u(y)</span><span class="co">]</span>$, based on the observed data $Y=y$, has $95\%$ Bayesian coverage for $\theta$ if </span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>$$Pr(l(y)&lt;\theta&lt;u(y)|Y=y) = .95$$ {#eq-bayes-cov}</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>@eq-bayes-cov describes the information about the true value of $\theta$ after observing $Y=y$.</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**post-experimental coverage**</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="fu">### Frequentist coverage</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>A random interval $<span class="co">[</span><span class="ot">l(Y), u(Y)</span><span class="co">]</span>$ has $95\%$ frequentist coverage for $\theta$ if, before the data are gathered,</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>$$Pr(l(Y) &lt; \theta &lt; u(Y)|\theta) = .95$$ {#eq-freq-cov}</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>@eq-freq-cov describes the probability that the interval will cover the true value before the data are observed</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**pre-experimental coverage**</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Binomial distribution</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>$$p(Y=y|\theta) = dbinom(y,n,\theta) = {n\choose y}\theta^{y}(1-\theta)^{n-y},\quad y\in<span class="sc">\{</span>0,1,\dots, n<span class="sc">\}</span>$$</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Poisson model</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Poisson distribution</span></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>$$Pr(Y=y|\theta) = \theta^{y}\frac{e^{-\theta}}{y!}\quad \text{for} y\in <span class="sc">\{</span>0,1,2,\dots<span class="sc">\}</span>$$</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$E<span class="co">[</span><span class="ot">Y|\theta</span><span class="co">]</span> = \theta$</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$Var<span class="co">[</span><span class="ot">Y|\theta</span><span class="co">]</span> = \theta$</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Posterior inference</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>Let $Y_1,\dots,Y_n$ as i.i.d. Poisson with mean $\theta$, then the joint pdf is</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>Pr(Y_1 =y_1,\dots, Y_n = y_n |\theta) &amp;= \prod^{n}_{i=1} p(y_i|\theta)<span class="sc">\\</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>                                     &amp;= \prod^{n}_{i=1} \frac{1}{y_{i}!} \theta^{y_i}e^{-\theta}<span class="sc">\\</span> </span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>                                     &amp;= c(y_1, \dots, y_n)\theta^{\sum y_i}e^{-n\theta}</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>\end{aligned} {#eq-pois-son}</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some one-parameter models</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bayesian prediction</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="fu">### The marginal</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>  p(y) &amp;= \int p(y,\theta)d\theta<span class="sc">\\</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>       &amp;= \int_{\Theta}p(y|\theta)p(\theta)d\theta</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>\end{aligned} </span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a><span class="fu">### Posterior predictive distribution</span></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>Let $\bar{Y}$ be a data point that is yet to be observed.</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>  p(\bar{y}|y) &amp;= \int_{\Theta} p(\bar{y}, \theta|y)d\theta<span class="sc">\\</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>               &amp;= \int_{\Theta} p(\bar{y}|\theta,y)p(\theta|y)d\theta</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>\end{aligned} </span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sufficient statistics</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>Comparing two values of $\theta$ a poseteriori,</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>$$\frac{p(\theta_a|y_1,\dots,y_n)}{p(\theta_b|y_1,\dots,y_n)} = \frac{e^{-n\theta_a}}{-n\theta_b}\frac{\theta_{a}^{\sum y_i}}{\theta_{b}^{\sum y_i}}\frac{p(\theta_a)}{p(\theta_b)}$$</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conjugate prior</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>$$p(\theta|y_1,\dots,y_n) \propto p(\theta) \times \underbrace{p(y_1,\dots,y_n|\theta)}_{\theta^{\sum y_i} e^{-n\theta}}$$</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\theta^{c_1}e^{-c_2 \theta}$: Gamma distribution</span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gamma distribution</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>$$p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta} \quad \text{for } \theta, a, b &gt; 0$$</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$E<span class="co">[</span><span class="ot">\theta</span><span class="co">]</span> = \frac{a}{b}$</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$Var<span class="co">[</span><span class="ot">\theta</span><span class="co">]</span> = \frac{a}{b^2}$</span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gamma pdf integration</span></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>$$\int^{\infty}_{0} \theta^{a-1}e^{-b\theta}d\theta = \frac{\Gamma(a)}{b^a}$$</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Jeffreys prior</span></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Notes 12. The Jeffreys Prior</span><span class="co">](https://www2.stat.duke.edu/courses/Fall11/sta114/jeffreys.pdf)</span></span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gamma Distribution</span></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Conjuagate prior of Poisson data</span></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a>$$p(\theta) = \frac{b^a}{\Gamma(a)}\theta^{a-1} e^{-b\theta}I_{0,\infty}(\theta)$$</span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>posterior of poisson data</span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a>$$E(\theta|y) = \frac{a+n\bar{y}}{b+n} = \frac{b}{b+n}\frac{a}{b} + \frac{n}{b+n}\frac{n\bar{y}}{n} = (1-\omega_n)E(\theta) + \omega_n \bar{y}$$</span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">1</span>; b<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">4</span>; b<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">16</span>; b<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x,a,b),<span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exponential Families and conjugate priors</span></span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p(y|\phi) = h(y)c(\phi)e^{\phi t(y)}$</span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$\phi$ is unknown parameter</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$t(y)$ is the sufficient statistic</span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>General exponential family models for particular prior</span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$p(\phi|n_0,t_0) = \kappa(n_0,t_0)c(\phi)^{n_0}e^{n_0 t_0 \phi}$</span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>have to posterior distribution</span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>\begin{align}  </span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a>  p(\phi|y_1,\dots, y_n) &amp;\propto p(\phi)p(y_1,\dots,y_n|\phi)<span class="sc">\\</span> </span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a>                         &amp;\propto c(\phi)^{n_0 + n} \exp \left(\phi \times \left<span class="co">[</span><span class="ot"> n_0 t_0 + \sum_{i=1}^{n}t(y_i) \right</span><span class="co">]</span>\right)<span class="sc">\\</span> </span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a>                         &amp;\propto p(\phi|n_0 +n, n_0t_0 +n \bar{t}(y))</span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a>where $\bar{t}(y)=\frac{\sum t(y_i)}{n}$</span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mixture distribution</span></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week11.pdf</span></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installation</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a>R installation: https://www.drdataking.com/post/how-to-add-existing-r-to-jupyter-notebook/</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

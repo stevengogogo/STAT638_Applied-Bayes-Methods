@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu (UIN:433002162)">
+<meta name="dcterms.date" content="2023-01-20">
+
+<title>STAT638: Applied Bayesian Methods - 11&nbsp; Homework 7</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hw/hw8.html" rel="next">
+<link href="../hw/hw6.html" rel="prev">
+<link href="../img/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">STAT638: Applied Bayesian Methods</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"><strong>Lecture Notes</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"><strong>Assignments</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw6.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw7.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw8.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw9.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">11.1</span>  Description</a></li>
+  <li><a href="#computational-enviromnent-setup" id="toc-computational-enviromnent-setup" class="nav-link" data-scroll-target="#computational-enviromnent-setup"><span class="toc-section-number">11.2</span>  Computational Enviromnent Setup</a>
+  <ul class="collapse">
+  <li><a href="#third-party-libraries" id="toc-third-party-libraries" class="nav-link" data-scroll-target="#third-party-libraries"><span class="toc-section-number">11.2.1</span>  Third-party libraries</a></li>
+  <li><a href="#version" id="toc-version" class="nav-link" data-scroll-target="#version"><span class="toc-section-number">11.2.2</span>  Version</a></li>
+  </ul></li>
+  <li><a href="#problem-7.1" id="toc-problem-7.1" class="nav-link" data-scroll-target="#problem-7.1"><span class="toc-section-number">11.3</span>  Problem 7.1</a>
+  <ul class="collapse">
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a"><span class="toc-section-number">11.3.1</span>  (a)</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b"><span class="toc-section-number">11.3.2</span>  (b)</a></li>
+  </ul></li>
+  <li><a href="#problem-7.3" id="toc-problem-7.3" class="nav-link" data-scroll-target="#problem-7.3"><span class="toc-section-number">11.4</span>  Problem 7.3</a>
+  <ul class="collapse">
+  <li><a href="#a-1" id="toc-a-1" class="nav-link" data-scroll-target="#a-1"><span class="toc-section-number">11.4.1</span>  (a)</a></li>
+  <li><a href="#b-1" id="toc-b-1" class="nav-link" data-scroll-target="#b-1"><span class="toc-section-number">11.4.2</span>  (b)</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c"><span class="toc-section-number">11.4.3</span>  (c)</a></li>
+  </ul></li>
+  <li><a href="#problem-7.4" id="toc-problem-7.4" class="nav-link" data-scroll-target="#problem-7.4"><span class="toc-section-number">11.5</span>  Problem 7.4</a>
+  <ul class="collapse">
+  <li><a href="#a-2" id="toc-a-2" class="nav-link" data-scroll-target="#a-2"><span class="toc-section-number">11.5.1</span>  (a)</a></li>
+  <li><a href="#b-2" id="toc-b-2" class="nav-link" data-scroll-target="#b-2"><span class="toc-section-number">11.5.2</span>  (b)</a></li>
+  <li><a href="#c-1" id="toc-c-1" class="nav-link" data-scroll-target="#c-1"><span class="toc-section-number">11.5.3</span>  (c)</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d"><span class="toc-section-number">11.5.4</span>  (d)</a></li>
+  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e"><span class="toc-section-number">11.5.5</span>  (e)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading"></div>
+  
+    <div class="quarto-title-meta-contents">
+    <a href="stchiu@email.tamu.edu">Shao-Ting Chiu (UIN:433002162)</a> 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Electrical and Computer Engineering, Texas A&amp;M University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="description" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="description"><span class="header-section-number">11.1</span> Description</h2>
+<ul>
+<li>Course: STAT638, 2022 Fall</li>
+</ul>
+<blockquote class="blockquote">
+<p>Read Chapter 7 in Hoff. Then, do the following exercises: 7.1, 7.3, 7.4.</p>
+<p>Problem 7.1 considers the standard/joint Jeffreys prior (as opposed to the independent Jeffreys prior considered on the lecture slides). You may find the following hints useful:</p>
+<ul>
+<li>You can write <span class="math inline">\(y_i-\theta\)</span> as <span class="math inline">\((y_i - \bar{y}) + (\bar{y}-\theta)\)</span> and expand the quadratic form in the exponent in the multivariate normal likelihood accordingly.</li>
+<li><span class="math inline">\(\sum_{i} b^{T}_{i} Ac = c^T A(\Sigma_{i} b_i)\)</span></li>
+<li>Brute-force integration can sometimes be avoided if the integrand is proportional to a known density (e.g., multivariate normal), as any density integrates to 1 and the normalizing constant is known for known densities. For 7.3, note that the <code>rWishart()</code> function in R returns a three-dimensional array, so we have to index the array as [,,1] to get to the actual matrix located within the array.</li>
+</ul>
+</blockquote>
+<hr>
+</section>
+<section id="computational-enviromnent-setup" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="computational-enviromnent-setup"><span class="header-section-number">11.2</span> Computational Enviromnent Setup</h2>
+<section id="third-party-libraries" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="third-party-libraries"><span class="header-section-number">11.2.1</span> Third-party libraries</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"hw7"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DelimitedFiles</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/GitHub/STAT638_Applied-Bayes-Methods/hw/hw7`</code></pre>
+</div>
+</div>
+</section>
+<section id="version" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="version"><span class="header-section-number">11.2.2</span> Version</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">status</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cn">VERSION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Status `~/Documents/GitHub/STAT638_Applied-Bayes-Methods/hw/hw7/Project.toml`
+⌃ [a93c6f00] DataFrames v1.4.2
+⌃ [31c24e10] Distributions v0.25.76
+⌃ [91a5bcdd] Plots v1.35.5
+⌃ [fce5fe82] Turing v0.21.12
+  [8bb1440f] DelimitedFiles
+Info Packages marked with ⌃ have new versions available and may be upgradable.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>v"1.8.2"</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="problem-7.1" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="problem-7.1"><span class="header-section-number">11.3</span> Problem 7.1</h2>
+<blockquote class="blockquote">
+<p>Jeffrey’s prior: For the multivariate normal model, Jeffreys’ rule for generating a prior distribution on <span class="math inline">\((\theta, \Sigma)\)</span> gives <span class="math inline">\(p_J(\theta, \Sigma) \propto |\Sigma|^{-(p+2)/2}\)</span>.</p>
+</blockquote>
+<section id="a" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="a"><span class="header-section-number">11.3.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Explain why the function <span class="math inline">\(p_J\)</span> cannot actually be a probability density for <span class="math inline">\((\theta, \Sigma)\)</span>.</p>
+</blockquote>
+<p>The density is independent of <span class="math inline">\(\theta\)</span>. The integration can be infinity and beyond <span class="math inline">\(1\)</span>.</p>
+</section>
+<section id="b" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="b"><span class="header-section-number">11.3.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Let <span class="math inline">\(p_J(\theta, \Sigma|y_1, \dots, y_n)\)</span> be the probability density that is proportional to <span class="math inline">\(p_J(\theta, \Sigma)\times p(y_1,\dots, y_n|\theta, \Sigma)\)</span>. Obtain the form of <span class="math inline">\(p_J(\theta, \Sigma|y_1, \dots, y_n)\)</span>, <span class="math inline">\(p_J(\theta|\Sigma, y_1, \dots, y_n)\)</span> and <span class="math inline">\(p_J(\Sigma|y_1, \dots, y_n)\)</span>.</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+    p_{J}(\theta, \Sigma | y_1, \dots, y_n)%
+    &amp;\propto p_J(\theta, \Sigma) \times p(y_1, \dots, y_n | \theta, \Sigma)\\
+    &amp;\propto |\Sigma|^{-\frac{p+2}{2}} \times \left[|\Sigma|^{-\frac{n}{2}} \exp\left(-tr(S_{\theta}\Sigma^{-1})\right)\right /2]\\
+    &amp;\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_{\theta}\Sigma^{-1})/2 \right)
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    p_J(\theta | \Sigma, y_1, \dots, y_n)%
+    &amp;\propto  \exp\left[ - \sum^{n}_{i=1} (y_i - \theta)^T \Sigma^{-1} (y_i - \theta)/2 \right]\\
+    &amp;\propto \exp \left[ -n(\bar{y} - \theta)^T \Sigma^{-1} (\bar{y}-\theta)/2 \right]\\
+    &amp;\propto Normal(\theta; \bar{y},\frac{\Sigma}{n})
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    p_{J}(\Sigma | y_1, \dots, y_n, \theta)%
+    &amp;\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_\theta \Sigma^{-1})/2 \right)\\
+    &amp;\propto inverse-Wishart(\Sigma; n+1, S_{\theta}^{-1} )
+\end{align}\]</span></p>
+</section>
+</section>
+<section id="problem-7.3" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="problem-7.3"><span class="header-section-number">11.4</span> Problem 7.3</h2>
+<blockquote class="blockquote">
+<p>Australian crab data: The files <code>bluecrab.dat</code> and <code>orangecrab.dat</code> contain measurements of body depth (<span class="math inline">\(Y_1\)</span>) and rear width (<span class="math inline">\(Y_2\)</span>), in millimeters, made on <span class="math inline">\(50\)</span> male crabs from each of two species, blud and orange. We will model these data using a bivariate normal distribution.</p>
+</blockquote>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dblue <span class="op">=</span> <span class="fu">readdlm</span>(<span class="st">"data/bluecrab.dat"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>doran <span class="op">=</span> <span class="fu">readdlm</span>(<span class="st">"data/orangecrab.dat"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="a-1" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="a-1"><span class="header-section-number">11.4.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>For each of the two species, obtain posterior distributions of the population mean <span class="math inline">\(\theta\)</span> and covariance matrix <span class="math inline">\(\Sigma\)</span> as follows: Using the semiconjugate prior distributions for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\Sigma\)</span>, set <span class="math inline">\(\mu_0\)</span> equal to the sample mean of the data, <span class="math inline">\(\Lambda_0\)</span> and <span class="math inline">\(S_0\)</span> equal to the sample covariance matrix and <span class="math inline">\(\nu_0 =4\)</span>. Obtain <span class="math inline">\(10000\)</span> posterior samples of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\Sigma\)</span>. Note that this prior distribution lossely centers the parameters around empirical estimates based on the observed data (and is very similar to the unit information prior described in the previous exericise). It cannot be consitered as our true prior distribution, as it was derived from the observed data. However, it can roughly considered as the prior distribution of someone with weak but unbiased information.</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(p(\theta) = \exp\left[ -\frac{1}{2}\theta^T A_0 \theta + \theta^T b_0\right] = multivariate-normal(\mu_0, \Lambda_0)\)</span>
+<ul>
+<li><span class="math inline">\(A_0 = \Lambda_{0}^{-1}\)</span></li>
+<li><span class="math inline">\(b_0 = \Lambda_{0}^{-1}\mu_0\)</span></li>
+</ul></li>
+<li><span class="math inline">\(p(\Sigma) = inverse-Whishart(\nu_0, S_{0}^{-1})\)</span></li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="fl">10000</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sampling</span>(crab)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    n, p <span class="op">=</span> <span class="fu">size</span>(crab)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    μ₀ <span class="op">=</span> <span class="fu">transpose</span>(<span class="fu">mean</span>(crab, dims<span class="op">=</span><span class="fl">1</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    Λ₀ <span class="op">=</span> S₀<span class="op">=</span> <span class="fu">cov</span>(crab)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ν₀ <span class="op">=</span> <span class="fl">4</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    θs <span class="op">=</span> <span class="fu">zeros</span>(S, p)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    Σs <span class="op">=</span> <span class="fu">zeros</span>(S, p, p);</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Gibbs sampling</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># update θ</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        Λₙ <span class="op">=</span> <span class="fu">inv</span>(<span class="fu">inv</span>(Λ₀) <span class="op">+</span> <span class="fu">n*inv</span>(S₀))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        μₙ <span class="op">=</span> Λₙ <span class="op">*</span> (<span class="fu">inv</span>(Λ₀)<span class="op">*</span>μ₀ <span class="op">+</span> <span class="fu">n*inv</span>(S₀)<span class="op">*</span>μ₀)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        θ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">MvNormal</span>( <span class="fu">vec</span>(μₙ), Λₙ))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># update Σ</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> crab <span class="op">.-</span> <span class="fu">reshape</span>(θ, <span class="fl">1</span>, p)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        Sₜₕ <span class="op">=</span> <span class="fu">transpose</span>(res) <span class="op">*</span> res</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        Sₙ <span class="op">=</span> S₀ <span class="op">+</span> Sₜₕ</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        Σ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseWishart</span>(ν₀ <span class="op">+</span> n, Sₙ))</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store data</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        θs[s,<span class="op">:</span>] <span class="op">=</span> θ</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        Σs[s,<span class="op">:</span>, <span class="op">:</span>] <span class="op">=</span> Σ</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> θs, Σs</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span> </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>θbs, Σbs <span class="op">=</span> <span class="fu">sampling</span>(dblue)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>θos, Σos <span class="op">=</span> <span class="fu">sampling</span>(doran);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b-1" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="b-1"><span class="header-section-number">11.4.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Plot values of <span class="math inline">\(\theta=(\theta_1, \theta_2)'\)</span> for each group and compare. Describe any size differences between the two groups.</p>
+</blockquote>
+<p>The blue crab has larger variance and lower means of <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> than orange one.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plot</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pb <span class="op">=</span> <span class="fu">scatter</span>(θbs[<span class="op">:</span>,<span class="fl">1</span>], θbs[<span class="op">:</span>,<span class="fl">2</span>], label<span class="op">=</span><span class="st">"Blue"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>po <span class="op">=</span> <span class="fu">scatter</span>(θos[<span class="op">:</span>,<span class="fl">1</span>], θos[<span class="op">:</span>,<span class="fl">2</span>], label<span class="op">=</span><span class="st">"Orange"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>μθb <span class="op">=</span> <span class="fu">mean</span>(θbs, dims<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>μθo <span class="op">=</span> <span class="fu">mean</span>(θos, dims<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter!</span>(pb, [μθb[<span class="fl">1</span>]], [μθb[<span class="fl">2</span>]], label<span class="op">=</span><span class="st">"mean </span><span class="sc">$</span>(<span class="fu">round</span>.(μθb; digits <span class="op">=</span> <span class="fl">1</span>))<span class="st">))"</span>, markersize <span class="op">=</span> <span class="fl">10</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter!</span>(po, [μθo[<span class="fl">1</span>]], [μθo[<span class="fl">2</span>]], label<span class="op">=</span><span class="st">"mean </span><span class="sc">$</span>(<span class="fu">round</span>.(μθo; digits <span class="op">=</span> <span class="fl">1</span>))<span class="st">"</span>, markersize <span class="op">=</span> <span class="fl">10</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pb, po, layout <span class="op">=</span> (<span class="fl">1</span>, <span class="fl">2</span>), xlabel<span class="op">=</span><span class="st">"θ₁"</span>, ylabel<span class="op">=</span><span class="st">"θ₂"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<p><img src="hw7_files/figure-html/cell-6-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(θos[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">.&gt;</span> θbs[<span class="op">:</span>,<span class="fl">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>0.8927</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(θos[<span class="op">:</span>,<span class="fl">2</span>] <span class="op">.&gt;</span> θbs[<span class="op">:</span>,<span class="fl">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>0.9983</code></pre>
+</div>
+</div>
+</section>
+<section id="c" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="c"><span class="header-section-number">11.4.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>From each covariance matrix obtained from the Gibbs sampler, obtain the corresponding correlation coefficient. From these values, plot posterior densities of the correlations <span class="math inline">\(\rho_{\text{blue}}\)</span> and <span class="math inline">\(\rho_{\text{orange}}\)</span> for the two groups. Evaluate differences between the two species by comparing these posterior distributions. In particular, obtain an approximation to <span class="math inline">\(Pr(\rho_{\text{blue}} &lt; \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})\)</span>. What do the results suggest about differences between the two populations?</p>
+</blockquote>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">correlation</span>(covmat) <span class="op">=</span> covmat[<span class="fl">1</span>,<span class="fl">2</span>] <span class="op">/</span> <span class="fu">sqrt</span>(covmat[<span class="fl">1</span>,<span class="fl">1</span>] <span class="op">*</span> covmat[<span class="fl">2</span>,<span class="fl">2</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>corrbs <span class="op">=</span> [<span class="fu">correlation</span>(Σbs[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>corros <span class="op">=</span> [<span class="fu">correlation</span>(Σos[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S];</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fu">histogram</span>(corrbs, label<span class="op">=</span><span class="st">"Blue"</span>, xlabel<span class="op">=</span><span class="st">"Correlation"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">histogram!</span>(h, corros, label<span class="op">=</span><span class="st">"Orange"</span>, ylabel<span class="op">=</span><span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<p><img src="hw7_files/figure-html/cell-9-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p><span class="math inline">\(Pr(\rho_{\text{blue}} &lt; \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})\)</span> is</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(corrbs <span class="op">.&lt;</span> corros)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>0.9876</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="problem-7.4" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="problem-7.4"><span class="header-section-number">11.5</span> Problem 7.4</h2>
+<blockquote class="blockquote">
+<p>Marriage data: The file <code>agehw.dat</code> contains data on the ages of <span class="math inline">\(100\)</span> married couples sampled from the U.S. population.</p>
+</blockquote>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dagew <span class="op">=</span> <span class="fu">readdlm</span>(<span class="st">"data/agehw.dat"</span>)[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>, <span class="op">:</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">size</span>(dagew)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(100, 2)</code></pre>
+</div>
+</div>
+<section id="a-2" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="a-2"><span class="header-section-number">11.5.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Before you look at the data, use your own knowledge to formulate a semiconjugate prior distribution for <span class="math inline">\(\theta=(\theta_h, \theta_w)^T\)</span> and <span class="math inline">\(\Sigma\)</span>, where <span class="math inline">\(\theta_h\)</span>, <span class="math inline">\(\theta_w\)</span> are mean husband and wife ages, and <span class="math inline">\(\Sigma\)</span> is the covariance matrix.</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(\mu_0 = (50, 50)^T\)</span></li>
+<li>prior corrleation: <span class="math inline">\(0.7\)</span>, variance <span class="math inline">\(13\)</span>
+<ul>
+<li><span class="math inline">\(0.7 = \frac{\sigma_{1,2}}{169}\)</span></li>
+<li><span class="math inline">\(\sigma_{1,2} = 118.3\)</span></li>
+</ul></li>
+<li><span class="math inline">\(\Lambda = \begin{bmatrix} 169 &amp; 118.3\\ 118.3 &amp; 169\end{bmatrix}\)</span></li>
+<li>Set <span class="math inline">\(S^{-1}_{0} = \Lambda_{0}\)</span></li>
+<li><span class="math inline">\(\nu_0 = p + 2 = 4\)</span></li>
+</ul>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> <span class="fu">size</span>(dagew);</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>μ₀ <span class="op">=</span> <span class="fu">ones</span>(p,<span class="fl">1</span>) <span class="op">.*</span> <span class="fu">transpose</span>(<span class="fu">mean</span>(dagew, dims<span class="op">=</span><span class="fl">1</span>))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>Λ₀ <span class="op">=</span> S₀ <span class="op">=</span> [ <span class="fl">169</span> <span class="fl">118.3</span> ; <span class="fl">118.3</span> <span class="fl">169</span>]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>ν₀ <span class="op">=</span> p <span class="op">+</span> <span class="fl">2</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b-2" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="b-2"><span class="header-section-number">11.5.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Generate a <em>prior predictive dataset</em> of size <span class="math inline">\(n=100\)</span>, by sampling <span class="math inline">\((\theta, \Sigma)\)</span> from your prior distribution and then simulating <span class="math inline">\(Y_1, \dots, Y_n \sim i.i.d.\)</span> multivariate normal <span class="math inline">\((\theta, \Sigma)\)</span>. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not confirm to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.</p>
+</blockquote>
+<p>Choose</p>
+<p><span class="math inline">\(p = 2\)</span>, and Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="fl">9</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Ypreds <span class="op">=</span> <span class="fu">zeros</span>(S, p, N)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    θ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">MvNormal</span>( <span class="fu">vec</span>(μ₀), Λ₀))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseWishart</span>(ν₀ <span class="op">+</span> n, S₀))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    Ypreds[i,<span class="op">:</span>, <span class="op">:</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">MvNormal</span>(θ, Σ), N)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>pvers <span class="op">=</span> [<span class="fu">plot</span>() for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scatter!</span>(pvers[i], Ypreds[i, <span class="fl">1</span>, <span class="op">:</span>], Ypreds[i, <span class="fl">2</span>, <span class="op">:</span>], label<span class="op">=</span><span class="st">"Dataset </span><span class="sc">$</span>i<span class="st">"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pvers<span class="op">...</span>, layout <span class="op">=</span> (<span class="fl">3</span>, <span class="fl">3</span>), xlabel<span class="op">=</span><span class="st">"Y₁"</span>, ylabel<span class="op">=</span><span class="st">"Y₂"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<p><img src="hw7_files/figure-html/cell-13-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="c-1" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="c-1"><span class="header-section-number">11.5.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Using your prior distribution and the <span class="math inline">\(100\)</span> values in the dataset, obtain an MCMC approximation to <span class="math inline">\(p(\theta, \Sigma|y_1, \dots, y_{100})\)</span>. Plot the joint posterior distribution of <span class="math inline">\(\theta_h\)</span> and <span class="math inline">\(\theta_w\)</span>, and also the marginal posterior density of the correlation between Y_h and Y_w, the ages of a husband and wife. Obtain <span class="math inline">\(95\%\)</span> posterior confidence intervals for <span class="math inline">\(\theta_h\)</span>, <span class="math inline">\(\theta_w\)</span> and the correlation coefficient.</p>
+</blockquote>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="fl">10000</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mcmc</span>(data, μ₀, Λ₀, S₀, ν₀)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    yₙ <span class="op">=</span> <span class="fu">mean</span>(data, dims<span class="op">=</span><span class="fl">1</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    n, p <span class="op">=</span> <span class="fu">size</span>(data)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    θs <span class="op">=</span> <span class="fu">zeros</span>(S, p)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    Σs <span class="op">=</span> <span class="fu">zeros</span>(S, p, p)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    Σ <span class="op">=</span> <span class="fu">cov</span>(data)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">#update θ</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        Λₙ <span class="op">=</span> <span class="fu">inv</span>(<span class="fu">inv</span>(Λ₀) <span class="op">+</span> n <span class="op">*</span> <span class="fu">inv</span>(Σ))</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        Λₙ[<span class="fl">1</span>,<span class="fl">2</span>] <span class="op">=</span> Λₙ[<span class="fl">2</span>,<span class="fl">1</span>]</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        μₙ <span class="op">=</span> Λₙ <span class="op">*</span> (<span class="fu">inv</span>(Λ₀)<span class="op">*</span>μ₀ <span class="op">+</span> <span class="fu">n*inv</span>(Σ) <span class="op">*</span> <span class="fu">transpose</span>(yₙ))</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        θ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">MvNormal</span>( <span class="fu">vec</span>(μₙ), Λₙ))</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">#update Σ</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> data <span class="op">.-</span> <span class="fu">reshape</span>(θ, <span class="fl">1</span>, p)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        Sₜₕ <span class="op">=</span> <span class="fu">transpose</span>(res) <span class="op">*</span> res</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        Sₙ <span class="op">=</span> S₀ <span class="op">+</span> Sₜₕ</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        Σ <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseWishart</span>(ν₀ <span class="op">+</span> n, Sₙ))</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Store data</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>        θs[i,<span class="op">:</span>] <span class="op">=</span> θ</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>        Σs[i,<span class="op">:</span>, <span class="op">:</span>] <span class="op">=</span> Σ</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> θs, Σs</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>θs, Σs <span class="op">=</span> <span class="fu">mcmc</span>(dagew, μ₀, Λ₀, S₀, ν₀);</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>corrs <span class="op">=</span> [<span class="fu">correlation</span>(Σs[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Husband Quantiles</strong></p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">1</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>3-element Vector{Float64}:
+ 41.71712706938635
+ 44.39676744614884
+ 47.09431425711537</code></pre>
+</div>
+</div>
+<p><strong>Wife Quantiles</strong></p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">2</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>3-element Vector{Float64}:
+ 38.41939096164427
+ 40.87349736587568
+ 43.418570387079846</code></pre>
+</div>
+</div>
+<p><strong>Correlation Quantiles</strong></p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(corrs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>3-element Vector{Float64}:
+ 0.8598526557581118
+ 0.9028287252227811
+ 0.9325781232590956</code></pre>
+</div>
+</div>
+</section>
+<section id="d" class="level3" data-number="11.5.4">
+<h3 data-number="11.5.4" class="anchored" data-anchor-id="d"><span class="header-section-number">11.5.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Obtain <span class="math inline">\(95\%\)</span> posterior confidence intervals for <span class="math inline">\(\theta_h\)</span>, <span class="math inline">\(\theta_{\omega}\)</span> and the correlation coefficient using the following prior distributions:</p>
+<ol type="1">
+<li>Jeffrey’s prior, described in Exercise 7.1;</li>
+<li>The unit information prior, described in Exercise 7.2;</li>
+<li>A “diffuse prior” with <span class="math inline">\(\mu_0=0, \Lambda_0 = 10^5 \times I, S_0 = 1000\times I\)</span> and <span class="math inline">\(v_0 =3\)</span>.</li>
+</ol>
+</blockquote>
+<section id="part-i" class="level4" data-number="11.5.4.1">
+<h4 data-number="11.5.4.1" class="anchored" data-anchor-id="part-i"><span class="header-section-number">11.5.4.1</span> Part I**</h4>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>θs, Σs <span class="op">=</span> <span class="fu">mcmc</span>(dagew, μ₀, <span class="fu">cov</span>(dagew), <span class="fu">cov</span>(dagew), <span class="fu">size</span>(dagew)[<span class="fl">1</span>]<span class="op">+</span><span class="fl">1</span>);</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>corrs <span class="op">=</span> [<span class="fu">correlation</span>(Σs[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Husband Quantiles</strong></p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">1</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>3-element Vector{Float64}:
+ 42.52441579546774
+ 44.418141464043245
+ 46.33805864696494</code></pre>
+</div>
+</div>
+<p><strong>Wife Quantiles</strong></p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">2</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>3-element Vector{Float64}:
+ 39.08757959835684
+ 40.86391657673728
+ 42.72108377734497</code></pre>
+</div>
+</div>
+<p><strong>Correlation Quantiles</strong></p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(corrs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>3-element Vector{Float64}:
+ 0.8756579285507731
+ 0.9039189535126206
+ 0.9263941065474931</code></pre>
+</div>
+</div>
+</section>
+<section id="part-ii" class="level4" data-number="11.5.4.2">
+<h4 data-number="11.5.4.2" class="anchored" data-anchor-id="part-ii"><span class="header-section-number">11.5.4.2</span> Part II</h4>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>θs, Σs <span class="op">=</span> <span class="fu">mcmc</span>(dagew, <span class="fu">transpose</span>(<span class="fu">mean</span>(dagew, dims<span class="op">=</span><span class="fl">1</span>)), <span class="fu">cov</span>(dagew)<span class="op">/</span><span class="fl">100</span>., <span class="fu">cov</span>(dagew)<span class="op">/</span><span class="fl">100</span>., <span class="fl">2</span>. <span class="op">+</span> <span class="fl">1</span>.);</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>corrs <span class="op">=</span> [<span class="fu">correlation</span>(Σs[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Husband Quantiles</strong></p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">1</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>3-element Vector{Float64}:
+ 42.50529893890636
+ 44.42248855701973
+ 46.29402259410223</code></pre>
+</div>
+</div>
+<p><strong>Wife Quantiles</strong></p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">2</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>3-element Vector{Float64}:
+ 39.082198908879754
+ 40.87726763238499
+ 42.65717356460964</code></pre>
+</div>
+</div>
+<p><strong>Correlation Quantiles</strong></p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(corrs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>3-element Vector{Float64}:
+ 0.8630261005470224
+ 0.904563195139358
+ 0.9341516213080364</code></pre>
+</div>
+</div>
+</section>
+<section id="part-iii" class="level4" data-number="11.5.4.3">
+<h4 data-number="11.5.4.3" class="anchored" data-anchor-id="part-iii"><span class="header-section-number">11.5.4.3</span> Part III</h4>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>θs, Σs <span class="op">=</span> <span class="fu">mcmc</span>(dagew, [<span class="fl">0</span>;<span class="fl">0</span>], [<span class="fl">10</span><span class="op">^</span><span class="fl">5</span> <span class="fl">0</span>; <span class="fl">0</span> <span class="fl">10</span><span class="op">^</span><span class="fl">5</span>], [<span class="fl">10</span><span class="op">^</span><span class="fl">3</span> <span class="fl">0</span>; <span class="fl">0</span> <span class="fl">10</span><span class="op">^</span><span class="fl">3</span>], <span class="fl">3</span>);</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>corrs <span class="op">=</span> [<span class="fu">correlation</span>(Σs[i,<span class="op">:</span>,<span class="op">:</span>]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>S];</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Husband Quantiles</strong></p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">1</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>3-element Vector{Float64}:
+ 41.692569822172345
+ 44.4194659798749
+ 47.209907857971324</code></pre>
+</div>
+</div>
+<p><strong>Wife Quantiles</strong></p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">2</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>3-element Vector{Float64}:
+ 38.263899627117944
+ 40.879785191881425
+ 43.48074886203784</code></pre>
+</div>
+</div>
+<p><strong>Correlation Quantiles</strong></p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(corrs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>3-element Vector{Float64}:
+ 0.792709080928878
+ 0.8543476559888816
+ 0.89959452338722</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="e" class="level3" data-number="11.5.5">
+<h3 data-number="11.5.5" class="anchored" data-anchor-id="e"><span class="header-section-number">11.5.5</span> (e)</h3>
+<blockquote class="blockquote">
+<p>Compare the confidence intervals from (d) to those obtained in (c). Discuss whether or not you think that your prior information is helpful in estimating <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\Sigma\)</span>, or if you think one of the alternatives in (d) is preferable. What about if the sample size were much smaller, say <span class="math inline">\(n=25\)</span>?</p>
+</blockquote>
+<p>The prior information does not matter because the sample size is large. No matter how prior is setup, the posterior distribution is similar. However, for smaller sample size, those approaches may differ.</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>μ₀ <span class="op">=</span> [<span class="fl">50</span>.; <span class="fl">50</span>.]</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>Λ₀ <span class="op">=</span> S₀ <span class="op">=</span> [ <span class="fl">169</span> <span class="fl">118.3</span> ; <span class="fl">118.3</span> <span class="fl">169</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>ν₀ <span class="op">=</span> p <span class="op">+</span> <span class="fl">2</span><span class="op">+</span><span class="fl">9</span>;</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>θs, Σs <span class="op">=</span> <span class="fu">mcmc</span>(dagew, μ₀, Λ₀, S₀, ν₀)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>([45.03212480248956 42.158942566022134; 44.19289889461345 39.913719022014824; … ; 43.118960131235504 39.85494130735777; 45.851070752555195 41.90866145945041], [160.05480435947902 134.01263101431502; 167.62930621107768 139.72641493969817; … ; 192.31055286979574 154.84156304833144; 223.28476886238866 181.61583904818187;;; 134.01263101431502 142.01458641718997; 139.72641493969817 147.83068828095497; … ; 154.84156304833144 150.27190716256538; 181.61583904818187 173.36910592951546])</code></pre>
+</div>
+</div>
+<p><strong>Husband Quantiles</strong></p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">1</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>3-element Vector{Float64}:
+ 41.92193411691592
+ 44.46735932525378
+ 47.04949177514974</code></pre>
+</div>
+</div>
+<p><strong>Wife Quantiles</strong></p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(θs[<span class="op">:</span>,<span class="fl">2</span>], [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>3-element Vector{Float64}:
+ 38.56649700730234
+ 40.95246209220502
+ 43.35536857557841</code></pre>
+</div>
+</div>
+<p><strong>Correlation Quantiles</strong></p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(corrs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>3-element Vector{Float64}:
+ 0.792709080928878
+ 0.8543476559888816
+ 0.89959452338722</code></pre>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../hw/hw6.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../hw/hw8.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<pre class="markdown" data-shortcodes="false"><code>---
+title: "Homework 7"
+author: 
+  - name: Shao-Ting Chiu (UIN:433002162)
+    url: stchiu@email.tamu.edu
+    affiliation: Department of Electrical and Computer Engineering, Texas A\&amp;M University
+date: today
+bibliography: ../ref.bib
+format:
+  html:
+    table-of-contents: true
+    keep-ipynb: true
+  pdf:
+    table-of-contents: true
+jupyter: julia-1.8
+execute: 
+    echo: true
+    freeze: auto
+---
+
+## Description
+
+- Course: STAT638, 2022 Fall
+
+&gt; Read Chapter 7 in Hoff. Then, do the following exercises:  7.1, 7.3, 7.4.
+&gt; 
+&gt; Problem 7.1 considers the standard/joint Jeffreys prior (as opposed to the independent Jeffreys prior considered on the lecture slides). You may find the following hints useful:
+&gt; 
+&gt; - You can write  $y_i-\theta$  as  $(y_i - \bar{y}) + (\bar{y}-\theta)$  and expand the quadratic form in the exponent in the multivariate normal likelihood accordingly.
+&gt; - $\sum_{i} b^{T}_{i} Ac = c^T A(\Sigma_{i} b_i)$
+&gt; - Brute-force integration can sometimes be avoided if the integrand is proportional to a known density (e.g., multivariate normal), as any density integrates to 1 and the normalizing constant is known for known densities.
+&gt; For 7.3, note that the `rWishart()` function in R  returns a three-dimensional array, so we have to index the array as [,,1] to get to the actual matrix located within the array.
+
+
+---
+
+## Computational Enviromnent Setup
+
+### Third-party libraries
+``` {julia}
+using Pkg
+Pkg.activate("hw7")
+using Distributions
+using DataFrames
+using Turing
+using Plots
+using DelimitedFiles
+using LinearAlgebra
+using Statistics
+using Turing
+```
+
+### Version
+``` {julia}
+Pkg.status()
+VERSION
+```
+
+---
+
+## Problem 7.1
+
+&gt; Jeffrey's prior: For the multivariate normal model, Jeffreys' rule for generating a prior distribution on $(\theta, \Sigma)$ gives $p_J(\theta, \Sigma) \propto |\Sigma|^{-(p+2)/2}$.
+
+### (a)
+
+&gt; Explain why the function $p_J$ cannot actually be a probability density for $(\theta, \Sigma)$.
+
+The density is independent of $\theta$. The integration can be infinity and beyond $1$.
+
+
+### (b)
+
+&gt; Let $p_J(\theta, \Sigma|y_1, \dots, y_n)$ be the probability density that is proportional to $p_J(\theta, \Sigma)\times p(y_1,\dots, y_n|\theta, \Sigma)$. Obtain the form of $p_J(\theta, \Sigma|y_1, \dots, y_n)$, $p_J(\theta|\Sigma, y_1, \dots, y_n)$ and $p_J(\Sigma|y_1, \dots, y_n)$.
+
+
+\begin{align}
+    p_{J}(\theta, \Sigma | y_1, \dots, y_n)%
+    &amp;\propto p_J(\theta, \Sigma) \times p(y_1, \dots, y_n | \theta, \Sigma)\\
+    &amp;\propto |\Sigma|^{-\frac{p+2}{2}} \times \left[|\Sigma|^{-\frac{n}{2}} \exp\left(-tr(S_{\theta}\Sigma^{-1})\right)\right /2]\\ 
+    &amp;\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_{\theta}\Sigma^{-1})/2 \right)
+\end{align}
+
+\begin{align}
+    p_J(\theta | \Sigma, y_1, \dots, y_n)%
+    &amp;\propto  \exp\left[ - \sum^{n}_{i=1} (y_i - \theta)^T \Sigma^{-1} (y_i - \theta)/2 \right]\\ 
+    &amp;\propto \exp \left[ -n(\bar{y} - \theta)^T \Sigma^{-1} (\bar{y}-\theta)/2 \right]\\ 
+    &amp;\propto Normal(\theta; \bar{y},\frac{\Sigma}{n})
+\end{align}
+
+\begin{align}
+    p_{J}(\Sigma | y_1, \dots, y_n, \theta)%
+    &amp;\propto |\Sigma|^{-\frac{p+n+2}{2}}\exp\left( -tr(S_\theta \Sigma^{-1})/2 \right)\\ 
+    &amp;\propto inverse-Wishart(\Sigma; n+1, S_{\theta}^{-1} )
+\end{align}
+
+
+## Problem 7.3
+
+&gt; Australian crab data: The files `bluecrab.dat` and `orangecrab.dat` contain measurements of body depth ($Y_1$) and rear width ($Y_2$), in millimeters, made on $50$ male crabs from each of two species, blud and orange. We will model these data using a bivariate normal distribution.
+
+
+``` {julia}
+dblue = readdlm("data/bluecrab.dat")
+doran = readdlm("data/orangecrab.dat");
+```
+
+### (a) 
+
+&gt; For each of the two species, obtain posterior distributions of the population mean $\theta$ and covariance matrix $\Sigma$ as follows: Using the semiconjugate prior distributions for $\theta$ and $\Sigma$, set $\mu_0$ equal to the sample mean of the data, $\Lambda_0$ and $S_0$ equal to the sample covariance matrix and $\nu_0 =4$. Obtain $10000$ posterior samples of $\theta$ and $\Sigma$. Note that this prior distribution lossely centers the parameters around empirical estimates based on the observed data (and is very similar to the unit information prior described in the previous exericise). It cannot be consitered as our true prior distribution, as it was derived from the observed data. However, it can roughly considered as the prior distribution of someone with weak but unbiased information.
+
+- $p(\theta) = \exp\left[ -\frac{1}{2}\theta^T A_0 \theta + \theta^T b_0\right] = multivariate-normal(\mu_0, \Lambda_0)$
+    - $A_0 = \Lambda_{0}^{-1}$
+    - $b_0 = \Lambda_{0}^{-1}\mu_0$
+- $p(\Sigma) = inverse-Whishart(\nu_0, S_{0}^{-1})$
+
+``` {julia}
+S = 10000
+function sampling(crab)
+    n, p = size(crab)
+    μ₀ = transpose(mean(crab, dims=1))
+    Λ₀ = S₀= cov(crab)
+    ν₀ = 4
+    θs = zeros(S, p)
+    Σs = zeros(S, p, p);
+
+    # Gibbs sampling
+    for s in 1:S
+        # update θ
+        Λₙ = inv(inv(Λ₀) + n*inv(S₀))
+        μₙ = Λₙ * (inv(Λ₀)*μ₀ + n*inv(S₀)*μ₀)
+        θ = rand(MvNormal( vec(μₙ), Λₙ))
+
+        # update Σ
+        res = crab .- reshape(θ, 1, p)
+        Sₜₕ = transpose(res) * res
+        Sₙ = S₀ + Sₜₕ
+        Σ = rand(InverseWishart(ν₀ + n, Sₙ))
+        # Store data
+        θs[s,:] = θ
+        Σs[s,:, :] = Σ
+    end
+    return θs, Σs
+end 
+
+
+θbs, Σbs = sampling(dblue)
+θos, Σos = sampling(doran);
+```
+
+
+
+### (b)
+
+&gt; Plot values of $\theta=(\theta_1, \theta_2)'$ for each group and compare. Describe any size differences between the two groups.
+
+
+The blue crab has larger variance and lower means of $\theta_1$ and $\theta_2$ than orange one.
+
+``` {julia}
+plot
+pb = scatter(θbs[:,1], θbs[:,2], label="Blue")
+po = scatter(θos[:,1], θos[:,2], label="Orange")
+
+μθb = mean(θbs, dims=1)
+μθo = mean(θos, dims=1)
+
+scatter!(pb, [μθb[1]], [μθb[2]], label="mean $(round.(μθb; digits = 1))))", markersize = 10)
+scatter!(po, [μθo[1]], [μθo[2]], label="mean $(round.(μθo; digits = 1))", markersize = 10)
+
+plot(pb, po, layout = (1, 2), xlabel="θ₁", ylabel="θ₂")
+```
+
+``` {julia}
+mean(θos[:,1] .&gt; θbs[:,1])
+```
+
+``` {julia}
+mean(θos[:,2] .&gt; θbs[:,2])
+```
+
+### (c)
+
+&gt; From each covariance matrix obtained from the Gibbs sampler, obtain the corresponding correlation coefficient. From these values, plot posterior densities of the correlations $\rho_{\text{blue}}$ and $\rho_{\text{orange}}$ for the two groups. Evaluate differences between the two species by comparing these posterior distributions. In particular, obtain an approximation to $Pr(\rho_{\text{blue}} &lt; \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})$. What do the results suggest about differences between the two populations?
+
+
+``` {julia}
+correlation(covmat) = covmat[1,2] / sqrt(covmat[1,1] * covmat[2,2])
+
+corrbs = [correlation(Σbs[i,:,:]) for i in 1:S]
+corros = [correlation(Σos[i,:,:]) for i in 1:S];
+
+h = histogram(corrbs, label="Blue", xlabel="Correlation")
+histogram!(h, corros, label="Orange", ylabel="Count")
+```
+
+$Pr(\rho_{\text{blue}} &lt; \rho_{\text{orange}} | y_{\text{blue}}, y_{\text{orange}})$ is 
+``` {julia}
+mean(corrbs .&lt; corros)
+```
+
+## Problem 7.4
+
+&gt; Marriage data: The file `agehw.dat` contains data on the ages of $100$ married couples sampled from the U.S. population.
+
+``` {julia}
+dagew = readdlm("data/agehw.dat")[2:end, :]
+size(dagew)
+```
+
+### (a)
+
+&gt; Before you look at the data, use your own knowledge to formulate a semiconjugate prior distribution for $\theta=(\theta_h, \theta_w)^T$ and $\Sigma$, where $\theta_h$, $\theta_w$ are mean husband and wife ages, and $\Sigma$ is the covariance matrix.
+
+- $\mu_0 = (50, 50)^T$
+- prior corrleation: $0.7$, variance $13$
+    - $0.7 = \frac{\sigma_{1,2}}{169}$
+    - $\sigma_{1,2} = 118.3$
+- $\Lambda = \begin{bmatrix} 169 &amp; 118.3\\ 118.3 &amp; 169\end{bmatrix}$
+- Set $S^{-1}_{0} = \Lambda_{0}$
+- $\nu_0 = p + 2 = 4$
+
+
+``` {julia}
+n, p = size(dagew);
+
+μ₀ = ones(p,1) .* transpose(mean(dagew, dims=1))
+Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
+ν₀ = p + 2;
+```
+
+
+
+### (b)
+
+&gt; Generate a *prior predictive dataset* of size $n=100$, by sampling $(\theta, \Sigma)$ from your prior distribution and then simulating $Y_1, \dots, Y_n \sim i.i.d.$ multivariate normal $(\theta, \Sigma)$. Generate several such datasets, make bivariate scatterplots for each dataset, and make sure they roughly represent your prior beliefs about what such a dataset would actually look like. If your prior predictive datasets do not confirm to your beliefs, go back to part (a) and formulate a new prior. Report the prior that you eventually decide upon, and provide scatterplots for at least three prior predictive datasets.
+
+Choose 
+
+$p = 2$, and Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
+
+``` {julia}
+N = 100
+S = 9 
+
+Ypreds = zeros(S, p, N)
+for i in 1:S
+    θ = rand(MvNormal( vec(μ₀), Λ₀))
+    Σ = rand(InverseWishart(ν₀ + n, S₀))
+    Ypreds[i,:, :] = rand(MvNormal(θ, Σ), N)
+end
+
+pvers = [plot() for i in 1:S]
+for i in 1:S
+    scatter!(pvers[i], Ypreds[i, 1, :], Ypreds[i, 2, :], label="Dataset $i")
+end
+
+plot(pvers..., layout = (3, 3), xlabel="Y₁", ylabel="Y₂")
+
+```
+
+### (c)
+
+&gt; Using your prior distribution and the $100$ values in the dataset, obtain an MCMC approximation to $p(\theta, \Sigma|y_1, \dots, y_{100})$. Plot the joint posterior distribution of $\theta_h$ and $\theta_w$, and also the marginal posterior density of the correlation between Y_h and Y_w, the ages of a husband and wife. Obtain $95\%$ posterior confidence intervals for $\theta_h$, $\theta_w$ and the correlation coefficient.
+
+
+``` {julia}
+S = 10000
+
+function mcmc(data, μ₀, Λ₀, S₀, ν₀)
+    yₙ = mean(data, dims=1)
+    n, p = size(data)
+
+    θs = zeros(S, p)
+    Σs = zeros(S, p, p)
+    Σ = cov(data)
+    for i in 1:S
+        #update θ
+        Λₙ = inv(inv(Λ₀) + n * inv(Σ))
+        Λₙ[1,2] = Λₙ[2,1]
+
+        μₙ = Λₙ * (inv(Λ₀)*μ₀ + n*inv(Σ) * transpose(yₙ))
+
+   
+        θ = rand(MvNormal( vec(μₙ), Λₙ))
+
+        #update Σ
+        res = data .- reshape(θ, 1, p)
+        Sₜₕ = transpose(res) * res
+        Sₙ = S₀ + Sₜₕ
+        Σ = rand(InverseWishart(ν₀ + n, Sₙ))
+        # Store data
+        θs[i,:] = θ
+        Σs[i,:, :] = Σ
+    end
+
+    return θs, Σs
+end
+
+θs, Σs = mcmc(dagew, μ₀, Λ₀, S₀, ν₀);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+quarto-executable-code-5450563D
+
+```julia
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+### (d)
+
+&gt; Obtain $95\%$ posterior confidence intervals for $\theta_h$, $\theta_{\omega}$ and the correlation coefficient using the following prior distributions:
+&gt;
+&gt; 1. Jeffrey's prior, described in Exercise 7.1;
+&gt; 2. The unit information prior, described in Exercise 7.2;
+&gt; 3. A "diffuse prior" with $\mu_0=0, \Lambda_0 = 10^5 \times I, S_0 = 1000\times I$ and $v_0 =3$.
+
+
+#### Part I**
+
+``` {julia}
+θs, Σs = mcmc(dagew, μ₀, cov(dagew), cov(dagew), size(dagew)[1]+1);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+quarto-executable-code-5450563D
+
+```julia
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+#### Part II
+
+``` {julia}
+θs, Σs = mcmc(dagew, transpose(mean(dagew, dims=1)), cov(dagew)/100., cov(dagew)/100., 2. + 1.);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+quarto-executable-code-5450563D
+
+```julia
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+
+#### Part III
+
+``` {julia}
+θs, Σs = mcmc(dagew, [0;0], [10^5 0; 0 10^5], [10^3 0; 0 10^3], 3);
+corrs = [correlation(Σs[i,:,:]) for i in 1:S];
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+quarto-executable-code-5450563D
+
+```julia
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+
+### (e)
+
+&gt; Compare the confidence intervals from (d) to those obtained in (c). Discuss whether or not you think that your prior information is helpful in estimating $\theta$ and $\Sigma$, or if you think one of the alternatives in (d) is preferable. What about if the sample size were much smaller, say $n=25$?
+
+The prior information does not matter because the sample size is large. No matter how prior is setup, the posterior distribution is similar. However, for smaller sample size, those approaches may differ.
+
+``` {julia}
+μ₀ = [50.; 50.]
+Λ₀ = S₀ = [ 169 118.3 ; 118.3 169]
+ν₀ = p + 2+9;
+
+θs, Σs = mcmc(dagew, μ₀, Λ₀, S₀, ν₀)
+```
+
+**Husband Quantiles**
+
+``` {julia}
+quantile(θs[:,1], [0.025, 0.5, 0.975])
+```
+
+**Wife Quantiles**
+
+quarto-executable-code-5450563D
+
+```julia
+quantile(θs[:,2], [0.025, 0.5, 0.975])
+```
+
+**Correlation Quantiles**
+
+``` {julia}
+quantile(corrs, [0.025, 0.5, 0.975])
+```
+
+::: {.content-hidden when-format="html"}
+
+## References
+
+:::</code></pre>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

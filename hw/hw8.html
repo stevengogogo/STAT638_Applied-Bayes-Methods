@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.242">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Shao-Ting Chiu (UIN:433002162)">
+<meta name="dcterms.date" content="2023-01-20">
+
+<title>STAT638: Applied Bayesian Methods - 12&nbsp; Homework 8</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../hw/hw9.html" rel="next">
+<link href="../hw/hw7.html" rel="prev">
+<link href="../img/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">STAT638: Applied Bayesian Methods</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true"><strong>Lecture Notes</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Chapter 1 Introduction and examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Conditional distributions and Bayes rule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: One-parameter models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ch4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Monte Carlo Approximation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true"><strong>Assignments</strong></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Homework 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw6.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Homework 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw7.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw8.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hw/hw9.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ref.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="toc-section-number">12.1</span>  Description</a></li>
+  <li><a href="#computational-enviromnent-setupques" id="toc-computational-enviromnent-setupques" class="nav-link" data-scroll-target="#computational-enviromnent-setupques"><span class="toc-section-number">12.2</span>  Computational Enviromnent Setup</a>
+  <ul class="collapse">
+  <li><a href="#third-party-libraries" id="toc-third-party-libraries" class="nav-link" data-scroll-target="#third-party-libraries"><span class="toc-section-number">12.2.1</span>  Third-party libraries</a></li>
+  <li><a href="#version" id="toc-version" class="nav-link" data-scroll-target="#version"><span class="toc-section-number">12.2.2</span>  Version</a></li>
+  <li><a href="#problem-8.1" id="toc-problem-8.1" class="nav-link" data-scroll-target="#problem-8.1"><span class="toc-section-number">12.2.3</span>  Problem 8.1</a></li>
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a"><span class="toc-section-number">12.2.4</span>  (a)</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b"><span class="toc-section-number">12.2.5</span>  (b)</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c"><span class="toc-section-number">12.2.6</span>  (c)</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d"><span class="toc-section-number">12.2.7</span>  (d)</a></li>
+  </ul></li>
+  <li><a href="#problem-8.3" id="toc-problem-8.3" class="nav-link" data-scroll-target="#problem-8.3"><span class="toc-section-number">12.3</span>  Problem 8.3</a>
+  <ul class="collapse">
+  <li><a href="#a-1" id="toc-a-1" class="nav-link" data-scroll-target="#a-1"><span class="toc-section-number">12.3.1</span>  (a)</a></li>
+  <li><a href="#b-1" id="toc-b-1" class="nav-link" data-scroll-target="#b-1"><span class="toc-section-number">12.3.2</span>  (b)</a></li>
+  <li><a href="#c-1" id="toc-c-1" class="nav-link" data-scroll-target="#c-1"><span class="toc-section-number">12.3.3</span>  (c)</a></li>
+  <li><a href="#d-1" id="toc-d-1" class="nav-link" data-scroll-target="#d-1"><span class="toc-section-number">12.3.4</span>  (d)</a></li>
+  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e"><span class="toc-section-number">12.3.5</span>  (e)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Homework 8</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading"></div>
+  
+    <div class="quarto-title-meta-contents">
+    <a href="stchiu@email.tamu.edu">Shao-Ting Chiu (UIN:433002162)</a> 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Electrical and Computer Engineering, Texas A&amp;M University
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="description" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="description"><span class="header-section-number">12.1</span> Description</h2>
+<ul>
+<li>Course: STAT638, 2022 Fall</li>
+</ul>
+<blockquote class="blockquote">
+<p>Read Chapter 8 in the Hoff book. Then do the following exercises in Hoff: 8.1 and 8.3.</p>
+<p>Please note some typos in 8.1: All <span class="math inline">\(\theta_i\)</span>’s should be <span class="math inline">\(\theta_j\)</span>’s.</p>
+<p>For 8.1(c), you may find <a href="https://en.wikipedia.org/wiki/Law_of_total_covariance">the law of total (co-)variance</a> useful. In addition, remember that all of these laws also hold for conditional distributions (e.g., when conditioning on additional quantities such as <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau^2\)</span> in all terms on the left- and right-hand side of the equation).</p>
+</blockquote>
+</section>
+<section id="computational-enviromnent-setupques" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="computational-enviromnent-setupques"><span class="header-section-number">12.2</span> Computational Enviromnent Setup<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h2>
+<section id="third-party-libraries" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="third-party-libraries"><span class="header-section-number">12.2.1</span> Third-party libraries</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"hw8"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DelimitedFiles</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Statistics</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StatsBase</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">StatsPlots</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">Random</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">2022</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/GitHub/STAT638_Applied-Bayes-Methods/hw/hw8`</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>Random.TaskLocalRNG()</code></pre>
+</div>
+</div>
+</section>
+<section id="version" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="version"><span class="header-section-number">12.2.2</span> Version</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">status</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cn">VERSION</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Status `~/Documents/GitHub/STAT638_Applied-Bayes-Methods/hw/hw8/Project.toml`
+⌃ [a93c6f00] DataFrames v1.4.2
+⌃ [31c24e10] Distributions v0.25.76
+⌃ [be115224] MCMCDiagnosticTools v0.1.4
+⌃ [91a5bcdd] Plots v1.35.5
+  [2913bbd2] StatsBase v0.33.21
+  [f3b207a7] StatsPlots v0.15.4
+⌃ [fce5fe82] Turing v0.21.12
+  [8bb1440f] DelimitedFiles
+  [10745b16] Statistics
+Info Packages marked with ⌃ have new versions available and may be upgradable.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>v"1.8.2"</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="problem-8.1" class="level3" data-number="12.2.3">
+<h3 data-number="12.2.3" class="anchored" data-anchor-id="problem-8.1"><span class="header-section-number">12.2.3</span> Problem 8.1</h3>
+<blockquote class="blockquote">
+<p>Components of variance: Consider the hierarchical model where</p>
+<p><span class="math display">\[\theta_1, \dots, \theta_m | \mu, \tau^2 \sim i.i.d. \text{normal}(\mu, \tau^2)\]</span></p>
+<p><span class="math display">\[y_{1,j}, \dots, y_{n_j, j} |\theta_j, \sigma^2 \sim i.i.d. \text{normal}(\theta_j, \sigma^2)\]</span> For this problem, we will eventually compute the following:</p>
+<ul>
+<li><span class="math inline">\(Var[y_{i,j}|\theta_i, \sigma^2]\)</span>, <span class="math inline">\(Var[\bar{y}_{\cdot,j}|\theta_i, \sigma^2]\)</span>, <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]\)</span></li>
+<li><span class="math inline">\(Var[y_{i,j}|\mu, \tau^2]\)</span>, <span class="math inline">\(Var[\bar{y}_{\cdot,j}|\mu, \tau^2]\)</span>, <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]\)</span> First, lets use our intuition to guess at the answers:</li>
+</ul>
+</blockquote>
+</section>
+<section id="a" class="level3" data-number="12.2.4">
+<h3 data-number="12.2.4" class="anchored" data-anchor-id="a"><span class="header-section-number">12.2.4</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Which do you think is bigger, <span class="math inline">\(Var[y_{i,j}|\theta_i, \sigma^2]\)</span> or <span class="math inline">\(Var[y_{i,j}|\mu, \tau^2]\)</span>? To guide your intuition, you can interpret the first as the variability of the <span class="math inline">\(Y\)</span>’s when sampling from a fixed group, and the second as the variability in first sampling a group, then sampling a unit from within the group.</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(Var[y_{i,j} | \mu, \tau^2]\)</span> because <span class="math inline">\(\theta_j\)</span> is uncertain and the between-group varibability create additional uncertainty.</li>
+</ul>
+</section>
+<section id="b" class="level3" data-number="12.2.5">
+<h3 data-number="12.2.5" class="anchored" data-anchor-id="b"><span class="header-section-number">12.2.5</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Do you think <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]\)</span> is negative, positive, or zero? Answer the same for <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]\)</span>. You may want to think about what <span class="math inline">\(y_{i_2, j}\)</span> tells you about <span class="math inline">\(y_{i_1, j}\)</span> if <span class="math inline">\(\theta_j\)</span> is known, and what it tells you when <span class="math inline">\(\theta_j\)</span> is unknown.</p>
+</blockquote>
+<p><span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]\)</span></p>
+<p>Because <span class="math inline">\(y_{i_1, j}\)</span> and <span class="math inline">\(y_{i_2, j}\)</span> is i.i.d. sampled, I expect <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]\)</span> to be zero.</p>
+<p><span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]\)</span></p>
+<p><span class="math inline">\(y_{1,j}\)</span> does tell information about <span class="math inline">\(y_{2,j}\)</span>. The covariance <span class="math inline">\(Cov[y_{i_1,j}, y_{i_2, j}|\mu, \tau^2]\)</span> is likely to be positive because values from same <span class="math inline">\(\theta_j\)</span> tend to be close together.</p>
+</section>
+<section id="c" class="level3" data-number="12.2.6">
+<h3 data-number="12.2.6" class="anchored" data-anchor-id="c"><span class="header-section-number">12.2.6</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Now compute each of the six quantities above and compare to your answers in (a) and (b). <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+    Var[y_{i,j}|\theta_i, \sigma^2]%
+    &amp;= \sigma^2
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    Var[\bar{y}_{\cdot,j}|\theta_i, \sigma^2]%
+    &amp;= Var[\sum_{i'=1}^{n_j}y_{i',j}/n |\theta_i, \sigma^2]\\
+    &amp;= \frac{1}{n^2}Var[\sum_{i'=1}^{n_j}y_{i',j} |\theta_i, \sigma^2]\\
+    &amp;= \frac{1}{n^2} \sum_{i'=1}^{n_j} Var[y_{i',j} |\theta_i, \sigma^2]\\
+    &amp;= \frac{1}{n} Var[y_{i',j} |\theta_i, \sigma^2]\\
+    &amp;= \frac{\sigma^2}{n}
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    Cov[y_{i_1,j}, y_{i_2, j}|\theta_j, \sigma^2]%
+    &amp;= E[y_{i_1, j} y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\
+    &amp;= E[y_{i_1, j}]E[y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\
+    &amp;= 0
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    Var[y_{i,j}|\mu, \tau^2]%
+    &amp;= E(Var[y_{i,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2) + Var(E[y_{i,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2)\\
+    &amp;= E(\sigma^2 | \mu, \tau^2) + Var(\theta | \mu, \tau^2)\\
+    &amp;= \sigma^2 + \tau^2
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    Var[\bar{y}_{\cdot,j}|\mu, \tau^2]%
+    &amp;= E(Var[\bar{y}_{\cdot,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2) + Var(E[\bar{y}_{\cdot,j}|\mu, \tau^2, \theta, \sigma^2]|\mu, \tau^2)\\
+    &amp;= E(\frac{\sigma^2}{n}|\mu,\tau^2) + Var(\theta | \mu, \tau^2)\\
+    &amp;= \frac{\sigma^2}{n} + \tau^2
+\end{align}\]</span></p>
+<p><span class="math display">\[\begin{align}
+    Cov[y_{i_1, j}, y_{i_2, j}|\mu, \tau^2]%
+    &amp;= E(Cov[y_{i_1, j}, y_{i_2, j} | \theta, \sigma^2, \mu, \tau^2]| \mu, \tau^2) \\
+    &amp;+ Cov(E[y_{i_1, j} | \theta, \sigma^2, \mu, \tau^2], E[y_{i_2, j} | \theta, \sigma^2, \mu, \tau^2] | \mu, \tau^2)\\
+    &amp;= 0 + Cov(\theta, \theta | \mu, \tau^2)\\
+    &amp;= E[\theta^2|\mu, \tau^2] - E[\theta|\mu, \tau^2]^2\\
+    &amp;= Var(\theta |\mu, \tau^2)\\
+    &amp;= \tau^2
+\end{align}\]</span></p>
+</section>
+<section id="d" class="level3" data-number="12.2.7">
+<h3 data-number="12.2.7" class="anchored" data-anchor-id="d"><span class="header-section-number">12.2.7</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Now assume we have a prior <span class="math inline">\(p(\mu)\)</span> for <span class="math inline">\(\mu\)</span>. Using Bayes’ rule, show that <span class="math display">\[p(\mu|\theta_1, \dots, \theta_m, \sigma^2, \tau^2, y_1, \dots, y_m) = p(\mu|\theta_1, \dots, \theta_m, \tau^2)\]</span> Interpret in words what this means.</p>
+</blockquote>
+<p><span class="math display">\[\begin{align}
+p(\mu|\theta_1, \dots, \theta_m, \sigma^2, \tau^2, y_1, \dots, y_m)%
+&amp;= \frac{p(\sigma^2, y_1, \dots, y_m | \mu, \theta_1, \dots, \theta_m, \tau^2) p(\mu |\theta_1, \dots, \theta_m, \tau^2)}{ p(\sigma^2, y_1, \dots, y_m | \theta_1, \dots, \theta_m, \tau^2) }\\
+&amp;= p(\mu|\theta_1, \dots, \theta_m, \tau^2)
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(p(\sigma^2, y_1, \dots, y_m | \mu, \theta_1, \dots, \theta_m, \tau^2) = p(\sigma^2, y_1, \dots, y_m | \theta_1, \dots, \theta_m, \tau^2)\)</span> because knowing <span class="math inline">\(\mu\)</span> doesn’t provide more information when <span class="math inline">\(\theta_1, \dots, \theta_m\)</span> are known.</p>
+</section>
+</section>
+<section id="problem-8.3" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="problem-8.3"><span class="header-section-number">12.3</span> Problem 8.3</h2>
+<blockquote class="blockquote">
+<p>Herarchical modeling: The files <a href="data/school1.dat"><code>school1.dat</code></a> through <a href="data/school8.dat"><code>school8.dat</code></a> give weekly hours spent on homework for students sampled from eight different schools. Obtain posterior distributions for the true means for the eight different schools using a herarchical normal model with the following prior parameters: <span class="math display">\[\mu_0 = 7, \gamma^{2}_{0} = 5, \tau^{2}_{0}=10, \eta_0 = 2, \sigma^{2}_{0} = 15, \nu_0 = 2\]</span></p>
+</blockquote>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dsch <span class="op">=</span> <span class="fu">Dict</span>()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>nsch <span class="op">=</span> <span class="fl">8</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>nsch</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>   dsch[i] <span class="op">=</span> <span class="fu">readdlm</span>(<span class="st">"data/school</span><span class="sc">$</span>i<span class="st">.dat"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="a-1" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="a-1"><span class="header-section-number">12.3.1</span> (a)</h3>
+<blockquote class="blockquote">
+<p>Run a Gibbs sampling algorithm to approximate the posterior distribution of <span class="math inline">\(\{\theta, \sigma^2, \mu, \tau^2\}\)</span>. Assess the convergence of the Markov chain, and find the effective sample size for <span class="math inline">\(\{\sigma^2, \mu, \tau^2\}\)</span>. Run the chain long enough so that the effective sample sizes are all above <span class="math inline">\(1000\)</span>.</p>
+</blockquote>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>μ<span class="fl">0</span> <span class="op">=</span> <span class="fl">7</span>.</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>γ<span class="fl">0</span>² <span class="op">=</span> <span class="fl">5</span>.</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>τ<span class="fl">0</span>² <span class="op">=</span> <span class="fl">10</span>.</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>η<span class="fl">0</span> <span class="op">=</span> <span class="fl">2</span>.</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>σ<span class="fl">0</span>² <span class="op">=</span> <span class="fl">15</span>.</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ν<span class="fl">0</span> <span class="op">=</span> <span class="fl">2</span>.</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> [ <span class="fu">length</span>(dsch[i]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>nsch]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="fu">sum</span>(ns)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">length</span>(dsch)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>ȳs <span class="op">=</span> [<span class="fu">mean</span>(dsch[i]) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>nsch]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>s²s <span class="op">=</span> [ (ns[i] <span class="op">-</span> <span class="fl">1</span>)<span class="op">^-</span><span class="fl">1</span> <span class="op">*</span> <span class="fu">sum</span>( (dsch[i] <span class="op">.-</span> ȳs[i])<span class="op">.^</span><span class="fl">2</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>nsch]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">τ²_pos</span>(m, η<span class="fl">0</span>, θv, μ, τ<span class="fl">0</span>²)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    ths² <span class="op">=</span> <span class="fu">sum</span>([ (θ<span class="op">-</span> μ)<span class="op">^</span><span class="fl">2</span> for θ <span class="kw">in</span> θv])</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> (m <span class="op">+</span> η<span class="fl">0</span>)<span class="op">*</span> <span class="fl">0.5</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    β <span class="op">=</span> (ths² <span class="op">+</span> η<span class="fl">0</span><span class="op">*</span>τ<span class="fl">0</span>²)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">InverseGamma</span>(α, β)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">σ²_pos</span>(n, ν<span class="fl">0</span>, σ<span class="fl">0</span>², ns, s²s, ȳs, θs)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> (n<span class="op">+</span>ν<span class="fl">0</span>)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    β <span class="op">=</span>( <span class="fu">sum</span>((ns <span class="op">.-</span> <span class="fl">1</span>) <span class="op">.*</span> s²s <span class="op">.+</span> ns <span class="op">.*</span> (ȳs <span class="op">.-</span> θs)<span class="op">.^</span><span class="fl">2</span>) <span class="op">+</span> ν<span class="fl">0</span><span class="op">*</span>σ<span class="fl">0</span>²)<span class="op">/</span><span class="fl">2</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">InverseGamma</span>(α, β)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">μ_pos</span>(m, τ², θs, γ<span class="fl">0</span>², μ<span class="fl">0</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    γm² <span class="op">=</span> (m<span class="op">/</span>τ² <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>γ<span class="fl">0</span>²)<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    θ̄ <span class="op">=</span> <span class="fu">mean</span>(θs)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="fu">γm²*</span>(m<span class="op">*</span>θ̄<span class="op">/</span>τ² <span class="op">+</span> μ<span class="fl">0</span><span class="op">/</span>τ²)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Normal</span>(a, γm²)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">θ_pos</span>(τ², ȳ, n, σ², μ)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    τ̃² <span class="op">=</span> (n<span class="op">/</span>σ² <span class="op">+</span> <span class="fl">1</span><span class="op">/</span>τ²)<span class="op">^-</span><span class="fl">1</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> <span class="fu">τ̃²*</span>(n<span class="op">*</span>ȳ<span class="op">/</span>σ² <span class="op">+</span> μ<span class="op">/</span>τ²)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Normal</span>(a, τ̃²)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="st">Effective Sample Size</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ess</span>(v)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="fu">length</span>(v)</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">autocov</span>(v, <span class="fu">collect</span>(<span class="fl">1</span><span class="op">:</span>n<span class="op">-</span><span class="fl">1</span>)))</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n<span class="op">/</span>(<span class="fl">1</span><span class="op">+</span><span class="fl">2</span><span class="op">*</span>c)</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>smp <span class="op">=</span> <span class="fl">4000</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>τ²s <span class="op">=</span> <span class="fu">zeros</span>(smp)</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>σ²s <span class="op">=</span> <span class="fu">zeros</span>(smp)</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>μs <span class="op">=</span> <span class="fu">zeros</span>(smp)</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>θs <span class="op">=</span> <span class="fu">zeros</span>(smp, m)</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>σ²s[<span class="fl">1</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseGamma</span>(ν<span class="fl">0</span><span class="op">/</span><span class="fl">2</span>, ν<span class="fl">0</span><span class="op">*</span>σ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>τ²s[<span class="fl">1</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseGamma</span>(η<span class="fl">0</span> <span class="op">/</span><span class="fl">2</span>, η<span class="fl">0</span> <span class="op">*</span>τ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>μs[<span class="fl">1</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(μ<span class="fl">0</span>, γ<span class="fl">0</span>²))</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="co">#θs[1,:] = [rand(θ_pos(τ²s[1], ȳs[i], ns[i], σ²s[1], μs[1])) for i in 1:m]</span></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>θs[<span class="fl">1</span>,<span class="op">:</span>] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(μs[<span class="fl">1</span>], τ²s[<span class="fl">1</span>]), m)</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>smp</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>    σ²s[s] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">σ²_pos</span>(n, ν<span class="fl">0</span>, σ<span class="fl">0</span>², ns, s²s, ȳs, θs[s<span class="op">-</span><span class="fl">1</span>,<span class="op">:</span>]))</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>    τ²s[s] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">τ²_pos</span>(m, η<span class="fl">0</span>, θs[s<span class="op">-</span><span class="fl">1</span>,<span class="op">:</span>], μs[s<span class="op">-</span><span class="fl">1</span>], τ<span class="fl">0</span>²))</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>    θs[s,<span class="op">:</span>] <span class="op">=</span> [<span class="fu">rand</span>(<span class="fu">θ_pos</span>(τ²s[s<span class="op">-</span><span class="fl">1</span>], ȳs[i], ns[i], σ²s[s<span class="op">-</span><span class="fl">1</span>], μs[s<span class="op">-</span><span class="fl">1</span>])) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>m]</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    μs[s] <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">μ_pos</span>(m, τ²s[s<span class="op">-</span><span class="fl">1</span>], θs[s<span class="op">-</span><span class="fl">1</span>,<span class="op">:</span>], γ<span class="fl">0</span>², μ<span class="fl">0</span>))</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> [τ²s, σ²s, μs, θs]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(i)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> <span class="fu">plot</span>(τ²s[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>], label<span class="op">=</span><span class="st">"τ²"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> <span class="fu">plot</span>(σ²s[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>], label<span class="op">=</span><span class="st">"σ²"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(μs[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span>], label<span class="op">=</span><span class="st">"μ"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p1, p2, p3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<p><img src="hw8_files/figure-html/cell-6-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<ul>
+<li><p>Effetive Sample Size</p></li>
+<li><p><span class="math inline">\(\tau^2\)</span></p></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ess</span>(τ²s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1523.525</code></pre>
+<ul>
+<li><span class="math inline">\(\sigma^2\)</span></li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ess</span>(σ²s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1234.234</code></pre>
+<ul>
+<li><span class="math inline">\(\mu\)</span></li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ess</span>(μs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1045.242</code></pre>
+</section>
+<section id="b-1" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="b-1"><span class="header-section-number">12.3.2</span> (b)</h3>
+<blockquote class="blockquote">
+<p>Compute posterior means and <span class="math inline">\(95\%\)</span> confidence regions for <span class="math inline">\(\{\sigma^2, \mu, \tau^2\}\)</span>. Also, compare the posterior densities to the prior densities, and discuss what was learned from the data.</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(\sigma^2\)</span></li>
+</ul>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(σ²s, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>3-element Vector{Float64}:
+ 11.492557006363636
+ 14.15210768607951
+ 17.713837318481733</code></pre>
+</div>
+</div>
+<ul>
+<li><span class="math inline">\(\mu\)</span></li>
+</ul>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(μs, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>3-element Vector{Float64}:
+ 5.3131625605052655
+ 7.688237183428129
+ 8.736460757511468</code></pre>
+</div>
+</div>
+<ul>
+<li><span class="math inline">\(\tau\)</span></li>
+</ul>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(τ²s, [<span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>3-element Vector{Float64}:
+  1.8676028002352072
+  4.466482143729323
+ 15.698240842165873</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pu <span class="op">=</span> <span class="fu">density</span>(μs, label<span class="op">=</span><span class="st">"μₙ"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pt <span class="op">=</span> <span class="fu">density</span>(σ²s,label<span class="op">=</span><span class="st">"σ²ₙ"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> <span class="fu">density</span>(τ²s, label<span class="op">=</span><span class="st">"τ²ₙ"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(pu, <span class="fu">Normal</span>(μ<span class="fl">0</span> , γ<span class="fl">0</span>²), label<span class="op">=</span> <span class="st">"μ0"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(pt, <span class="fu">InverseGamma</span>(η<span class="fl">0</span> <span class="op">/</span><span class="fl">2</span>, η<span class="fl">0</span> <span class="op">*</span>τ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>), label<span class="op">=</span> <span class="st">"σ²0"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(ps, <span class="fu">InverseGamma</span>(ν<span class="fl">0</span><span class="op">/</span><span class="fl">2</span>, ν<span class="fl">0</span><span class="op">*</span>σ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>), label<span class="op">=</span> <span class="st">"τ²0"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">xlims!</span>(pt, <span class="fl">0</span>,<span class="fl">30</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">xlims!</span>(ps, <span class="fl">0</span>,<span class="fl">30</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pu, pt, ps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<p><img src="hw8_files/figure-html/cell-10-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Estimations of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> are similar in prior and posterior. However, <span class="math inline">\(\sigma^2\)</span> is different.</p>
+</section>
+<section id="c-1" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="c-1"><span class="header-section-number">12.3.3</span> (c)</h3>
+<blockquote class="blockquote">
+<p>Plot the posterior density of <span class="math inline">\(R=\frac{\tau^2}{\sigma^2 + \tau^2}\)</span> and compare it to a plot of the prior density of <span class="math inline">\(R\)</span>. Describe the evidence for between-school variation.</p>
+</blockquote>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>σ²_prs <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseGamma</span>(ν<span class="fl">0</span><span class="op">/</span><span class="fl">2</span>, ν<span class="fl">0</span><span class="op">*</span>σ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>), <span class="fl">1000</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>τ²_prs <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">InverseGamma</span>(η<span class="fl">0</span> <span class="op">/</span><span class="fl">2</span>, η<span class="fl">0</span> <span class="op">*</span>τ<span class="fl">0</span>²<span class="op">/</span><span class="fl">2</span>), <span class="fl">1000</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>R_prs <span class="op">=</span> τ²_prs <span class="op">./</span> (σ²_prs <span class="op">.+</span> τ²_prs)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>R_pos <span class="op">=</span> τ²s <span class="op">./</span> (σ²s <span class="op">.+</span> τ²s)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>pr <span class="op">=</span> <span class="fu">density</span>(R_prs, label<span class="op">=</span><span class="st">"R Prior"</span>, xlabel<span class="op">=</span><span class="st">"R"</span>, ylabel<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">density!</span>(pr, R_pos, label<span class="op">=</span><span class="st">"R posterior"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<p><img src="hw8_files/figure-html/cell-11-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p><span class="math inline">\(R\)</span> represents the quantity of vairance in between-group. The prior is not certain about the specific quantity, but after applying posterior inference. The posterior probability of <span class="math inline">\(R\)</span> is peaked and more cetain about the value is around <span class="math inline">\(0.3\)</span>.</p>
+</section>
+<section id="d-1" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="d-1"><span class="header-section-number">12.3.4</span> (d)</h3>
+<blockquote class="blockquote">
+<p>Obtain the posterior probability that <span class="math inline">\(\theta_7\)</span> is smaller than <span class="math inline">\(\theta_6\)</span>, as well as the posterior probability that <span class="math inline">\(\theta_7\)</span> is smaller than of all the <span class="math inline">\(\theta\)</span>’s.</p>
+</blockquote>
+<ul>
+<li>p(<span class="math inline">\(\theta_7\)</span> is smaller than <span class="math inline">\(\theta_6\)</span>)</li>
+</ul>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(θs[<span class="op">:</span>,<span class="fl">7</span>] <span class="op">.&lt;</span> θs[<span class="op">:</span>,<span class="fl">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>0.53075</code></pre>
+</div>
+</div>
+<ul>
+<li>p(<span class="math inline">\(\theta_7\)</span> is smaller than of all the <span class="math inline">\(\theta\)</span>’s)</li>
+</ul>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> <span class="fu">zeros</span>(<span class="fu">size</span>(θs)[<span class="fl">1</span>])</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">size</span>(θs)[<span class="fl">1</span>]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">argmin</span>(θs[i,<span class="op">:</span>]) <span class="op">==</span> <span class="fl">7</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        res[i] <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>0.339</code></pre>
+</div>
+</div>
+</section>
+<section id="e" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="e"><span class="header-section-number">12.3.5</span> (e)</h3>
+<blockquote class="blockquote">
+<p>Plot the sample averages <span class="math inline">\(\bar{y}_1, \dots, \bar{y}_8\)</span> against the posterior expectations of <span class="math inline">\(\theta_1, \dots, \theta_8\)</span>, and describe the relationship. Also compute the sample mean of all observations and compare it to the posterior mean of <span class="math inline">\(\mu\)</span>.</p>
+</blockquote>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>psmp <span class="op">=</span> <span class="fu">scatter</span>(ȳs, <span class="fu">mean</span>(θs, dims <span class="op">=</span> <span class="fl">1</span>)[<span class="fl">1</span>,<span class="op">:</span>], xlabel<span class="op">=</span><span class="st">"Sample Average"</span>, ylabel<span class="op">=</span> <span class="st">"Posterior Expectation"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hline!</span>(psmp, [<span class="fu">mean</span>(μs)], label<span class="op">=</span><span class="st">"posterior mean (μn)"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hline!</span>(psmp, [<span class="fu">sum</span>(ȳs <span class="op">.*</span> ns)<span class="op">/</span>n], label<span class="op">=</span><span class="st">"Pooled sample mean (μ)"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<p><img src="hw8_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>I use special character in Julia code. Unfortunately, those are not displayed in PDF version.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="math inline">\(Var(Y) = E[Var(Y|X)] + Var(E[Y|X])\)</span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../hw/hw7.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework 7</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../hw/hw9.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Homework 9</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb29" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Homework 8"</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> </span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Shao-Ting Chiu (UIN:433002162)</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">    url: stchiu@email.tamu.edu</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Department of Electrical and Computer Engineering, Texas A\&amp;M University</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../ref.bib</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">    table-of-contents: true</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">    keep-ipynb: true</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">  pdf:</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co">    table-of-contents: true</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co">    keep-tex: true</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header: |</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co">        \usepackage{fontspec}</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co">        \setmainfont{DejaVu Sans}</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co">        \setmonofont{DejaVu Sans Mono}</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> julia-1.8</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span><span class="co"> </span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co">    echo: true</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co">    freeze: auto</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Description</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Course: STAT638, 2022 Fall</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Read Chapter 8 in the Hoff book. Then do the following exercises in Hoff: 8.1 and 8.3.</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Please note some typos in 8.1: All $\theta_i$'s should be $\theta_j$'s.</span></span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; </span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For 8.1(c), you may find </span><span class="co">[</span><span class="ot">the law of total (co-)variance</span><span class="co">](https://en.wikipedia.org/wiki/Law_of_total_covariance)</span><span class="at"> useful. In addition, remember that all of these laws also hold for conditional distributions (e.g., when conditioning on additional quantities such as $\mu$ and $\tau^2$ in all terms on the left- and right-hand side of the equation).</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational Enviromnent Setup[^ques]</span></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Third-party libraries</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="in">``` {julia}</span></span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>using Pkg</span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>Pkg.activate(<span class="ot">"</span><span class="st">hw8</span><span class="ot">"</span>)</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>using Distributions</span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>using DataFrames</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>using Turing</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>using Plots</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>using DelimitedFiles</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>using LinearAlgebra</span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>using Statistics</span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>using Turing</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>using StatsBase</span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>using StatsPlots</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a><span class="fu">import</span> Random</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>Random.seed!(<span class="dv">2022</span>)</span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a><span class="st">### Version</span></span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span> {julia}</span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>Pkg.status()</span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a>VERSION</span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a><span class="st">[^ques]: I use special character in Julia code. Unfortunately, those are not displayed in PDF version.</span></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a><span class="st">---</span></span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a><span class="st">### Problem 8.1</span></span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-68"><a href="#cb29-68" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Components of variance: Consider the hierarchical model where</span></span>
+<span id="cb29-69"><a href="#cb29-69" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span></span>
+<span id="cb29-70"><a href="#cb29-70" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span><span class="wa">$$</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m | \mu, </span><span class="ch">\t</span><span class="st">au^2 </span><span class="ch">\s</span><span class="st">im i.i.d. </span><span class="ch">\t</span><span class="st">ext{normal}(\mu, </span><span class="ch">\t</span><span class="st">au^2)</span><span class="wa">$$</span></span>
+<span id="cb29-71"><a href="#cb29-71" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span></span>
+<span id="cb29-72"><a href="#cb29-72" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span><span class="dt">$$y_</span><span class="st">{1,j}, </span><span class="ch">\d</span><span class="st">ots, y_{n_j, j} |</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2 </span><span class="ch">\s</span><span class="st">im i.i.d. </span><span class="ch">\t</span><span class="st">ext{normal}(</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2)</span><span class="wa">$$</span></span>
+<span id="cb29-73"><a href="#cb29-73" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; For this problem, we will eventually compute the following:</span></span>
+<span id="cb29-74"><a href="#cb29-74" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;</span></span>
+<span id="cb29-75"><a href="#cb29-75" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; - </span><span class="dt">$Var</span><span class="st">[y_{i,j}|</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]</span><span class="wa">$,</span><span class="st"> </span><span class="dt">$Var</span><span class="st">[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]</span><span class="wa">$,</span><span class="st"> </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2]$</span></span>
+<span id="cb29-76"><a href="#cb29-76" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; - </span><span class="dt">$Var</span><span class="st">[y_{i,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]</span><span class="wa">$,</span><span class="st"> </span><span class="dt">$Var</span><span class="st">[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]</span><span class="wa">$,</span><span class="st"> </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]$</span></span>
+<span id="cb29-77"><a href="#cb29-77" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; First, lets use our intuition to guess at the answers:</span></span>
+<span id="cb29-78"><a href="#cb29-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-79"><a href="#cb29-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-80"><a href="#cb29-80" aria-hidden="true" tabindex="-1"></a><span class="st">### (a)</span></span>
+<span id="cb29-81"><a href="#cb29-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-82"><a href="#cb29-82" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Which do you think is bigger, </span><span class="dt">$Var</span><span class="st">[y_{i,j}|</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]$ or </span><span class="dt">$Var</span><span class="st">[y_{i,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]</span><span class="wa">$?</span><span class="st"> To guide your intuition, you can interpret the first as the variability of the </span><span class="dt">$Y</span><span class="wa">$'</span><span class="st">s when sampling from a fixed group, and the second as the variability in first sampling a group, then sampling a unit from within the group.</span></span>
+<span id="cb29-83"><a href="#cb29-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-84"><a href="#cb29-84" aria-hidden="true" tabindex="-1"></a><span class="st">- </span><span class="dt">$Var</span><span class="st">[y_{i,j} | \mu, </span><span class="ch">\t</span><span class="st">au^2]$ because </span><span class="wa">$\</span><span class="st">theta_j$ is uncertain and the between-group varibability create additional uncertainty.</span></span>
+<span id="cb29-85"><a href="#cb29-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-86"><a href="#cb29-86" aria-hidden="true" tabindex="-1"></a><span class="st">### (b)</span></span>
+<span id="cb29-87"><a href="#cb29-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-88"><a href="#cb29-88" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Do you think </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2]$ is negative, positive, or zero? Answer the same for </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]</span><span class="wa">$.</span><span class="st"> You may want to think about what </span><span class="dt">$y_</span><span class="st">{i_2, j}$ tells you about </span><span class="dt">$y_</span><span class="st">{i_1, j}$ if </span><span class="wa">$\</span><span class="st">theta_j$ is known, and what it tells you when </span><span class="wa">$\</span><span class="st">theta_j$ is unknown.</span></span>
+<span id="cb29-89"><a href="#cb29-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-90"><a href="#cb29-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-91"><a href="#cb29-91" aria-hidden="true" tabindex="-1"></a><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2]$</span></span>
+<span id="cb29-92"><a href="#cb29-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-93"><a href="#cb29-93" aria-hidden="true" tabindex="-1"></a><span class="st">Because </span><span class="dt">$y_</span><span class="st">{i_1, j}$ and </span><span class="dt">$y_</span><span class="st">{i_2, j}$ is i.i.d. sampled, I expect </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2]$ to be zero.</span></span>
+<span id="cb29-94"><a href="#cb29-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-95"><a href="#cb29-95" aria-hidden="true" tabindex="-1"></a><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]$</span></span>
+<span id="cb29-96"><a href="#cb29-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-97"><a href="#cb29-97" aria-hidden="true" tabindex="-1"></a><span class="dt">$y_</span><span class="st">{1,j}$ does tell information about </span><span class="dt">$y_</span><span class="st">{2,j}</span><span class="wa">$.</span><span class="st"> The covariance </span><span class="dt">$Cov</span><span class="st">[y_{i_1,j}, y_{i_2, j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]$ is likely to be positive because values from same </span><span class="wa">$\</span><span class="st">theta_j$ tend to be close together.</span></span>
+<span id="cb29-98"><a href="#cb29-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-99"><a href="#cb29-99" aria-hidden="true" tabindex="-1"></a><span class="st">### (c)</span></span>
+<span id="cb29-100"><a href="#cb29-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-101"><a href="#cb29-101" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Now compute each of the six quantities above and compare to your answers in (a) and (b). [^tot-var]</span></span>
+<span id="cb29-102"><a href="#cb29-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-103"><a href="#cb29-103" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-104"><a href="#cb29-104" aria-hidden="true" tabindex="-1"></a><span class="st">    Var[y_{i,j}|</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]%</span></span>
+<span id="cb29-105"><a href="#cb29-105" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\s</span><span class="st">igma^2</span></span>
+<span id="cb29-106"><a href="#cb29-106" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-107"><a href="#cb29-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-108"><a href="#cb29-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-109"><a href="#cb29-109" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-110"><a href="#cb29-110" aria-hidden="true" tabindex="-1"></a><span class="st">    Var[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]%</span></span>
+<span id="cb29-111"><a href="#cb29-111" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= Var[</span><span class="ch">\s</span><span class="st">um_{i'=1}^{n_j}y_{i',j}/n |</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]\\ </span></span>
+<span id="cb29-112"><a href="#cb29-112" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\f</span><span class="st">rac{1}{n^2}Var[</span><span class="ch">\s</span><span class="st">um_{i'=1}^{n_j}y_{i',j} |</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]\\ </span></span>
+<span id="cb29-113"><a href="#cb29-113" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\f</span><span class="st">rac{1}{n^2} </span><span class="ch">\s</span><span class="st">um_{i'=1}^{n_j} Var[y_{i',j} |</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]\\ </span></span>
+<span id="cb29-114"><a href="#cb29-114" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\f</span><span class="st">rac{1}{n} Var[y_{i',j} |</span><span class="ch">\t</span><span class="st">heta_i, </span><span class="ch">\s</span><span class="st">igma^2]\\</span></span>
+<span id="cb29-115"><a href="#cb29-115" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\f</span><span class="st">rac{</span><span class="ch">\s</span><span class="st">igma^2}{n} </span></span>
+<span id="cb29-116"><a href="#cb29-116" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-117"><a href="#cb29-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-118"><a href="#cb29-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-119"><a href="#cb29-119" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-120"><a href="#cb29-120" aria-hidden="true" tabindex="-1"></a><span class="st">    Cov[y_{i_1,j}, y_{i_2, j}|</span><span class="ch">\t</span><span class="st">heta_j, </span><span class="ch">\s</span><span class="st">igma^2]% </span></span>
+<span id="cb29-121"><a href="#cb29-121" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E[y_{i_1, j} y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\ </span></span>
+<span id="cb29-122"><a href="#cb29-122" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E[y_{i_1, j}]E[y_{i_2, j}] - E[y_{i_1, j}]E[y_{i_2, j}]\\ </span></span>
+<span id="cb29-123"><a href="#cb29-123" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= 0</span></span>
+<span id="cb29-124"><a href="#cb29-124" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-125"><a href="#cb29-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-126"><a href="#cb29-126" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-127"><a href="#cb29-127" aria-hidden="true" tabindex="-1"></a><span class="st">    Var[y_{i,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]%</span></span>
+<span id="cb29-128"><a href="#cb29-128" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E(Var[y_{i,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2, </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2]|\mu, </span><span class="ch">\t</span><span class="st">au^2) + Var(E[y_{i,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2, </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2]|\mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-129"><a href="#cb29-129" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E(</span><span class="ch">\s</span><span class="st">igma^2 | \mu, </span><span class="ch">\t</span><span class="st">au^2) + Var(</span><span class="ch">\t</span><span class="st">heta | \mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-130"><a href="#cb29-130" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\s</span><span class="st">igma^2 + </span><span class="ch">\t</span><span class="st">au^2</span></span>
+<span id="cb29-131"><a href="#cb29-131" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-132"><a href="#cb29-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-133"><a href="#cb29-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-134"><a href="#cb29-134" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-135"><a href="#cb29-135" aria-hidden="true" tabindex="-1"></a><span class="st">    Var[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]%</span></span>
+<span id="cb29-136"><a href="#cb29-136" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E(Var[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2, </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2]|\mu, </span><span class="ch">\t</span><span class="st">au^2) + Var(E[</span><span class="ch">\b</span><span class="st">ar{y}_{</span><span class="ch">\cd</span><span class="st">ot,j}|\mu, </span><span class="ch">\t</span><span class="st">au^2, </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2]|\mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-137"><a href="#cb29-137" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E(</span><span class="ch">\f</span><span class="st">rac{</span><span class="ch">\s</span><span class="st">igma^2}{n}|\mu,</span><span class="ch">\t</span><span class="st">au^2) + Var(</span><span class="ch">\t</span><span class="st">heta | \mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-138"><a href="#cb29-138" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\f</span><span class="st">rac{</span><span class="ch">\s</span><span class="st">igma^2}{n} + </span><span class="ch">\t</span><span class="st">au^2</span></span>
+<span id="cb29-139"><a href="#cb29-139" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-140"><a href="#cb29-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-141"><a href="#cb29-141" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-142"><a href="#cb29-142" aria-hidden="true" tabindex="-1"></a><span class="st">    Cov[y_{i_1, j}, y_{i_2, j}|\mu, </span><span class="ch">\t</span><span class="st">au^2]%</span></span>
+<span id="cb29-143"><a href="#cb29-143" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E(Cov[y_{i_1, j}, y_{i_2, j} | </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2, \mu, </span><span class="ch">\t</span><span class="st">au^2]| \mu, </span><span class="ch">\t</span><span class="st">au^2) \\ </span></span>
+<span id="cb29-144"><a href="#cb29-144" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;+ Cov(E[y_{i_1, j} | </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2, \mu, </span><span class="ch">\t</span><span class="st">au^2], E[y_{i_2, j} | </span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2, \mu, </span><span class="ch">\t</span><span class="st">au^2] | \mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-145"><a href="#cb29-145" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= 0 + Cov(</span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\t</span><span class="st">heta | \mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-146"><a href="#cb29-146" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= E[</span><span class="ch">\t</span><span class="st">heta^2|\mu, </span><span class="ch">\t</span><span class="st">au^2] - E[</span><span class="ch">\t</span><span class="st">heta|\mu, </span><span class="ch">\t</span><span class="st">au^2]^2\\</span></span>
+<span id="cb29-147"><a href="#cb29-147" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= Var(</span><span class="ch">\t</span><span class="st">heta |\mu, </span><span class="ch">\t</span><span class="st">au^2)\\ </span></span>
+<span id="cb29-148"><a href="#cb29-148" aria-hidden="true" tabindex="-1"></a><span class="st">    &amp;= </span><span class="ch">\t</span><span class="st">au^2</span></span>
+<span id="cb29-149"><a href="#cb29-149" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-150"><a href="#cb29-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-151"><a href="#cb29-151" aria-hidden="true" tabindex="-1"></a><span class="st">[^tot-var]: </span><span class="dt">$Var</span><span class="st">(Y) =  E[Var(Y|X)] + Var(E[Y|X])$</span></span>
+<span id="cb29-152"><a href="#cb29-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-153"><a href="#cb29-153" aria-hidden="true" tabindex="-1"></a><span class="st">### (d)</span></span>
+<span id="cb29-154"><a href="#cb29-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-155"><a href="#cb29-155" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Now assume we have a prior </span><span class="dt">$p</span><span class="st">(\mu)$ for </span><span class="wa">$\</span><span class="st">mu</span><span class="wa">$.</span><span class="st"> Using Bayes' rule, show that </span></span>
+<span id="cb29-156"><a href="#cb29-156" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span><span class="dt">$$p</span><span class="st">(\mu|</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\s</span><span class="st">igma^2, </span><span class="ch">\t</span><span class="st">au^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m) = p(\mu|</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2)</span><span class="wa">$$</span></span>
+<span id="cb29-157"><a href="#cb29-157" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Interpret in words what this means.</span></span>
+<span id="cb29-158"><a href="#cb29-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-159"><a href="#cb29-159" aria-hidden="true" tabindex="-1"></a><span class="ch">\b</span><span class="st">egin{align}</span></span>
+<span id="cb29-160"><a href="#cb29-160" aria-hidden="true" tabindex="-1"></a><span class="st">p(\mu|</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\s</span><span class="st">igma^2, </span><span class="ch">\t</span><span class="st">au^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m)%</span></span>
+<span id="cb29-161"><a href="#cb29-161" aria-hidden="true" tabindex="-1"></a><span class="st">&amp;= </span><span class="ch">\f</span><span class="st">rac{p(</span><span class="ch">\s</span><span class="st">igma^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m | \mu, </span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2) p(\mu |</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2)}{ p(</span><span class="ch">\s</span><span class="st">igma^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m | </span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2) }\\ </span></span>
+<span id="cb29-162"><a href="#cb29-162" aria-hidden="true" tabindex="-1"></a><span class="st">&amp;= p(\mu|</span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2)</span></span>
+<span id="cb29-163"><a href="#cb29-163" aria-hidden="true" tabindex="-1"></a><span class="ch">\e</span><span class="st">nd{align}</span></span>
+<span id="cb29-164"><a href="#cb29-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-165"><a href="#cb29-165" aria-hidden="true" tabindex="-1"></a><span class="st">where </span><span class="dt">$p</span><span class="st">(</span><span class="ch">\s</span><span class="st">igma^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m | \mu, </span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2) =  p(</span><span class="ch">\s</span><span class="st">igma^2, y_1, </span><span class="ch">\d</span><span class="st">ots, y_m |  </span><span class="ch">\t</span><span class="st">heta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m, </span><span class="ch">\t</span><span class="st">au^2)$ because knowing </span><span class="wa">$\</span><span class="st">mu$ doesn't provide more information when </span><span class="wa">$\</span><span class="st">theta_1, </span><span class="ch">\d</span><span class="st">ots, </span><span class="ch">\t</span><span class="st">heta_m$ are known.</span></span>
+<span id="cb29-166"><a href="#cb29-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-167"><a href="#cb29-167" aria-hidden="true" tabindex="-1"></a><span class="st">## Problem 8.3</span></span>
+<span id="cb29-168"><a href="#cb29-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-169"><a href="#cb29-169" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Herarchical modeling: The files [</span><span class="ot">`</span>school1.dat<span class="ot">`</span><span class="st">](data/school1.dat) through [</span><span class="ot">`</span>school8.dat<span class="ot">`</span><span class="st">](data/school8.dat) give weekly hours spent on homework for students sampled from eight different schools. Obtain posterior distributions for the true means for the eight different schools using a herarchical normal model with the following prior parameters:</span></span>
+<span id="cb29-170"><a href="#cb29-170" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; </span><span class="wa">$$</span><span class="st">\mu_0 = 7, \gamma^{2}_{0} = 5, </span><span class="ch">\t</span><span class="st">au^{2}_{0}=10, </span><span class="ch">\e</span><span class="st">ta_0 = 2, </span><span class="ch">\s</span><span class="st">igma^{2}_{0} = 15, </span><span class="ch">\n</span><span class="st">u_0 = 2</span><span class="wa">$$</span></span>
+<span id="cb29-171"><a href="#cb29-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-172"><a href="#cb29-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-173"><a href="#cb29-173" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span> {julia}</span>
+<span id="cb29-174"><a href="#cb29-174" aria-hidden="true" tabindex="-1"></a>dsch = Dict()</span>
+<span id="cb29-175"><a href="#cb29-175" aria-hidden="true" tabindex="-1"></a>nsch = <span class="dv">8</span></span>
+<span id="cb29-176"><a href="#cb29-176" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> i in <span class="dv">1</span>:nsch</span>
+<span id="cb29-177"><a href="#cb29-177" aria-hidden="true" tabindex="-1"></a>   dsch[i] = readdlm(<span class="ot">"</span><span class="st">data/school</span><span class="dt">$i</span><span class="st">.dat</span><span class="ot">"</span>)</span>
+<span id="cb29-178"><a href="#cb29-178" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb29-179"><a href="#cb29-179" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-180"><a href="#cb29-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-181"><a href="#cb29-181" aria-hidden="true" tabindex="-1"></a><span class="st">### (a)</span></span>
+<span id="cb29-182"><a href="#cb29-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-183"><a href="#cb29-183" aria-hidden="true" tabindex="-1"></a><span class="st">&gt; Run a Gibbs sampling algorithm to approximate the posterior distribution of </span><span class="wa">$\</span><span class="st">{</span><span class="ch">\t</span><span class="st">heta, </span><span class="ch">\s</span><span class="st">igma^2, \mu, </span><span class="ch">\t</span><span class="st">au^2\}</span><span class="wa">$.</span><span class="st"> Assess the convergence of the Markov chain, and find the effective sample size for </span><span class="wa">$\</span><span class="st">{</span><span class="ch">\s</span><span class="st">igma^2, \mu, </span><span class="ch">\t</span><span class="st">au^2\}</span><span class="wa">$.</span><span class="st"> Run the chain long enough so that the effective sample sizes are all above </span><span class="wa">$1000$.</span></span>
+<span id="cb29-184"><a href="#cb29-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-185"><a href="#cb29-185" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span> {julia}</span>
+<span id="cb29-186"><a href="#cb29-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior</span></span>
+<span id="cb29-187"><a href="#cb29-187" aria-hidden="true" tabindex="-1"></a>μ0 = <span class="dv">7</span>.</span>
+<span id="cb29-188"><a href="#cb29-188" aria-hidden="true" tabindex="-1"></a>γ0² = <span class="dv">5</span>.</span>
+<span id="cb29-189"><a href="#cb29-189" aria-hidden="true" tabindex="-1"></a>τ0² = <span class="dv">10</span>.</span>
+<span id="cb29-190"><a href="#cb29-190" aria-hidden="true" tabindex="-1"></a>η0 = <span class="dv">2</span>.</span>
+<span id="cb29-191"><a href="#cb29-191" aria-hidden="true" tabindex="-1"></a>σ0² = <span class="dv">15</span>.</span>
+<span id="cb29-192"><a href="#cb29-192" aria-hidden="true" tabindex="-1"></a>ν0 = <span class="dv">2</span>.</span>
+<span id="cb29-193"><a href="#cb29-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-194"><a href="#cb29-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb29-195"><a href="#cb29-195" aria-hidden="true" tabindex="-1"></a>ns = [ <span class="fu">length</span>(dsch[i]) <span class="kw">for</span> i in <span class="dv">1</span>:nsch]</span>
+<span id="cb29-196"><a href="#cb29-196" aria-hidden="true" tabindex="-1"></a>n = sum(ns)</span>
+<span id="cb29-197"><a href="#cb29-197" aria-hidden="true" tabindex="-1"></a><span class="ot">m = length</span><span class="ch">(</span><span class="ot">dsch</span><span class="ch">)</span></span>
+<span id="cb29-198"><a href="#cb29-198" aria-hidden="true" tabindex="-1"></a><span class="ot">ȳs =</span> [mean(dsch[i]) <span class="kw">for</span> i in <span class="dv">1</span>:nsch]</span>
+<span id="cb29-199"><a href="#cb29-199" aria-hidden="true" tabindex="-1"></a>s²s = [ (ns[i] - <span class="dv">1</span>)^-<span class="dv">1</span> <span class="ot">*</span> sum( (dsch[i] .- <span class="ot">y</span>̄<span class="ot">s[i]</span><span class="st">).^2) for i in 1:nsch</span><span class="ot">]</span></span>
+<span id="cb29-200"><a href="#cb29-200" aria-hidden="true" tabindex="-1"></a><span class="co"># posterior</span></span>
+<span id="cb29-201"><a href="#cb29-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-202"><a href="#cb29-202" aria-hidden="true" tabindex="-1"></a>function τ²_pos(<span class="ot">m, η0,</span> θv, μ, τ0²)</span>
+<span id="cb29-203"><a href="#cb29-203" aria-hidden="true" tabindex="-1"></a>    ths² = sum([ (θ- μ)^<span class="dv">2</span> <span class="kw">for</span> θ in θv])</span>
+<span id="cb29-204"><a href="#cb29-204" aria-hidden="true" tabindex="-1"></a>    α = (<span class="ot">m + η0</span><span class="ch">)*</span><span class="ot"> 0.5</span></span>
+<span id="cb29-205"><a href="#cb29-205" aria-hidden="true" tabindex="-1"></a><span class="ot">    β = </span><span class="ch">(</span><span class="ot">ths² +</span> η0<span class="wa">*τ</span>0²)/<span class="dv">2</span></span>
+<span id="cb29-206"><a href="#cb29-206" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> InverseGamma(α, β)</span>
+<span id="cb29-207"><a href="#cb29-207" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb29-208"><a href="#cb29-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-209"><a href="#cb29-209" aria-hidden="true" tabindex="-1"></a>function σ²_pos(n, ν0, σ0², ns, s²s, <span class="ot">y</span>̄<span class="ot">s, θs</span><span class="ch">)</span></span>
+<span id="cb29-210"><a href="#cb29-210" aria-hidden="true" tabindex="-1"></a><span class="ot">    α = </span><span class="ch">(</span><span class="ot">n</span><span class="ch">+</span><span class="ot">ν0</span><span class="ch">)</span><span class="ot">/2</span></span>
+<span id="cb29-211"><a href="#cb29-211" aria-hidden="true" tabindex="-1"></a><span class="ot">    β =</span><span class="ch">(</span><span class="ot"> sum</span><span class="ch">((</span><span class="ot">ns .- 1</span><span class="ch">)</span><span class="ot"> .</span><span class="ch">*</span><span class="ot"> s²s .</span><span class="ch">+</span><span class="ot"> ns .</span><span class="ch">*</span><span class="ot"> </span><span class="ch">(</span><span class="ot">ȳs .- θs</span><span class="ch">)</span><span class="ot">.</span><span class="ch">^</span><span class="ot">2</span><span class="ch">)</span><span class="ot"> </span><span class="ch">+</span><span class="ot"> ν0</span><span class="ch">*</span><span class="ot">σ0²</span><span class="ch">)</span><span class="ot">/2</span></span>
+<span id="cb29-212"><a href="#cb29-212" aria-hidden="true" tabindex="-1"></a><span class="ot">    return InverseGamma</span><span class="ch">(</span><span class="ot">α,</span><span class="st"> β)</span></span>
+<span id="cb29-213"><a href="#cb29-213" aria-hidden="true" tabindex="-1"></a><span class="st">end</span></span>
+<span id="cb29-214"><a href="#cb29-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-215"><a href="#cb29-215" aria-hidden="true" tabindex="-1"></a><span class="st">function μ_pos(m</span><span class="ot">,</span> τ², θs, γ0², μ0)</span>
+<span id="cb29-216"><a href="#cb29-216" aria-hidden="true" tabindex="-1"></a>    γm² = (<span class="ot">m/τ² </span><span class="ch">+</span><span class="ot"> 1/</span>γ0²)^-<span class="dv">1</span></span>
+<span id="cb29-217"><a href="#cb29-217" aria-hidden="true" tabindex="-1"></a>    θ̄ = mean(θs)</span>
+<span id="cb29-218"><a href="#cb29-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-219"><a href="#cb29-219" aria-hidden="true" tabindex="-1"></a>    a = γm²*(<span class="ot">m*θ̄/τ² </span><span class="ch">+</span><span class="ot"> μ0/τ²</span><span class="ch">)</span></span>
+<span id="cb29-220"><a href="#cb29-220" aria-hidden="true" tabindex="-1"></a><span class="ot">    return Normal</span><span class="ch">(</span><span class="ot">a, γm²</span><span class="ch">)</span></span>
+<span id="cb29-221"><a href="#cb29-221" aria-hidden="true" tabindex="-1"></a><span class="ot">end</span></span>
+<span id="cb29-222"><a href="#cb29-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-223"><a href="#cb29-223" aria-hidden="true" tabindex="-1"></a><span class="ot">function θ_pos</span><span class="ch">(</span><span class="ot">τ², ȳ, n, σ², μ</span><span class="ch">)</span></span>
+<span id="cb29-224"><a href="#cb29-224" aria-hidden="true" tabindex="-1"></a><span class="ot">    τ̃² = </span><span class="ch">(</span><span class="ot">n/σ² </span><span class="ch">+</span><span class="ot"> 1/τ²</span><span class="ch">)^</span><span class="ot">-1</span></span>
+<span id="cb29-225"><a href="#cb29-225" aria-hidden="true" tabindex="-1"></a><span class="ot">    a = τ̃²*</span>(n<span class="dt">*y</span>̄<span class="ot">/σ² </span><span class="ch">+</span><span class="ot"> μ/</span>τ²)</span>
+<span id="cb29-226"><a href="#cb29-226" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> Normal(a, τ̃²)</span>
+<span id="cb29-227"><a href="#cb29-227" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb29-228"><a href="#cb29-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-229"><a href="#cb29-229" aria-hidden="true" tabindex="-1"></a><span class="ot">"""</span></span>
+<span id="cb29-230"><a href="#cb29-230" aria-hidden="true" tabindex="-1"></a><span class="st">Effective Sample Size</span></span>
+<span id="cb29-231"><a href="#cb29-231" aria-hidden="true" tabindex="-1"></a><span class="ot">"""</span></span>
+<span id="cb29-232"><a href="#cb29-232" aria-hidden="true" tabindex="-1"></a>function ess(v)</span>
+<span id="cb29-233"><a href="#cb29-233" aria-hidden="true" tabindex="-1"></a>    n = <span class="fu">length</span>(v)</span>
+<span id="cb29-234"><a href="#cb29-234" aria-hidden="true" tabindex="-1"></a>    c = sum(autocov(v, collect(<span class="dv">1</span>:n<span class="dv">-1</span>)))</span>
+<span id="cb29-235"><a href="#cb29-235" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> n/(<span class="dv">1</span>+<span class="dv">2</span><span class="dt">*c</span>)</span>
+<span id="cb29-236"><a href="#cb29-236" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb29-237"><a href="#cb29-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-238"><a href="#cb29-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling</span></span>
+<span id="cb29-239"><a href="#cb29-239" aria-hidden="true" tabindex="-1"></a>smp = <span class="dv">4000</span></span>
+<span id="cb29-240"><a href="#cb29-240" aria-hidden="true" tabindex="-1"></a>τ²s = zeros(smp)</span>
+<span id="cb29-241"><a href="#cb29-241" aria-hidden="true" tabindex="-1"></a>σ²s = zeros(smp)</span>
+<span id="cb29-242"><a href="#cb29-242" aria-hidden="true" tabindex="-1"></a>μs = zeros(smp)</span>
+<span id="cb29-243"><a href="#cb29-243" aria-hidden="true" tabindex="-1"></a>θs = zeros(smp, m)</span>
+<span id="cb29-244"><a href="#cb29-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-245"><a href="#cb29-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-246"><a href="#cb29-246" aria-hidden="true" tabindex="-1"></a>σ²s[<span class="dv">1</span>] = <span class="fu">rand</span>(InverseGamma(ν0/<span class="dv">2</span>, ν0<span class="wa">*σ</span>0²/<span class="dv">2</span>))</span>
+<span id="cb29-247"><a href="#cb29-247" aria-hidden="true" tabindex="-1"></a>τ²s[<span class="dv">1</span>] = <span class="fu">rand</span>(InverseGamma(η0 /<span class="dv">2</span>, η0 <span class="wa">*τ</span>0²/<span class="dv">2</span>))</span>
+<span id="cb29-248"><a href="#cb29-248" aria-hidden="true" tabindex="-1"></a>μs[<span class="dv">1</span>] = <span class="fu">rand</span>(Normal(μ0, γ0²))</span>
+<span id="cb29-249"><a href="#cb29-249" aria-hidden="true" tabindex="-1"></a><span class="co">#θs[1,:] = [rand(θ_pos(τ²s[1], ȳs[i], ns[i], σ²s[1], μs[1])) for i in 1:m]</span></span>
+<span id="cb29-250"><a href="#cb29-250" aria-hidden="true" tabindex="-1"></a>θs[<span class="dv">1</span>,:] = <span class="fu">rand</span>(Normal(μs[<span class="dv">1</span>], τ²s[<span class="dv">1</span>]), m)</span>
+<span id="cb29-251"><a href="#cb29-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-252"><a href="#cb29-252" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> s in <span class="dv">2</span>:smp</span>
+<span id="cb29-253"><a href="#cb29-253" aria-hidden="true" tabindex="-1"></a>    σ²s[s] = <span class="fu">rand</span>(σ²_pos(n, ν0, σ0², ns, s²s, <span class="ot">y</span>̄<span class="ot">s, θs</span><span class="ch">[</span><span class="bn">s-1,:</span><span class="ch">]))</span></span>
+<span id="cb29-254"><a href="#cb29-254" aria-hidden="true" tabindex="-1"></a><span class="ot">    τ²s</span><span class="ch">[</span><span class="bn">s</span><span class="ch">]</span><span class="ot"> = rand</span><span class="ch">(</span><span class="ot">τ²_pos</span><span class="ch">(</span><span class="ot">m,</span><span class="st"> η0</span><span class="ot">,</span> θs[<span class="ot">s-1,:], μs</span><span class="ch">[</span><span class="bn">s-1</span><span class="ch">]</span><span class="ot">, τ0²</span><span class="ch">))</span></span>
+<span id="cb29-255"><a href="#cb29-255" aria-hidden="true" tabindex="-1"></a><span class="ot">    θs</span><span class="ch">[</span><span class="bn">s,:</span><span class="ch">]</span><span class="ot"> = </span><span class="ch">[</span><span class="bn">rand(θ_pos(τ²s[s-1</span><span class="ch">]</span><span class="ot">, ȳs</span><span class="ch">[</span><span class="bn">i</span><span class="ch">]</span><span class="ot">, ns</span><span class="ch">[</span><span class="bn">i</span><span class="ch">]</span><span class="ot">, σ²s</span><span class="ch">[</span><span class="bn">s-1</span><span class="ch">]</span><span class="ot">, μs</span><span class="ch">[</span><span class="bn">s-1</span><span class="ch">]))</span><span class="ot"> for i in 1:m]</span></span>
+<span id="cb29-256"><a href="#cb29-256" aria-hidden="true" tabindex="-1"></a><span class="ot">    μs</span><span class="ch">[</span><span class="bn">s</span><span class="ch">]</span><span class="ot"> = rand</span><span class="ch">(</span><span class="ot">μ_pos</span><span class="ch">(</span><span class="ot">m, τ²s</span><span class="ch">[</span><span class="bn">s-1</span><span class="ch">]</span><span class="ot">, θs</span><span class="ch">[</span><span class="bn">s-1,:</span><span class="ch">]</span><span class="ot">, γ0², μ0</span><span class="ch">))</span></span>
+<span id="cb29-257"><a href="#cb29-257" aria-hidden="true" tabindex="-1"></a><span class="ot">end</span></span>
+<span id="cb29-258"><a href="#cb29-258" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-259"><a href="#cb29-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-260"><a href="#cb29-260" aria-hidden="true" tabindex="-1"></a><span class="ot">``` {julia}</span></span>
+<span id="cb29-261"><a href="#cb29-261" aria-hidden="true" tabindex="-1"></a><span class="ot">for i in </span><span class="ch">[</span><span class="bn">τ²s, σ²s, μs, θs</span><span class="ch">]</span></span>
+<span id="cb29-262"><a href="#cb29-262" aria-hidden="true" tabindex="-1"></a><span class="ot">    plot</span><span class="ch">(</span><span class="ot">i</span><span class="ch">)</span></span>
+<span id="cb29-263"><a href="#cb29-263" aria-hidden="true" tabindex="-1"></a><span class="ot">end</span></span>
+<span id="cb29-264"><a href="#cb29-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-265"><a href="#cb29-265" aria-hidden="true" tabindex="-1"></a><span class="ot">p1 = plot</span><span class="ch">(</span><span class="ot">τ²s</span><span class="ch">[</span><span class="bn">2:end</span><span class="ch">]</span><span class="ot">, label="τ²"</span><span class="ch">)</span></span>
+<span id="cb29-266"><a href="#cb29-266" aria-hidden="true" tabindex="-1"></a><span class="ot">p2 = plot</span><span class="ch">(</span><span class="ot">σ²s</span><span class="ch">[</span><span class="bn">2:end</span><span class="ch">]</span><span class="ot">, label="σ²"</span><span class="ch">)</span></span>
+<span id="cb29-267"><a href="#cb29-267" aria-hidden="true" tabindex="-1"></a><span class="ot">p3 = plot</span><span class="ch">(</span><span class="ot">μs</span><span class="ch">[</span><span class="bn">2:end</span><span class="ch">]</span><span class="ot">, label="μ"</span><span class="ch">)</span></span>
+<span id="cb29-268"><a href="#cb29-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-269"><a href="#cb29-269" aria-hidden="true" tabindex="-1"></a><span class="ot">plot</span><span class="ch">(</span><span class="ot">p1, p2, p3</span><span class="ch">)</span></span>
+<span id="cb29-270"><a href="#cb29-270" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-271"><a href="#cb29-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-272"><a href="#cb29-272" aria-hidden="true" tabindex="-1"></a><span class="ot">-</span><span class="st"> Effetive Sample Size</span></span>
+<span id="cb29-273"><a href="#cb29-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-274"><a href="#cb29-274" aria-hidden="true" tabindex="-1"></a><span class="ot">-</span> <span class="wa">$\</span><span class="dt">tau</span>^<span class="dv">2</span>$</span>
+<span id="cb29-275"><a href="#cb29-275" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> julia</span></span>
+<span id="cb29-276"><a href="#cb29-276" aria-hidden="true" tabindex="-1"></a><span class="st">ess(τ²s)</span></span>
+<span id="cb29-277"><a href="#cb29-277" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-278"><a href="#cb29-278" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-279"><a href="#cb29-279" aria-hidden="true" tabindex="-1"></a><span class="st">1523.525</span></span>
+<span id="cb29-280"><a href="#cb29-280" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-281"><a href="#cb29-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-282"><a href="#cb29-282" aria-hidden="true" tabindex="-1"></a>- <span class="wa">$\</span><span class="dt">sigma</span>^<span class="dv">2</span>$</span>
+<span id="cb29-283"><a href="#cb29-283" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> julia</span></span>
+<span id="cb29-284"><a href="#cb29-284" aria-hidden="true" tabindex="-1"></a><span class="st">ess(σ²s)</span></span>
+<span id="cb29-285"><a href="#cb29-285" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-286"><a href="#cb29-286" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-287"><a href="#cb29-287" aria-hidden="true" tabindex="-1"></a><span class="st">1234.234</span></span>
+<span id="cb29-288"><a href="#cb29-288" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-289"><a href="#cb29-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-290"><a href="#cb29-290" aria-hidden="true" tabindex="-1"></a>- <span class="wa">$\</span><span class="dt">mu</span>$</span>
+<span id="cb29-291"><a href="#cb29-291" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> julia</span></span>
+<span id="cb29-292"><a href="#cb29-292" aria-hidden="true" tabindex="-1"></a><span class="st">ess(μs)</span></span>
+<span id="cb29-293"><a href="#cb29-293" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-294"><a href="#cb29-294" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-295"><a href="#cb29-295" aria-hidden="true" tabindex="-1"></a><span class="st">1045.242</span></span>
+<span id="cb29-296"><a href="#cb29-296" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-297"><a href="#cb29-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-298"><a href="#cb29-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-299"><a href="#cb29-299" aria-hidden="true" tabindex="-1"></a><span class="co">### (b)</span></span>
+<span id="cb29-300"><a href="#cb29-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-301"><a href="#cb29-301" aria-hidden="true" tabindex="-1"></a>&gt; Compute posterior means <span class="ot">and</span> <span class="wa">$95</span>\%$ confidence regions <span class="kw">for</span> <span class="wa">$\</span>{\sigma^<span class="dv">2</span>, \mu, \tau^<span class="dv">2</span>\}<span class="wa">$.</span> Also, compare the posterior densities to the prior densities, <span class="ot">and</span> discuss what was learned from the data.</span>
+<span id="cb29-302"><a href="#cb29-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-303"><a href="#cb29-303" aria-hidden="true" tabindex="-1"></a>- <span class="wa">$\</span><span class="dt">sigma</span>^<span class="dv">2</span>$</span>
+<span id="cb29-304"><a href="#cb29-304" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-305"><a href="#cb29-305" aria-hidden="true" tabindex="-1"></a><span class="st">quantile(σ²s, [0.025, 0.5, 0.975])</span></span>
+<span id="cb29-306"><a href="#cb29-306" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-307"><a href="#cb29-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-308"><a href="#cb29-308" aria-hidden="true" tabindex="-1"></a>- <span class="wa">$\</span><span class="dt">mu</span>$</span>
+<span id="cb29-309"><a href="#cb29-309" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-310"><a href="#cb29-310" aria-hidden="true" tabindex="-1"></a><span class="st">quantile(μs, [0.025, 0.5, 0.975])</span></span>
+<span id="cb29-311"><a href="#cb29-311" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-312"><a href="#cb29-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-313"><a href="#cb29-313" aria-hidden="true" tabindex="-1"></a>- <span class="wa">$\</span><span class="dt">tau</span>$</span>
+<span id="cb29-314"><a href="#cb29-314" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-315"><a href="#cb29-315" aria-hidden="true" tabindex="-1"></a><span class="st">quantile(τ²s, [0.025, 0.5, 0.975])</span></span>
+<span id="cb29-316"><a href="#cb29-316" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-317"><a href="#cb29-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-318"><a href="#cb29-318" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-319"><a href="#cb29-319" aria-hidden="true" tabindex="-1"></a><span class="st">pu = density(μs, label="μₙ")</span></span>
+<span id="cb29-320"><a href="#cb29-320" aria-hidden="true" tabindex="-1"></a><span class="st">pt = density(σ²s,label="σ²ₙ")</span></span>
+<span id="cb29-321"><a href="#cb29-321" aria-hidden="true" tabindex="-1"></a><span class="st">ps = density(τ²s, label="τ²ₙ")</span></span>
+<span id="cb29-322"><a href="#cb29-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-323"><a href="#cb29-323" aria-hidden="true" tabindex="-1"></a><span class="st">plot!(pu, Normal(μ0 , γ0²), label= "μ0")</span></span>
+<span id="cb29-324"><a href="#cb29-324" aria-hidden="true" tabindex="-1"></a><span class="st">plot!(pt, InverseGamma(η0 /2, η0 *τ0²/2), label= "σ²0")</span></span>
+<span id="cb29-325"><a href="#cb29-325" aria-hidden="true" tabindex="-1"></a><span class="st">plot!(ps, InverseGamma(ν0/2, ν0*σ0²/2), label= "τ²0")</span></span>
+<span id="cb29-326"><a href="#cb29-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-327"><a href="#cb29-327" aria-hidden="true" tabindex="-1"></a><span class="st">xlims!(pt, 0,30)</span></span>
+<span id="cb29-328"><a href="#cb29-328" aria-hidden="true" tabindex="-1"></a><span class="st">xlims!(ps, 0,30)</span></span>
+<span id="cb29-329"><a href="#cb29-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-330"><a href="#cb29-330" aria-hidden="true" tabindex="-1"></a><span class="st">plot(pu, pt, ps)</span></span>
+<span id="cb29-331"><a href="#cb29-331" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-332"><a href="#cb29-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-333"><a href="#cb29-333" aria-hidden="true" tabindex="-1"></a>Estimations of <span class="wa">$\</span><span class="dt">mu</span>$ <span class="ot">and</span> <span class="wa">$\</span><span class="dt">tau</span>$ are similar in prior <span class="ot">and</span> posterior. However, <span class="wa">$\</span><span class="dt">sigma</span>^<span class="dv">2</span>$ is different. </span>
+<span id="cb29-334"><a href="#cb29-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-335"><a href="#cb29-335" aria-hidden="true" tabindex="-1"></a><span class="co">### (c)</span></span>
+<span id="cb29-336"><a href="#cb29-336" aria-hidden="true" tabindex="-1"></a>&gt; Plot the posterior density of <span class="dt">$R</span>=\frac{\tau^<span class="dv">2</span>}{\sigma^<span class="dv">2</span> + \tau^<span class="dv">2</span>}$ <span class="ot">and</span> compare it to a plot of the prior density of <span class="dt">$R</span><span class="wa">$.</span> Describe the evidence <span class="kw">for</span> between<span class="ot">-s</span>chool variation.</span>
+<span id="cb29-337"><a href="#cb29-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-338"><a href="#cb29-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-339"><a href="#cb29-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-340"><a href="#cb29-340" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-341"><a href="#cb29-341" aria-hidden="true" tabindex="-1"></a><span class="st">σ²_prs = rand(InverseGamma(ν0/2, ν0*σ0²/2), 1000)</span></span>
+<span id="cb29-342"><a href="#cb29-342" aria-hidden="true" tabindex="-1"></a><span class="st">τ²_prs = rand(InverseGamma(η0 /2, η0 *τ0²/2), 1000)</span></span>
+<span id="cb29-343"><a href="#cb29-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-344"><a href="#cb29-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-345"><a href="#cb29-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-346"><a href="#cb29-346" aria-hidden="true" tabindex="-1"></a><span class="st">R_prs = τ²_prs ./ (σ²_prs .+ τ²_prs)</span></span>
+<span id="cb29-347"><a href="#cb29-347" aria-hidden="true" tabindex="-1"></a><span class="st">R_pos = τ²s ./ (σ²s .+ τ²s)</span></span>
+<span id="cb29-348"><a href="#cb29-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-349"><a href="#cb29-349" aria-hidden="true" tabindex="-1"></a><span class="st">pr = density(R_prs, label="R Prior", xlabel="R", ylabel="density")</span></span>
+<span id="cb29-350"><a href="#cb29-350" aria-hidden="true" tabindex="-1"></a><span class="st">density!(pr, R_pos, label="R posterior")</span></span>
+<span id="cb29-351"><a href="#cb29-351" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-352"><a href="#cb29-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-353"><a href="#cb29-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-354"><a href="#cb29-354" aria-hidden="true" tabindex="-1"></a><span class="dt">$R</span>$ represents the quantity of vairance in between<span class="ot">-g</span>roup. The prior is <span class="ot">not</span> certain about the specific quantity, but after applying posterior inference. The posterior probability of <span class="dt">$R</span>$ is peaked <span class="ot">and</span> more cetain about the value is around <span class="wa">$0</span>.<span class="dv">3</span><span class="wa">$.</span></span>
+<span id="cb29-355"><a href="#cb29-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-356"><a href="#cb29-356" aria-hidden="true" tabindex="-1"></a><span class="co">### (d)</span></span>
+<span id="cb29-357"><a href="#cb29-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-358"><a href="#cb29-358" aria-hidden="true" tabindex="-1"></a>&gt; Obtain the posterior probability that <span class="wa">$\</span><span class="dt">theta_7</span>$ is smaller than <span class="wa">$\</span><span class="dt">theta_6</span><span class="wa">$,</span> as well as the posterior probability that <span class="wa">$\</span><span class="dt">theta_7</span>$ is smaller than of all the <span class="wa">$\</span><span class="dt">theta</span><span class="wa">$'</span><span class="dt">s</span>.</span>
+<span id="cb29-359"><a href="#cb29-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-360"><a href="#cb29-360" aria-hidden="true" tabindex="-1"></a>-  p(<span class="wa">$\</span><span class="dt">theta_7</span>$ is smaller than <span class="wa">$\</span><span class="dt">theta_6</span><span class="wa">$)</span></span>
+<span id="cb29-361"><a href="#cb29-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-362"><a href="#cb29-362" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-363"><a href="#cb29-363" aria-hidden="true" tabindex="-1"></a><span class="st">mean(θs[:,7] .&lt; θs[:,6])</span></span>
+<span id="cb29-364"><a href="#cb29-364" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-365"><a href="#cb29-365" aria-hidden="true" tabindex="-1"></a>- p(<span class="wa">$\</span><span class="dt">theta_7</span>$ is smaller than of all the <span class="wa">$\</span><span class="dt">theta</span><span class="wa">$'</span><span class="dt">s</span>)</span>
+<span id="cb29-366"><a href="#cb29-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-367"><a href="#cb29-367" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-368"><a href="#cb29-368" aria-hidden="true" tabindex="-1"></a><span class="st">res = zeros(size(θs)[1])</span></span>
+<span id="cb29-369"><a href="#cb29-369" aria-hidden="true" tabindex="-1"></a><span class="st">for i in 1 : size(θs)[1]</span></span>
+<span id="cb29-370"><a href="#cb29-370" aria-hidden="true" tabindex="-1"></a><span class="st">    if argmin(θs[i,:]) == 7</span></span>
+<span id="cb29-371"><a href="#cb29-371" aria-hidden="true" tabindex="-1"></a><span class="st">        res[i] = 1</span></span>
+<span id="cb29-372"><a href="#cb29-372" aria-hidden="true" tabindex="-1"></a><span class="st">    end</span></span>
+<span id="cb29-373"><a href="#cb29-373" aria-hidden="true" tabindex="-1"></a><span class="st">end</span></span>
+<span id="cb29-374"><a href="#cb29-374" aria-hidden="true" tabindex="-1"></a><span class="st">mean(res)</span></span>
+<span id="cb29-375"><a href="#cb29-375" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span>
+<span id="cb29-376"><a href="#cb29-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-377"><a href="#cb29-377" aria-hidden="true" tabindex="-1"></a><span class="co">### (e)</span></span>
+<span id="cb29-378"><a href="#cb29-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-379"><a href="#cb29-379" aria-hidden="true" tabindex="-1"></a>&gt; Plot the sample averages <span class="wa">$\</span><span class="dt">bar</span>{y}_1, \dots, \bar{y}_8$ against the posterior expectations of <span class="wa">$\</span><span class="dt">theta_1</span>, \dots, \theta_8<span class="wa">$,</span> <span class="ot">and</span> describe the relationship. Also compute the sample mean of all observations <span class="ot">and</span> compare it to the posterior mean of <span class="wa">$\</span><span class="dt">mu</span><span class="wa">$.</span></span>
+<span id="cb29-380"><a href="#cb29-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-381"><a href="#cb29-381" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span><span class="st"> {julia}</span></span>
+<span id="cb29-382"><a href="#cb29-382" aria-hidden="true" tabindex="-1"></a><span class="st">psmp = scatter(ȳs, mean(θs, dims = 1)[1,:], xlabel="Sample Average", ylabel= "Posterior Expectation")</span></span>
+<span id="cb29-383"><a href="#cb29-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-384"><a href="#cb29-384" aria-hidden="true" tabindex="-1"></a><span class="st">hline!(psmp, [mean(μs)], label="posterior mean (μn)")</span></span>
+<span id="cb29-385"><a href="#cb29-385" aria-hidden="true" tabindex="-1"></a><span class="st">hline!(psmp, [sum(ȳs .* ns)/n], label="Pooled sample mean (μ)" )</span></span>
+<span id="cb29-386"><a href="#cb29-386" aria-hidden="true" tabindex="-1"></a><span class="ot">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
