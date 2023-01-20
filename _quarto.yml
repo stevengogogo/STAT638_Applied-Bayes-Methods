@@ -6,6 +6,7 @@ book:
   author: "Shao-Ting Chiu (stchiu@email.tamu.edu)"
   date: "20221201"
   favicon: img/favicon.png
+  reader-mode: true
   navbar:
     background: maroon
     right:
