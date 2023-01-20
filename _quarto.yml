@@ -4,9 +4,14 @@ project:
 book:
   title: "STAT638: Applied Bayesian Methods"
   author: "Shao-Ting Chiu (stchiu@email.tamu.edu)"
-  repo-url: https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods
-  date: today
+  date: "20221201"
   favicon: img/favicon.png
+  navbar:
+    background: maroon
+    right:
+      - icon: github
+        href: https://github.com/stevengogogo/STAT638_Applied-Bayes-Methods
+        aria-label: GitHub
   chapters:
     - index.qmd
     - part: "**Lecture Notes**"
