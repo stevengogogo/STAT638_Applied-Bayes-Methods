@@ -1,6 +1,6 @@
 # Preface {.unnumbered}
 
-This is the lecture notes for STAT638 Applied Bayesian Methods by Dr. Matthias Katzfuss.
+This is the lecture notes for STAT638 Applied Bayesian Methods by [Dr. Matthias Katzfuss](https://scholars.library.tamu.edu/vivo/display/ne2600027/Persons/View%20All).
 
 
 ## Course details
@@ -49,3 +49,8 @@ This is the lecture notes for STAT638 Applied Bayesian Methods by Dr. Matthias K
 ## Solution manual
 
 - [https://github.com/jayelm/hoff-bayesian-statistics](https://github.com/jayelm/hoff-bayesian-statistics)
+
+
+## Resources
+
+- Notes and solutions of Hoff book. [[Github]](https://github.com/jayelm/hoff-bayesian-statistics)
