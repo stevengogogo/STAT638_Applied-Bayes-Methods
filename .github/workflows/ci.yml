@@ -24,7 +24,7 @@ jobs:
 
       
     - name: Deploy at hw 🚀
-      uses: JamesIves/github-pages-deploy-action@4.1.5
+      uses: JamesIves/github-pages-deploy-action@v4.4.2
       with:
         branch: hw # The branch the action should deploy to.
         folder: _hw_pdf # The folder the action should deploy.
